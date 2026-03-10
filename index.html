@@ -830,6 +830,195 @@
     footer { padding: 40px 24px; flex-direction: column; gap: 24px; text-align: center; }
     .hero-stats { gap: 32px; }
   }
+
+  /* ── WAITLIST MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(6, 11, 24, 0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    animation: modalFadeIn 0.3s ease;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: linear-gradient(180deg, var(--navy2) 0%, var(--navy) 100%);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    border-radius: 8px;
+    padding: 52px 44px;
+    max-width: 520px;
+    width: 90%;
+    position: relative;
+    animation: modalSlideUp 0.3s ease;
+    box-shadow: 0 0 80px rgba(14, 165, 233, 0.12);
+  }
+
+  @keyframes modalSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+
+  .modal-close:hover { color: var(--white-ice); }
+
+  .modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 20px;
+  }
+
+  .modal-badge span {
+    width: 6px; height: 6px;
+    background: var(--blue-mid);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 3px;
+    line-height: 1;
+    background: linear-gradient(180deg, var(--white-ice), var(--blue-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .modal-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .modal-sub strong { color: var(--blue-light); font-weight: 400; }
+
+  .modal-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .modal-form input,
+  .modal-form textarea {
+    background: rgba(6, 11, 24, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 18px;
+    color: var(--white-ice);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+
+  .modal-form input:focus,
+  .modal-form textarea:focus {
+    border-color: rgba(14, 165, 233, 0.5);
+  }
+
+  .modal-form input::placeholder,
+  .modal-form textarea::placeholder { color: var(--muted); }
+
+  .modal-form textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .modal-submit {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 100%);
+    color: var(--white-ice);
+    padding: 16px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.25);
+    margin-top: 8px;
+  }
+
+  .modal-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(14, 165, 233, 0.45);
+  }
+
+  .modal-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .modal-success {
+    text-align: center;
+    display: none;
+  }
+
+  .modal-success.show { display: block; }
+
+  .modal-success-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .modal-success h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    background: linear-gradient(180deg, var(--white-ice), var(--blue-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+
+  .modal-success p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .modal-error {
+    color: #f87171;
+    font-size: 13px;
+    margin-top: -8px;
+    display: none;
+  }
+
+  .modal-error.show { display: block; }
 </style>
 </head>
 <body>
@@ -1163,6 +1352,33 @@
   </div>
 </section>
 
+<!-- WAITLIST MODAL -->
+<div class="modal-overlay" id="waitlistModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">&times;</button>
+
+    <div id="waitlistForm">
+      <div class="modal-badge"><span></span> Early Access</div>
+      <div class="modal-title">GET IN EARLY</div>
+      <p class="modal-sub">Sign up now and lock in <strong>discounted launch pricing</strong> when we go live. Tell us what you want to build — we may even prototype it for you.</p>
+
+      <form class="modal-form" id="signupForm">
+        <input type="text" name="full_name" placeholder="Your full name" required />
+        <input type="email" name="email" placeholder="your@email.com" required />
+        <textarea name="build_idea" placeholder="What do you want to build? (e.g., a fitness app, a marketplace for local services, an AI writing tool...)"></textarea>
+        <div class="modal-error" id="formError"></div>
+        <button type="submit" class="modal-submit">Reserve My Spot</button>
+      </form>
+    </div>
+
+    <div class="modal-success" id="waitlistSuccess">
+      <div class="modal-success-icon">&#x1F680;</div>
+      <h3>YOU'RE ON THE LIST</h3>
+      <p>We'll notify you the moment Liftori opens its doors — with your <strong style="color: var(--blue-light);">early access discount</strong> locked in. Stay tuned.</p>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div>
@@ -1179,7 +1395,36 @@
 </footer>
 
 <script>
-  // Scroll reveal
+  // ── SUPABASE CONFIG ──
+  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+
+  async function submitToWaitlist(fullName, email, buildIdea) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_signups`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        full_name: fullName,
+        email: email,
+        build_idea: buildIdea || null
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      if (res.status === 409 || (err.message && err.message.includes('duplicate'))) {
+        throw new Error('duplicate');
+      }
+      throw new Error(err.message || 'Something went wrong. Please try again.');
+    }
+    return true;
+  }
+
+  // ── SCROLL REVEAL ──
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -1189,23 +1434,102 @@
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
   reveals.forEach(el => observer.observe(el));
 
-  // Email form
-  const form = document.querySelector('.email-form');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = form.querySelector('button');
-    const input = form.querySelector('input');
-    btn.textContent = '🔥 You\'re in!';
-    btn.style.background = 'linear-gradient(135deg, #065F46, #059669)';
-    input.value = '';
-    input.placeholder = 'We\'ll be in touch at liftoff.';
+  // ── MODAL LOGIC ──
+  const modal = document.getElementById('waitlistModal');
+  const modalClose = document.getElementById('modalClose');
+  const signupForm = document.getElementById('signupForm');
+  const formError = document.getElementById('formError');
+  const waitlistSuccess = document.getElementById('waitlistSuccess');
+  const waitlistFormDiv = document.getElementById('waitlistForm');
+
+  function openModal() {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
   });
 
-  form.querySelector('button').addEventListener('click', e => {
-    form.dispatchEvent(new Event('submit'));
+  // Wire ALL CTA buttons to open the modal
+  document.querySelectorAll('.nav-cta, .btn-primary, .price-cta').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  // ── MODAL FORM SUBMIT ──
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = signupForm.querySelector('.modal-submit');
+    const name = signupForm.querySelector('[name="full_name"]').value.trim();
+    const email = signupForm.querySelector('[name="email"]').value.trim();
+    const idea = signupForm.querySelector('[name="build_idea"]').value.trim();
+
+    formError.classList.remove('show');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      await submitToWaitlist(name, email, idea);
+      waitlistFormDiv.style.display = 'none';
+      waitlistSuccess.classList.add('show');
+    } catch (err) {
+      if (err.message === 'duplicate') {
+        formError.textContent = "You're already on the list! We'll be in touch soon.";
+      } else {
+        formError.textContent = err.message;
+      }
+      formError.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Reserve My Spot';
+    }
+  });
+
+  // ── BOTTOM EMAIL FORM (also saves to Supabase) ──
+  const emailForm = document.querySelector('.email-form');
+  emailForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = emailForm.querySelector('button');
+    const input = emailForm.querySelector('input');
+    const email = input.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      await submitToWaitlist('', email, null);
+      btn.textContent = '\u{1F525} You\'re in!';
+      btn.style.background = 'linear-gradient(135deg, #065F46, #059669)';
+      input.value = '';
+      input.placeholder = 'We\'ll be in touch at liftoff.';
+    } catch (err) {
+      if (err.message === 'duplicate') {
+        btn.textContent = 'Already signed up!';
+        btn.style.background = 'linear-gradient(135deg, #065F46, #059669)';
+        input.value = '';
+      } else {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+      }
+    }
+  });
+
+  emailForm.querySelector('button').addEventListener('click', (e) => {
+    emailForm.dispatchEvent(new Event('submit'));
   });
 </script>
 </body>
