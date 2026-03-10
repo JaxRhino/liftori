@@ -1395,7 +1395,10 @@
 </footer>
 
 <script>
-  // ── SUPABASE CONFIG ──
+  // ── REFERRAL CODE TRACKING ──
+    const REF_CODE = new URLSearchParams(window.location.search).get('ref');
+
+    // ── SUPABASE CONFIG ──
   const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 
@@ -1411,7 +1414,8 @@
       body: JSON.stringify({
         full_name: fullName,
         email: email,
-        build_idea: buildIdea || null
+        build_idea: buildIdea || null,
+            referral_code: REF_CODE || null
       })
     });
     if (!res.ok) {
