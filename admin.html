@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liftori Admin â Waitlist Dashboard</title>
+    <title>Liftori Admin &mdash; Waitlist Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -314,17 +314,17 @@
     <div class="stats-bar">
         <div class="stat-card">
             <div class="label">Total Signups</div>
-            <div class="value" id="stat-total">â</div>
+            <div class="value" id="stat-total">&mdash;</div>
             <div class="sub">all time</div>
         </div>
         <div class="stat-card">
             <div class="label">With Ideas</div>
-            <div class="value" id="stat-ideas">â</div>
+            <div class="value" id="stat-ideas">&mdash;</div>
             <div class="sub">submitted a build idea</div>
         </div>
         <div class="stat-card">
             <div class="label">Today</div>
-            <div class="value" id="stat-today">â</div>
+            <div class="value" id="stat-today">&mdash;</div>
             <div class="sub" id="stat-today-date"></div>
         </div>
     </div>
@@ -350,7 +350,7 @@
         const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let allData = [];
 
@@ -362,7 +362,7 @@
             tableContent.innerHTML = '<div class="loading"><div class="spinner"></div>Loading waitlist data...</div>';
 
             try {
-                const { data, error } = await supabase
+                const { data, error } = await sb
                     .from('waitlist_signups')
                     .select('*')
                     .order('created_at', { ascending: false });
