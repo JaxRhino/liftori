@@ -822,6 +822,10 @@
                         <div class="label">Top Affiliate</div>
                         <div class="value" id="stat-top-affiliate" style="font-size: 18px; margin-top: 8px;">—</div>
                     </div>
+            <div class="stat-card">
+                <div class="label">Site Traffic</div>
+                <div class="value" id="stat-traffic">-</div>
+            </div>
                 </div>
 
                 <!-- Add Affiliate Form -->
@@ -1121,6 +1125,13 @@
                 if (affiliatesError) throw affiliatesError;
                 allAffiliatesData = affiliatesData || [];
 
+
+      // Fetch page views count
+      const { count: pageViewCount } = await supabase
+        .from('page_views')
+        .select('*', { count: 'exact', head: true });
+      window.__pageViewCount = pageViewCount || 0;
+
                 renderStats();
                 renderWaitlistTable();
                 renderAffiliatesTable();
@@ -1163,6 +1174,7 @@
 
             document.getElementById('stat-total-referrals').textContent = totalReferrals;
             document.getElementById('stat-top-affiliate').textContent = topAffiliateName;
+      document.getElementById('stat-traffic').textContent = (window.__pageViewCount || 0).toLocaleString();
         }
 
         
