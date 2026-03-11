@@ -774,6 +774,10 @@
                 <div class="value" id="stat-referred">&mdash;</div>
                 <div class="sub">via affiliate links</div>
             </div>
+                    <div class="stat-card">
+                <div class="label">Site Traffic</div>
+                <div class="value" id="stat-traffic">-</div>
+            </div>
         </div>
 
         <div class="tab-nav">
@@ -821,12 +825,7 @@
                     <div class="affiliate-stat-card">
                         <div class="label">Top Affiliate</div>
                         <div class="value" id="stat-top-affiliate" style="font-size: 18px; margin-top: 8px;">—</div>
-                    </div>
-            <div class="stat-card">
-                <div class="label">Site Traffic</div>
-                <div class="value" id="stat-traffic">-</div>
-            </div>
-                </div>
+                    </div>                </div>
 
                 <!-- Add Affiliate Form -->
                 <div class="add-affiliate-form" id="add-affiliate-form">
@@ -1127,8 +1126,7 @@
 
 
       // Fetch page views count
-      const { count: pageViewCount } = await supabase
-        .from('page_views')
+      const { count: pageViewCount } = await sb.from('page_views')
         .select('*', { count: 'exact', head: true });
       window.__pageViewCount = pageViewCount || 0;
 
