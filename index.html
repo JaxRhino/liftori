@@ -466,6 +466,44 @@
     background: var(--border);
   }
 
+    .financing-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 30px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(6, 95, 70, 0.10));
+    }
+    .financing-icon { font-size: 48px; margin-bottom: 12px; }
+    .financing-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: var(--white-ice);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .financing-desc { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 20px; }
+    .financing-desc strong { color: var(--blue-light); }
+    .financing-examples { width: 100%; margin-bottom: 16px; }
+    .fin-example {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+    }
+    .fin-example:last-child { border-bottom: none; }
+    .fin-plan { font-size: 13px; color: var(--muted); }
+    .fin-monthly {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: var(--blue-light);
+    }
+    .fin-monthly small { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--muted); }
+    .financing-note { font-size: 11px; color: var(--muted); font-style: italic; margin-bottom: 20px; }
+
   .price-card {
     background: var(--navy);
     padding: 52px 40px;
@@ -1494,7 +1532,30 @@
         <a href="#" class="price-cta">Get Started</a>
       </div>
     </div>
-  </div>
+  
+      <!-- FINANCING CTA (fills empty grid space) -->
+      <div class="price-card financing-card reveal">
+        <div class="financing-icon">💰</div>
+        <div class="financing-title">Money Tight?<br>We Can Help!</div>
+        <div class="financing-desc">Get signed up and once we get to the numbers portion of your estimate, we may be able to extend your payments into <strong>6 or 12 monthly installments</strong>.</div>
+        <div class="financing-examples">
+          <div class="fin-example">
+            <span class="fin-plan">$399 Quickstart</span>
+            <span class="fin-monthly">~$70/mo <small>× 6</small></span>
+          </div>
+          <div class="fin-example">
+            <span class="fin-plan">$1,299 Pro</span>
+            <span class="fin-monthly">~$115/mo <small>× 12</small></span>
+          </div>
+          <div class="fin-example">
+            <span class="fin-plan">$2,500 Starter</span>
+            <span class="fin-monthly">~$220/mo <small>× 12</small></span>
+          </div>
+        </div>
+        <div class="financing-note">*Payment plans include interest. Terms discussed during your estimate.</div>
+        <a href="#" class="price-cta cta-primary">Get Your Estimate</a>
+      </div>
+    </div>
 </section>
 
 <!-- PROOF -->
@@ -1904,6 +1965,25 @@
   emailForm.querySelector('button').addEventListener('click', (e) => {
     emailForm.dispatchEvent(new Event('submit'));
   });
-  </script>
+  
+    // --- Page View Tracking ---
+    (function() {
+      try {
+        fetch(SUPABASE_URL + '/rest/v1/page_views', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            page: window.location.pathname,
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent
+          })
+        }).catch(function(){});
+      } catch(e) {}
+    })();
+    </script>
 </body>
 </html>
