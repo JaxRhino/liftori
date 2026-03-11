@@ -1275,14 +1275,14 @@ function renderWaitlistTable() {
                 html += `
                     <tr>
                         <td class="row-num">${i + 1}</td>
-                        <td><a href="#" onclick="showDetails(${row.id});return false;" style="color:#0EA5E9;text-decoration:none;font-weight:500;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${escapeHtml(row.full_name || '—')}</a></td>
+                        <td><a href="#" onclick="showDetails('${row.id}');return false;" style="color:#0EA5E9;text-decoration:none;font-weight:500;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${escapeHtml(row.full_name || '—')}</a></td>
                         <td class="email-cell">${escapeHtml(row.email)}</td>
                         <td class="idea-cell">${idea}</td>
                         <td class="compact-cell">${row.app_type ? formatAppType(row.app_type) : '-'}</td>
                         <td class="compact-cell">${row.budget_range ? formatBudget(row.budget_range) : '-'}</td>
                         <td class="compact-cell">${row.timeline ? formatTimeline(row.timeline) : '-'}</td>
                         <td>${referredBy}</td>
-                        <td><button onclick="showDetails(${row.id})" class="details-btn" data-row-id="${row.id}" style="background:#0EA5E9;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">View</button></td>
+                        <td><button onclick="showDetails('${row.id}')" class="details-btn" data-row-id="${row.id}" style="background:#0EA5E9;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">View</button></td>
                         <td class="date-cell">${dateStr}, ${timeStr}</td>
                     </tr>`;
             });
