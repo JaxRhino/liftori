@@ -461,7 +461,7 @@
 
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1px;
     background: var(--border);
   }
@@ -1378,75 +1378,121 @@
     <p class="section-desc">Start with your project fee, then choose how much support you want. Every tier starts with the same world-class build quality.</p>
   </div>
   <div class="pricing-grid">
-
-    <!-- Starter -->
-    <div class="price-card reveal">
-      <div class="price-tier">Tier 01</div>
-      <div class="price-name">STARTER</div>
-      <div class="price-tagline">Build it. Own it. Run with it.</div>
-      <div class="price-amount">
-        <div class="price-from">Project fee from</div>
-        <div class="price-num">$2,500</div>
-        <div class="price-note">One-time · No monthly fee</div>
+      <!-- NEW: Quickstart Tier -->
+      <div class="price-card reveal">
+        <div class="price-tier">Tier 01</div>
+        <div class="price-name">QUICKSTART</div>
+        <div class="price-tagline">Simple idea? Let's make it real.</div>
+        <div class="price-amount">
+          <div class="price-from">Project fee from</div>
+          <div class="price-num">$399</div>
+          <div class="price-note">One-time · No monthly fee</div>
+        </div>
+        <ul class="price-features">
+          <li>✓ Single-page site or landing page</li>
+          <li>✓ AI-assisted design & copy</li>
+          <li>✓ Mobile-responsive build</li>
+          <li>✓ Contact form or waitlist setup</li>
+          <li>✓ Source code delivered</li>
+          <li>– Custom features</li>
+          <li>– Ongoing support</li>
+          <li>– Hosting included</li>
+        </ul>
+        <a href="#" class="price-cta">Get Started</a>
       </div>
-      <ul class="price-features">
-        <li><span class="check">✓</span> AI onboarding wizard</li>
-        <li><span class="check">✓</span> Full project brief + build plan</li>
-        <li><span class="check">✓</span> Custom design & development</li>
-        <li><span class="check">✓</span> Complete source code delivered</li>
-        <li><span class="check">✓</span> AI launch kit included</li>
-        <li><span class="cross">–</span> Hosting & maintenance</li>
-        <li><span class="cross">–</span> Ongoing support</li>
-        <li><span class="cross">–</span> AI feature integration</li>
-      </ul>
-      <a href="#" class="price-cta">Get Started</a>
-    </div>
 
-    <!-- Growth -->
-    <div class="price-card featured reveal" style="transition-delay:0.15s">
-      <div class="price-badge">Most Popular</div>
-      <div class="price-tier">Tier 02</div>
-      <div class="price-name">GROWTH</div>
-      <div class="price-tagline">Build it. Launch it. Keep it growing.</div>
-      <div class="price-amount">
-        <div class="price-from">Project fee from</div>
-        <div class="price-num">$5,000</div>
-        <div class="price-note">+ $500–$2,000 / month</div>
+      <!-- NEW: Pro Tier (on sale) -->
+      <div class="price-card featured reveal">
+        <div class="price-badge">Best Value</div>
+        <div class="price-tier">Tier 02</div>
+        <div class="price-name">PRO</div>
+        <div class="price-tagline">Full build at a founder-friendly price.</div>
+        <div class="price-amount">
+          <div class="price-from"><s>$2,500</s>&nbsp; Limited offer</div>
+          <div class="price-num">$1,299</div>
+          <div class="price-note">One-time · No monthly fee</div>
+        </div>
+        <ul class="price-features">
+          <li>✓ Multi-page site or web app</li>
+          <li>✓ AI onboarding wizard</li>
+          <li>✓ Full project brief + build plan</li>
+          <li>✓ Custom design & development</li>
+          <li>✓ Complete source code delivered</li>
+          <li>✓ AI launch kit included</li>
+          <li>– Hosting & maintenance</li>
+          <li>– Ongoing support</li>
+        </ul>
+        <a href="#" class="price-cta cta-primary">Get Started</a>
       </div>
-      <ul class="price-features">
-        <li><span class="check">✓</span> Everything in Starter</li>
-        <li><span class="check">✓</span> Managed hosting & deployment</li>
-        <li><span class="check">✓</span> 3 months of updates & bug fixes</li>
-        <li><span class="check">✓</span> Email & chat support</li>
-        <li><span class="check">✓</span> Monthly performance report</li>
-        <li><span class="check">✓</span> AI feature add-ons available</li>
-        <li><span class="cross">–</span> Dedicated account manager</li>
-        <li><span class="cross">–</span> Priority build queue</li>
-      </ul>
-      <a href="#" class="price-cta cta-primary">Get Started</a>
-    </div>
 
-    <!-- Scale -->
-    <div class="price-card reveal" style="transition-delay:0.3s">
-      <div class="price-tier">Tier 03</div>
-      <div class="price-name">SCALE</div>
-      <div class="price-tagline">Your full tech team. One monthly fee.</div>
-      <div class="price-amount">
-        <div class="price-from">Project fee from</div>
-        <div class="price-num">$10,000</div>
-        <div class="price-note">+ $2,000–$5,000 / month</div>
+      <!-- Starter (renumbered Tier 03) -->
+      <div class="price-card reveal">
+        <div class="price-tier">Tier 03</div>
+        <div class="price-name">STARTER</div>
+        <div class="price-tagline">Build it. Own it. Run with it.</div>
+        <div class="price-amount">
+          <div class="price-from">Project fee from</div>
+          <div class="price-num">$2,500</div>
+          <div class="price-note">One-time · No monthly fee</div>
+        </div>
+        <ul class="price-features">
+          <li>✓ AI onboarding wizard</li>
+          <li>✓ Full project brief + build plan</li>
+          <li>✓ Custom design & development</li>
+          <li>✓ Complete source code delivered</li>
+          <li>✓ AI launch kit included</li>
+          <li>– Hosting & maintenance</li>
+          <li>– Ongoing support</li>
+          <li>– AI feature integration</li>
+        </ul>
+        <a href="#" class="price-cta">Get Started</a>
       </div>
-      <ul class="price-features">
-        <li><span class="check">✓</span> Everything in Growth</li>
-        <li><span class="check">✓</span> Ongoing updates & enhancements</li>
-        <li><span class="check">✓</span> AI features fully integrated</li>
-        <li><span class="check">✓</span> Dedicated account manager</li>
-        <li><span class="check">✓</span> Priority build queue</li>
-        <li><span class="check">✓</span> Phone + priority support</li>
-        <li><span class="check">✓</span> Quarterly strategy sessions</li>
-        <li><span class="check">✓</span> White-label option available</li>
-      </ul>
-      <a href="#" class="price-cta">Get Started</a>
+
+      <!-- Growth (renumbered Tier 04) -->
+      <div class="price-card reveal">
+        <div class="price-tier">Tier 04</div>
+        <div class="price-name">GROWTH</div>
+        <div class="price-tagline">Build it. Launch it. Keep it growing.</div>
+        <div class="price-amount">
+          <div class="price-from">Project fee from</div>
+          <div class="price-num">$5,000</div>
+          <div class="price-note">+ $500–$2,000 / month</div>
+        </div>
+        <ul class="price-features">
+          <li>✓ Everything in Starter</li>
+          <li>✓ Managed hosting & deployment</li>
+          <li>✓ 3 months of updates & bug fixes</li>
+          <li>✓ Email & chat support</li>
+          <li>✓ Monthly performance report</li>
+          <li>✓ AI feature add-ons available</li>
+          <li>– Dedicated account manager</li>
+          <li>– Priority build queue</li>
+        </ul>
+        <a href="#" class="price-cta">Get Started</a>
+      </div>
+
+      <!-- Scale (renumbered Tier 05) -->
+      <div class="price-card reveal">
+        <div class="price-tier">Tier 05</div>
+        <div class="price-name">SCALE</div>
+        <div class="price-tagline">Your full tech team. One monthly fee.</div>
+        <div class="price-amount">
+          <div class="price-from">Project fee from</div>
+          <div class="price-num">$10,000</div>
+          <div class="price-note">+ $2,000–$5,000 / month</div>
+        </div>
+        <ul class="price-features">
+          <li>✓ Everything in Growth</li>
+          <li>✓ Ongoing updates & enhancements</li>
+          <li>✓ AI features fully integrated</li>
+          <li>✓ Dedicated account manager</li>
+          <li>✓ Priority build queue</li>
+          <li>✓ Phone + priority support</li>
+          <li>✓ Quarterly strategy sessions</li>
+          <li>✓ White-label option available</li>
+        </ul>
+        <a href="#" class="price-cta">Get Started</a>
+      </div>
     </div>
   </div>
 </section>
