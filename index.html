@@ -1651,6 +1651,13 @@
       }
       throw new Error(err.message || 'Something went wrong. Please try again.');
     }
+    // Fire welcome email (non-blocking)
+    fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: fullName, email: email })
+    }).catch(() => {}); // silent fail - don't block signup
+
     return true;
   }
 
