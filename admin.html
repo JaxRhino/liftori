@@ -385,11 +385,13 @@
         .email-cell { color: #7DD3FC; }
 
         .idea-cell {
-            max-width: 350px;
+            max-width: 200px;
             color: rgba(224, 247, 255, 0.7);
             font-size: 13px;
             line-height: 1.5;
         }
+        .details-btn:hover { background: #0284C7 !important; }
+        .compact-cell { font-size: 13px; white-space: nowrap; color: rgba(224, 247, 255, 0.7); }
 
         .idea-cell.empty {
             color: rgba(224, 247, 255, 0.2);
@@ -1163,7 +1165,63 @@
             document.getElementById('stat-top-affiliate').textContent = topAffiliateName;
         }
 
-        function renderWaitlistTable() {
+        
+            // ── Label Mapping Functions ──
+            function formatAppType(val) {
+                const map = { saas: 'SaaS', mobile_app: 'Mobile App', ecommerce: 'E-Commerce', marketplace: 'Marketplace', social: 'Social', content: 'Content', other: 'Other' };
+                return map[val] || val || '-';
+            }
+            function formatBudget(val) {
+                const map = { under_5k: '<$5K', '5k_15k': '$5-15K', '15k_50k': '$15-50K', '50k_plus': '$50K+', not_sure: 'TBD' };
+                return map[val] || val || '-';
+            }
+            function formatTimeline(val) {
+                const map = { asap: 'ASAP', '1_3_months': '1-3 Mo', '3_6_months': '3-6 Mo', '6_plus_months': '6+ Mo', flexible: 'Flexible' };
+                return map[val] || val || '-';
+            }
+            function formatDesignStyle(val) {
+                const map = { modern_clean: 'Modern/Clean', bold_vibrant: 'Bold/Vibrant', minimal: 'Minimal', corporate: 'Corporate', playful: 'Playful', no_preference: 'No Pref' };
+                return map[val] || val || '-';
+            }
+
+            // ── Details Modal ──
+            function showDetails(rowId) {
+                const row = allWaitlistData.find(r => r.id === rowId);
+                if (!row) return;
+                const modal = document.getElementById('detailsModal');
+                if (modal) modal.remove();
+                const div = document.createElement('div');
+                div.id = 'detailsModal';
+                div.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+                div.innerHTML = `
+                    <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:28px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;color:#e2e8f0;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                            <h3 style="margin:0;color:#7DD3FC;font-size:18px;">${escapeHtml(row.full_name || row.name || 'Unknown')}</h3>
+                            <button onclick="document.getElementById('detailsModal').remove()" style="background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer;">&times;</button>
+                        </div>
+                        <div style="display:grid;gap:12px;">
+                            <div><span style="color:#94a3b8;font-size:12px;">EMAIL</span><br/>${escapeHtml(row.email)}</div>
+                            <div><span style="color:#94a3b8;font-size:12px;">APP TYPE</span><br/>${formatAppType(row.app_type)}</div>
+                            <div><span style="color:#94a3b8;font-size:12px;">BUILD IDEA</span><br/>${escapeHtml(row.build_idea || '-')}</div>
+                            <div><span style="color:#94a3b8;font-size:12px;">TARGET AUDIENCE</span><br/>${escapeHtml(row.target_audience || '-')}</div>
+                            <div><span style="color:#94a3b8;font-size:12px;">KEY FEATURES</span><br/>${escapeHtml(row.key_features || '-')}</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                <div><span style="color:#94a3b8;font-size:12px;">DESIGN STYLE</span><br/>${formatDesignStyle(row.design_style)}</div>
+                                <div><span style="color:#94a3b8;font-size:12px;">COLOR PREF</span><br/>${escapeHtml(row.color_preference || '-')}</div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                <div><span style="color:#94a3b8;font-size:12px;">BUDGET</span><br/>${formatBudget(row.budget_range)}</div>
+                                <div><span style="color:#94a3b8;font-size:12px;">TIMELINE</span><br/>${formatTimeline(row.timeline)}</div>
+                            </div>
+                            <div><span style="color:#94a3b8;font-size:12px;">REFERRED BY</span><br/>${row.referral_code || 'Direct'}</div>
+                            <div><span style="color:#94a3b8;font-size:12px;">SIGNED UP</span><br/>${new Date(row.created_at).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+                div.addEventListener('click', (e) => { if (e.target === div) div.remove(); });
+                document.body.appendChild(div);
+            }
+
+function renderWaitlistTable() {
             const tableContent = document.getElementById('waitlist-table-content');
 
             if (allWaitlistData.length === 0) {
@@ -1183,8 +1241,12 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Build Idea</th>
+                            <th>App Type</th>
+                            <th>Budget</th>
+                            <th>Timeline</th>
                             <th>Referred By</th>
                             <th>Signed Up</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>`;
@@ -1206,7 +1268,11 @@
                         <td>${escapeHtml(row.full_name || '—')}</td>
                         <td class="email-cell">${escapeHtml(row.email)}</td>
                         <td class="idea-cell">${idea}</td>
+                        <td class="compact-cell">${row.app_type ? formatAppType(row.app_type) : '-'}</td>
+                        <td class="compact-cell">${row.budget_range ? formatBudget(row.budget_range) : '-'}</td>
+                        <td class="compact-cell">${row.timeline ? formatTimeline(row.timeline) : '-'}</td>
                         <td>${referredBy}</td>
+                        <td><button onclick="showDetails(${row.id})" class="details-btn" data-row-id="${row.id}" style="background:#0EA5E9;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">View</button></td>
                         <td class="date-cell">${dateStr}, ${timeStr}</td>
                     </tr>`;
             });
