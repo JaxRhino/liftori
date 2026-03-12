@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — V.J. Thrift Finds</title>
+<meta name="description" content="Browse our curated collection of vintage and thrifted treasures. One-of-a-kind finds from Florida thrift shops.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg-deep:#0a0907;--bg-dark:#13110e;--bg-card:#1a1714;--bg-card-hover:#211e19;--bg-surface:#262219;--gold:#c5a55a;--gold-light:#d4b96a;--gold-bright:#e8c84a;--gold-dim:#8a7540;--gold-muted:#6b5c36;--cream:#f5e6c8;--cream-dim:#c4b08a;--text-primary:#e8dcc8;--text-secondary:#a89a80;--text-muted:#6b6050;--border:#2a2520;--border-gold:rgba(197,165,90,0.3);--shadow-gold:rgba(197,165,90,0.15);--font-display:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;--font-accent:'Cormorant Garamond',Georgia,serif;--max-width:1200px;--radius:4px;--transition:0.3s ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:hover{color:var(--gold-light)}img{max-width:100%;height:auto;display:block}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+
+/* NAV (same as home) */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,7,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max-width);margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:70px}
+.nav-brand{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--gold);letter-spacing:0.5px}
+.nav-brand span{color:var(--text-secondary);font-size:0.7em;font-weight:400;display:block;font-family:var(--font-accent);letter-spacing:2px;text-transform:uppercase;margin-top:-4px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--text-secondary);font-size:0.85rem;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
+.nav-links a:hover{color:var(--gold)}.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--gold)}.nav-links a.active::after{width:100%}
+.nav-mobile-toggle{display:none;cursor:pointer;padding:8px}
+.nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--gold);margin:5px 0;transition:all var(--transition)}
+@media(max-width:900px){.nav-links{display:none}.nav-mobile-toggle{display:block}
+.nav-links.open{display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:var(--bg-deep);border-bottom:1px solid var(--border);padding:20px;gap:16px}}
+
+/* PAGE HEADER */
+.page-header{padding:100px 0 40px;text-align:center;background:var(--bg-dark);border-bottom:1px solid var(--border)}
+.page-header h1{font-family:var(--font-display);font-size:2.5rem;color:var(--cream);font-weight:700;margin-bottom:8px}
+.page-header p{color:var(--text-secondary);font-size:0.95rem}
+
+/* FILTERS */
+.shop-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:24px}
+.filter-group{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-right:4px}
+.filter-btn{padding:6px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:all var(--transition);font-family:var(--font-body)}
+.filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(197,165,90,0.08)}
+select.filter-select{padding:6px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;font-family:var(--font-body);-webkit-appearance:none;appearance:none}
+select.filter-select:focus{outline:none;border-color:var(--gold)}
+.result-count{font-size:0.85rem;color:var(--text-muted)}
+
+/* PRODUCTS GRID */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;padding-bottom:60px}
+.product-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all var(--transition);cursor:pointer;position:relative;text-decoration:none;color:inherit}
+.product-card:hover{border-color:var(--border-gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.product-card-img{width:100%;height:280px;object-fit:cover;background:var(--bg-surface)}
+.product-card-body{padding:16px}
+.product-card-category{font-family:var(--font-accent);font-size:0.75rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.product-card-title{font-family:var(--font-display);font-size:1.1rem;color:var(--cream);margin-bottom:4px;font-weight:600}
+.product-card-condition{font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;text-transform:capitalize}
+.product-card-price{font-size:1.15rem;color:var(--gold);font-weight:600}
+.product-card-price .compare{font-size:0.85rem;color:var(--text-muted);text-decoration:line-through;margin-left:8px;font-weight:400}
+.product-card-save{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(10,9,7,0.7);backdrop-filter:blur(4px);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition);z-index:2}
+.product-card-save:hover{background:rgba(197,165,90,0.2);border-color:var(--gold)}
+.product-card-save svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2}
+.product-card-save.saved svg{fill:var(--gold)}
+.product-badge{position:absolute;top:12px;left:12px;padding:4px 12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;border-radius:2px;z-index:2}
+.badge-new{background:var(--gold);color:var(--bg-deep)}.badge-sold{background:#c44;color:white}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:80px 20px;grid-column:1/-1}
+.empty-state h3{font-family:var(--font-display);font-size:1.5rem;color:var(--cream);margin-bottom:8px}
+.empty-state p{color:var(--text-secondary);font-size:0.9rem}
+
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,var(--bg-surface) 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* FOOTER */
+.footer{background:var(--bg-deep);border-top:1px solid var(--border);padding:40px 0 24px;text-align:center}
+.footer p{font-size:0.8rem;color:var(--text-muted)}
+.footer a{color:var(--gold-dim)}.footer a:hover{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:1000;padding:14px 24px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);color:var(--cream);font-size:0.85rem;box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateY(120%);transition:transform 0.3s ease}
+.toast.show{transform:translateY(0)}.toast.success{border-color:#5a8}.toast.error{border-color:#c44}
+
+@media(max-width:900px){.products-grid{grid-template-columns:repeat(2,1fr);gap:16px}.product-card-img{height:200px}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr 1fr;gap:12px}.product-card-img{height:180px}.product-card-body{padding:12px}.product-card-title{font-size:0.95rem}.shop-controls{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">V.J. Thrift Finds<span>Vintage Junk &bull; Timeless Treasures</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="shop.html" class="active">Shop</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">How It Works</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <h1>The Collection</h1>
+    <p>One-of-a-kind vintage treasures, rescued and ready for a new home.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="shop-controls">
+    <div class="filter-group">
+      <span class="filter-label">Category:</span>
+      <button class="filter-btn active" onclick="filterCategory('all',this)">All</button>
+      <div id="categoryFilters"></div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sort:</span>
+      <select class="filter-select" id="sortSelect" onchange="loadProducts()">
+        <option value="newest">Newest First</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="featured">Featured</option>
+      </select>
+    </div>
+  </div>
+  <div class="result-count" id="resultCount"></div>
+  <div class="products-grid" id="productsGrid">
+    <div class="product-card" style="opacity:0.5"><div class="product-card-img skeleton"></div><div class="product-card-body"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div><div class="skeleton" style="height:16px;width:40%"></div></div></div>
+    <div class="product-card" style="opacity:0.5"><div class="product-card-img skeleton"></div><div class="product-card-body"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div><div class="skeleton" style="height:16px;width:40%"></div></div></div>
+    <div class="product-card" style="opacity:0.5"><div class="product-card-img skeleton"></div><div class="product-card-body"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div><div class="skeleton" style="height:16px;width:40%"></div></div></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 V.J. Thrift Finds &bull; Powered by <a href="https://liftori.ai" target="_blank">Liftori.ai</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+
+let currentCategory='all';
+
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3000)}
+
+async function loadCategories(){
+  const{data}=await sb.from('categories').select('name,slug').eq('is_active',true).order('sort_order');
+  if(data){
+    document.getElementById('categoryFilters').innerHTML=data.map(c=>
+      `<button class="filter-btn" onclick="filterCategory('${c.slug}',this)">${c.name}</button>`
+    ).join('');
+  }
+}
+
+function filterCategory(slug,el){
+  currentCategory=slug;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  loadProducts();
+}
+
+async function loadProducts(){
+  const sort=document.getElementById('sortSelect').value;
+  let query=sb.from('products').select('id,title,slug,price,compare_at_price,main_image_url,condition_rating,categories(name,slug),is_featured,created_at').eq('status','published');
+
+  if(currentCategory!=='all'){
+    query=query.eq('categories.slug',currentCategory);
+  }
+
+  if(sort==='price-low')query=query.order('price',{ascending:true});
+  else if(sort==='price-high')query=query.order('price',{ascending:false});
+  else if(sort==='featured')query=query.order('is_featured',{ascending:false}).order('created_at',{ascending:false});
+  else query=query.order('created_at',{ascending:false});
+
+  const{data,error}=await query;
+  const grid=document.getElementById('productsGrid');
+  const filtered=currentCategory==='all'?data:(data||[]).filter(p=>p.categories&&p.categories.slug===currentCategory);
+
+  document.getElementById('resultCount').textContent=filtered&&filtered.length?filtered.length+' item'+(filtered.length!==1?'s':''):'';
+
+  if(error||!filtered||filtered.length===0){
+    grid.innerHTML='<div class="empty-state"><h3>No items found</h3><p>New treasures are added regularly. Check back soon!</p></div>';
+    return;
+  }
+
+  grid.innerHTML=filtered.map(p=>`
+    <a href="product.html?slug=${p.slug}" class="product-card">
+      ${p.is_featured?'<div class="product-badge badge-new">Featured</div>':''}
+      <div class="product-card-save" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <img class="product-card-img" src="${p.main_image_url||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%236b5c36%22 font-size=%2216%22>No Image</text></svg>'}" alt="${p.title}" loading="lazy">
+      <div class="product-card-body">
+        <div class="product-card-category">${p.categories?p.categories.name:'Vintage Find'}</div>
+        <div class="product-card-title">${p.title}</div>
+        ${p.condition_rating?'<div class="product-card-condition">Condition: '+p.condition_rating+'</div>':''}
+        <div class="product-card-price">$${Number(p.price).toFixed(2)}${p.compare_at_price?'<span class="compare">$'+Number(p.compare_at_price).toFixed(2)+'</span>':''}</div>
+      </div>
+    </a>`).join('');
+}
+
+async function toggleSave(pid,el){
+  let sid=localStorage.getItem('vj_session');
+  if(!sid){sid='sess_'+Math.random().toString(36).substr(2,12);localStorage.setItem('vj_session',sid)}
+  if(el.classList.contains('saved')){
+    await sb.from('wishlist_items').delete().eq('product_id',pid).eq('session_id',sid);
+    el.classList.remove('saved');showToast('Removed from saved');
+  }else{
+    await sb.from('wishlist_items').insert({product_id:pid,session_id:sid});
+    el.classList.add('saved');showToast('Saved! ♥','success');
+  }
+}
+
+// Check URL params
+const params=new URLSearchParams(window.location.search);
+if(params.get('filter')==='featured'){
+  document.getElementById('sortSelect').value='featured';
+}
+
+loadCategories();
+loadProducts();
+</script>
+</body>
+</html>

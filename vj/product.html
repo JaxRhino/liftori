@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — V.J. Thrift Finds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg-deep:#0a0907;--bg-dark:#13110e;--bg-card:#1a1714;--bg-card-hover:#211e19;--bg-surface:#262219;--gold:#c5a55a;--gold-light:#d4b96a;--gold-bright:#e8c84a;--gold-dim:#8a7540;--gold-muted:#6b5c36;--cream:#f5e6c8;--cream-dim:#c4b08a;--text-primary:#e8dcc8;--text-secondary:#a89a80;--text-muted:#6b6050;--border:#2a2520;--border-gold:rgba(197,165,90,0.3);--shadow-gold:rgba(197,165,90,0.15);--font-display:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;--font-accent:'Cormorant Garamond',Georgia,serif;--max-width:1200px;--radius:4px;--transition:0.3s ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:hover{color:var(--gold-light)}img{max-width:100%;height:auto;display:block}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,7,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max-width);margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:70px}
+.nav-brand{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--gold)}
+.nav-brand span{color:var(--text-secondary);font-size:0.7em;font-weight:400;display:block;font-family:var(--font-accent);letter-spacing:2px;text-transform:uppercase;margin-top:-4px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--text-secondary);font-size:0.85rem;font-weight:500;text-transform:uppercase;letter-spacing:1.5px}
+.nav-links a:hover{color:var(--gold)}
+.nav-mobile-toggle{display:none;cursor:pointer;padding:8px}.nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--gold);margin:5px 0}
+@media(max-width:900px){.nav-links{display:none}.nav-mobile-toggle{display:block}
+.nav-links.open{display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:var(--bg-deep);border-bottom:1px solid var(--border);padding:20px;gap:16px}}
+
+.breadcrumb{padding:90px 0 16px;font-size:0.8rem;color:var(--text-muted)}
+.breadcrumb a{color:var(--text-secondary)}.breadcrumb a:hover{color:var(--gold)}
+
+.product-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding-bottom:60px}
+.product-gallery{position:relative}
+.product-main-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}
+.product-thumbs{display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.product-thumb{width:72px;height:72px;object-fit:cover;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;opacity:0.6;transition:all var(--transition);flex-shrink:0}
+.product-thumb:hover,.product-thumb.active{opacity:1;border-color:var(--gold)}
+
+.product-info h1{font-family:var(--font-display);font-size:2rem;color:var(--cream);font-weight:700;margin-bottom:8px}
+.product-category-label{font-family:var(--font-accent);font-size:0.85rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.product-price{font-size:1.8rem;color:var(--gold);font-weight:700;margin-bottom:4px}
+.product-price .compare{font-size:1.1rem;color:var(--text-muted);text-decoration:line-through;margin-left:12px;font-weight:400}
+.product-condition{display:inline-block;padding:4px 12px;background:rgba(197,165,90,0.1);border:1px solid var(--border-gold);border-radius:var(--radius);font-size:0.8rem;color:var(--gold);text-transform:capitalize;margin:12px 0}
+.product-divider{width:100%;height:1px;background:var(--border);margin:20px 0}
+
+.product-details dt{font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.product-details dd{color:var(--text-primary);font-size:0.9rem;margin-bottom:12px}
+
+.product-desc{color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:16px}
+.product-story{font-family:var(--font-accent);font-size:1.05rem;color:var(--text-primary);font-style:italic;padding:16px;background:var(--bg-card);border-left:3px solid var(--gold-dim);margin:16px 0;line-height:1.7}
+
+.btn-buy{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 32px;background:var(--gold);color:var(--bg-deep);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:2px;border:none;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);margin-top:20px}
+.btn-buy:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px var(--shadow-gold)}
+.btn-buy:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-save{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 32px;background:transparent;color:var(--gold);font-weight:500;font-size:0.85rem;text-transform:uppercase;letter-spacing:2px;border:1px solid var(--border-gold);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);margin-top:8px}
+.btn-save:hover{background:rgba(197,165,90,0.08)}
+
+.btn-question{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:0.85rem;color:var(--text-secondary);cursor:pointer;transition:color var(--transition)}
+.btn-question:hover{color:var(--gold)}
+
+.shipping-info{padding:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px;font-size:0.85rem;color:var(--text-secondary)}
+.shipping-info strong{color:var(--text-primary)}
+
+/* QUESTION MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);max-width:480px;width:100%;padding:32px}
+.modal h2{font-family:var(--font-display);font-size:1.3rem;color:var(--cream);margin-bottom:16px}
+.modal input,.modal textarea{width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:0.9rem;font-family:var(--font-body);margin-bottom:12px}
+.modal input::placeholder,.modal textarea::placeholder{color:var(--text-muted)}
+.modal input:focus,.modal textarea:focus{outline:none;border-color:var(--gold-dim)}
+.modal textarea{min-height:100px;resize:vertical}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.modal-actions button{padding:10px 20px;border:none;border-radius:var(--radius);font-size:0.85rem;cursor:pointer;font-family:var(--font-body);font-weight:500;transition:all var(--transition)}
+.modal-actions .btn-cancel{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
+.modal-actions .btn-submit{background:var(--gold);color:var(--bg-deep);font-weight:600}
+
+/* RELATED */
+.related{padding:60px 0;border-top:1px solid var(--border)}
+.related h2{font-family:var(--font-display);font-size:1.5rem;color:var(--cream);text-align:center;margin-bottom:32px}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.related-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all var(--transition)}
+.related-card:hover{border-color:var(--border-gold);transform:translateY(-2px)}
+.related-card img{width:100%;height:180px;object-fit:cover}
+.related-card-body{padding:12px}
+.related-card-title{font-family:var(--font-display);font-size:0.95rem;color:var(--cream);margin-bottom:4px}
+.related-card-price{font-size:0.95rem;color:var(--gold);font-weight:600}
+
+.toast{position:fixed;bottom:24px;right:24px;z-index:1000;padding:14px 24px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);color:var(--cream);font-size:0.85rem;box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateY(120%);transition:transform 0.3s ease}
+.toast.show{transform:translateY(0)}.toast.success{border-color:#5a8}
+
+.footer{background:var(--bg-deep);border-top:1px solid var(--border);padding:40px 0 24px;text-align:center}
+.footer p{font-size:0.8rem;color:var(--text-muted)}.footer a{color:var(--gold-dim)}
+
+@media(max-width:900px){.product-layout{grid-template-columns:1fr;gap:24px}.related-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.product-info h1{font-size:1.5rem}.product-price{font-size:1.4rem}.related-grid{grid-template-columns:1fr 1fr;gap:12px}.related-card img{height:140px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">V.J. Thrift Finds<span>Vintage Junk &bull; Timeless Treasures</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="shop.html">Shop</a><a href="about.html">About</a><a href="faq.html">How It Works</a><a href="reviews.html">Reviews</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> &rsaquo; <a href="shop.html">Shop</a> &rsaquo; <span id="breadcrumbTitle">Loading...</span>
+  </div>
+
+  <div class="product-layout">
+    <div class="product-gallery">
+      <img class="product-main-img" id="mainImage" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22><rect fill=%22%231a1714%22 width=%22600%22 height=%22600%22/></svg>" alt="">
+      <div class="product-thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="product-info" id="productInfo">
+      <div class="product-category-label" id="pCategory">Loading...</div>
+      <h1 id="pTitle">Loading...</h1>
+      <div class="product-price" id="pPrice"></div>
+      <div class="product-condition" id="pCondition"></div>
+      <div class="product-divider"></div>
+      <div class="product-desc" id="pDescription"></div>
+      <div class="product-story" id="pStory" style="display:none"></div>
+      <dl class="product-details" id="pDetails"></dl>
+      <button class="btn-buy" id="buyBtn" onclick="handleBuy()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Buy Now
+      </button>
+      <button class="btn-save" id="saveBtn" onclick="handleSave()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Save to Wishlist
+      </button>
+      <div class="btn-question" onclick="openQuestionModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Ask a Question About This Item
+      </div>
+      <div class="shipping-info">
+        <strong>Shipping:</strong> Items ship within 7 days of payment. Tracking provided. Please allow up to 2 weeks for delivery. Florida-based, shipping available nationwide.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="related container" id="relatedSection" style="display:none">
+  <h2>You Might Also Like</h2>
+  <div class="related-grid" id="relatedGrid"></div>
+</div>
+
+<div class="modal-overlay" id="questionModal">
+  <div class="modal">
+    <h2>Ask About This Item</h2>
+    <input type="text" id="qName" placeholder="Your name">
+    <input type="email" id="qEmail" placeholder="Your email" required>
+    <textarea id="qText" placeholder="What would you like to know about this item?"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeQuestionModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitQuestion()">Send Question</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 V.J. Thrift Finds &bull; Powered by <a href="https://liftori.ai" target="_blank">Liftori.ai</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+let currentProduct=null;
+
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3000)}
+
+async function loadProduct(){
+  const slug=new URLSearchParams(window.location.search).get('slug');
+  if(!slug){window.location.href='shop.html';return}
+
+  const{data,error}=await sb.from('products').select('*,categories(name,slug),product_images(id,image_url,sort_order)').eq('slug',slug).single();
+  if(error||!data){document.getElementById('pTitle').textContent='Product not found';return}
+  currentProduct=data;
+
+  document.title=data.title+' — V.J. Thrift Finds';
+  document.getElementById('breadcrumbTitle').textContent=data.title;
+  document.getElementById('pCategory').textContent=data.categories?data.categories.name:'Vintage Find';
+  document.getElementById('pTitle').textContent=data.title;
+  document.getElementById('pPrice').innerHTML='$'+Number(data.price).toFixed(2)+(data.compare_at_price?'<span class="compare">$'+Number(data.compare_at_price).toFixed(2)+'</span>':'');
+
+  if(data.condition_rating){document.getElementById('pCondition').textContent='Condition: '+data.condition_rating}
+  else{document.getElementById('pCondition').style.display='none'}
+
+  document.getElementById('pDescription').innerHTML=data.description||'No description available.';
+
+  if(data.item_story){
+    const s=document.getElementById('pStory');
+    s.textContent=data.item_story;s.style.display='block';
+  }
+
+  // Details
+  let details='';
+  if(data.brand_maker)details+='<dt>Brand / Maker</dt><dd>'+data.brand_maker+'</dd>';
+  if(data.material)details+='<dt>Material</dt><dd>'+data.material+'</dd>';
+  if(data.color)details+='<dt>Color</dt><dd>'+data.color+'</dd>';
+  if(data.dimensions)details+='<dt>Dimensions</dt><dd>'+data.dimensions+'</dd>';
+  if(data.style_era)details+='<dt>Style / Era</dt><dd>'+data.style_era+'</dd>';
+  if(data.condition_details)details+='<dt>Condition Notes</dt><dd>'+data.condition_details+'</dd>';
+  document.getElementById('pDetails').innerHTML=details;
+
+  // Images
+  const mainImg=document.getElementById('mainImage');
+  if(data.main_image_url){mainImg.src=data.main_image_url;mainImg.alt=data.title}
+
+  const images=data.product_images||[];
+  images.sort((a,b)=>a.sort_order-b.sort_order);
+  if(images.length>0){
+    const allImgs=[data.main_image_url,...images.map(i=>i.image_url)].filter(Boolean);
+    const unique=[...new Set(allImgs)];
+    document.getElementById('thumbs').innerHTML=unique.map((url,i)=>
+      `<img class="product-thumb ${i===0?'active':''}" src="${url}" onclick="document.getElementById('mainImage').src='${url}';document.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')">`
+    ).join('');
+  }
+
+  // Status
+  if(data.status==='sold'||data.quantity<1){
+    document.getElementById('buyBtn').textContent='Sold';
+    document.getElementById('buyBtn').disabled=true;
+  }
+
+  // OG tags
+  const metaOG=document.createElement('meta');
+  metaOG.property='og:title';metaOG.content=data.title;document.head.appendChild(metaOG);
+  const metaImg=document.createElement('meta');
+  metaImg.property='og:image';metaImg.content=data.main_image_url||'';document.head.appendChild(metaImg);
+
+  loadRelated(data.category_id,data.id);
+}
+
+async function loadRelated(catId,excludeId){
+  if(!catId)return;
+  const{data}=await sb.from('products').select('id,title,slug,price,main_image_url').eq('status','published').eq('category_id',catId).neq('id',excludeId).limit(4);
+  if(!data||data.length===0)return;
+  document.getElementById('relatedSection').style.display='block';
+  document.getElementById('relatedGrid').innerHTML=data.map(p=>`
+    <a href="product.html?slug=${p.slug}" class="related-card" style="text-decoration:none;color:inherit">
+      <img src="${p.main_image_url||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/></svg>'}" alt="${p.title}" loading="lazy">
+      <div class="related-card-body">
+        <div class="related-card-title">${p.title}</div>
+        <div class="related-card-price">$${Number(p.price).toFixed(2)}</div>
+      </div>
+    </a>`).join('');
+}
+
+function handleBuy(){
+  if(!currentProduct)return;
+  // TODO: Stripe Checkout integration
+  showToast('Checkout coming soon! Contact VJ@VJthrifts.com to purchase.','success');
+}
+
+async function handleSave(){
+  if(!currentProduct)return;
+  let sid=localStorage.getItem('vj_session');
+  if(!sid){sid='sess_'+Math.random().toString(36).substr(2,12);localStorage.setItem('vj_session',sid)}
+  await sb.from('wishlist_items').insert({product_id:currentProduct.id,session_id:sid});
+  showToast('Saved to your wishlist! ♥','success');
+}
+
+function openQuestionModal(){document.getElementById('questionModal').classList.add('open')}
+function closeQuestionModal(){document.getElementById('questionModal').classList.remove('open')}
+
+async function submitQuestion(){
+  const name=document.getElementById('qName').value.trim();
+  const email=document.getElementById('qEmail').value.trim();
+  const question=document.getElementById('qText').value.trim();
+  if(!email||!question){showToast('Please fill in email and question','error');return}
+  const{error}=await sb.from('product_questions').insert({product_id:currentProduct.id,customer_email:email,customer_name:name,question});
+  if(error){showToast('Something went wrong','error');return}
+  showToast('Question sent! Vanessa will get back to you.','success');
+  closeQuestionModal();
+  document.getElementById('qName').value='';document.getElementById('qEmail').value='';document.getElementById('qText').value='';
+}
+
+loadProduct();
+</script>
+</body>
+</html>

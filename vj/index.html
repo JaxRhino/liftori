@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V.J. Thrift Finds — Vintage Junk, Timeless Treasures</title>
+<meta name="description" content="Curated vintage and thrifted treasures from Florida. Unique finds rescued from thrift shops and garage sales. Shop one-of-a-kind vintage items.">
+<meta property="og:title" content="V.J. Thrift Finds — Vintage Junk, Timeless Treasures">
+<meta property="og:description" content="Where vintage junk becomes timeless treasure. Curated finds from Florida thrift shops and garage sales.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://qlerfkdyslndjbaltkwo.supabase.co/storage/v1/object/public/vj-products/brand/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ==========================================
+   VJ THRIFT FINDS — BRAND THEME
+   Dark Vintage / Gold Accents / Elegant
+   ========================================== */
+:root {
+  --bg-deep: #0a0907;
+  --bg-dark: #13110e;
+  --bg-card: #1a1714;
+  --bg-card-hover: #211e19;
+  --bg-surface: #262219;
+  --gold: #c5a55a;
+  --gold-light: #d4b96a;
+  --gold-bright: #e8c84a;
+  --gold-dim: #8a7540;
+  --gold-muted: #6b5c36;
+  --cream: #f5e6c8;
+  --cream-dim: #c4b08a;
+  --text-primary: #e8dcc8;
+  --text-secondary: #a89a80;
+  --text-muted: #6b6050;
+  --border: #2a2520;
+  --border-gold: rgba(197,165,90,0.3);
+  --shadow-gold: rgba(197,165,90,0.15);
+  --danger: #c44;
+  --success: #5a8;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+  --max-width: 1200px;
+  --radius: 4px;
+  --transition: 0.3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--gold); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--gold-light); }
+img { max-width: 100%; height: auto; display: block; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+/* NAVIGATION */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,9,7,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: all var(--transition);
+}
+.nav.scrolled { background: rgba(10,9,7,0.98); box-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+.nav-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+}
+.nav-brand {
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.5px;
+}
+.nav-brand span { color: var(--text-secondary); font-size: 0.7em; font-weight: 400; display: block; font-family: var(--font-accent); letter-spacing: 2px; text-transform: uppercase; margin-top: -4px; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 1.5px; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--gold);
+  transition: width var(--transition);
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cart {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--gold); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; padding: 8px 16px; border: 1px solid var(--border-gold);
+  border-radius: var(--radius); transition: all var(--transition);
+}
+.nav-cart:hover { background: rgba(197,165,90,0.1); }
+.nav-cart svg { width: 18px; height: 18px; }
+.nav-cart .count {
+  background: var(--gold); color: var(--bg-deep); border-radius: 50%;
+  width: 18px; height: 18px; display: flex; align-items: center;
+  justify-content: center; font-size: 0.7rem; font-weight: 700;
+}
+.nav-mobile-toggle { display: none; cursor: pointer; padding: 8px; }
+.nav-mobile-toggle span { display: block; width: 22px; height: 2px; background: var(--gold); margin: 5px 0; transition: all var(--transition); }
+
+/* HERO */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; text-align: center;
+  background: var(--bg-deep);
+  position: relative; overflow: hidden;
+  padding: 120px 20px 80px;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(197,165,90,0.06) 0%, transparent 70%);
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-deep), transparent);
+}
+.hero-content { position: relative; z-index: 2; max-width: 700px; }
+.hero-vj {
+  font-family: var(--font-display); font-size: 5rem; font-weight: 800;
+  color: var(--gold); line-height: 1; margin-bottom: 4px;
+  text-shadow: 0 0 60px rgba(197,165,90,0.3);
+}
+.hero-brand {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 600;
+  color: var(--cream); line-height: 1.1; margin-bottom: 16px;
+  font-style: italic;
+}
+.hero-tagline {
+  font-family: var(--font-accent); font-size: 1.3rem;
+  color: var(--gold-dim); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.hero-desc {
+  font-size: 1.05rem; color: var(--text-secondary); max-width: 500px;
+  margin: 0 auto 40px; line-height: 1.7;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 40px; background: var(--gold);
+  color: var(--bg-deep); font-weight: 600; font-size: 0.9rem;
+  text-transform: uppercase; letter-spacing: 2px;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  transition: all var(--transition);
+}
+.hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px var(--shadow-gold); color: var(--bg-deep); }
+.hero-flourish {
+  width: 120px; height: 1px; margin: 0 auto 24px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+}
+.hero-location {
+  font-family: var(--font-accent); font-size: 0.95rem;
+  color: var(--text-muted); letter-spacing: 1px; margin-top: 24px;
+}
+
+/* SECTION STYLES */
+section { padding: 80px 0; }
+.section-header {
+  text-align: center; margin-bottom: 48px;
+}
+.section-label {
+  font-family: var(--font-accent); font-size: 0.85rem;
+  color: var(--gold-dim); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: 2.2rem;
+  color: var(--cream); font-weight: 700; margin-bottom: 12px;
+}
+.section-divider {
+  width: 60px; height: 1px; margin: 0 auto;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.section-desc {
+  font-size: 0.95rem; color: var(--text-secondary);
+  max-width: 500px; margin: 16px auto 0;
+}
+
+/* FEATURED PRODUCTS */
+.featured { background: var(--bg-dark); }
+.products-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+.product-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all var(--transition); cursor: pointer;
+  position: relative;
+}
+.product-card:hover {
+  border-color: var(--border-gold); transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.product-card-img {
+  width: 100%; height: 280px; object-fit: cover;
+  background: var(--bg-surface);
+}
+.product-card-body { padding: 16px; }
+.product-card-category {
+  font-family: var(--font-accent); font-size: 0.75rem;
+  color: var(--gold-dim); text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.product-card-title {
+  font-family: var(--font-display); font-size: 1.1rem;
+  color: var(--cream); margin-bottom: 8px; font-weight: 600;
+}
+.product-card-price {
+  font-size: 1.15rem; color: var(--gold); font-weight: 600;
+}
+.product-card-price .compare {
+  font-size: 0.85rem; color: var(--text-muted);
+  text-decoration: line-through; margin-left: 8px; font-weight: 400;
+}
+.product-card-save {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(10,9,7,0.7); backdrop-filter: blur(4px);
+  border: 1px solid var(--border); display: flex;
+  align-items: center; justify-content: center; cursor: pointer;
+  transition: all var(--transition); z-index: 2;
+}
+.product-card-save:hover { background: rgba(197,165,90,0.2); border-color: var(--gold); }
+.product-card-save svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 2; }
+.product-card-save.saved svg { fill: var(--gold); }
+.product-badge {
+  position: absolute; top: 12px; left: 12px;
+  padding: 4px 12px; font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1px;
+  border-radius: 2px; z-index: 2;
+}
+.badge-new { background: var(--gold); color: var(--bg-deep); }
+.badge-sold { background: var(--danger); color: white; }
+
+/* BRAND STORY */
+.story { background: var(--bg-deep); position: relative; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.story-image {
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--border-gold);
+  aspect-ratio: 1; background: var(--bg-card);
+  display: flex; align-items: center; justify-content: center;
+}
+.story-image img { width: 100%; height: 100%; object-fit: cover; }
+.story-text h2 {
+  font-family: var(--font-display); font-size: 2rem;
+  color: var(--cream); margin-bottom: 20px; font-weight: 700;
+}
+.story-text p {
+  color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8;
+}
+.story-text .highlight {
+  color: var(--gold); font-family: var(--font-accent);
+  font-size: 1.15rem; font-style: italic;
+}
+
+/* HOW IT WORKS */
+.how-it-works { background: var(--bg-dark); }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.step-card {
+  text-align: center; padding: 32px 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); position: relative;
+  transition: all var(--transition);
+}
+.step-card:hover { border-color: var(--border-gold); }
+.step-number {
+  font-family: var(--font-display); font-size: 2.5rem;
+  color: var(--gold); font-weight: 800; margin-bottom: 12px;
+  opacity: 0.6;
+}
+.step-card h3 {
+  font-family: var(--font-display); font-size: 1rem;
+  color: var(--cream); margin-bottom: 8px;
+}
+.step-card p { font-size: 0.85rem; color: var(--text-secondary); }
+
+/* NEWSLETTER */
+.newsletter {
+  background: var(--bg-card); border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.newsletter-inner {
+  text-align: center; max-width: 500px; margin: 0 auto;
+}
+.newsletter-inner h2 {
+  font-family: var(--font-display); font-size: 1.8rem;
+  color: var(--cream); margin-bottom: 8px;
+}
+.newsletter-inner p {
+  color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px;
+}
+.newsletter-form { display: flex; gap: 8px; }
+.newsletter-form input {
+  flex: 1; padding: 14px 16px; background: var(--bg-deep);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-body);
+}
+.newsletter-form input::placeholder { color: var(--text-muted); }
+.newsletter-form input:focus { outline: none; border-color: var(--gold-dim); }
+.newsletter-form button {
+  padding: 14px 28px; background: var(--gold); color: var(--bg-deep);
+  border: none; border-radius: var(--radius); font-weight: 600;
+  font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer; transition: all var(--transition); white-space: nowrap;
+}
+.newsletter-form button:hover { background: var(--gold-light); }
+
+/* REVIEWS PREVIEW */
+.reviews-section { background: var(--bg-deep); }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.review-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+}
+.review-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 12px; letter-spacing: 2px; }
+.review-text {
+  font-family: var(--font-accent); font-size: 1.05rem;
+  color: var(--text-primary); font-style: italic; margin-bottom: 16px;
+  line-height: 1.6;
+}
+.review-author { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* FOOTER */
+.footer {
+  background: var(--bg-deep); border-top: 1px solid var(--border);
+  padding: 60px 0 24px;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-brand h3 {
+  font-family: var(--font-display); font-size: 1.5rem;
+  color: var(--gold); margin-bottom: 4px;
+}
+.footer-brand .tagline {
+  font-family: var(--font-accent); font-size: 0.85rem;
+  color: var(--gold-dim); letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.footer-brand p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.footer h4 {
+  font-family: var(--font-display); font-size: 0.9rem;
+  color: var(--cream); text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+.footer-links a { color: var(--text-secondary); font-size: 0.85rem; }
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid var(--border); padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-bottom p { font-size: 0.8rem; color: var(--text-muted); }
+.footer-liftori {
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.footer-liftori a { color: var(--gold-dim); }
+.footer-liftori a:hover { color: var(--gold); }
+
+/* LOADING STATE */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-surface) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius);
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+  padding: 14px 24px; background: var(--bg-card);
+  border: 1px solid var(--border-gold); border-radius: var(--radius);
+  color: var(--cream); font-size: 0.85rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  transform: translateY(120%); transition: transform 0.3s ease;
+}
+.toast.show { transform: translateY(0); }
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--danger); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute;
+    top: 70px; left: 0; right: 0; background: var(--bg-deep);
+    border-bottom: 1px solid var(--border); padding: 20px;
+    gap: 16px;
+  }
+  .hero-vj { font-size: 3.5rem; }
+  .hero-brand { font-size: 1.6rem; }
+  .story-grid { grid-template-columns: 1fr; gap: 32px; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .product-card-img { height: 200px; }
+}
+@media (max-width: 600px) {
+  .hero-vj { font-size: 2.8rem; }
+  .hero-brand { font-size: 1.3rem; }
+  .hero-tagline { font-size: 0.9rem; letter-spacing: 2px; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .newsletter-form { flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .section-title { font-size: 1.8rem; }
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .product-card-img { height: 180px; }
+  .product-card-body { padding: 12px; }
+  .product-card-title { font-size: 0.95rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      V.J. Thrift Finds
+      <span>Vintage Junk &bull; Timeless Treasures</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">How It Works</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="shop.html" class="nav-cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Shop Now
+    </a>
+    <div class="nav-mobile-toggle" id="mobileToggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-vj">V.J.</div>
+    <div class="hero-brand">Thrift Finds</div>
+    <div class="hero-flourish"></div>
+    <div class="hero-tagline">Vintage Junk, Timeless Treasures</div>
+    <p class="hero-desc">
+      Welcome to V.J. Thrift Finds &mdash; where vintage junk becomes timeless treasure.
+      Every piece has a story. Every find deserves a new home.
+    </p>
+    <a href="shop.html" class="hero-cta">
+      Browse the Collection
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="hero-location">&#9670; Florida-Based &bull; Shipping Available &#9670;</p>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Curated Collection</div>
+      <h2 class="section-title">New Finds</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Freshly rescued treasures, ready for a new home.</p>
+    </div>
+    <div class="products-grid" id="featuredProducts">
+      <!-- Products loaded dynamically -->
+      <div class="product-card" style="opacity:0.5">
+        <div class="product-card-img skeleton" style="height:280px"></div>
+        <div class="product-card-body">
+          <div class="skeleton" style="height:12px;width:60px;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:16px;width:50px"></div>
+        </div>
+      </div>
+      <div class="product-card" style="opacity:0.5">
+        <div class="product-card-img skeleton" style="height:280px"></div>
+        <div class="product-card-body">
+          <div class="skeleton" style="height:12px;width:60px;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:16px;width:50px"></div>
+        </div>
+      </div>
+      <div class="product-card" style="opacity:0.5">
+        <div class="product-card-img skeleton" style="height:280px"></div>
+        <div class="product-card-body">
+          <div class="skeleton" style="height:12px;width:60px;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:16px;width:50px"></div>
+        </div>
+      </div>
+      <div class="product-card" style="opacity:0.5">
+        <div class="product-card-img skeleton" style="height:280px"></div>
+        <div class="product-card-body">
+          <div class="skeleton" style="height:12px;width:60px;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:18px;width:80%;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:16px;width:50px"></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="shop.html" class="hero-cta" style="display:inline-flex;">View All Finds</a>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND STORY -->
+<section class="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-image">
+        <div style="padding:40px;text-align:center;">
+          <div style="font-family:var(--font-display);font-size:3rem;color:var(--gold);margin-bottom:8px;">V.J.</div>
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--cream);font-style:italic;">Thrift Finds</div>
+          <div style="font-family:var(--font-accent);font-size:0.8rem;color:var(--gold-dim);letter-spacing:3px;text-transform:uppercase;margin-top:8px;">Est. 2025</div>
+        </div>
+      </div>
+      <div class="story-text">
+        <p class="highlight">&ldquo;I hunt thrift shops and garage sales.&rdquo;</p>
+        <h2>Where Old Finds New Life</h2>
+        <p>
+          Every piece in this shop has been hand-picked from thrift stores, estate sales, and garage sales across Florida.
+          What some see as junk, I see as treasure waiting for the right home.
+        </p>
+        <p>
+          From vintage lamps and antique glassware to one-of-a-kind decor pieces &mdash;
+          each item carries its own history. My job is to rescue them, clean them up,
+          and connect them with someone who&rsquo;ll love them as much as I do.
+        </p>
+        <p style="margin-top:8px;">
+          <strong style="color:var(--gold);">Thrifted &bull; Rescued &bull; Rehomed</strong>
+        </p>
+        <a href="about.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;">
+          Read Our Story
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Simple Process</div>
+      <h2 class="section-title">How It Works</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Browse</h3>
+        <p>Explore our curated collection of vintage finds, updated regularly with new treasures.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Purchase</h3>
+        <p>Found something you love? Buy it instantly with secure checkout. First come, first served.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>We Ship</h3>
+        <p>Items are carefully packaged and shipped within 7 days. You&rsquo;ll receive tracking information.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <h3>Enjoy</h3>
+        <p>Give your vintage treasure a new home. Tag us on social media with your finds!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">What People Say</div>
+      <h2 class="section-title">Customer Love</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="reviews-grid" id="reviewsPreview">
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&ldquo;The vintage lamp I bought is absolutely stunning. Arrived perfectly packaged and looks even better in person!&rdquo;</p>
+        <div class="review-author">Sarah M. &mdash; Tampa, FL</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&ldquo;Vanessa has an incredible eye for unique pieces. My bookshelf has never looked better. Will definitely shop again!&rdquo;</p>
+        <div class="review-author">Michael R. &mdash; Orlando, FL</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&ldquo;Fast shipping, great communication, and the crystal vase was in perfect condition. Love supporting small businesses like this.&rdquo;</p>
+        <div class="review-author">Jennifer K. &mdash; Miami, FL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-inner">
+      <h2>Never Miss a Find</h2>
+      <p>Get notified when new vintage treasures drop. No spam, just the good stuff.</p>
+      <form class="newsletter-form" id="newsletterForm" onsubmit="return handleNewsletterSubmit(event)">
+        <input type="email" placeholder="Enter your email" required id="newsletterEmail">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>V.J. Thrift Finds</h3>
+        <div class="tagline">Vintage Junk &bull; Timeless Treasures</div>
+        <p>Curated vintage treasures rescued from thrift shops and garage sales across Florida. Every piece has a story.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul class="footer-links">
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li><a href="shop.html?filter=featured">Featured</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="faq.html">How It Works</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html#shipping">Shipping Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul class="footer-links">
+          <li><a href="faq.html#returns">Return Policy</a></li>
+          <li><a href="faq.html#privacy">Privacy Policy</a></li>
+          <li><a href="faq.html#terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 V.J. Thrift Finds. All rights reserved.</p>
+      <div class="footer-liftori">
+        Powered by <a href="https://liftori.ai" target="_blank">Liftori.ai</a>
+        &nbsp;&bull;&nbsp;
+        <a href="mailto:Sales@Liftori.ai" style="font-size:0.75rem;">Need a custom AI-powered website?</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==========================================
+// VJ THRIFT FINDS — CORE JS
+// ==========================================
+const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Toast notification
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// Newsletter subscribe
+async function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email) return;
+  try {
+    const { error } = await sb.from('email_subscribers').insert({ email, source: 'homepage' });
+    if (error && error.code === '23505') {
+      showToast('You\'re already subscribed!', 'success');
+    } else if (error) {
+      showToast('Something went wrong. Please try again.', 'error');
+    } else {
+      showToast('Welcome! You\'ll be the first to know about new finds.', 'success');
+      document.getElementById('newsletterEmail').value = '';
+    }
+  } catch (err) {
+    showToast('Something went wrong. Please try again.', 'error');
+  }
+}
+
+// Load featured products
+async function loadFeaturedProducts() {
+  const { data, error } = await sb
+    .from('products')
+    .select('id, title, slug, price, compare_at_price, main_image_url, categories(name), is_featured, created_at')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false })
+    .limit(8);
+
+  const grid = document.getElementById('featuredProducts');
+  if (error || !data || data.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+        <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--cream);margin-bottom:8px;">Coming Soon</div>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">New vintage treasures are being curated. Check back soon!</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = data.map(p => `
+    <a href="product.html?slug=${p.slug}" class="product-card" style="text-decoration:none;color:inherit;">
+      ${p.is_featured ? '<div class="product-badge badge-new">Featured</div>' : ''}
+      <div class="product-card-save" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <img class="product-card-img" src="${p.main_image_url || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%236b5c36%22 font-size=%2216%22>No Image</text></svg>'}" alt="${p.title}" loading="lazy">
+      <div class="product-card-body">
+        <div class="product-card-category">${p.categories ? p.categories.name : 'Vintage Find'}</div>
+        <div class="product-card-title">${p.title}</div>
+        <div class="product-card-price">
+          $${Number(p.price).toFixed(2)}
+          ${p.compare_at_price ? '<span class="compare">$' + Number(p.compare_at_price).toFixed(2) + '</span>' : ''}
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+// Toggle wishlist save
+async function toggleSave(productId, el) {
+  let sessionId = localStorage.getItem('vj_session');
+  if (!sessionId) {
+    sessionId = 'sess_' + Math.random().toString(36).substr(2, 12);
+    localStorage.setItem('vj_session', sessionId);
+  }
+  const isSaved = el.classList.contains('saved');
+  if (isSaved) {
+    await sb.from('wishlist_items').delete().eq('product_id', productId).eq('session_id', sessionId);
+    el.classList.remove('saved');
+    showToast('Removed from saved items');
+  } else {
+    await sb.from('wishlist_items').insert({ product_id: productId, session_id: sessionId });
+    el.classList.add('saved');
+    showToast('Saved! ♥', 'success');
+  }
+}
+
+// Init
+loadFeaturedProducts();
+</script>
+</body>
+</html>

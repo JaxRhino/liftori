@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - V.J. Thrift Finds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0907;
+            color: #f5f5f1;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #13110e;
+            border-bottom: 1px solid #c5a55a;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background-color: #13110e;
+            flex-direction: column;
+            padding: 1rem;
+            border-bottom: 1px solid #c5a55a;
+        }
+
+        nav.active {
+            display: flex;
+        }
+
+        nav a {
+            color: #f5f5f1;
+            text-decoration: none;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #2a2420;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #c5a55a;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #c5a55a;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle.active {
+            color: #d4b96a;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: flex;
+                position: static;
+                flex-direction: row;
+                background: none;
+                border: none;
+                padding: 0;
+                gap: 2rem;
+            }
+
+            nav a {
+                border: none;
+                padding: 0.5rem 0;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1714 0%, #13110e 100%);
+            padding: 4rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #c5a55a;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #c5a55a;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: #d4b96a;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .toc {
+            background-color: #13110e;
+            border: 2px solid #c5a55a;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border-radius: 4px;
+        }
+
+        .toc h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #c5a55a;
+            margin-bottom: 1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: #d4b96a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #c5a55a;
+        }
+
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .faq-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #c5a55a;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c5a55a;
+            scroll-margin-top: 80px;
+        }
+
+        .faq-item {
+            background-color: #13110e;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #c5a55a;
+            padding: 0;
+            border-radius: 2px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+            border-left-color: #d4b96a;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #c5a55a;
+            padding: 1.25rem;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .faq-question:hover {
+            background-color: #1a1714;
+        }
+
+        .faq-toggle {
+            font-size: 1.3rem;
+            color: #c5a55a;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #1a1714;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 1.25rem;
+            border-top: 1px solid #c5a55a;
+        }
+
+        .faq-answer p {
+            font-size: 0.95rem;
+            color: #e0e0d8;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer ul {
+            margin-left: 1.5rem;
+            color: #e0e0d8;
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background-color: #13110e;
+            border-top: 1px solid #c5a55a;
+            padding: 2rem;
+            text-align: center;
+            color: #a0a09a;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: #c5a55a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #d4b96a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">V.J. Thrift Finds</a>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <a href="index.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="faq.html">How It Works</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>How It Works</h1>
+        <p>Everything You Need to Know</p>
+    </section>
+
+    <main>
+        <div class="toc">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#how-to-buy">How to Buy</a></li>
+                <li><a href="#payment">Payment</a></li>
+                <li><a href="#shipping">Shipping Policy</a></li>
+                <li><a href="#damaged">Damaged Items</a></li>
+                <li><a href="#returns">Return Policy</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+            </ul>
+        </div>
+
+        <div class="faq-section" id="how-to-buy">
+            <h2>How to Buy</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I browse and purchase items?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Shopping with us is simple and enjoyable:</p>
+                    <ul>
+                        <li><strong>Browse the Shop:</strong> Explore our curated collection of vintage and thrifted treasures organized by category.</li>
+                        <li><strong>View Details:</strong> Each item has photos, descriptions, dimensions, condition notes, and pricing.</li>
+                        <li><strong>Add to Cart:</strong> Click the "Add to Cart" button to save items for purchase.</li>
+                        <li><strong>Checkout:</strong> Review your cart and proceed to secure checkout with Stripe.</li>
+                        <li><strong>Confirmation:</strong> You'll receive an order confirmation email with tracking information once your item ships.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I see items before they ship?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Each product listing includes detailed photos from multiple angles, condition descriptions, and measurements. We take pride in providing accurate representation of every piece. If you have specific questions about an item before purchasing, please contact us at VJ@VJthrifts.com.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="payment">
+            <h2>Payment</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We accept all major payment methods through Stripe, including:</p>
+                    <ul>
+                        <li>Credit cards (Visa, Mastercard, American Express, Discover)</li>
+                        <li>Debit cards</li>
+                        <li>Digital wallets (Apple Pay, Google Pay)</li>
+                    </ul>
+                    <p>Payment is required at checkout before we process your order.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my payment information secure?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes. We use Stripe, a PCI DSS Level 1 compliant payment processor, to handle all transactions. Your payment information is encrypted and never stored on our servers. Stripe is trusted by millions of businesses worldwide for secure payment processing.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>When will I be charged?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You will be charged at checkout immediately when you complete your purchase. Your order will be confirmed and prepared for shipment right away.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="shipping">
+            <h2>Shipping Policy</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How long does shipping take?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We aim to ship all orders within 7 business days of purchase. Once your item ships, you'll receive a tracking number via email so you can monitor its progress. Please allow up to 2 weeks for delivery once shipped, depending on your location and carrier.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you ship internationally?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We currently ship throughout the United States and select international locations. Shipping costs will be calculated at checkout based on your location and item weight.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What shipping method do you use?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We use the most affordable and reliable shipping option available for your order. Most items are shipped via USPS or UPS with tracking included. You'll receive a tracking number once your item is in transit.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer expedited shipping?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We prioritize using the most cost-effective shipping options to keep prices reasonable. Contact us at VJ@VJthrifts.com if you need expedited shipping options for your order.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I track my order?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Once your item ships, you'll receive an email with a tracking number. You can use this number to track your package with the carrier (USPS, UPS, etc.) in real-time.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="damaged">
+            <h2>Damaged Items</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What if my item arrives damaged?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We carefully package each item to ensure it arrives in perfect condition. However, accidents can happen during shipping. If your item arrives damaged:</p>
+                    <ul>
+                        <li>Message us immediately with clear photos of the damage and packaging</li>
+                        <li>We will help you file a claim with the carrier</li>
+                        <li>Keep all packaging materials for the claim process</li>
+                    </ul>
+                    <p><strong>Important:</strong> V.J. Thrift Finds is not responsible for damage that occurs during transit. Carrier insurance applies in these cases.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I get a refund for a damaged item?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Transit damage claims are handled through the shipping carrier's insurance. We will assist you in filing the claim, but refunds and replacements are determined by the carrier based on their policies. We work hard to ensure items arrive safely, and we're here to support you through the claims process.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="returns">
+            <h2>Return Policy</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is your return policy?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>All vintage and thrifted items are sold as-is. Since each piece is unique and one-of-a-kind, we do not offer returns or exchanges. We provide detailed photos, measurements, and condition descriptions for every item to help you make informed decisions. If you have questions before purchasing, please reach out!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What if the item isn't what I expected?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We provide comprehensive product information including multiple photos from different angles, dimensions, condition notes, and detailed descriptions. If you have concerns before purchasing, contact us at VJ@VJthrifts.com. For items with condition issues not disclosed in the listing, please message us with photos and we'll work with you to find a solution.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="privacy">
+            <h2>Privacy Policy</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do you handle my personal information?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We take your privacy seriously. Here's how we handle your information:</p>
+                    <ul>
+                        <li><strong>Collection:</strong> We collect only the information necessary to process your order (name, email, address, phone) and improve your shopping experience.</li>
+                        <li><strong>Use:</strong> Your information is used only for order fulfillment, shipping, and customer service communications.</li>
+                        <li><strong>Storage:</strong> Data is stored securely in our Supabase database with industry-standard encryption.</li>
+                        <li><strong>Sharing:</strong> We never sell or share your personal information with third parties.</li>
+                        <li><strong>Cookies:</strong> We use minimal cookies only for essential site functionality.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I request my data?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely. You have the right to request, access, or delete your personal data at any time. Contact us at VJ@VJthrifts.com with your request and we'll respond within 30 days.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="terms">
+            <h2>Terms of Service</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are the terms of use for this website?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>By using V.J. Thrift Finds, you agree to the following:</p>
+                    <ul>
+                        <li><strong>Products Are Unique:</strong> All items are one-of-a-kind vintage/thrifted pieces. Once purchased, they are no longer available.</li>
+                        <li><strong>As-Is Sales:</strong> All items are sold in the condition described. We provide detailed photos and condition information for all listings.</li>
+                        <li><strong>Accurate Information:</strong> We strive to provide accurate product descriptions, photos, and information. However, variations in vintage items are natural.</li>
+                        <li><strong>Pricing:</strong> Prices are subject to change without notice. Items are reserved only after payment is confirmed.</li>
+                        <li><strong>User Responsibility:</strong> You are responsible for reviewing product details carefully before purchase.</li>
+                        <li><strong>Intellectual Property:</strong> All content on this site (photos, descriptions, branding) is the property of V.J. Thrift Finds.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can you change these terms?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We may update these terms from time to time. Changes will be posted on this page with an updated date. Your continued use of the site indicates acceptance of the updated terms. For significant changes, we'll notify you via email.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Who do I contact with questions?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>For any questions about our policies, terms, or your order, please reach out to us at VJ@VJthrifts.com. You can also use the contact form on our Contact page. We typically respond within 24 hours during business hours.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 V.J. Thrift Finds • Powered by Liftori.ai</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // FAQ accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', function() {
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - V.J. Thrift Finds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0907;
+            color: #f5f5f1;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #13110e;
+            border-bottom: 1px solid #c5a55a;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background-color: #13110e;
+            flex-direction: column;
+            padding: 1rem;
+            border-bottom: 1px solid #c5a55a;
+        }
+
+        nav.active {
+            display: flex;
+        }
+
+        nav a {
+            color: #f5f5f1;
+            text-decoration: none;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #2a2420;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #c5a55a;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #c5a55a;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle.active {
+            color: #d4b96a;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: flex;
+                position: static;
+                flex-direction: row;
+                background: none;
+                border: none;
+                padding: 0;
+                gap: 2rem;
+            }
+
+            nav a {
+                border: none;
+                padding: 0.5rem 0;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1714 0%, #13110e 100%);
+            padding: 4rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #c5a55a;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #c5a55a;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: #d4b96a;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: #13110e;
+            border: 1px solid #c5a55a;
+            border-radius: 4px;
+        }
+
+        .contact-intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background-color: #13110e;
+            padding: 1.5rem;
+            border: 1px solid #c5a55a;
+            text-align: center;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: #d4b96a;
+            box-shadow: 0 5px 15px rgba(197, 165, 90, 0.1);
+        }
+
+        .info-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #d4b96a;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .info-card p {
+            font-size: 0.95rem;
+            color: #e0e0d8;
+        }
+
+        .info-card a {
+            color: #c5a55a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .info-card a:hover {
+            color: #d4b96a;
+        }
+
+        .form-container {
+            background-color: #13110e;
+            padding: 2rem;
+            border: 2px solid #c5a55a;
+            border-radius: 4px;
+        }
+
+        .form-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #c5a55a;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #1a1714;
+            border: 1px solid #c5a55a;
+            color: #f5f5f1;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            border-radius: 2px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #d4b96a;
+            box-shadow: 0 0 0 3px rgba(197, 165, 90, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c5a55a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
+        }
+
+        button {
+            background-color: #c5a55a;
+            color: #0a0907;
+            padding: 0.85rem 2rem;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: #d4b96a;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #8a7d5a;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 1rem;
+            background-color: #13110e;
+            border: 2px solid #c5a55a;
+            color: #c5a55a;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            z-index: 2000;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-color: #7fb069;
+            color: #7fb069;
+        }
+
+        .toast.error {
+            border-color: #c55a5a;
+            color: #c55a5a;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            background-color: #13110e;
+            border-top: 1px solid #c5a55a;
+            padding: 2rem;
+            text-align: center;
+            color: #a0a09a;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: #c5a55a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #d4b96a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">V.J. Thrift Finds</a>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <a href="index.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="faq.html">How It Works</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Get In Touch</h1>
+        <p>We'd Love to Hear From You</p>
+    </section>
+
+    <main>
+        <div class="contact-intro">
+            <h2>Let's Connect</h2>
+            <p>Have questions about a specific piece? Want to collaborate or share your own thrift finds? Reach out anytime. We typically respond within 24 hours during business hours.</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="info-card">
+                <h3>Email</h3>
+                <p><a href="mailto:VJ@VJthrifts.com">VJ@VJthrifts.com</a></p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a0a09a;">For urgent inquiries</p>
+            </div>
+            <div class="info-card">
+                <h3>Location</h3>
+                <p>Florida, USA</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a0a09a;">Ships nationwide & internationally</p>
+            </div>
+            <div class="info-card">
+                <h3>Business Hours</h3>
+                <p>Monday - Friday<br>9 AM - 5 PM EST</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a0a09a;">Closed weekends & holidays</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <h2>Send us a Message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Inquiry Category *</label>
+                    <select id="category" name="category" required>
+                        <option value="">-- Select a category --</option>
+                        <option value="Product Question">Product Question</option>
+                        <option value="Order Question">Order Question</option>
+                        <option value="Shipping Question">Shipping Question</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 V.J. Thrift Finds • Powered by Liftori.ai</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.0/dist/module/index.js" type="module"></script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.0/dist/module/index.js';
+
+        const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const category = document.getElementById('category').value;
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !category || !subject || !message) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                const { data, error } = await supabase
+                    .from('contact_messages')
+                    .insert([{
+                        name,
+                        email,
+                        category,
+                        subject,
+                        message,
+                        created_at: new Date().toISOString(),
+                        is_read: false
+                    }]);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    showToast('Failed to send message. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                    return;
+                }
+
+                showToast('Thank you! Your message has been sent. We\'ll respond shortly.', 'success');
+                contactForm.reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

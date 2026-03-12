@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - V.J. Thrift Finds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0907;
+            color: #f5f5f1;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #13110e;
+            border-bottom: 1px solid #c5a55a;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background-color: #13110e;
+            flex-direction: column;
+            padding: 1rem;
+            border-bottom: 1px solid #c5a55a;
+        }
+
+        nav.active {
+            display: flex;
+        }
+
+        nav a {
+            color: #f5f5f1;
+            text-decoration: none;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #2a2420;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #c5a55a;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #c5a55a;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle.active {
+            color: #d4b96a;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: flex;
+                position: static;
+                flex-direction: row;
+                background: none;
+                border: none;
+                padding: 0;
+                gap: 2rem;
+            }
+
+            nav a {
+                border: none;
+                padding: 0.5rem 0;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1714 0%, #13110e 100%);
+            padding: 4rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #c5a55a;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #c5a55a;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: #d4b96a;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .reviews-list {
+            order: 2;
+        }
+
+        .sidebar {
+            order: 1;
+            height: fit-content;
+        }
+
+        @media (max-width: 768px) {
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-list {
+                order: 1;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+        }
+
+        .review-card {
+            background-color: #13110e;
+            border: 1px solid #c5a55a;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .review-card:hover {
+            border-color: #d4b96a;
+            box-shadow: 0 5px 20px rgba(197, 165, 90, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #c5a55a;
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #d4b96a;
+            font-size: 1.1rem;
+        }
+
+        .star.empty {
+            color: #3a3630;
+        }
+
+        .review-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #f5f5f1;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: #7a7a74;
+            margin-bottom: 1rem;
+        }
+
+        .review-body {
+            color: #e0e0d8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .empty-state {
+            background-color: #13110e;
+            border: 2px dashed #c5a55a;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #c5a55a;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #a0a09a;
+            font-size: 0.95rem;
+        }
+
+        .form-card {
+            background-color: #13110e;
+            border: 2px solid #c5a55a;
+            padding: 1.5rem;
+            border-radius: 4px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .form-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #c5a55a;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #c5a55a;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: #1a1714;
+            border: 1px solid #c5a55a;
+            color: #f5f5f1;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            border-radius: 2px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #d4b96a;
+            box-shadow: 0 0 0 2px rgba(197, 165, 90, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-star {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #3a3630;
+            transition: color 0.2s;
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: #d4b96a;
+        }
+
+        button {
+            width: 100%;
+            background-color: #c5a55a;
+            color: #0a0907;
+            padding: 0.65rem;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: #d4b96a;
+        }
+
+        button:disabled {
+            background-color: #8a7d5a;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 1rem;
+            background-color: #13110e;
+            border: 2px solid #c5a55a;
+            color: #c5a55a;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            z-index: 2000;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-color: #7fb069;
+            color: #7fb069;
+        }
+
+        .toast.error {
+            border-color: #c55a5a;
+            color: #c55a5a;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+
+        .reviews-header {
+            margin-bottom: 2rem;
+        }
+
+        .reviews-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c5a55a;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviews-header p {
+            color: #a0a09a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #a0a09a;
+        }
+
+        footer {
+            background-color: #13110e;
+            border-top: 1px solid #c5a55a;
+            padding: 2rem;
+            text-align: center;
+            color: #a0a09a;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: #c5a55a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #d4b96a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">V.J. Thrift Finds</a>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <a href="index.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="faq.html">How It Works</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Customer Reviews</h1>
+        <p>Read What Our Customers Say</p>
+    </section>
+
+    <main>
+        <div class="reviews-container">
+            <div class="reviews-list">
+                <div class="reviews-header">
+                    <h2>Reviews</h2>
+                    <p>Authentic feedback from our valued customers</p>
+                </div>
+
+                <div id="reviewsContent">
+                    <div class="loading">Loading reviews...</div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="form-card">
+                    <h3>Leave a Review</h3>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="reviewName">Your Name</label>
+                            <input type="text" id="reviewName" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reviewEmail">Email Address</label>
+                            <input type="email" id="reviewEmail" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reviewOrder">Order Number (optional)</label>
+                            <input type="text" id="reviewOrder" name="order_number" placeholder="e.g., #12345">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rating *</label>
+                            <div class="rating-input" id="ratingInput">
+                                <span class="rating-star" data-rating="1">★</span>
+                                <span class="rating-star" data-rating="2">★</span>
+                                <span class="rating-star" data-rating="3">★</span>
+                                <span class="rating-star" data-rating="4">★</span>
+                                <span class="rating-star" data-rating="5">★</span>
+                            </div>
+                            <input type="hidden" id="selectedRating" name="rating" value="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reviewTitle">Review Title</label>
+                            <input type="text" id="reviewTitle" name="title" placeholder="e.g., Beautiful Vintage Find" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reviewBody">Your Review</label>
+                            <textarea id="reviewBody" name="body" placeholder="Share your experience..." required></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBtn">Submit Review</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 V.J. Thrift Finds • Powered by Liftori.ai</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.0/dist/module/index.js" type="module"></script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.0/dist/module/index.js';
+
+        const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const reviewForm = document.getElementById('reviewForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const reviewsContent = document.getElementById('reviewsContent');
+        const ratingInput = document.getElementById('ratingInput');
+        const selectedRating = document.getElementById('selectedRating');
+        let currentRating = 0;
+
+        // Rating selection
+        const stars = ratingInput.querySelectorAll('.rating-star');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                currentRating = parseInt(this.dataset.rating);
+                selectedRating.value = currentRating;
+                updateStars();
+            });
+
+            star.addEventListener('mouseover', function() {
+                const hoverRating = parseInt(this.dataset.rating);
+                stars.forEach((s, index) => {
+                    if (index < hoverRating) {
+                        s.style.color = '#d4b96a';
+                    } else {
+                        s.style.color = '#3a3630';
+                    }
+                });
+            });
+        });
+
+        ratingInput.addEventListener('mouseleave', updateStars);
+
+        function updateStars() {
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.add('active');
+                    star.style.color = '#d4b96a';
+                } else {
+                    star.classList.remove('active');
+                    star.style.color = '#3a3630';
+                }
+            });
+        }
+
+        // Load reviews
+        async function loadReviews() {
+            try {
+                const { data, error } = await supabase
+                    .from('reviews')
+                    .select('*')
+                    .eq('is_approved', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error loading reviews:', error);
+                    reviewsContent.innerHTML = '<div class="empty-state"><h3>Unable to Load Reviews</h3><p>Please try again later.</p></div>';
+                    return;
+                }
+
+                if (!data || data.length === 0) {
+                    reviewsContent.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Be the First to Review</h3>
+                            <p>No reviews yet. Share your experience with V.J. Thrift Finds and help other customers discover great vintage pieces!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                reviewsContent.innerHTML = data.map(review => {
+                    const stars = Array(5).fill('★').map((star, index) =>
+                        `<span class="star${index < review.rating ? '' : ' empty'}">${star}</span>`
+                    ).join('');
+
+                    const date = new Date(review.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+
+                    return `
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div>
+                                    <div class="review-author">${escapeHtml(review.name)}</div>
+                                    <div class="review-rating">${stars}</div>
+                                </div>
+                            </div>
+                            <div class="review-date">${date}</div>
+                            <div class="review-title">${escapeHtml(review.title)}</div>
+                            <div class="review-body">${escapeHtml(review.body)}</div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error:', error);
+                reviewsContent.innerHTML = '<div class="empty-state"><h3>Unable to Load Reviews</h3><p>Please try again later.</p></div>';
+            }
+        }
+
+        // Submit review
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('reviewName').value.trim();
+            const email = document.getElementById('reviewEmail').value.trim();
+            const orderNumber = document.getElementById('reviewOrder').value.trim() || null;
+            const rating = parseInt(selectedRating.value);
+            const title = document.getElementById('reviewTitle').value.trim();
+            const body = document.getElementById('reviewBody').value.trim();
+
+            if (!name || !email || !title || !body || rating === 0) {
+                showToast('Please fill in all required fields and select a rating', 'error');
+                return;
+            }
+
+            if (rating < 1 || rating > 5) {
+                showToast('Please select a valid rating', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const { data, error } = await supabase
+                    .from('reviews')
+                    .insert([{
+                        name,
+                        email,
+                        order_number: orderNumber,
+                        rating,
+                        title,
+                        body,
+                        is_approved: false,
+                        created_at: new Date().toISOString()
+                    }]);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    showToast('Failed to submit review. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Review';
+                    return;
+                }
+
+                showToast('Thank you! Your review has been submitted and will appear after approval.', 'success');
+                reviewForm.reset();
+                currentRating = 0;
+                selectedRating.value = 0;
+                updateStars();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            }
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Load reviews on page load
+        loadReviews();
+    </script>
+</body>
+</html>
