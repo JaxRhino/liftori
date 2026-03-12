@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Services â Liftori</title>
+  <title>Services — Liftori</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <style>
@@ -32,7 +32,7 @@
       overflow-x: hidden;
     }
 
-    /* ââ NAV ââ */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -59,7 +59,7 @@
     }
     .nav-cta:hover { opacity: 0.9; }
 
-    /* ââ HERO ââ */
+    /* ── HERO ── */
     .services-hero {
       padding: 160px 60px 100px;
       text-align: center;
@@ -94,7 +94,7 @@
       color: var(--muted); max-width: 600px; margin: 0 auto;
     }
 
-    /* ââ SECTION SHARED ââ */
+    /* ── SECTION SHARED ── */
     section { padding: 100px 60px; }
     .section-label {
       font-family: 'DM Mono', monospace; font-size: 12px;
@@ -111,7 +111,7 @@
     }
     .section-sub.centered { margin-left: auto; margin-right: auto; text-align: center; }
 
-    /* ââ SERVICE CATEGORY CARDS ââ */
+    /* ── SERVICE CATEGORY CARDS ── */
     .service-categories {
       background: var(--navy2);
       border-top: 1px solid var(--border);
@@ -184,7 +184,7 @@
     }
     .cat-cta:hover { opacity: 0.85; }
 
-    /* ââ DEALS SECTION ââ */
+    /* ── DEALS SECTION ── */
     .deals-section {
       background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%);
       text-align: center;
@@ -223,7 +223,7 @@
       font-size: 13px; color: var(--text); line-height: 1.8;
     }
 
-    /* ââ PRODUCT SHOWCASE ââ */
+    /* ── PRODUCT SHOWCASE ── */
     .products-section { background: var(--navy2); border-top: 1px solid var(--border); }
     .product-grid {
       display: grid;
@@ -263,7 +263,7 @@
       font-size: 13px; color: var(--muted); line-height: 1.6;
     }
 
-    /* ââ LIST YOUR PRODUCT ââ */
+    /* ── LIST YOUR PRODUCT ── */
     .list-section {
       text-align: center;
       background: linear-gradient(180deg, var(--navy2), var(--navy));
@@ -283,7 +283,7 @@
     }
     .list-box a.cat-cta { font-size: 14px; padding: 14px 36px; }
 
-    /* ââ FOOTER ââ */
+    /* ── FOOTER ── */
     footer {
       background: var(--navy);
       border-top: 1px solid var(--border);
@@ -304,7 +304,7 @@
       color: var(--blue-mid); text-decoration: none; font-size: 14px;
     }
 
-    /* ââ RESPONSIVE ââ */
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
       .nav-links { display: none; }
@@ -338,7 +338,7 @@
   <section class="services-hero">
     <div class="badge">Everything We Build</div>
     <h1>SERVICES &<br/>PRODUCTS</h1>
-    <p>From a simple landing page to a full AI-powered platform â we design it, build it, launch it, and keep it running.</p>
+    <p>From a simple landing page to a full AI-powered platform — we design it, build it, launch it, and keep it running.</p>
   </section>
 
   <!-- SERVICE CATEGORIES -->
@@ -373,7 +373,7 @@
         <div class="cat-icon product">&#128230;</div>
         <h3>DIGITAL PRODUCTS</h3>
         <div class="price-tag">Starting at $99</div>
-        <p class="desc">Launch digital products fast â templates, tools, downloads, SaaS starters. Built to sell from day one.</p>
+        <p class="desc">Launch digital products fast — templates, tools, downloads, SaaS starters. Built to sell from day one.</p>
         <ul class="feature-list">
           <li>Product design & branding</li>
           <li>Payment integration</li>
@@ -392,7 +392,7 @@
         <div class="cat-icon app">&#128241;</div>
         <h3>APPS & PLATFORMS</h3>
         <div class="price-tag">Web + Mobile + Desktop</div>
-        <p class="desc">Full-stack applications built for scale. From MVPs to enterprise platforms â we build it all.</p>
+        <p class="desc">Full-stack applications built for scale. From MVPs to enterprise platforms — we build it all.</p>
         <ul class="feature-list">
           <li>Web applications (PWA)</li>
           <li>Mobile apps (iOS & Android)</li>
@@ -406,31 +406,23 @@
         <a href="index.html#reserve" class="cat-cta">Get Started</a>
       </div>
 
-      <!-- PROMOTION -->
+      <!-- PRODUCTS ON PROMOTION -->
       <div class="cat-card">
-        <div class="cat-icon promo">&#128227;</div>
-        <h3>PROMOTION</h3>
-        <div class="price-tag">Get Seen. Get Customers.</div>
-        <p class="desc">Marketing that actually works. We build the funnels, run the campaigns, and drive real traffic to your product.</p>
-        <ul class="feature-list">
-          <li>Social media marketing</li>
-          <li>Paid ad campaigns (Meta, Google)</li>
-          <li>Email marketing funnels</li>
-          <li>Content creation</li>
-          <li>Brand identity & design</li>
-          <li>SEO & organic growth</li>
-          <li>Influencer outreach</li>
-          <li>Analytics & reporting</li>
-        </ul>
-        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+        <div class="cat-icon promo">
+          <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 11l2-2 2 2"/></svg>
+        </div>
+        <div class="cat-info">
+          <span class="cat-name">Products on Promotion</span>
+          <span class="cat-desc">Browse our featured products at special promotional pricing — limited-time deals on websites, apps, and digital tools built by Liftori.</span>
+          <span class="cat-count">View Deals &rarr;</span>
+        </div>
       </div>
-
       <!-- AI AGENTS -->
       <div class="cat-card">
         <div class="cat-icon ai">&#129302;</div>
         <h3>AI AGENTS & CHATBOTS</h3>
         <div class="price-tag">Custom-Trained AI</div>
-        <p class="desc">AI that works for your business 24/7. Customer support bots, sales agents, internal assistants â trained on your data.</p>
+        <p class="desc">AI that works for your business 24/7. Customer support bots, sales agents, internal assistants — trained on your data.</p>
         <ul class="feature-list">
           <li>Custom-trained on your business</li>
           <li>Customer support automation</li>
@@ -474,7 +466,7 @@
 
     <div class="deals-banner">
       <h3>NO TECH SKILLS REQUIRED</h3>
-      <p>Tell us what you want â we handle the rest. Every deal includes design, setup, hosting, and 30 days of support.</p>
+      <p>Tell us what you want — we handle the rest. Every deal includes design, setup, hosting, and 30 days of support.</p>
     </div>
 
     <div class="deals-grid">
@@ -551,7 +543,7 @@
         <div class="product-info">
           <h4>ANALYTICS DASHBOARD</h4>
           <div class="product-price">From $249</div>
-          <p>Real-time business metrics. Track sales, traffic, engagement â all in one place.</p>
+          <p>Real-time business metrics. Track sales, traffic, engagement — all in one place.</p>
         </div>
       </div>
       <div class="product-card">
