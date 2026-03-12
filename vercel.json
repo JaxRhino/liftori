@@ -1,14 +1,29 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/:path*",
+      "src": "/",
       "has": [
         {
-          "type": "host",
+          "type": "header",
+          "key": "host",
           "value": "www.vjthriftfinds.com"
         }
       ],
-      "destination": "/vj/:path*"
+      "dest": "/vj/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "www.vjthriftfinds.com"
+        }
+      ],
+      "dest": "/vj/$1"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
