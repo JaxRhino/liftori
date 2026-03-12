@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Gentlemen's Cut — Premium Barbershop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #111111;
+      --dark: #1C1C1C;
+      --card: #222222;
+      --gold: #C8A45C;
+      --gold-light: #DFC07E;
+      --cream: #F4EDE4;
+      --white: #FFFFFF;
+      --gray: #888;
+      --border: rgba(200, 164, 92, 0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .template-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff; text-align: center; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+    }
+    .template-banner a { color: #fff; text-decoration: underline; font-weight: 700; margin-left: 8px; }
+
+    nav {
+      position: fixed; top: 38px; left: 0; right: 0; z-index: 100;
+      padding: 20px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(17,17,17,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Abril Fatface', serif;
+      font-size: 24px; color: var(--gold);
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-size: 12px; font-weight: 500; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gray); transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--black) !important;
+      padding: 10px 24px; font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center;
+      padding: 160px 40px 100px;
+      background: var(--black);
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(200,164,92,0.06) 0%, transparent 70%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-divider {
+      width: 60px; height: 2px; background: var(--gold);
+      margin: 0 auto 24px;
+    }
+    .hero-badge {
+      font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; font-weight: 500;
+    }
+    .hero h1 {
+      font-family: 'Abril Fatface', serif;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 1; color: var(--cream);
+      margin-bottom: 24px;
+    }
+    .hero h1 .line2 { display: block; color: var(--gold); }
+    .hero p {
+      font-size: 16px; color: var(--gray); max-width: 480px;
+      margin: 0 auto 40px; line-height: 1.8;
+    }
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold); color: var(--black);
+      padding: 16px 40px;
+      font-size: 12px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; border: none; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* DIVIDER */
+    .section-divider {
+      text-align: center; padding: 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--dark);
+    }
+    .section-divider span {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px; text-align: center;
+    }
+    .section-title {
+      font-family: 'Abril Fatface', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      color: var(--cream); margin-bottom: 16px; text-align: center;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--gray); max-width: 500px;
+      margin: 0 auto 48px; text-align: center; line-height: 1.8;
+    }
+
+    /* SERVICES */
+    .services { background: var(--dark); }
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px; background: var(--border); margin-top: 48px;
+      border: 1px solid var(--border);
+    }
+    .svc-item {
+      background: var(--dark);
+      padding: 40px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.3s;
+    }
+    .svc-item:hover { background: var(--card); }
+    .svc-item h4 {
+      font-family: 'Abril Fatface', serif;
+      font-size: 22px; color: var(--cream);
+    }
+    .svc-item .svc-desc {
+      font-size: 13px; color: var(--gray); margin-top: 4px;
+    }
+    .svc-item .svc-time {
+      font-size: 11px; color: var(--gray); letter-spacing: 1px;
+      margin-top: 6px;
+    }
+    .svc-price {
+      font-family: 'Abril Fatface', serif;
+      font-size: 28px; color: var(--gold);
+    }
+
+    /* BARBERS */
+    .barbers { background: var(--black); }
+    .barber-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .barber-card {
+      border: 1px solid var(--border); overflow: hidden;
+      text-align: center; transition: border-color 0.3s;
+    }
+    .barber-card:hover { border-color: var(--gold); }
+    .barber-photo {
+      height: 300px;
+      background: linear-gradient(135deg, rgba(200,164,92,0.08), rgba(17,17,17,0.5));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 64px;
+    }
+    .barber-info { padding: 24px; }
+    .barber-info h4 {
+      font-family: 'Abril Fatface', serif;
+      font-size: 22px; color: var(--cream);
+    }
+    .barber-info .title {
+      font-size: 11px; color: var(--gold); letter-spacing: 2px;
+      text-transform: uppercase; margin: 4px 0 12px;
+    }
+    .barber-info p {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* GALLERY */
+    .gallery { background: var(--dark); }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 4px; margin-top: 48px;
+    }
+    .gallery-item {
+      height: 250px;
+      background: linear-gradient(135deg, rgba(200,164,92,0.06), rgba(34,34,34,0.8));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px; transition: opacity 0.3s;
+    }
+    .gallery-item:hover { opacity: 0.8; }
+
+    /* BOOKING */
+    .booking { background: var(--black); text-align: center; }
+    .booking-box {
+      max-width: 550px; margin: 0 auto;
+      border: 1px solid var(--border);
+      padding: 48px;
+    }
+    .booking-box h3 {
+      font-family: 'Abril Fatface', serif;
+      font-size: 36px; color: var(--cream); margin-bottom: 8px;
+    }
+    .booking-box p {
+      color: var(--gray); margin-bottom: 28px; font-size: 14px;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-row input, .form-row select {
+      width: 100%; padding: 14px 16px;
+      background: var(--dark); border: 1px solid var(--border);
+      color: var(--cream); font-family: 'Inter', sans-serif; font-size: 14px;
+      outline: none; transition: border-color 0.3s;
+    }
+    .form-row input:focus, .form-row select:focus { border-color: var(--gold); }
+    .form-row input::placeholder { color: var(--gray); }
+    .book-btn {
+      width: 100%; margin-top: 12px;
+      background: var(--gold); color: var(--black);
+      padding: 16px; border: none;
+      font-size: 12px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .book-btn:hover { background: var(--gold-light); }
+
+    footer {
+      background: var(--dark); border-top: 1px solid var(--border);
+      padding: 60px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand .logo { font-size: 20px; }
+    .footer-brand p { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    .footer-hours { text-align: right; }
+    .footer-hours p { font-size: 13px; color: var(--gray); line-height: 1.8; }
+    .footer-hours strong { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-hours { text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="template-banner">
+    This is a sample template built by Liftori.
+    <a href="https://www.liftori.ai">Get yours at liftori.ai</a>
+  </div>
+
+  <nav>
+    <a href="#" class="logo">The Gentlemen's Cut</a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#barbers">Barbers</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#booking" class="nav-cta">Book Now</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-divider"></div>
+      <div class="hero-badge">Est. 2018 &middot; Premium Barbershop</div>
+      <h1>Look Sharp.<span class="line2">Feel Sharp.</span></h1>
+      <p>Classic cuts, hot towel shaves, and an old-school atmosphere where every visit feels like a ritual. Walk-ins welcome.</p>
+      <a href="#booking" class="btn-gold">Book Your Appointment</a>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>&#9986; &middot; Craftsmanship &middot; Tradition &middot; Style &middot; &#9986;</span></div>
+
+  <section class="services" id="services">
+    <div class="section-label">Our Services</div>
+    <div class="section-title">The Menu</div>
+    <div class="section-sub">Every service includes a hot towel, consultation, and styling. Complimentary bourbon for appointments after 5pm.</div>
+    <div class="svc-grid">
+      <div class="svc-item">
+        <div>
+          <h4>Classic Haircut</h4>
+          <div class="svc-desc">Consultation, cut, style, hot towel finish</div>
+          <div class="svc-time">45 minutes</div>
+        </div>
+        <div class="svc-price">$35</div>
+      </div>
+      <div class="svc-item">
+        <div>
+          <h4>Beard Trim & Shape</h4>
+          <div class="svc-desc">Trim, line-up, beard oil treatment</div>
+          <div class="svc-time">30 minutes</div>
+        </div>
+        <div class="svc-price">$25</div>
+      </div>
+      <div class="svc-item">
+        <div>
+          <h4>Hot Towel Shave</h4>
+          <div class="svc-desc">Traditional straight razor, hot lather, aftershave</div>
+          <div class="svc-time">40 minutes</div>
+        </div>
+        <div class="svc-price">$40</div>
+      </div>
+      <div class="svc-item">
+        <div>
+          <h4>The Full Gentleman</h4>
+          <div class="svc-desc">Haircut + beard trim + hot towel shave</div>
+          <div class="svc-time">90 minutes</div>
+        </div>
+        <div class="svc-price">$85</div>
+      </div>
+      <div class="svc-item">
+        <div>
+          <h4>Kids Cut</h4>
+          <div class="svc-desc">For the little gentlemen (under 12)</div>
+          <div class="svc-time">30 minutes</div>
+        </div>
+        <div class="svc-price">$20</div>
+      </div>
+      <div class="svc-item">
+        <div>
+          <h4>Gray Blending</h4>
+          <div class="svc-desc">Natural-looking color blend for grays</div>
+          <div class="svc-time">30 minutes</div>
+        </div>
+        <div class="svc-price">$30</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="barbers" id="barbers">
+    <div class="section-label">The Team</div>
+    <div class="section-title">Master Barbers</div>
+    <div class="section-sub">Each barber brings years of expertise, a passion for the craft, and a unique style.</div>
+    <div class="barber-grid">
+      <div class="barber-card">
+        <div class="barber-photo">&#128133;</div>
+        <div class="barber-info">
+          <h4>Tony Russo</h4>
+          <div class="title">Owner & Master Barber</div>
+          <p>15 years behind the chair. Specializes in fades, classic cuts, and straight razor work.</p>
+        </div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">&#128134;</div>
+        <div class="barber-info">
+          <h4>DJ Williams</h4>
+          <div class="title">Senior Barber</div>
+          <p>Known for his precision fades and beard sculpting. Your beard is in good hands.</p>
+        </div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">&#128131;</div>
+        <div class="barber-info">
+          <h4>Marco Bianchi</h4>
+          <div class="title">Barber & Stylist</div>
+          <p>European-trained with a modern edge. Specializes in textured crops and modern styles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="section-label">Our Work</div>
+    <div class="section-title">The Gallery</div>
+    <div class="gallery-grid">
+      <div class="gallery-item">&#9986;</div>
+      <div class="gallery-item">&#128136;</div>
+      <div class="gallery-item">&#129703;</div>
+      <div class="gallery-item">&#127870;</div>
+      <div class="gallery-item">&#128134;</div>
+      <div class="gallery-item">&#9986;</div>
+      <div class="gallery-item">&#128133;</div>
+      <div class="gallery-item">&#129703;</div>
+    </div>
+  </section>
+
+  <section class="booking" id="booking">
+    <div class="section-label">Reserve Your Chair</div>
+    <div class="section-title" style="margin-bottom:48px;">Book Now</div>
+    <div class="booking-box">
+      <h3>Your Appointment</h3>
+      <p>Walk-ins welcome, but booking guarantees your spot with your preferred barber.</p>
+      <div class="form-row">
+        <input type="text" placeholder="Your Name"/>
+        <input type="tel" placeholder="Phone Number"/>
+      </div>
+      <div class="form-row">
+        <select>
+          <option value="" disabled selected>Choose Barber</option>
+          <option>Tony Russo</option>
+          <option>DJ Williams</option>
+          <option>Marco Bianchi</option>
+          <option>No Preference</option>
+        </select>
+        <select>
+          <option value="" disabled selected>Service</option>
+          <option>Classic Haircut — $35</option>
+          <option>Beard Trim — $25</option>
+          <option>Hot Towel Shave — $40</option>
+          <option>The Full Gentleman — $85</option>
+          <option>Kids Cut — $20</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input type="date"/>
+        <select>
+          <option value="" disabled selected>Time</option>
+          <option>9:00 AM</option><option>10:00 AM</option>
+          <option>11:00 AM</option><option>12:00 PM</option>
+          <option>1:00 PM</option><option>2:00 PM</option>
+          <option>3:00 PM</option><option>4:00 PM</option>
+          <option>5:00 PM</option><option>6:00 PM</option>
+        </select>
+      </div>
+      <button class="book-btn">Book Appointment</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <a href="#" class="logo">The Gentlemen's Cut</a>
+      <p>&copy; 2026 All rights reserved.</p>
+    </div>
+    <div class="footer-hours">
+      <p>
+        <strong>Hours</strong><br/>
+        Mon–Fri: 9am – 7pm<br/>
+        Sat: 8am – 5pm<br/>
+        Sun: Closed
+      </p>
+      <p style="margin-top:8px;">214 Main Street &middot; (555) 345-6789</p>
+    </div>
+  </footer>
+
+</body>
+</html>
