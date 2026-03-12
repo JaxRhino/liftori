@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sterling & Associates — Attorneys at Law</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #0A1628;
+      --navy2: #101E36;
+      --slate: #1B2A4A;
+      --gold: #B8965A;
+      --gold-light: #D4B27A;
+      --white: #FFFFFF;
+      --cream: #F0EDE8;
+      --gray: #7A8599;
+      --text: #C8D0DC;
+      --border: rgba(184, 150, 90, 0.12);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .template-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff; text-align: center; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+    }
+    .template-banner a { color: #fff; text-decoration: underline; font-weight: 700; margin-left: 8px; }
+
+    nav {
+      position: fixed; top: 38px; left: 0; right: 0; z-index: 100;
+      padding: 20px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,22,40,0.95); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'EB Garamond', serif;
+      font-size: 24px; font-weight: 600; color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--gray); font-weight: 400; font-size: 14px; margin-left: 8px; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--gray);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--navy) !important;
+      padding: 10px 24px; font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 160px 60px 100px; position: relative;
+      background: linear-gradient(180deg, var(--navy), var(--navy2));
+    }
+    .hero::before {
+      content: '';
+      position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
+      background: linear-gradient(135deg, rgba(184,150,90,0.04), transparent);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-badge {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-badge::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+    .hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 600; line-height: 1.15;
+      color: var(--white); margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 17px; color: var(--gray); max-width: 520px;
+      line-height: 1.8; margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      padding: 16px 36px; font-size: 13px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: none; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--gold); color: var(--gold);
+      padding: 15px 36px; font-size: 13px; font-weight: 500;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: transparent; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-outline:hover { background: rgba(184,150,90,0.1); }
+
+    /* TRUST BAR */
+    .trust-bar {
+      background: var(--navy2); border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      text-align: center; padding: 40px 60px;
+    }
+    .trust-item .trust-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 40px; font-weight: 600; color: var(--gold);
+    }
+    .trust-item .trust-label {
+      font-size: 12px; color: var(--gray); letter-spacing: 1px;
+      text-transform: uppercase; margin-top: 4px;
+    }
+
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600; color: var(--white); margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--gray); max-width: 520px;
+      margin-bottom: 48px; line-height: 1.8;
+    }
+
+    /* PRACTICE AREAS */
+    .practices { background: var(--navy); }
+    .practice-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .practice-card {
+      background: rgba(27, 42, 74, 0.4);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 36px 28px; transition: border-color 0.3s;
+    }
+    .practice-card:hover { border-color: var(--gold); }
+    .practice-icon { font-size: 32px; margin-bottom: 16px; }
+    .practice-card h4 {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px; color: var(--white); margin-bottom: 8px;
+    }
+    .practice-card p {
+      font-size: 14px; color: var(--gray); line-height: 1.7;
+    }
+
+    /* ATTORNEYS */
+    .attorneys { background: var(--navy2); }
+    .attorney-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .attorney-card {
+      border: 1px solid var(--border); overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .attorney-card:hover { border-color: var(--gold); }
+    .attorney-photo {
+      height: 280px;
+      background: linear-gradient(135deg, rgba(184,150,90,0.06), rgba(27,42,74,0.3));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 56px;
+    }
+    .attorney-info { padding: 24px; }
+    .attorney-info h4 {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px; color: var(--white);
+    }
+    .attorney-info .title {
+      font-size: 12px; color: var(--gold); letter-spacing: 1px;
+      text-transform: uppercase; margin: 4px 0 12px;
+    }
+    .attorney-info p {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* RESULTS */
+    .results { background: var(--navy); }
+    .results-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .result-card {
+      background: rgba(27, 42, 74, 0.3);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 32px; text-align: center;
+    }
+    .result-amount {
+      font-family: 'EB Garamond', serif;
+      font-size: 48px; font-weight: 700; color: var(--gold);
+      line-height: 1;
+    }
+    .result-type {
+      font-size: 11px; color: var(--gray); letter-spacing: 2px;
+      text-transform: uppercase; margin: 8px 0;
+    }
+    .result-desc {
+      font-size: 14px; color: var(--text); line-height: 1.6;
+    }
+
+    /* CONTACT */
+    .contact { background: var(--navy2); text-align: center; }
+    .contact-box {
+      max-width: 600px; margin: 48px auto 0;
+      background: rgba(10,22,40,0.5);
+      border: 1px solid var(--border); padding: 48px;
+    }
+    .contact-box h3 {
+      font-family: 'EB Garamond', serif;
+      font-size: 32px; color: var(--white); margin-bottom: 8px;
+    }
+    .contact-box > p { color: var(--gray); margin-bottom: 28px; font-size: 14px; }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-row input, .form-row select, .form-row textarea {
+      width: 100%; padding: 14px 16px;
+      background: rgba(10,22,40,0.8);
+      border: 1px solid var(--border);
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+      outline: none; transition: border-color 0.3s;
+    }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+      border-color: var(--gold);
+    }
+    .contact-btn {
+      width: 100%; margin-top: 12px;
+      background: var(--gold); color: var(--navy);
+      padding: 16px; border: none;
+      font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-btn:hover { background: var(--gold-light); }
+    .confidential {
+      font-size: 11px; color: var(--gray); margin-top: 12px;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background: var(--navy); border-top: 1px solid var(--border);
+      padding: 60px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand .logo { font-size: 20px; }
+    .footer-brand p { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--gray); transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer {
+      width: 100%; text-align: center; padding-top: 24px;
+      border-top: 1px solid var(--border); margin-top: 12px;
+      font-size: 11px; color: var(--gray); line-height: 1.8;
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .hero { padding: 140px 24px 80px; }
+      .trust-bar { grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .trust-bar { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="template-banner">
+    This is a sample template built by Liftori.
+    <a href="https://www.liftori.ai">Get yours at liftori.ai</a>
+  </div>
+
+  <nav>
+    <a href="#" class="logo">Sterling<span>& Associates</span></a>
+    <div class="nav-links">
+      <a href="#practices">Practice Areas</a>
+      <a href="#attorneys">Attorneys</a>
+      <a href="#results">Results</a>
+      <a href="#contact" class="nav-cta">Free Consultation</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Attorneys at Law</div>
+      <h1>Trusted Counsel for Life's Most Critical Moments</h1>
+      <p>When the stakes are high, you need attorneys who fight relentlessly and advise with integrity. Sterling & Associates has protected clients for over 25 years.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-gold">Free Consultation</a>
+        <a href="#practices" class="btn-outline">Our Practice Areas</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust-bar">
+    <div class="trust-item">
+      <div class="trust-num">25+</div>
+      <div class="trust-label">Years of Practice</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">5,000+</div>
+      <div class="trust-label">Cases Handled</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">$200M+</div>
+      <div class="trust-label">Recovered</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">98%</div>
+      <div class="trust-label">Client Satisfaction</div>
+    </div>
+  </div>
+
+  <section class="practices" id="practices">
+    <div class="section-label">Areas of Expertise</div>
+    <div class="section-title">Practice Areas</div>
+    <div class="section-sub">Comprehensive legal services across multiple disciplines, with specialized teams for each area of law.</div>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <div class="practice-icon">&#9878;</div>
+        <h4>Personal Injury</h4>
+        <p>Auto accidents, medical malpractice, workplace injuries, and premises liability. We fight for maximum compensation.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#127970;</div>
+        <h4>Business Law</h4>
+        <p>Formation, contracts, mergers & acquisitions, partnership disputes, and intellectual property protection.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#128106;</div>
+        <h4>Family Law</h4>
+        <p>Divorce, child custody, adoption, prenuptial agreements, and domestic relations matters handled with care.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#127968;</div>
+        <h4>Real Estate</h4>
+        <p>Commercial and residential transactions, zoning issues, landlord-tenant disputes, and property litigation.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#128188;</div>
+        <h4>Employment Law</h4>
+        <p>Wrongful termination, discrimination, harassment claims, and employment contract negotiations.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#128221;</div>
+        <h4>Estate Planning</h4>
+        <p>Wills, trusts, probate, asset protection, and comprehensive estate plans for peace of mind.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="attorneys" id="attorneys">
+    <div class="section-label">Our Team</div>
+    <div class="section-title">Meet Our Attorneys</div>
+    <div class="section-sub">Award-winning attorneys with deep expertise and a track record of results.</div>
+    <div class="attorney-grid">
+      <div class="attorney-card">
+        <div class="attorney-photo">&#128100;</div>
+        <div class="attorney-info">
+          <h4>Richard Sterling</h4>
+          <div class="title">Managing Partner</div>
+          <p>Harvard Law. 28 years of trial experience. Named Super Lawyer 15 consecutive years. Leads our personal injury and business litigation practices.</p>
+        </div>
+      </div>
+      <div class="attorney-card">
+        <div class="attorney-photo">&#128100;</div>
+        <div class="attorney-info">
+          <h4>Catherine Moore</h4>
+          <div class="title">Senior Partner</div>
+          <p>Yale Law. Expert in family law and estate planning. Known for her compassionate approach to sensitive cases.</p>
+        </div>
+      </div>
+      <div class="attorney-card">
+        <div class="attorney-photo">&#128100;</div>
+        <div class="attorney-info">
+          <h4>David Park</h4>
+          <div class="title">Partner</div>
+          <p>Columbia Law. Business and corporate law specialist. Represents startups through Fortune 500 companies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="section-label">Track Record</div>
+    <div class="section-title" style="text-align:center;">Notable Verdicts & Settlements</div>
+    <div class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto;">
+      A selection of results from our firm. Past results do not guarantee future outcomes.
+    </div>
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-amount">$12.5M</div>
+        <div class="result-type">Medical Malpractice</div>
+        <div class="result-desc">Surgical error resulting in permanent injury. Jury verdict after 3-week trial.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-amount">$8.2M</div>
+        <div class="result-type">Auto Accident</div>
+        <div class="result-desc">Multi-vehicle collision caused by commercial truck driver negligence.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-amount">$5.1M</div>
+        <div class="result-type">Business Dispute</div>
+        <div class="result-desc">Partnership breach and intellectual property theft. Settled prior to trial.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-amount">$3.4M</div>
+        <div class="result-type">Employment</div>
+        <div class="result-desc">Class-action wrongful termination and wage theft. 47 employees represented.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="section-label">Get in Touch</div>
+    <div class="section-title">Free Consultation</div>
+    <div class="contact-box">
+      <h3>Tell Us About Your Case</h3>
+      <p>All consultations are free and confidential. We'll respond within 24 hours.</p>
+      <div class="form-row">
+        <input type="text" placeholder="Full Name"/>
+        <input type="tel" placeholder="Phone Number"/>
+      </div>
+      <div class="form-row">
+        <input type="email" placeholder="Email Address"/>
+        <select>
+          <option value="" disabled selected>Practice Area</option>
+          <option>Personal Injury</option>
+          <option>Business Law</option>
+          <option>Family Law</option>
+          <option>Real Estate</option>
+          <option>Employment Law</option>
+          <option>Estate Planning</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-row full">
+        <textarea placeholder="Briefly describe your legal matter..."></textarea>
+      </div>
+      <button class="contact-btn">Request Free Consultation</button>
+      <div class="confidential">&#128274; All information is kept strictly confidential</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <a href="#" class="logo">Sterling<span>& Associates</span></a>
+      <p>&copy; 2026 Sterling & Associates, LLP</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Practice Areas</a>
+      <a href="#">Attorneys</a>
+      <a href="#">Results</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-disclaimer">
+      This website is for informational purposes only and does not constitute legal advice. Results depend on the facts of each case. Prior results do not guarantee a similar outcome.
+    </div>
+  </footer>
+
+</body>
+</html>
