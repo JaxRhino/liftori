@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NovaPulse — AI Analytics Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #09090B;
+      --card: #18181B;
+      --card2: #1E1E22;
+      --violet: #8B5CF6;
+      --violet-dark: #7C3AED;
+      --cyan: #06B6D4;
+      --pink: #EC4899;
+      --green: #22C55E;
+      --white: #FAFAFA;
+      --gray: #71717A;
+      --text: #A1A1AA;
+      --border: rgba(139, 92, 246, 0.1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .template-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff; text-align: center; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+    }
+    .template-banner a { color: #fff; text-decoration: underline; font-weight: 700; margin-left: 8px; }
+
+    nav {
+      position: fixed; top: 38px; left: 0; right: 0; z-index: 100;
+      padding: 16px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(9,9,11,0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 22px; font-weight: 700; color: var(--white);
+      letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;
+    }
+    .logo-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--violet);
+      box-shadow: 0 0 12px var(--violet);
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      font-size: 14px; font-weight: 400; color: var(--gray);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--violet); color: var(--white) !important;
+      padding: 10px 24px; border-radius: 8px; font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--violet-dark); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center;
+      padding: 160px 40px 100px;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, rgba(6,182,212,0.05) 40%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
+      color: var(--violet); padding: 8px 18px; border-radius: 24px;
+      font-size: 13px; font-weight: 500; margin-bottom: 28px;
+    }
+    .hero-badge .pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+    }
+    .hero h1 {
+      font-size: clamp(44px, 7vw, 76px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -2px; color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 18px; color: var(--gray); max-width: 540px;
+      margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-violet {
+      background: var(--violet); color: var(--white);
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-violet:hover { background: var(--violet-dark); transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.15); color: var(--white);
+      padding: 13px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 500;
+      background: transparent; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.3); }
+
+    /* LOGOS */
+    .logos {
+      padding: 40px 60px; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .logos-label {
+      font-size: 12px; color: var(--gray); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .logos-row {
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      align-items: center;
+    }
+    .company-logo {
+      font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.15);
+      letter-spacing: -0.5px;
+    }
+
+    section { padding: 100px 60px; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--violet); margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700; letter-spacing: -1px;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--gray); max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    /* FEATURES */
+    .features { background: var(--bg); }
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 48px;
+    }
+    .feature-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 36px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .feature-card:hover { border-color: var(--violet); transform: translateY(-4px); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 20px;
+    }
+    .feature-icon.v { background: rgba(139,92,246,0.15); }
+    .feature-icon.c { background: rgba(6,182,212,0.15); }
+    .feature-icon.p { background: rgba(236,72,153,0.15); }
+    .feature-icon.g { background: rgba(34,197,94,0.15); }
+    .feature-card h4 {
+      font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 14px; color: var(--gray); line-height: 1.7;
+    }
+
+    /* HOW IT WORKS */
+    .how-section { background: var(--card); }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 48px; margin-top: 48px;
+    }
+    .step-item { text-align: center; }
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 48px; font-weight: 300; color: var(--violet);
+      line-height: 1; margin-bottom: 16px;
+    }
+    .step-item h4 {
+      font-size: 18px; font-weight: 600; color: var(--white);
+      margin-bottom: 8px;
+    }
+    .step-item p {
+      font-size: 14px; color: var(--gray); line-height: 1.7;
+    }
+
+    /* PRICING */
+    .pricing { background: var(--bg); text-align: center; }
+    .price-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1000px; margin: 48px auto 0;
+    }
+    .price-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px 28px; text-align: left;
+      transition: border-color 0.3s;
+    }
+    .price-card.featured { border-color: var(--violet); position: relative; }
+    .price-card.featured::before {
+      content: 'POPULAR';
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--violet); color: white;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      padding: 4px 16px; border-radius: 12px;
+    }
+    .price-card .plan-name {
+      font-size: 14px; color: var(--gray); font-weight: 500;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .price-amount {
+      font-size: 48px; font-weight: 700; color: var(--white);
+      line-height: 1;
+    }
+    .price-amount span { font-size: 16px; color: var(--gray); font-weight: 400; }
+    .price-desc {
+      font-size: 14px; color: var(--gray); margin: 12px 0 24px;
+    }
+    .price-features {
+      list-style: none; margin-bottom: 24px;
+    }
+    .price-features li {
+      font-size: 14px; color: var(--text); padding: 8px 0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .price-features li::before {
+      content: '\2713'; color: var(--violet); font-weight: 700; font-size: 14px;
+    }
+    .price-cta {
+      display: block; width: 100%; text-align: center;
+      padding: 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.3s;
+    }
+    .price-cta.primary { background: var(--violet); color: white; }
+    .price-cta.primary:hover { background: var(--violet-dark); }
+    .price-cta.secondary {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .price-cta.secondary:hover { background: rgba(255,255,255,0.05); }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1));
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      text-align: center; padding: 100px 60px;
+    }
+    .cta-section h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700; letter-spacing: -1px;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 17px; color: var(--gray); max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 48px 60px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand .logo { font-size: 18px; }
+    .footer-brand p { font-size: 12px; color: var(--gray); margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--gray); transition: color 0.3s; }
+    .footer-links a:hover { color: var(--violet); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .price-grid { grid-template-columns: 1fr; max-width: 400px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="template-banner">
+    This is a sample template built by Liftori.
+    <a href="https://www.liftori.ai">Get yours at liftori.ai</a>
+  </div>
+
+  <nav>
+    <a href="#" class="logo"><span class="logo-dot"></span> NovaPulse</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#" class="nav-cta">Start Free Trial</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="pulse"></span> Now in public beta</div>
+      <h1>Analytics that <span class="gradient">think ahead</span></h1>
+      <p>NovaPulse uses AI to surface the insights that matter — before you even know to look for them. Real-time analytics for modern teams.</p>
+      <div class="hero-btns">
+        <button class="btn-violet">Start Free Trial</button>
+        <button class="btn-ghost">Watch Demo</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="logos">
+    <div class="logos-label">Trusted by forward-thinking teams</div>
+    <div class="logos-row">
+      <span class="company-logo">Stripe</span>
+      <span class="company-logo">Notion</span>
+      <span class="company-logo">Vercel</span>
+      <span class="company-logo">Linear</span>
+      <span class="company-logo">Supabase</span>
+      <span class="company-logo">Railway</span>
+    </div>
+  </div>
+
+  <section class="features" id="features">
+    <div class="section-label">// features</div>
+    <div class="section-title">Everything you need to understand your data</div>
+    <div class="section-sub">Powerful analytics tools built for speed, clarity, and collaboration.</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon v">&#128202;</div>
+        <h4>Real-Time Dashboards</h4>
+        <p>Live data streams updating in real-time. Custom dashboards that tell the story your team needs to hear.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon c">&#129302;</div>
+        <h4>AI-Powered Insights</h4>
+        <p>Our AI continuously monitors your data and surfaces anomalies, trends, and opportunities automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon p">&#128269;</div>
+        <h4>Natural Language Queries</h4>
+        <p>Ask questions in plain English. NovaPulse translates them into complex queries and returns visualized answers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon g">&#128640;</div>
+        <h4>One-Click Integrations</h4>
+        <p>Connect your stack in minutes. Postgres, MySQL, BigQuery, Snowflake, APIs, and 50+ more sources.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon v">&#128101;</div>
+        <h4>Team Collaboration</h4>
+        <p>Share dashboards, annotate findings, and build a shared knowledge base your whole team can access.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon c">&#128274;</div>
+        <h4>Enterprise Security</h4>
+        <p>SOC 2 Type II certified. End-to-end encryption, SSO, role-based access, and audit logging.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section" id="how">
+    <div class="section-label">// how it works</div>
+    <div class="section-title" style="text-align:center;">Up and running in minutes</div>
+    <div class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto;">
+      Three simple steps to transform how your team understands data.
+    </div>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <h4>Connect Your Data</h4>
+        <p>Link your databases, APIs, and SaaS tools with our one-click connectors. No engineering required.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <h4>Ask Questions</h4>
+        <p>Type what you want to know in plain English. Our AI builds the query and visualizes the answer instantly.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <h4>Get AI Insights</h4>
+        <p>Receive proactive alerts when our AI detects trends, anomalies, or opportunities in your data.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="section-label">// pricing</div>
+    <div class="section-title">Simple, transparent pricing</div>
+    <div class="section-sub" style="margin-left:auto;margin-right:auto;text-align:center;">
+      Start free. Scale when you're ready. No surprises.
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="plan-name">Starter</div>
+        <div class="price-amount">$0<span>/mo</span></div>
+        <div class="price-desc">For individuals and small projects</div>
+        <ul class="price-features">
+          <li>3 data sources</li>
+          <li>5 dashboards</li>
+          <li>100 AI queries/month</li>
+          <li>7-day data retention</li>
+          <li>Community support</li>
+        </ul>
+        <button class="price-cta secondary">Get Started Free</button>
+      </div>
+      <div class="price-card featured">
+        <div class="plan-name">Pro</div>
+        <div class="price-amount">$49<span>/mo</span></div>
+        <div class="price-desc">For growing teams</div>
+        <ul class="price-features">
+          <li>Unlimited data sources</li>
+          <li>Unlimited dashboards</li>
+          <li>Unlimited AI queries</li>
+          <li>90-day data retention</li>
+          <li>Priority support</li>
+          <li>Team collaboration (5 seats)</li>
+        </ul>
+        <button class="price-cta primary">Start Free Trial</button>
+      </div>
+      <div class="price-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-desc">For large organizations</div>
+        <ul class="price-features">
+          <li>Everything in Pro</li>
+          <li>Unlimited seats</li>
+          <li>Unlimited data retention</li>
+          <li>SSO & SAML</li>
+          <li>Dedicated account manager</li>
+          <li>Custom SLA</li>
+        </ul>
+        <button class="price-cta secondary">Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to see what's hiding in your data?</h2>
+    <p>Join 2,000+ teams already using NovaPulse to make smarter, faster decisions.</p>
+    <button class="btn-violet" style="padding:16px 48px;font-size:16px;">Start Your Free Trial</button>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <a href="#" class="logo"><span class="logo-dot"></span> NovaPulse</a>
+      <p>&copy; 2026 NovaPulse, Inc. All rights reserved.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Features</a>
+      <a href="#">Pricing</a>
+      <a href="#">Docs</a>
+      <a href="#">Blog</a>
+      <a href="#">Twitter</a>
+      <a href="#">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>
