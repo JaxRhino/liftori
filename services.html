@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services â Liftori</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #060B18;
+      --navy2: #0B1428;
+      --blue-deep: #1240C4;
+      --blue-mid: #0EA5E9;
+      --blue-light: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --text: #C8DFF0;
+      --muted: #4A6A8A;
+      --border: rgba(30, 80, 160, 0.25);
+      --green: #22C55E;
+      --orange: #F59E0B;
+      --purple: #A855F7;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ââ NAV ââ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(6, 11, 24, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; letter-spacing: 6px; color: var(--blue-light);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--text); text-decoration: none; font-size: 13px;
+      letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--blue-mid); }
+    .nav-cta {
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff !important; padding: 10px 24px; border-radius: 8px;
+      font-weight: 500; letter-spacing: 1px !important;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* ââ HERO ââ */
+    .services-hero {
+      padding: 160px 60px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .services-hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .services-hero .badge {
+      display: inline-block;
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      padding: 8px 24px; border-radius: 50px;
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-mid); margin-bottom: 32px;
+    }
+    .services-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 0.95; letter-spacing: 2px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #7DD3FC 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 24px;
+    }
+    .services-hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted); max-width: 600px; margin: 0 auto;
+    }
+
+    /* ââ SECTION SHARED ââ */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--blue-mid); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: 2px; color: #fff; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--muted); max-width: 600px; margin-bottom: 48px;
+    }
+    .section-sub.centered { margin-left: auto; margin-right: auto; text-align: center; }
+
+    /* ââ SERVICE CATEGORY CARDS ââ */
+    .service-categories {
+      background: var(--navy2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px; margin-top: 48px;
+    }
+    .cat-card {
+      background: rgba(11, 20, 40, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .cat-card:hover {
+      border-color: var(--blue-mid);
+      transform: translateY(-4px);
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue-mid), var(--blue-deep));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .cat-card:hover::before { opacity: 1; }
+    .cat-icon {
+      width: 56px; height: 56px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 20px;
+    }
+    .cat-icon.web { background: rgba(14, 165, 233, 0.15); }
+    .cat-icon.product { background: rgba(34, 197, 94, 0.15); }
+    .cat-icon.app { background: rgba(168, 85, 247, 0.15); }
+    .cat-icon.promo { background: rgba(245, 158, 11, 0.15); }
+    .cat-icon.ai { background: rgba(236, 72, 153, 0.15); }
+    .cat-icon.auto { background: rgba(99, 102, 241, 0.15); }
+    .cat-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 1px; color: #fff;
+      margin-bottom: 8px;
+    }
+    .cat-card .price-tag {
+      font-family: 'DM Mono', monospace; font-size: 14px;
+      color: var(--green); margin-bottom: 16px;
+    }
+    .cat-card p.desc {
+      font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.7;
+    }
+    .feature-list {
+      list-style: none; padding: 0; margin: 0 0 24px;
+    }
+    .feature-list li {
+      font-size: 13px; color: var(--text); padding: 6px 0;
+      border-bottom: 1px solid rgba(30, 80, 160, 0.1);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .feature-list li::before {
+      content: '\2713'; color: var(--blue-mid); font-weight: bold; font-size: 14px;
+    }
+    .cat-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff; padding: 12px 28px; border-radius: 8px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase; text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    .cat-cta:hover { opacity: 0.85; }
+
+    /* ââ DEALS SECTION ââ */
+    .deals-section {
+      background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%);
+      text-align: center;
+    }
+    .deals-banner {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(168, 85, 247, 0.12));
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      border-radius: 20px; padding: 48px; max-width: 800px; margin: 0 auto 48px;
+    }
+    .deals-banner h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px; color: #fff; margin-bottom: 12px;
+    }
+    .deals-banner p {
+      font-size: 16px; color: var(--text); margin-bottom: 24px;
+    }
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; max-width: 900px; margin: 0 auto;
+    }
+    .deal-card {
+      background: rgba(6, 11, 24, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px 24px; text-align: center;
+    }
+    .deal-card .deal-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px; color: var(--green); line-height: 1;
+    }
+    .deal-card .deal-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); margin: 8px 0 12px;
+    }
+    .deal-card .deal-includes {
+      font-size: 13px; color: var(--text); line-height: 1.8;
+    }
+
+    /* ââ PRODUCT SHOWCASE ââ */
+    .products-section { background: var(--navy2); border-top: 1px solid var(--border); }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .product-card {
+      background: rgba(6, 11, 24, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .product-card:hover { border-color: var(--blue-mid); transform: translateY(-4px); }
+    .product-thumb {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(18, 64, 196, 0.06));
+      font-size: 48px; position: relative;
+    }
+    .product-thumb .coming-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--orange); font-size: 10px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .product-info { padding: 20px 24px 24px; }
+    .product-info h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 1px; color: #fff; margin-bottom: 6px;
+    }
+    .product-info .product-price {
+      font-family: 'DM Mono', monospace; font-size: 14px;
+      color: var(--green); margin-bottom: 8px;
+    }
+    .product-info p {
+      font-size: 13px; color: var(--muted); line-height: 1.6;
+    }
+
+    /* ââ LIST YOUR PRODUCT ââ */
+    .list-section {
+      text-align: center;
+      background: linear-gradient(180deg, var(--navy2), var(--navy));
+      border-top: 1px solid var(--border);
+    }
+    .list-box {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(168, 85, 247, 0.08));
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 60px 48px; max-width: 700px; margin: 0 auto;
+    }
+    .list-box h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px; color: #fff; margin-bottom: 12px;
+    }
+    .list-box p {
+      font-size: 16px; color: var(--text); margin-bottom: 28px; line-height: 1.7;
+    }
+    .list-box a.cat-cta { font-size: 14px; padding: 14px 36px; }
+
+    /* ââ FOOTER ââ */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+      padding: 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand .logo { font-size: 24px; }
+    .footer-brand p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--blue-mid); }
+    .footer-contact { text-align: right; }
+    .footer-contact a {
+      color: var(--blue-mid); text-decoration: none; font-size: 14px;
+    }
+
+    /* ââ RESPONSIVE ââ */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .services-hero { padding: 140px 24px 80px; }
+      .cat-grid { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+      .deals-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-contact { text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .product-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">LIFTORI</a>
+    <div class="nav-links">
+      <a href="index.html#how">How It Works</a>
+      <a href="services.html" style="color: var(--blue-mid);">Services</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#reserve" class="nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="services-hero">
+    <div class="badge">Everything We Build</div>
+    <h1>SERVICES &<br/>PRODUCTS</h1>
+    <p>From a simple landing page to a full AI-powered platform â we design it, build it, launch it, and keep it running.</p>
+  </section>
+
+  <!-- SERVICE CATEGORIES -->
+  <section class="service-categories" id="services">
+    <div class="section-label">What We Offer</div>
+    <div class="section-title">BUILD ANYTHING</div>
+    <div class="section-sub">Every service includes design, development, hosting, and ongoing maintenance. No hidden fees. No tech skills needed.</div>
+
+    <div class="cat-grid">
+
+      <!-- WEBSITES -->
+      <div class="cat-card">
+        <div class="cat-icon web">&#127760;</div>
+        <h3>WEBSITES</h3>
+        <div class="price-tag">Design + Host + Maintain</div>
+        <p class="desc">Professional websites built to convert. We handle everything from design to deployment to ongoing updates.</p>
+        <ul class="feature-list">
+          <li>Custom responsive design</li>
+          <li>Domain setup & SSL</li>
+          <li>Hosting included</li>
+          <li>SEO optimization</li>
+          <li>Contact forms & lead capture</li>
+          <li>Analytics dashboard</li>
+          <li>Ongoing maintenance & updates</li>
+          <li>Content management</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+      <!-- DIGITAL PRODUCTS -->
+      <div class="cat-card">
+        <div class="cat-icon product">&#128230;</div>
+        <h3>DIGITAL PRODUCTS</h3>
+        <div class="price-tag">Starting at $99</div>
+        <p class="desc">Launch digital products fast â templates, tools, downloads, SaaS starters. Built to sell from day one.</p>
+        <ul class="feature-list">
+          <li>Product design & branding</li>
+          <li>Payment integration</li>
+          <li>Digital delivery system</li>
+          <li>Landing page included</li>
+          <li>Email automation setup</li>
+          <li>Customer support portal</li>
+          <li>License management</li>
+          <li>Update & version control</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+      <!-- APPS -->
+      <div class="cat-card">
+        <div class="cat-icon app">&#128241;</div>
+        <h3>APPS & PLATFORMS</h3>
+        <div class="price-tag">Web + Mobile + Desktop</div>
+        <p class="desc">Full-stack applications built for scale. From MVPs to enterprise platforms â we build it all.</p>
+        <ul class="feature-list">
+          <li>Web applications (PWA)</li>
+          <li>Mobile apps (iOS & Android)</li>
+          <li>User authentication & accounts</li>
+          <li>Database & API architecture</li>
+          <li>Real-time features</li>
+          <li>Push notifications</li>
+          <li>Admin dashboard included</li>
+          <li>Scalable cloud hosting</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+      <!-- PROMOTION -->
+      <div class="cat-card">
+        <div class="cat-icon promo">&#128227;</div>
+        <h3>PROMOTION</h3>
+        <div class="price-tag">Get Seen. Get Customers.</div>
+        <p class="desc">Marketing that actually works. We build the funnels, run the campaigns, and drive real traffic to your product.</p>
+        <ul class="feature-list">
+          <li>Social media marketing</li>
+          <li>Paid ad campaigns (Meta, Google)</li>
+          <li>Email marketing funnels</li>
+          <li>Content creation</li>
+          <li>Brand identity & design</li>
+          <li>SEO & organic growth</li>
+          <li>Influencer outreach</li>
+          <li>Analytics & reporting</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+      <!-- AI AGENTS -->
+      <div class="cat-card">
+        <div class="cat-icon ai">&#129302;</div>
+        <h3>AI AGENTS & CHATBOTS</h3>
+        <div class="price-tag">Custom-Trained AI</div>
+        <p class="desc">AI that works for your business 24/7. Customer support bots, sales agents, internal assistants â trained on your data.</p>
+        <ul class="feature-list">
+          <li>Custom-trained on your business</li>
+          <li>Customer support automation</li>
+          <li>Lead qualification bots</li>
+          <li>Internal knowledge assistants</li>
+          <li>Multi-channel deployment</li>
+          <li>Conversation analytics</li>
+          <li>Human handoff workflows</li>
+          <li>Continuous learning & updates</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+      <!-- AUTOMATION -->
+      <div class="cat-card">
+        <div class="cat-icon auto">&#9889;</div>
+        <h3>AUTOMATION</h3>
+        <div class="price-tag">Connect Everything</div>
+        <p class="desc">Stop doing repetitive work. We build custom automation workflows that connect your tools and run your processes.</p>
+        <ul class="feature-list">
+          <li>Workflow automation</li>
+          <li>API integrations</li>
+          <li>CRM & pipeline automation</li>
+          <li>Invoice & billing automation</li>
+          <li>Data sync between tools</li>
+          <li>Scheduled tasks & reports</li>
+          <li>Custom dashboards</li>
+          <li>E-commerce store setup</li>
+        </ul>
+        <a href="index.html#reserve" class="cat-cta">Get Started</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DEALS FOR INDIVIDUALS -->
+  <section class="deals-section" id="deals">
+    <div class="section-label">For Everyone</div>
+    <div class="section-title" style="text-align:center;">STARTER DEALS</div>
+    <div class="section-sub centered">You don't need a big budget to get started. These packages are designed for individuals, creators, and small teams who want professional results at real-people prices.</div>
+
+    <div class="deals-banner">
+      <h3>NO TECH SKILLS REQUIRED</h3>
+      <p>Tell us what you want â we handle the rest. Every deal includes design, setup, hosting, and 30 days of support.</p>
+    </div>
+
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-price">$99</div>
+        <div class="deal-label">Personal Website</div>
+        <div class="deal-includes">
+          Custom design<br/>
+          Mobile responsive<br/>
+          Domain + hosting setup<br/>
+          Contact form<br/>
+          30 days free support
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-price">$149</div>
+        <div class="deal-label">Digital Product Launch</div>
+        <div class="deal-includes">
+          Product landing page<br/>
+          Payment integration<br/>
+          Digital delivery<br/>
+          Email capture<br/>
+          30 days free support
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-price">$249</div>
+        <div class="deal-label">Business Starter Pack</div>
+        <div class="deal-includes">
+          Business website (5 pages)<br/>
+          Logo & brand kit<br/>
+          Google Business setup<br/>
+          Social media profiles<br/>
+          60 days free support
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREBUILT PRODUCTS -->
+  <section class="products-section" id="products">
+    <div class="section-label">Marketplace</div>
+    <div class="section-title">READY-MADE PRODUCTS</div>
+    <div class="section-sub">Pre-built apps and tools ready to customize and launch. Buy it today, go live this week.</div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128187;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>BOOKING SYSTEM</h4>
+          <div class="product-price">From $299</div>
+          <p>Appointment scheduling with calendar sync, reminders, and payment collection.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#129302;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>AI CUSTOMER SUPPORT BOT</h4>
+          <div class="product-price">From $199</div>
+          <p>Plug-and-play AI chatbot trained on your FAQ. Handles 80% of support tickets.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128202;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>ANALYTICS DASHBOARD</h4>
+          <div class="product-price">From $249</div>
+          <p>Real-time business metrics. Track sales, traffic, engagement â all in one place.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128722;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>E-COMMERCE STORE</h4>
+          <div class="product-price">From $399</div>
+          <p>Full online store with product pages, cart, checkout, and inventory management.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128218;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>LEARNING PLATFORM</h4>
+          <div class="product-price">From $349</div>
+          <p>Course hosting with video lessons, quizzes, certificates, and student progress tracking.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128200;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>CRM SYSTEM</h4>
+          <div class="product-price">From $349</div>
+          <p>Manage leads, deals, and customers. Pipeline tracking with automated follow-ups.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128172;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>SOCIAL MEDIA TOOL</h4>
+          <div class="product-price">From $199</div>
+          <p>Schedule posts, track engagement, manage multiple accounts from one dashboard.</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb">
+          &#128176;
+          <span class="coming-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <h4>INVOICING SYSTEM</h4>
+          <div class="product-price">From $149</div>
+          <p>Send invoices, track payments, automate reminders. Get paid faster.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIST YOUR PRODUCT -->
+  <section class="list-section" id="sell">
+    <div class="list-box">
+      <h3>SELL WITH LIFTORI</h3>
+      <p>Have an app, template, or digital product? List it on our marketplace and reach thousands of buyers. We handle the storefront, payments, and delivery.</p>
+      <a href="mailto:Sales@Liftori.Ai" class="cat-cta">Contact Sales</a>
+      <p style="margin-top: 20px; font-size: 13px; color: var(--muted);">
+        Or email us directly: <a href="mailto:Sales@Liftori.Ai" style="color: var(--blue-mid); text-decoration: none;">Sales@Liftori.Ai</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <a href="index.html" class="logo">LIFTORI</a>
+      <p>&copy; 2025 Liftori. All rights reserved.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="#" onclick="return false;">Privacy</a>
+      <a href="#" onclick="return false;">Terms</a>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:Sales@Liftori.Ai">Sales@Liftori.Ai</a>
+    </div>
+  </footer>
+
+</body>
+</html>
