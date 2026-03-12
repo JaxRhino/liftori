@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morning Ritual — Specialty Coffee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --espresso: #2C1810;
+      --brown: #3D261A;
+      --latte: #D4A574;
+      --latte-light: #E8C9A0;
+      --cream: #FAF6F1;
+      --sage: #8B9A6B;
+      --white: #FFFFFF;
+      --gray: #8B7D73;
+      --text: #F0E6DC;
+      --border: rgba(212, 165, 116, 0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--espresso);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .template-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #0EA5E9, #1240C4);
+      color: #fff; text-align: center; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+    }
+    .template-banner a { color: #fff; text-decoration: underline; font-weight: 700; margin-left: 8px; }
+
+    nav {
+      position: fixed; top: 38px; left: 0; right: 0; z-index: 100;
+      padding: 20px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(44,24,16,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 24px; font-weight: 600; color: var(--latte);
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--gray);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--latte); }
+    .nav-cta {
+      background: var(--latte); color: var(--espresso) !important;
+      padding: 10px 24px; border-radius: 24px; font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--latte-light); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center;
+      padding: 160px 40px 100px;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(212,165,116,0.08) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-icon { font-size: 48px; margin-bottom: 24px; }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(44px, 7vw, 80px);
+      font-weight: 600; line-height: 1.1;
+      color: var(--cream); margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: italic; color: var(--latte); }
+    .hero p {
+      font-size: 17px; color: var(--gray); max-width: 500px;
+      margin: 0 auto 36px; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-warm {
+      background: var(--latte); color: var(--espresso);
+      padding: 14px 36px; border-radius: 24px;
+      font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-warm:hover { background: var(--latte-light); transform: translateY(-2px); }
+    .btn-warm-outline {
+      border: 1.5px solid var(--latte); color: var(--latte);
+      padding: 13px 36px; border-radius: 24px;
+      font-size: 14px; font-weight: 500;
+      background: transparent; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-warm-outline:hover { background: rgba(212,165,116,0.1); }
+
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--latte); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 600; color: var(--cream); margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--gray); max-width: 520px;
+      margin-bottom: 48px; line-height: 1.8;
+    }
+
+    /* MENU */
+    .menu-section { background: var(--brown); }
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px; margin-top: 48px;
+    }
+    .menu-category h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 28px; color: var(--latte); margin-bottom: 20px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 0;
+      border-bottom: 1px dotted rgba(212,165,116,0.1);
+    }
+    .menu-item-name { font-size: 15px; color: var(--cream); font-weight: 500; }
+    .menu-item-desc { font-size: 12px; color: var(--gray); margin-top: 2px; }
+    .menu-item-price { font-size: 15px; color: var(--latte); font-weight: 600; white-space: nowrap; margin-left: 16px; }
+
+    /* ABOUT */
+    .about { background: var(--espresso); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; margin-top: 48px;
+    }
+    .about-img {
+      height: 450px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(212,165,116,0.12), rgba(139,154,107,0.1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 80px;
+    }
+    .about-text h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 32px; color: var(--cream); margin-bottom: 16px;
+    }
+    .about-text p {
+      color: var(--gray); line-height: 1.8; margin-bottom: 12px; font-size: 15px;
+    }
+    .about-values {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px;
+    }
+    .value-item {
+      padding: 16px;
+      background: rgba(61,38,26,0.5);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    .value-item .emoji { font-size: 24px; margin-bottom: 8px; }
+    .value-item h5 { font-size: 14px; color: var(--cream); margin-bottom: 4px; }
+    .value-item p { font-size: 12px; color: var(--gray); line-height: 1.5; margin: 0; }
+
+    /* LOCATION */
+    .location { background: var(--brown); text-align: center; }
+    .location-card {
+      max-width: 600px; margin: 48px auto 0;
+      background: rgba(44,24,16,0.5);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 48px;
+    }
+    .location-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 28px; color: var(--cream); margin-bottom: 16px;
+    }
+    .location-card p {
+      font-size: 15px; color: var(--gray); line-height: 1.8;
+    }
+    .location-card .hours {
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .location-card .hours strong { color: var(--latte); }
+    .location-card .btn-warm { margin-top: 24px; }
+
+    /* NEWSLETTER */
+    .newsletter {
+      background: linear-gradient(135deg, rgba(212,165,116,0.1), rgba(139,154,107,0.1));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center; padding: 80px 60px;
+    }
+    .newsletter h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 32px; color: var(--cream); margin-bottom: 8px;
+    }
+    .newsletter p {
+      color: var(--gray); margin-bottom: 24px;
+    }
+    .newsletter-form {
+      display: flex; gap: 12px; max-width: 450px; margin: 0 auto;
+    }
+    .newsletter-form input {
+      flex: 1; padding: 14px 20px;
+      background: rgba(44,24,16,0.8);
+      border: 1px solid var(--border); border-radius: 24px;
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+      outline: none;
+    }
+    .newsletter-form input:focus { border-color: var(--latte); }
+    .newsletter-form input::placeholder { color: var(--gray); }
+
+    footer {
+      background: var(--espresso); border-top: 1px solid var(--border);
+      padding: 60px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand .logo { font-size: 20px; }
+    .footer-brand p { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--gray); transition: color 0.3s; }
+    .footer-links a:hover { color: var(--latte); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .newsletter { padding: 60px 24px; }
+      .newsletter-form { flex-direction: column; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="template-banner">
+    This is a sample template built by Liftori.
+    <a href="https://www.liftori.ai">Get yours at liftori.ai</a>
+  </div>
+
+  <nav>
+    <a href="#" class="logo">Morning Ritual</a>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#about">Our Story</a>
+      <a href="#location">Visit Us</a>
+      <a href="#location" class="nav-cta">Order Ahead</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">&#9749;</div>
+      <h1>Coffee Worth <em>Waking Up</em> For</h1>
+      <p>Single-origin, ethically sourced, roasted in small batches right here in our shop. Your morning ritual starts here.</p>
+      <div class="hero-btns">
+        <button class="btn-warm">View Our Menu</button>
+        <button class="btn-warm-outline">Order Online</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="menu">
+    <div class="section-label">What We Pour</div>
+    <div class="section-title">The Menu</div>
+    <div class="section-sub">Every drink made to order with beans roasted this week. Ask your barista about today's single-origin pour-over.</div>
+    <div class="menu-grid">
+      <div class="menu-category">
+        <h3>Espresso</h3>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Espresso</div><div class="menu-item-desc">Double shot, rich crema</div></div>
+          <div class="menu-item-price">$3.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Cortado</div><div class="menu-item-desc">Equal parts espresso & steamed milk</div></div>
+          <div class="menu-item-price">$4.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Cappuccino</div><div class="menu-item-desc">Velvety foam, classic ratio</div></div>
+          <div class="menu-item-price">$5.00</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Latte</div><div class="menu-item-desc">Smooth, creamy, latte art included</div></div>
+          <div class="menu-item-price">$5.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Oat Milk Mocha</div><div class="menu-item-desc">Dark chocolate, oat milk, espresso</div></div>
+          <div class="menu-item-price">$6.00</div>
+        </div>
+      </div>
+      <div class="menu-category">
+        <h3>Brewed & Cold</h3>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Pour Over</div><div class="menu-item-desc">Single-origin, brewed to order</div></div>
+          <div class="menu-item-price">$4.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Cold Brew</div><div class="menu-item-desc">24-hour steeped, smooth finish</div></div>
+          <div class="menu-item-price">$5.00</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Nitro Cold Brew</div><div class="menu-item-desc">Creamy cascade on tap</div></div>
+          <div class="menu-item-price">$5.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Matcha Latte</div><div class="menu-item-desc">Ceremonial grade, oat milk</div></div>
+          <div class="menu-item-price">$5.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Chai Latte</div><div class="menu-item-desc">House-spiced, steeped fresh</div></div>
+          <div class="menu-item-price">$5.00</div>
+        </div>
+      </div>
+      <div class="menu-category">
+        <h3>Pastries & Bites</h3>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Almond Croissant</div><div class="menu-item-desc">Baked fresh daily</div></div>
+          <div class="menu-item-price">$4.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Banana Bread</div><div class="menu-item-desc">Walnut & chocolate chip</div></div>
+          <div class="menu-item-price">$3.50</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Avocado Toast</div><div class="menu-item-desc">Sourdough, everything seasoning</div></div>
+          <div class="menu-item-price">$8.00</div>
+        </div>
+        <div class="menu-item">
+          <div><div class="menu-item-name">Granola Bowl</div><div class="menu-item-desc">House granola, yogurt, seasonal fruit</div></div>
+          <div class="menu-item-price">$7.00</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-label">Our Story</div>
+    <div class="about-grid">
+      <div class="about-img">&#127793;</div>
+      <div class="about-text">
+        <h3>More Than a Cup of Coffee</h3>
+        <p>Morning Ritual started in 2019 with a simple belief: great coffee should be accessible, sustainable, and made with care. We roast every bean in our shop, source directly from small farms, and obsess over every detail from seed to cup.</p>
+        <p>Our space is designed to be your third place — not home, not work, but somewhere in between where ideas flow and community grows.</p>
+        <div class="about-values">
+          <div class="value-item">
+            <div class="emoji">&#127793;</div>
+            <h5>Direct Trade</h5>
+            <p>We buy directly from farmers at fair prices</p>
+          </div>
+          <div class="value-item">
+            <div class="emoji">&#128293;</div>
+            <h5>Fresh Roasted</h5>
+            <p>Small batches roasted weekly in-house</p>
+          </div>
+          <div class="value-item">
+            <div class="emoji">&#127807;</div>
+            <h5>Sustainable</h5>
+            <p>Compostable cups, zero waste kitchen</p>
+          </div>
+          <div class="value-item">
+            <div class="emoji">&#129309;</div>
+            <h5>Community</h5>
+            <p>A gathering place for the neighborhood</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="location" id="location">
+    <div class="section-label">Find Us</div>
+    <div class="section-title">Visit Our Shop</div>
+    <div class="location-card">
+      <h3>Morning Ritual Coffee Co.</h3>
+      <p>328 Elm Street, Arts District<br/>Portland, OR 97209</p>
+      <div class="hours">
+        <p><strong>Hours</strong></p>
+        <p>Mon–Fri: 6:30am – 5pm<br/>Sat–Sun: 7am – 4pm</p>
+      </div>
+      <button class="btn-warm">Get Directions</button>
+    </div>
+  </section>
+
+  <div class="newsletter">
+    <h3>Stay in the Loop</h3>
+    <p>New beans, seasonal specials, and events — delivered to your inbox.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address"/>
+      <button class="btn-warm">Subscribe</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">
+      <a href="#" class="logo">Morning Ritual</a>
+      <p>&copy; 2026 Morning Ritual Coffee Co.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Menu</a>
+      <a href="#">Our Story</a>
+      <a href="#">Visit</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>
