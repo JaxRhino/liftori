@@ -35,6 +35,32 @@ a{color:var(--gold);text-decoration:none}img{max-width:100%;display:block}
 @media(min-width:600px){.admin-header .user-email{display:block}}
 .btn-sm{padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:all var(--transition);font-family:var(--font-body)}
 .btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:480px){
+  .admin-header{padding:8px 12px}
+  .admin-header h1{font-size:0.95rem}
+  .tab-nav{padding:0 8px;gap:0}
+  .tab-nav button{padding:8px 10px;font-size:0.75rem;white-space:nowrap}
+  .card{padding:12px}
+  .stat-number{font-size:1.3rem}
+}
+@media(min-width:481px) and (max-width:768px){
+  .admin-header h1{font-size:1rem}
+  .tab-nav button{padding:10px 14px;font-size:0.8rem}
+}
+
+
+
+/* CHAT */
+.chat-container{display:flex;flex-direction:column;height:60vh;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:rgba(10,9,7,0.5)}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:0.9rem;line-height:1.4}
+.chat-msg.sent{align-self:flex-end;background:var(--gold);color:#000;border-bottom-right-radius:4px}
+.chat-msg.received{align-self:flex-start;background:rgba(255,255,255,0.08);color:var(--text);border-bottom-left-radius:4px}
+.chat-msg .meta{font-size:0.7rem;opacity:0.6;margin-top:4px}
+.chat-input-area{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:rgba(10,9,7,0.8)}
+.chat-input-area input{flex:1;padding:10px 14px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:0.9rem}
+.chat-input-area input:focus{outline:none;border-color:var(--gold)}
+.chat-input-area button{padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer}
 
 /* TAB NAV */
 .tab-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);padding:0 16px;gap:0;-webkit-overflow-scrolling:touch}
@@ -140,6 +166,7 @@ a{color:var(--gold);text-decoration:none}img{max-width:100%;display:block}
     <button onclick="switchTab('reviews',this)">Reviews</button>
     <button onclick="switchTab('subscribers',this)">Subscribers</button>
     <button onclick="switchTab('settings',this)">Settings</button>
+     <button onclick="switchTab('chat',this)">Chat <span class="badge" id="chatBadge" style="display:none">0</span></button>
   </div>
 
   <div class="tab-content">
@@ -170,8 +197,18 @@ a{color:var(--gold);text-decoration:none}img{max-width:100%;display:block}
         <h3 id="formTitle">Add New Item</h3>
         <input type="hidden" id="editProductId">
 
-        <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
-          <p>Tap to upload photos</p>
+        <div class="image-upload-area" >
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button type="button" onclick="document.getElementById('imageInput').click()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              Upload Photos
+            </button>
+            <button type="button" onclick="openCamera()" style="padding:10px 20px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:var(--radius);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Take Picture
+            </button>
+          </div>
+          <p style="margin-top:8px;font-size:0.8rem;opacity:0.5">or drag & drop images here</p>
           <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload(event)">
         </div>
         <div class="image-preview" id="imagePreview"></div>
@@ -255,7 +292,23 @@ a{color:var(--gold);text-decoration:none}img{max-width:100%;display:block}
     </div>
 
     <!-- SETTINGS TAB -->
-    <div class="tab-panel" id="tab-settings">
+    <div class="tab-pa
+    <div id="tab-chat" class="tab-panel">
+      <h2>Chat with Liftori</h2>
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg received">
+            <div>Welcome to your Liftori DM channel! Messages here go directly to the Liftori team.</div>
+            <div class="meta">Liftori Support</div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChatMsg()">
+          <button onclick="sendChatMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+    <div id="tab-settings">
       <h3 class="section-title-sm">Store Settings</h3>
       <div class="product-form">
         <div class="form-group"><label>Store Name</label><input type="text" id="settingName" value="V.J. Thrift Finds"></div>
@@ -603,6 +656,865 @@ async function saveSettings(){
 
 // INIT
 checkAuth();
+
+
+  // === CHAT FUNCTIONS ===
+  const CHAT_CHANNEL_ID = 'd5a8a3f9-8b61-4cc8-94ad-7ada4781e5d9';
+
+  async function loadChatMessages() {
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('channel_id', CHAT_CHANNEL_ID)
+        .order('created_at', { ascending: true })
+        .limit(50);
+      if (error) throw error;
+      const container = document.getElementById('chatMessages');
+      if (!data || data.length === 0) return;
+      container.innerHTML = data.map(msg => {
+        const isMine = msg.sender_id === currentUser.id;
+        const time = new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        return '<div class="chat-msg ' + (isMine ? 'sent' : 'received') + '">' +
+          '<div>' + (msg.content || '') + '</div>' +
+          '<div class="meta">' + time + '</div></div>';
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    } catch(e) { console.error('Chat load error:', e); }
+  }
+
+  async function sendChatMsg() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    try {
+      const { error } = await supabase.from('chat_messages').insert({
+        channel_id: CHAT_CHANNEL_ID,
+        sender_id: currentUser.id,
+        content: text
+      });
+      if (error) throw error;
+      await loadChatMessages();
+    } catch(e) { console.error('Send error:', e); alert('Failed to send message'); }
+  }
+
+  // === CAMERA FUNCTION ===
+  async function openCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center';
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.cssText = 'max-width:100%;max-height:70vh;border-radius:8px';
+      const btnRow = document.createElement('div');
+      btnRow.style.cssText = 'margin-top:16px;display:flex;gap:12px';
+      const captureBtn = document.createElement('button');
+      captureBtn.textContent = 'Capture';
+      captureBtn.style.cssText = 'padding:12px 32px;background:var(--gold,#d4af37);color:#000;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.style.cssText = 'padding:12px 32px;background:transparent;border:1px solid #fff;color:#fff;border-radius:8px;font-size:1rem;cursor:pointer';
+      btnRow.append(captureBtn, cancelBtn);
+      modal.append(video, btnRow);
+      document.body.appendChild(modal);
+      cancelBtn.onclick = () => { stream.getTracks().forEach(t => t.stop()); modal.remove(); };
+      captureBtn.onclick = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        canvas.toBlob(blob => {
+          const file = new File([blob], 'photo-' + Date.now() + '.jpg', {type:'image/jpeg'});
+          const dt = new DataTransfer();
+          const existing = document.getElementById('imageInput').files;
+          for (let i = 0; i < existing.length; i++) dt.items.add(existing[i]);
+          dt.items.add(file);
+          document.getElementById('imageInput').files = dt.files;
+          handleImageSelect({target:{files:dt.files}});
+          stream.getTracks().forEach(t => t.stop());
+          modal.remove();
+        }, 'image/jpeg', 0.85);
+      };
+    } catch(e) { alert('Camera access denied or not available'); }
+  }
+
+  // Subscribe to chat in real-time
+  supabase.channel('chat-' + CHAT_CHANNEL_ID)
+    .on('postgres_changes', {event:'INSERT', schema:'public', table:'chat_messages', filter:'channel_id=eq.' + CHAT_CHANNEL_ID}, () => loadChatMessages())
+    .subscribe();
+
+
+  // Hook: load chat when chat tab is opened
+  const _origSwitchTab = switchTab;
+  switchTab = function(tab, btn) {
+    _origSwitchTab(tab, btn);
+    if (tab === 'chat') loadChatMessages();
+  };
+
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — V.J. Thrift Finds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg-deep:#0a0907;--bg-dark:#13110e;--bg-card:#1a1714;--bg-surface:#262219;--gold:#c5a55a;--gold-light:#d4b96a;--gold-dim:#8a7540;--cream:#f5e6c8;--text-primary:#e8dcc8;--text-secondary:#a89a80;--text-muted:#6b6050;--border:#2a2520;--border-gold:rgba(197,165,90,0.3);--font-display:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;--font-accent:'Cormorant Garamond',Georgia,serif;--radius:6px;--transition:0.2s ease;--danger:#c44;--success:#5a8;--warning:#c90}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--gold);text-decoration:none}img{max-width:100%;display:block}
+
+/* LOGIN SCREEN */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:40px;max-width:380px;width:100%;text-align:center}
+.login-box h1{font-family:var(--font-display);font-size:1.5rem;color:var(--gold);margin-bottom:4px}
+.login-box .tagline{font-family:var(--font-accent);font-size:0.85rem;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
+.login-box input{width:100%;padding:12px 14px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:0.9rem;font-family:var(--font-body);margin-bottom:12px}
+.login-box input::placeholder{color:var(--text-muted)}
+.login-box input:focus{outline:none;border-color:var(--gold-dim)}
+.login-box button{width:100%;padding:14px;background:var(--gold);color:var(--bg-deep);border:none;border-radius:var(--radius);font-weight:600;font-size:0.9rem;cursor:pointer;transition:background var(--transition)}
+.login-box button:hover{background:var(--gold-light)}
+.login-error{color:var(--danger);font-size:0.8rem;margin-bottom:12px;display:none}
+
+/* ADMIN LAYOUT */
+#adminApp{display:none}
+.admin-header{position:sticky;top:0;z-index:50;background:rgba(10,9,7,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.admin-header h1{font-family:var(--font-display);font-size:1.1rem;color:var(--gold)}
+.admin-header-actions{display:flex;gap:12px;align-items:center}
+.admin-header .user-email{font-size:0.75rem;color:var(--text-muted);display:none}
+@media(min-width:600px){.admin-header .user-email{display:block}}
+.btn-sm{padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:all var(--transition);font-family:var(--font-body)}
+.btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:480px){
+  .admin-header{padding:8px 12px}
+  .admin-header h1{font-size:0.95rem}
+  .tab-nav{padding:0 8px;gap:0}
+  .tab-nav button{padding:8px 10px;font-size:0.75rem;white-space:nowrap}
+  .card{padding:12px}
+  .stat-number{font-size:1.3rem}
+}
+@media(min-width:481px) and (max-width:768px){
+  .admin-header h1{font-size:1rem}
+  .tab-nav button{padding:10px 14px;font-size:0.8rem}
+}
+
+
+
+/* CHAT */
+.chat-container{display:flex;flex-direction:column;height:60vh;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:rgba(10,9,7,0.5)}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:0.9rem;line-height:1.4}
+.chat-msg.sent{align-self:flex-end;background:var(--gold);color:#000;border-bottom-right-radius:4px}
+.chat-msg.received{align-self:flex-start;background:rgba(255,255,255,0.08);color:var(--text);border-bottom-left-radius:4px}
+.chat-msg .meta{font-size:0.7rem;opacity:0.6;margin-top:4px}
+.chat-input-area{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:rgba(10,9,7,0.8)}
+.chat-input-area input{flex:1;padding:10px 14px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:0.9rem}
+.chat-input-area input:focus{outline:none;border-color:var(--gold)}
+.chat-input-area button{padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer}
+
+/* TAB NAV */
+.tab-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);padding:0 16px;gap:0;-webkit-overflow-scrolling:touch}
+.tab-nav button{padding:12px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-size:0.8rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:all var(--transition);font-family:var(--font-body);text-transform:uppercase;letter-spacing:0.5px}
+.tab-nav button:hover{color:var(--text-secondary)}
+.tab-nav button.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-nav .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--danger);color:white;border-radius:9px;font-size:0.65rem;font-weight:700;margin-left:4px}
+
+/* CONTENT */
+.tab-content{padding:16px;max-width:1000px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.stat-card .number{font-size:1.8rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-card .label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* TABLE */
+.admin-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.admin-table th{text-align:left;padding:10px 12px;background:var(--bg-card);color:var(--text-muted);font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);position:sticky;top:0}
+.admin-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
+.admin-table tr:hover td{background:var(--bg-card)}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px}
+
+/* STATUS BADGES */
+.status{display:inline-block;padding:2px 8px;border-radius:3px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.status-draft{background:rgba(107,96,80,0.3);color:var(--text-muted)}
+.status-published{background:rgba(90,170,136,0.2);color:var(--success)}
+.status-sold{background:rgba(204,68,68,0.2);color:var(--danger)}
+.status-paid{background:rgba(90,170,136,0.2);color:var(--success)}
+.status-packaging{background:rgba(204,153,0,0.2);color:var(--warning)}
+.status-shipped{background:rgba(90,170,136,0.15);color:#7bc}
+.status-pending{background:rgba(204,153,0,0.15);color:var(--warning)}
+
+/* FORMS */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:0.9rem;font-family:var(--font-body)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold-dim)}
+.form-group textarea{min-height:80px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
+
+.btn-gold{padding:12px 24px;background:var(--gold);color:var(--bg-deep);border:none;border-radius:var(--radius);font-weight:600;font-size:0.9rem;cursor:pointer;transition:all var(--transition);width:100%}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline{padding:10px 20px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--radius);font-size:0.85rem;cursor:pointer;transition:all var(--transition)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{padding:6px 12px;background:transparent;color:var(--danger);border:1px solid rgba(204,68,68,0.3);border-radius:var(--radius);font-size:0.75rem;cursor:pointer}
+
+/* PRODUCT FORM */
+.product-form{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.product-form h3{font-family:var(--font-display);font-size:1.1rem;color:var(--cream);margin-bottom:16px}
+.image-upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:32px;text-align:center;cursor:pointer;transition:all var(--transition);margin-bottom:12px}
+.image-upload-area:hover{border-color:var(--gold-dim)}
+.image-upload-area p{color:var(--text-muted);font-size:0.85rem}
+.image-upload-area input{display:none}
+.image-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.image-preview img{width:80px;height:80px;object-fit:cover;border-radius:var(--radius);border:1px solid var(--border)}
+.section-title-sm{font-family:var(--font-display);font-size:1rem;color:var(--cream);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* NOTIFICATION DOT */
+.notif-dot{width:8px;height:8px;background:var(--danger);border-radius:50%;display:inline-block;margin-left:4px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);z-index:1000;padding:12px 24px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);color:var(--cream);font-size:0.85rem;box-shadow:0 8px 30px rgba(0,0,0,0.5);transition:transform 0.3s ease;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--success)}.toast.error{border-color:var(--danger)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>V.J. Thrift Finds</h1>
+    <div class="tagline">Admin Dashboard</div>
+    <div class="login-error" id="loginError">Invalid email or password</div>
+    <form onsubmit="return handleLogin(event)">
+      <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+      <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="adminApp">
+  <div class="admin-header">
+    <h1>VJ Admin</h1>
+    <div class="admin-header-actions">
+      <span class="user-email" id="userEmail"></span>
+      <a href="index.html" class="btn-sm">View Store</a>
+      <button class="btn-sm" onclick="handleLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="active" onclick="switchTab('dashboard',this)">Dashboard</button>
+    <button onclick="switchTab('products',this)">Products</button>
+    <button onclick="switchTab('orders',this)">Orders <span class="badge" id="ordersBadge" style="display:none">0</span></button>
+    <button onclick="switchTab('messages',this)">Messages <span class="badge" id="msgBadge" style="display:none">0</span></button>
+    <button onclick="switchTab('reviews',this)">Reviews</button>
+    <button onclick="switchTab('subscribers',this)">Subscribers</button>
+    <button onclick="switchTab('settings',this)">Settings</button>
+     <button onclick="switchTab('chat',this)">Chat <span class="badge" id="chatBadge" style="display:none">0</span></button>
+  </div>
+
+  <div class="tab-content">
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-panel active" id="tab-dashboard">
+      <div class="stats-grid" id="dashStats">
+        <div class="stat-card"><div class="number" id="statProducts">-</div><div class="label">Products</div></div>
+        <div class="stat-card"><div class="number" id="statPublished">-</div><div class="label">Published</div></div>
+        <div class="stat-card"><div class="number" id="statOrders">-</div><div class="label">Orders</div></div>
+        <div class="stat-card"><div class="number" id="statRevenue">-</div><div class="label">Revenue</div></div>
+        <div class="stat-card"><div class="number" id="statQuestions">-</div><div class="label">Questions</div></div>
+        <div class="stat-card"><div class="number" id="statSubscribers">-</div><div class="label">Subscribers</div></div>
+      </div>
+      <h3 class="section-title-sm">Recent Activity</h3>
+      <div id="recentActivity" style="color:var(--text-muted);font-size:0.85rem">Loading...</div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div class="tab-panel" id="tab-products">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+        <h3 class="section-title-sm" style="margin:0;border:0;padding:0">Products</h3>
+        <button class="btn-gold" style="width:auto;padding:10px 20px" onclick="showProductForm()">+ New Item</button>
+      </div>
+
+      <!-- PRODUCT FORM (hidden by default) -->
+      <div class="product-form" id="productForm" style="display:none">
+        <h3 id="formTitle">Add New Item</h3>
+        <input type="hidden" id="editProductId">
+
+        <div class="image-upload-area" >
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button type="button" onclick="document.getElementById('imageInput').click()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              Upload Photos
+            </button>
+            <button type="button" onclick="openCamera()" style="padding:10px 20px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:var(--radius);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Take Picture
+            </button>
+          </div>
+          <p style="margin-top:8px;font-size:0.8rem;opacity:0.5">or drag & drop images here</p>
+          <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload(event)">
+        </div>
+        <div class="image-preview" id="imagePreview"></div>
+
+        <div class="form-row">
+          <div class="form-group"><label>Title *</label><input type="text" id="pTitle" placeholder="e.g., Vintage Brass Oil Lamp"></div>
+          <div class="form-group"><label>Price *</label><input type="number" id="pPrice" step="0.01" placeholder="25.00"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Category</label><select id="pCategory"><option value="">Select...</option></select></div>
+          <div class="form-group"><label>Condition</label><select id="pCondition"><option value="">Select...</option><option value="mint">Mint</option><option value="excellent">Excellent</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option><option value="as-is">As-Is</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Style / Era</label><input type="text" id="pEra" placeholder="e.g., Mid-Century, Victorian"></div>
+          <div class="form-group"><label>Brand / Maker</label><input type="text" id="pBrand" placeholder="If known"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Material</label><input type="text" id="pMaterial" placeholder="e.g., Brass, Glass, Wood"></div>
+          <div class="form-group"><label>Color</label><input type="text" id="pColor" placeholder="e.g., Gold, Clear, Brown"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Dimensions</label><input type="text" id="pDimensions" placeholder="e.g., 12&quot; H x 6&quot; W"></div>
+          <div class="form-group"><label>Compare-at Price</label><input type="number" id="pComparePrice" step="0.01" placeholder="Original value"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea id="pDescription" placeholder="Describe the item..."></textarea></div>
+        <div class="form-group"><label>Condition Details</label><textarea id="pConditionDetails" placeholder="Note any flaws, chips, cracks, wear, patina..." style="min-height:60px"></textarea></div>
+        <div class="form-group"><label>Item Story / Notes</label><textarea id="pStory" placeholder="Add personality — where you found it, what makes it special..." style="min-height:60px"></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="pTags" placeholder="vintage, brass, lamp"></div>
+          <div class="form-group"><label>Status</label><select id="pStatus"><option value="draft">Draft</option><option value="published">Published</option></select></div>
+        </div>
+        <div class="form-group" style="margin-top:4px">
+          <label><input type="checkbox" id="pFeatured" style="width:auto;margin-right:6px"> Featured Item</label>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button class="btn-gold" onclick="saveProduct()">Save & Publish</button>
+          <button class="btn-outline" onclick="hideProductForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Image</th><th>Title</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="productsTable"><tr><td colspan="5" style="text-align:center;padding:32px;color:var(--text-muted)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div class="tab-panel" id="tab-orders">
+      <h3 class="section-title-sm">Orders</h3>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Order #</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="ordersTable"><tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MESSAGES TAB -->
+    <div class="tab-panel" id="tab-messages">
+      <h3 class="section-title-sm">Customer Messages & Questions</h3>
+      <div id="messagesContainer" style="color:var(--text-muted);font-size:0.85rem">Loading...</div>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div class="tab-panel" id="tab-reviews">
+      <h3 class="section-title-sm">Review Moderation</h3>
+      <div id="reviewsContainer" style="color:var(--text-muted);font-size:0.85rem">Loading...</div>
+    </div>
+
+    <!-- SUBSCRIBERS TAB -->
+    <div class="tab-panel" id="tab-subscribers">
+      <h3 class="section-title-sm">Email Subscribers</h3>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Email</th><th>Name</th><th>Source</th><th>Date</th></tr></thead>
+          <tbody id="subscribersTable"><tr><td colspan="4" style="text-align:center;padding:32px;color:var(--text-muted)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-pa
+    <div id="tab-chat" class="tab-panel">
+      <h2>Chat with Liftori</h2>
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg received">
+            <div>Welcome to your Liftori DM channel! Messages here go directly to the Liftori team.</div>
+            <div class="meta">Liftori Support</div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChatMsg()">
+          <button onclick="sendChatMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+    <div id="tab-settings">
+      <h3 class="section-title-sm">Store Settings</h3>
+      <div class="product-form">
+        <div class="form-group"><label>Store Name</label><input type="text" id="settingName" value="V.J. Thrift Finds"></div>
+        <div class="form-group"><label>Contact Email</label><input type="email" id="settingEmail" value="VJ@VJthrifts.com"></div>
+        <div class="form-group"><label>Tagline</label><input type="text" id="settingTagline" value="Vintage Junk, Timeless Treasures"></div>
+        <button class="btn-gold" onclick="saveSettings()" style="margin-top:8px">Save Settings</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+const STORAGE_URL=SUPABASE_URL+'/storage/v1/object/public/vj-products/';
+let uploadedImages=[];
+
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3500)}
+
+// AUTH
+async function checkAuth(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){showAdmin(session.user);return}
+  document.getElementById('loginScreen').style.display='flex';
+}
+
+async function handleLogin(e){
+  e.preventDefault();
+  const email=document.getElementById('loginEmail').value;
+  const pass=document.getElementById('loginPassword').value;
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){document.getElementById('loginError').style.display='block';return false}
+  showAdmin(data.user);return false;
+}
+
+function showAdmin(user){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminApp').style.display='block';
+  document.getElementById('userEmail').textContent=user.email;
+  loadDashboard();loadProducts();loadCategories();
+}
+
+async function handleLogout(){await sb.auth.signOut();window.location.reload()}
+
+// TAB SWITCHING
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='orders')loadOrders();
+  if(tab==='messages')loadMessages();
+  if(tab==='reviews')loadReviews();
+  if(tab==='subscribers')loadSubscribers();
+}
+
+// DASHBOARD
+async function loadDashboard(){
+  const[products,published,orders,questions,subs]=await Promise.all([
+    sb.from('products').select('id',{count:'exact',head:true}),
+    sb.from('products').select('id',{count:'exact',head:true}).eq('status','published'),
+    sb.from('orders').select('id,total',{count:'exact'}),
+    sb.from('product_questions').select('id',{count:'exact',head:true}).eq('is_answered',false),
+    sb.from('email_subscribers').select('id',{count:'exact',head:true}).eq('is_active',true)
+  ]);
+  document.getElementById('statProducts').textContent=products.count||0;
+  document.getElementById('statPublished').textContent=published.count||0;
+  document.getElementById('statOrders').textContent=orders.count||0;
+  const revenue=(orders.data||[]).reduce((sum,o)=>sum+Number(o.total||0),0);
+  document.getElementById('statRevenue').textContent='$'+revenue.toFixed(0);
+  document.getElementById('statQuestions').textContent=questions.count||0;
+  document.getElementById('statSubscribers').textContent=subs.count||0;
+
+  if(questions.count>0){document.getElementById('msgBadge').textContent=questions.count;document.getElementById('msgBadge').style.display='inline-flex'}
+
+  // Recent activity
+  const{data:recent}=await sb.from('activity_log').select('action,entity_type,details,created_at').order('created_at',{ascending:false}).limit(10);
+  if(recent&&recent.length>0){
+    document.getElementById('recentActivity').innerHTML=recent.map(a=>
+      `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.8rem"><span style="color:var(--gold)">${a.action}</span> — ${a.entity_type||''} <span style="color:var(--text-muted);float:right">${new Date(a.created_at).toLocaleDateString()}</span></div>`
+    ).join('');
+  } else {
+    document.getElementById('recentActivity').innerHTML='<p style="padding:20px 0">No activity yet. Add your first product to get started!</p>';
+  }
+}
+
+// CATEGORIES
+async function loadCategories(){
+  const{data}=await sb.from('categories').select('id,name').eq('is_active',true).order('sort_order');
+  if(data){
+    const sel=document.getElementById('pCategory');
+    data.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;sel.appendChild(o)});
+  }
+}
+
+// PRODUCTS
+async function loadProducts(){
+  const{data,error}=await sb.from('products').select('id,title,slug,price,status,main_image_url,created_at').order('created_at',{ascending:false});
+  const tb=document.getElementById('productsTable');
+  if(!data||data.length===0){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--text-muted)">No products yet. Tap "+ New Item" to add your first!</td></tr>';return}
+  tb.innerHTML=data.map(p=>`<tr>
+    <td><img src="${p.main_image_url||''}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;background:var(--bg-surface)" onerror="this.style.display='none'"></td>
+    <td style="color:var(--cream)">${p.title}</td>
+    <td style="color:var(--gold)">$${Number(p.price).toFixed(2)}</td>
+    <td><span class="status status-${p.status}">${p.status}</span></td>
+    <td>
+      <button class="btn-sm" onclick="editProduct('${p.id}')" style="margin-right:4px">Edit</button>
+      <button class="btn-danger" onclick="deleteProduct('${p.id}','${p.title.replace(/'/g,"\\'")}')">Delete</button>
+    </td>
+  </tr>`).join('');
+}
+
+function showProductForm(){
+  document.getElementById('productForm').style.display='block';
+  document.getElementById('formTitle').textContent='Add New Item';
+  document.getElementById('editProductId').value='';
+  clearProductForm();
+  document.getElementById('productForm').scrollIntoView({behavior:'smooth'});
+}
+function hideProductForm(){document.getElementById('productForm').style.display='none';clearProductForm()}
+
+function clearProductForm(){
+  ['pTitle','pPrice','pCategory','pCondition','pEra','pBrand','pMaterial','pColor','pDimensions','pComparePrice','pDescription','pConditionDetails','pStory','pTags'].forEach(id=>{document.getElementById(id).value=''});
+  document.getElementById('pStatus').value='draft';
+  document.getElementById('pFeatured').checked=false;
+  document.getElementById('imagePreview').innerHTML='';
+  uploadedImages=[];
+}
+
+function slugify(text){return text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
+
+async function handleImageUpload(e){
+  const files=e.target.files;if(!files.length)return;
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){showToast('Please sign in','error');return}
+
+  for(const file of files){
+    const ext=file.name.split('.').pop();
+    const path='products/'+Date.now()+'_'+Math.random().toString(36).substr(2,6)+'.'+ext;
+    showToast('Uploading image...');
+    const{data,error}=await sb.storage.from('vj-products').upload(path,file,{cacheControl:'3600',upsert:false});
+    if(error){showToast('Upload failed: '+error.message,'error');continue}
+    const url=STORAGE_URL+path;
+    uploadedImages.push(url);
+    document.getElementById('imagePreview').innerHTML+=`<img src="${url}">`;
+    showToast('Image uploaded!','success');
+  }
+}
+
+async function saveProduct(){
+  const title=document.getElementById('pTitle').value.trim();
+  const price=document.getElementById('pPrice').value;
+  if(!title||!price){showToast('Title and price are required','error');return}
+
+  const product={
+    title,
+    slug:slugify(title)+'-'+Date.now().toString(36),
+    price:parseFloat(price),
+    compare_at_price:document.getElementById('pComparePrice').value?parseFloat(document.getElementById('pComparePrice').value):null,
+    category_id:document.getElementById('pCategory').value||null,
+    condition_rating:document.getElementById('pCondition').value||null,
+    style_era:document.getElementById('pEra').value||null,
+    brand_maker:document.getElementById('pBrand').value||null,
+    material:document.getElementById('pMaterial').value||null,
+    color:document.getElementById('pColor').value||null,
+    dimensions:document.getElementById('pDimensions').value||null,
+    description:document.getElementById('pDescription').value||null,
+    condition_details:document.getElementById('pConditionDetails').value||null,
+    item_story:document.getElementById('pStory').value||null,
+    tags:document.getElementById('pTags').value?document.getElementById('pTags').value.split(',').map(t=>t.trim()).filter(Boolean):null,
+    status:document.getElementById('pStatus').value,
+    is_featured:document.getElementById('pFeatured').checked,
+    main_image_url:uploadedImages[0]||null,
+    updated_at:new Date().toISOString()
+  };
+
+  const editId=document.getElementById('editProductId').value;
+  let result;
+  if(editId){
+    result=await sb.from('products').update(product).eq('id',editId);
+  }else{
+    result=await sb.from('products').insert(product).select();
+  }
+
+  if(result.error){showToast('Error: '+result.error.message,'error');return}
+
+  // Save additional images
+  if(!editId&&result.data&&result.data[0]&&uploadedImages.length>1){
+    const imgRecords=uploadedImages.slice(1).map((url,i)=>({product_id:result.data[0].id,image_url:url,sort_order:i+1}));
+    await sb.from('product_images').insert(imgRecords);
+  }
+
+  showToast(editId?'Product updated!':'Product created!','success');
+  hideProductForm();loadProducts();loadDashboard();
+}
+
+async function editProduct(id){
+  const{data}=await sb.from('products').select('*').eq('id',id).single();
+  if(!data)return;
+  document.getElementById('editProductId').value=id;
+  document.getElementById('formTitle').textContent='Edit: '+data.title;
+  document.getElementById('pTitle').value=data.title||'';
+  document.getElementById('pPrice').value=data.price||'';
+  document.getElementById('pComparePrice').value=data.compare_at_price||'';
+  document.getElementById('pCategory').value=data.category_id||'';
+  document.getElementById('pCondition').value=data.condition_rating||'';
+  document.getElementById('pEra').value=data.style_era||'';
+  document.getElementById('pBrand').value=data.brand_maker||'';
+  document.getElementById('pMaterial').value=data.material||'';
+  document.getElementById('pColor').value=data.color||'';
+  document.getElementById('pDimensions').value=data.dimensions||'';
+  document.getElementById('pDescription').value=data.description||'';
+  document.getElementById('pConditionDetails').value=data.condition_details||'';
+  document.getElementById('pStory').value=data.item_story||'';
+  document.getElementById('pTags').value=(data.tags||[]).join(', ');
+  document.getElementById('pStatus').value=data.status||'draft';
+  document.getElementById('pFeatured').checked=data.is_featured||false;
+  uploadedImages=data.main_image_url?[data.main_image_url]:[];
+  document.getElementById('imagePreview').innerHTML=data.main_image_url?`<img src="${data.main_image_url}">`:'';
+  document.getElementById('productForm').style.display='block';
+  document.getElementById('productForm').scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteProduct(id,title){
+  if(!confirm('Delete "'+title+'"? This cannot be undone.'))return;
+  await sb.from('products').delete().eq('id',id);
+  showToast('Deleted','success');loadProducts();loadDashboard();
+}
+
+// ORDERS
+async function loadOrders(){
+  const{data}=await sb.from('orders').select('id,order_number,total,status,created_at,customers(first_name,last_name,email)').order('created_at',{ascending:false});
+  const tb=document.getElementById('ordersTable');
+  if(!data||data.length===0){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">No orders yet</td></tr>';return}
+  tb.innerHTML=data.map(o=>`<tr>
+    <td style="color:var(--cream)">${o.order_number}</td>
+    <td>${o.customers?((o.customers.first_name||'')+' '+(o.customers.last_name||'')).trim()||o.customers.email:'Guest'}</td>
+    <td style="color:var(--gold)">$${Number(o.total).toFixed(2)}</td>
+    <td><span class="status status-${o.status}">${o.status}</span></td>
+    <td>${new Date(o.created_at).toLocaleDateString()}</td>
+    <td>
+      <select class="btn-sm" style="background:var(--bg-deep);color:var(--text-secondary)" onchange="updateOrderStatus('${o.id}',this.value)">
+        <option value="paid" ${o.status==='paid'?'selected':''}>Paid</option>
+        <option value="packaging" ${o.status==='packaging'?'selected':''}>Packaging</option>
+        <option value="ready_to_ship" ${o.status==='ready_to_ship'?'selected':''}>Ready to Ship</option>
+        <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+        <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+      </select>
+    </td>
+  </tr>`).join('');
+}
+
+async function updateOrderStatus(id,status){
+  await sb.from('orders').update({status,updated_at:new Date().toISOString()}).eq('id',id);
+  showToast('Order updated to: '+status,'success');
+}
+
+// MESSAGES
+async function loadMessages(){
+  const[contacts,questions]=await Promise.all([
+    sb.from('contact_messages').select('*').order('created_at',{ascending:false}).limit(20),
+    sb.from('product_questions').select('*,products(title)').order('created_at',{ascending:false}).limit(20)
+  ]);
+  const c=document.getElementById('messagesContainer');
+  const allMsgs=[
+    ...(contacts.data||[]).map(m=>({...m,type:'contact',date:m.created_at})),
+    ...(questions.data||[]).map(m=>({...m,type:'question',date:m.created_at}))
+  ].sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+  if(allMsgs.length===0){c.innerHTML='<p style="padding:20px 0">No messages yet.</p>';return}
+  c.innerHTML=allMsgs.map(m=>`
+    <div style="background:var(--bg-card);border:1px solid ${m.is_read?'var(--border)':'var(--border-gold)'};border-radius:var(--radius);padding:16px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:4px">
+        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:${m.type==='question'?'var(--gold)':'var(--text-muted)'}">${m.type==='question'?'Product Question':'Contact: '+(m.category||'General')}</span>
+        <span style="font-size:0.75rem;color:var(--text-muted)">${new Date(m.date).toLocaleDateString()}</span>
+      </div>
+      <div style="color:var(--cream);font-size:0.9rem;margin-bottom:4px">${m.type==='question'?m.question:m.message}</div>
+      <div style="font-size:0.8rem;color:var(--text-secondary)">${m.type==='question'?m.customer_name||m.customer_email:m.name+' — '+m.email}${m.type==='question'&&m.products?' — Re: '+m.products.title:''}</div>
+      ${!m.is_read?`<button class="btn-sm" style="margin-top:8px;font-size:0.7rem" onclick="markRead('${m.type==='question'?'product_questions':'contact_messages'}','${m.id}',this)">Mark Read</button>`:''}
+    </div>
+  `).join('');
+}
+
+async function markRead(table,id,btn){
+  await sb.from(table).update({is_read:true}).eq('id',id);
+  btn.parentElement.style.borderColor='var(--border)';btn.remove();
+}
+
+// REVIEWS
+async function loadReviews(){
+  const{data}=await sb.from('reviews').select('*,products(title)').order('created_at',{ascending:false});
+  const c=document.getElementById('reviewsContainer');
+  if(!data||data.length===0){c.innerHTML='<p style="padding:20px 0">No reviews yet.</p>';return}
+  c.innerHTML=data.map(r=>`
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:4px">
+        <span style="color:var(--gold)">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+        <span class="status ${r.is_approved?'status-published':'status-draft'}">${r.is_approved?'Approved':'Pending'}</span>
+      </div>
+      ${r.title?`<div style="color:var(--cream);font-weight:600;font-size:0.9rem">${r.title}</div>`:''}
+      <div style="color:var(--text-secondary);font-size:0.85rem;margin:4px 0">${r.body||''}</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">${r.products?r.products.title:''} — ${new Date(r.created_at).toLocaleDateString()}</div>
+      ${!r.is_approved?`<button class="btn-sm" style="margin-top:8px;font-size:0.7rem;border-color:var(--success);color:var(--success)" onclick="approveReview('${r.id}',this)">Approve</button>`:''}
+    </div>
+  `).join('');
+}
+
+async function approveReview(id,btn){
+  await sb.from('reviews').update({is_approved:true}).eq('id',id);
+  showToast('Review approved!','success');
+  btn.parentElement.querySelector('.status').className='status status-published';
+  btn.parentElement.querySelector('.status').textContent='Approved';
+  btn.remove();
+}
+
+// SUBSCRIBERS
+async function loadSubscribers(){
+  const{data}=await sb.from('email_subscribers').select('*').order('subscribed_at',{ascending:false});
+  const tb=document.getElementById('subscribersTable');
+  if(!data||data.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--text-muted)">No subscribers yet</td></tr>';return}
+  tb.innerHTML=data.map(s=>`<tr>
+    <td style="color:var(--cream)">${s.email}</td>
+    <td>${s.first_name||'-'}</td>
+    <td>${s.source||'website'}</td>
+    <td>${new Date(s.subscribed_at).toLocaleDateString()}</td>
+  </tr>`).join('');
+}
+
+// SETTINGS
+async function saveSettings(){
+  const updates=[
+    {key:'store_name',value:JSON.stringify(document.getElementById('settingName').value)},
+    {key:'contact_email',value:JSON.stringify(document.getElementById('settingEmail').value)},
+    {key:'tagline',value:JSON.stringify(document.getElementById('settingTagline').value)}
+  ];
+  for(const u of updates){
+    await sb.from('store_settings').upsert({key:u.key,value:u.value,updated_at:new Date().toISOString()},{onConflict:'key'});
+  }
+  showToast('Settings saved!','success');
+}
+
+// INIT
+checkAuth();
+
+
+  // === CHAT FUNCTIONS ===
+  const CHAT_CHANNEL_ID = 'd5a8a3f9-8b61-4cc8-94ad-7ada4781e5d9';
+
+  async function loadChatMessages() {
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('channel_id', CHAT_CHANNEL_ID)
+        .order('created_at', { ascending: true })
+        .limit(50);
+      if (error) throw error;
+      const container = document.getElementById('chatMessages');
+      if (!data || data.length === 0) return;
+      container.innerHTML = data.map(msg => {
+        const isMine = msg.sender_id === currentUser.id;
+        const time = new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        return '<div class="chat-msg ' + (isMine ? 'sent' : 'received') + '">' +
+          '<div>' + (msg.content || '') + '</div>' +
+          '<div class="meta">' + time + '</div></div>';
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    } catch(e) { console.error('Chat load error:', e); }
+  }
+
+  async function sendChatMsg() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    try {
+      const { error } = await supabase.from('chat_messages').insert({
+        channel_id: CHAT_CHANNEL_ID,
+        sender_id: currentUser.id,
+        content: text
+      });
+      if (error) throw error;
+      await loadChatMessages();
+    } catch(e) { console.error('Send error:', e); alert('Failed to send message'); }
+  }
+
+  // === CAMERA FUNCTION ===
+  async function openCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center';
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.cssText = 'max-width:100%;max-height:70vh;border-radius:8px';
+      const btnRow = document.createElement('div');
+      btnRow.style.cssText = 'margin-top:16px;display:flex;gap:12px';
+      const captureBtn = document.createElement('button');
+      captureBtn.textContent = 'Capture';
+      captureBtn.style.cssText = 'padding:12px 32px;background:var(--gold,#d4af37);color:#000;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.style.cssText = 'padding:12px 32px;background:transparent;border:1px solid #fff;color:#fff;border-radius:8px;font-size:1rem;cursor:pointer';
+      btnRow.append(captureBtn, cancelBtn);
+      modal.append(video, btnRow);
+      document.body.appendChild(modal);
+      cancelBtn.onclick = () => { stream.getTracks().forEach(t => t.stop()); modal.remove(); };
+      captureBtn.onclick = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        canvas.toBlob(blob => {
+          const file = new File([blob], 'photo-' + Date.now() + '.jpg', {type:'image/jpeg'});
+          const dt = new DataTransfer();
+          const existing = document.getElementById('imageInput').files;
+          for (let i = 0; i < existing.length; i++) dt.items.add(existing[i]);
+          dt.items.add(file);
+          document.getElementById('imageInput').files = dt.files;
+          handleImageSelect({target:{files:dt.files}});
+          stream.getTracks().forEach(t => t.stop());
+          modal.remove();
+        }, 'image/jpeg', 0.85);
+      };
+    } catch(e) { alert('Camera access denied or not available'); }
+  }
+
+  // Subscribe to chat in real-time
+  supabase.channel('chat-' + CHAT_CHANNEL_ID)
+    .on('postgres_changes', {event:'INSERT', schema:'public', table:'chat_messages', filter:'channel_id=eq.' + CHAT_CHANNEL_ID}, () => loadChatMessages())
+    .subscribe();
+
+
+  // Hook: load chat when chat tab is opened
+  const _origSwitchTab = switchTab;
+  switchTab = function(tab, btn) {
+    _origSwitchTab(tab, btn);
+    if (tab === 'chat') loadChatMessages();
+  };
+
 </script>
 </body>
 </html>
