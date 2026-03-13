@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Project â Liftori</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #060B18;
+      --navy-800: #0D1626;
+      --navy-700: #142035;
+      --navy-600: #1C2D4A;
+      --blue: #0EA5E9;
+      --blue-light: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --text: #CBD5E1;
+      --text-dim: #64748B;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --purple: #8B5CF6;
+    }
+    html, body { height: 100%; background: var(--navy); color: var(--text); font-family: 'DM Sans', sans-serif; overflow: hidden; }
+
+    /* ââ HEADER ââ */
+    .header {
+      height: 56px; background: var(--navy-800); border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; flex-shrink: 0;
+    }
+    .header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--blue); }
+    .header-project { font-size: 14px; color: var(--text-dim); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .status-badge {
+      padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .status-pending     { background: rgba(100,116,139,0.15); color: #94A3B8; }
+    .status-brief       { background: rgba(14,165,233,0.15);  color: var(--blue); }
+    .status-design      { background: rgba(139,92,246,0.15);  color: #A78BFA; }
+    .status-building    { background: rgba(245,158,11,0.15);  color: var(--warning); }
+    .status-review      { background: rgba(34,197,94,0.15);   color: var(--success); }
+    .status-live        { background: rgba(34,197,94,0.2);    color: var(--success); border: 1px solid rgba(34,197,94,0.4); }
+    .btn-logout { background: none; border: none; color: var(--text-dim); font-size: 13px; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
+    .btn-logout:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+    /* ââ LAYOUT ââ */
+    .app { display: flex; height: calc(100vh - 56px); }
+    .sidebar {
+      width: 220px; background: var(--navy-800); border-right: 1px solid rgba(255,255,255,0.06);
+      display: flex; flex-direction: column; flex-shrink: 0;
+    }
+    .main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+    /* ââ SIDEBAR NAV ââ */
+    .sidebar-section { padding: 20px 12px 8px; }
+    .sidebar-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 600; padding: 0 8px 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px;
+      cursor: pointer; transition: all 0.15s; font-size: 14px; color: var(--text-dim);
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: rgba(14,165,233,0.12); color: var(--blue); }
+    .nav-item svg { flex-shrink: 0; opacity: 0.7; }
+    .nav-item.active svg { opacity: 1; }
+    .nav-badge { margin-left: auto; background: var(--blue); color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+
+    .sidebar-project { padding: 12px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-project-name { font-size: 12px; font-weight: 600; color: var(--text); }
+    .sidebar-project-tier { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+    /* ââ TAB PANELS ââ */
+    .tab-panel { display: none; flex: 1; overflow-y: auto; }
+    .tab-panel.active { display: flex; flex-direction: column; }
+    .panel-header { padding: 24px 28px 0; }
+    .panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; color: white; }
+    .panel-sub { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+    /* ââ OVERVIEW TAB ââ */
+    .overview-grid { padding: 24px 28px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+    @media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--navy-800); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px; }
+    .card-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 600; margin-bottom: 16px; }
+    .card h3 { font-size: 16px; font-weight: 600; color: white; margin-bottom: 8px; }
+
+    /* Brief Viewer */
+    .brief-status-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .brief-ai-tag { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--blue); background: rgba(14,165,233,0.1); padding: 4px 10px; border-radius: 20px; }
+    .brief-content { font-size: 14px; line-height: 1.7; color: var(--text); white-space: pre-wrap; }
+    .brief-placeholder { text-align: center; padding: 48px 24px; }
+    .brief-placeholder-icon { width: 56px; height: 56px; background: rgba(14,165,233,0.08); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .brief-placeholder p { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 0; }
+
+    .btn-approve {
+      width: 100%; padding: 14px; background: var(--blue); color: white; border: none;
+      border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-approve:hover { background: #0284C7; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(14,165,233,0.3); }
+    .btn-approve:disabled { background: var(--navy-700); color: var(--text-dim); cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-approve.approved { background: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+
+    /* Progress Steps */
+    .progress-steps { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }
+    .step:last-child { padding-bottom: 0; }
+    .step-line { position: absolute; left: 11px; top: 24px; bottom: 0; width: 2px; background: rgba(255,255,255,0.06); }
+    .step:last-child .step-line { display: none; }
+    .step-dot { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+    .step-dot.done { background: rgba(34,197,94,0.2); color: var(--success); }
+    .step-dot.active { background: rgba(14,165,233,0.2); color: var(--blue); border: 2px solid var(--blue); }
+    .step-dot.pending { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 2px solid rgba(255,255,255,0.08); }
+    .step-content { padding-top: 2px; }
+    .step-name { font-size: 13px; font-weight: 600; color: white; }
+    .step-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .step-done .step-name { color: var(--text-dim); }
+
+    /* Stats */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat { background: var(--navy-700); border-radius: 12px; padding: 14px; }
+    .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: white; }
+    .stat-label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+    /* ââ UPDATES TAB ââ */
+    .updates-list { padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; }
+    .update-item { background: var(--navy-800); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px 20px; }
+    .update-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .update-type-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px; }
+    .update-type-milestone { background: rgba(139,92,246,0.15); color: #A78BFA; }
+    .update-type-status    { background: rgba(14,165,233,0.15); color: var(--blue); }
+    .update-type-note      { background: rgba(100,116,139,0.15); color: #94A3B8; }
+    .update-type-alert     { background: rgba(245,158,11,0.15);  color: var(--warning); }
+    .update-time { font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+    .update-title { font-size: 14px; font-weight: 600; color: white; margin-bottom: 4px; }
+    .update-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+    .updates-empty { padding: 60px 28px; text-align: center; color: var(--text-dim); }
+
+    /* ââ MESSAGES TAB ââ */
+    .messages-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .messages-channel-header {
+      padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .messages-channel-name { font-size: 15px; font-weight: 600; color: white; }
+    .messages-channel-sub { font-size: 12px; color: var(--text-dim); }
+    .messages-scroll { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 0; }
+    .msg-group { margin-bottom: 2px; }
+    .msg-group.has-header { margin-top: 12px; }
+    .msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+    .msg-sender { font-size: 14px; font-weight: 600; color: white; }
+    .msg-time { font-size: 11px; color: var(--text-dim); }
+    .msg-bubble { font-size: 14px; color: var(--text); line-height: 1.6; padding: 2px 0; word-break: break-word; }
+    .msg-edited { font-size: 11px; color: var(--text-dim); }
+    .msg-own .msg-sender { color: var(--blue-light); }
+    .msg-liftori .msg-sender { color: #A78BFA; }
+    .messages-input-area { padding: 12px 24px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .messages-input-wrap {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--navy-700); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 10px 14px; transition: border-color 0.2s;
+    }
+    .messages-input-wrap:focus-within { border-color: rgba(14,165,233,0.4); }
+    .messages-input { flex: 1; background: none; border: none; color: white; font-size: 14px; outline: none; font-family: 'DM Sans', sans-serif; resize: none; max-height: 120px; }
+    .messages-input::placeholder { color: var(--text-dim); }
+    .btn-send {
+      background: var(--blue); border: none; color: white; width: 34px; height: 34px;
+      border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.2s;
+    }
+    .btn-send:hover { background: #0284C7; }
+    .btn-send:disabled { background: var(--navy-600); cursor: not-allowed; }
+    .messages-empty { flex: 1; display: flex; align-items: center; justify-content: center; }
+    .messages-empty-inner { text-align: center; }
+    .messages-empty-icon { width: 56px; height: 56px; background: rgba(14,165,233,0.08); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .messages-empty p { color: var(--text-dim); font-size: 14px; }
+    .messages-typing { font-size: 12px; color: var(--text-dim); padding: 4px 24px; min-height: 22px; }
+
+    /* ââ WHITEBOARD TAB ââ */
+    .whiteboard-container { flex: 1; display: flex; flex-direction: column; }
+    .whiteboard-container iframe { flex: 1; border: none; background: white; }
+
+    /* ââ BILLING TAB ââ */
+    .billing-content { padding: 24px 28px; }
+    .milestone-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .milestone-item { background: var(--navy-800); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; }
+    .milestone-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .milestone-icon.paid { background: rgba(34,197,94,0.1); }
+    .milestone-icon.due  { background: rgba(14,165,233,0.1); }
+    .milestone-icon.pending { background: rgba(100,116,139,0.1); }
+    .milestone-info { flex: 1; }
+    .milestone-name { font-size: 14px; font-weight: 600; color: white; }
+    .milestone-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .milestone-amount { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: white; }
+    .milestone-status { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .milestone-status.paid { color: var(--success); }
+    .milestone-status.due  { color: var(--blue); }
+    .milestone-status.pending { color: var(--text-dim); }
+    .billing-note { margin-top: 24px; background: rgba(14,165,233,0.05); border: 1px solid rgba(14,165,233,0.15); border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+    /* ââ DOCUMENTS TAB ââ */
+    .documents-content { padding: 24px 28px; }
+    .doc-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .doc-item { background: var(--navy-800); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.15s; }
+    .doc-item:hover { border-color: rgba(14,165,233,0.3); background: rgba(14,165,233,0.03); }
+    .doc-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(14,165,233,0.1); flex-shrink: 0; }
+    .doc-info { flex: 1; }
+    .doc-name { font-size: 14px; font-weight: 500; color: white; }
+    .doc-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .doc-download { color: var(--blue); transition: color 0.15s; }
+    .doc-download:hover { color: var(--blue-light); }
+    .docs-empty { text-align: center; padding: 60px 24px; color: var(--text-dim); }
+
+    /* ââ LOADING / AUTH ââ */
+    .loading-screen { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; z-index: 100; flex-direction: column; gap: 16px; }
+    .loading-screen.hidden { display: none; }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(14,165,233,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; color: var(--text-dim); }
+
+    /* ââ SCROLLBAR ââ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+    /* ââ TOAST ââ */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--navy-700); border: 1px solid rgba(255,255,255,0.1);
+      color: white; padding: 12px 20px; border-radius: 12px; font-size: 14px;
+      z-index: 999; transition: transform 0.3s; pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { border-color: rgba(34,197,94,0.4); color: var(--success); }
+    .toast.error   { border-color: rgba(239,68,68,0.4); color: #FCA5A5; }
+
+    /* ââ MOBILE ââ */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .app { flex-direction: column; }
+      .tab-mobile-nav { display: flex; overflow-x: auto; background: var(--navy-800); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 8px; gap: 4px; flex-shrink: 0; }
+      .tab-mobile-btn { flex-shrink: 0; padding: 12px 14px; font-size: 12px; font-weight: 500; color: var(--text-dim); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; }
+      .tab-mobile-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+      .overview-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 769px) { .tab-mobile-nav { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading your dashboardâ¦</div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Header -->
+<div class="header">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="header-logo">LIFTORI</div>
+    <div class="header-project" id="headerProjectName">Loadingâ¦</div>
+  </div>
+  <div class="header-right">
+    <span class="status-badge status-brief" id="headerStatus">Loading</span>
+    <button class="btn-logout" onclick="logout()">Sign out</button>
+  </div>
+</div>
+
+<!-- Mobile Nav -->
+<div class="tab-mobile-nav">
+  <button class="tab-mobile-btn active" onclick="switchTab('overview')">Overview</button>
+  <button class="tab-mobile-btn" onclick="switchTab('updates')">Updates</button>
+  <button class="tab-mobile-btn" onclick="switchTab('messages')">Messages</button>
+  <button class="tab-mobile-btn" onclick="switchTab('whiteboard')">Whiteboard</button>
+  <button class="tab-mobile-btn" onclick="switchTab('billing')">Billing</button>
+  <button class="tab-mobile-btn" onclick="switchTab('documents')">Documents</button>
+</div>
+
+<div class="app">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Navigation</div>
+      <button class="nav-item active" id="nav-overview" onclick="switchTab('overview')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" id="nav-updates" onclick="switchTab('updates')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Updates
+        <span class="nav-badge hidden" id="updates-badge">0</span>
+      </button>
+      <button class="nav-item" id="nav-messages" onclick="switchTab('messages')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>
+        Messages
+        <span class="nav-badge hidden" id="messages-badge">0</span>
+      </button>
+      <button class="nav-item" id="nav-whiteboard" onclick="switchTab('whiteboard')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+        Whiteboard
+      </button>
+      <button class="nav-item" id="nav-billing" onclick="switchTab('billing')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+        Billing
+      </button>
+      <button class="nav-item" id="nav-documents" onclick="switchTab('documents')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+        Documents
+      </button>
+    </div>
+    <div class="sidebar-project">
+      <div class="sidebar-project-name" id="sidebarProjectName">â</div>
+      <div class="sidebar-project-tier" id="sidebarTier">â</div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ââ OVERVIEW TAB ââ -->
+    <div id="tab-overview" class="tab-panel active">
+      <div class="panel-header">
+        <div class="panel-title">Project Overview</div>
+        <div class="panel-sub" id="overviewSub">Your project at a glance</div>
+      </div>
+      <div class="overview-grid">
+        <!-- Left: Brief Viewer -->
+        <div>
+          <div class="card">
+            <div class="card-title">Project Brief</div>
+            <div class="brief-status-bar">
+              <span class="brief-ai-tag" id="briefAiTag">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+                AI Generated
+              </span>
+            </div>
+            <div id="briefContent">
+              <div class="brief-placeholder">
+                <div class="brief-placeholder-icon">
+                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--blue)"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                </div>
+                <h3 style="color:white;margin-bottom:8px;">Brief being prepared</h3>
+                <p>Your AI-generated project brief will appear here once our team reviews your submission. This usually takes 24â48 hours.</p>
+              </div>
+            </div>
+            <div class="divider" id="approveDivider" style="display:none;"></div>
+            <div id="approveSection" style="display:none;">
+              <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;">Review the plan above carefully. Approving confirms you're happy with the scope and ready for us to begin design.</p>
+              <button class="btn-approve" id="btnApprovePlan" onclick="approvePlan()">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                Approve Plan &amp; Begin Design
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="card" style="margin-top:16px;">
+            <div class="card-title">Project Stats</div>
+            <div class="stat-grid">
+              <div class="stat">
+                <div class="stat-value" id="statUpdates">â</div>
+                <div class="stat-label">Updates</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="statMessages">â</div>
+                <div class="stat-label">Messages</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="statDocs">â</div>
+                <div class="stat-label">Documents</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="statTier">â</div>
+                <div class="stat-label">Tier</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Progress -->
+        <div>
+          <div class="card">
+            <div class="card-title">Build Progress</div>
+            <div class="progress-steps" id="progressSteps">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ââ UPDATES TAB ââ -->
+    <div id="tab-updates" class="tab-panel">
+      <div class="panel-header">
+        <div class="panel-title">Project Updates</div>
+        <div class="panel-sub">Status changes, milestones, and notes from the team</div>
+      </div>
+      <div id="updatesList" class="updates-list"></div>
+    </div>
+
+    <!-- ââ MESSAGES TAB ââ -->
+    <div id="tab-messages" class="tab-panel" style="overflow:hidden;">
+      <div class="messages-container">
+        <div class="messages-channel-header">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--blue);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          <div>
+            <div class="messages-channel-name">Liftori Team</div>
+            <div class="messages-channel-sub">Direct messages with your project team</div>
+          </div>
+        </div>
+        <div class="messages-scroll" id="messagesScroll">
+          <div class="messages-empty" id="messagesEmpty">
+            <div class="messages-empty-inner">
+              <div class="messages-empty-icon">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--blue);"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>
+              </div>
+              <p>No messages yet. Say hello to your project team!</p>
+            </div>
+          </div>
+        </div>
+        <div class="messages-typing" id="messagesTyping"></div>
+        <div class="messages-input-area">
+          <div class="messages-input-wrap">
+            <textarea id="msgInput" class="messages-input" placeholder="Message your project teamâ¦" rows="1"
+              onkeydown="handleMsgKey(event)" oninput="autoResizeInput(this)"></textarea>
+            <button class="btn-send" id="btnSend" onclick="sendMessage()" disabled>
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ââ WHITEBOARD TAB ââ -->
+    <div id="tab-whiteboard" class="tab-panel" style="overflow:hidden;">
+      <div class="whiteboard-container">
+        <iframe id="excalidrawFrame" src="about:blank" title="Whiteboard"></iframe>
+      </div>
+    </div>
+
+    <!-- ââ BILLING TAB ââ -->
+    <div id="tab-billing" class="tab-panel">
+      <div class="panel-header">
+        <div class="panel-title">Billing</div>
+        <div class="panel-sub">Payment milestones and invoice history</div>
+      </div>
+      <div class="billing-content">
+        <div id="milestonesContainer">
+          <div style="color:var(--text-dim);font-size:14px;">Loading billing informationâ¦</div>
+        </div>
+        <div class="billing-note">
+          ð³ Payments are processed via secure invoice. Contact your project manager or message the team with any billing questions.
+        </div>
+      </div>
+    </div>
+
+    <!-- ââ DOCUMENTS TAB ââ -->
+    <div id="tab-documents" class="tab-panel">
+      <div class="panel-header">
+        <div class="panel-title">Documents</div>
+        <div class="panel-sub">Contracts, mockups, and project files</div>
+      </div>
+      <div class="documents-content">
+        <div id="docsList">
+          <div style="color:var(--text-dim);font-size:14px;">Loading documentsâ¦</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// CONFIG
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+const SUPABASE_URL  = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1MTM3NzMsImV4cCI6MjA1NjA4OTc3M30.jJyRNRgkUpGVVEZ2TBCFp9bUVrT0E1kEqNT5iExwRrI';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// STATE
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+let userId    = null;
+let projectId = null;
+let project   = null;
+let channelId = null;
+let messages  = [];
+let realtimeSub = null;
+let activeTab = 'overview';
+let unreadMessages = 0;
+let whiteboardLoaded = false;
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// BOOT
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+(async function init() {
+  // Check auth
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = '/customer/wizard.html';
+    return;
+  }
+  userId = session.user.id;
+
+  // Load project
+  await loadProject();
+
+  // Hide loading
+  document.getElementById('loadingScreen').classList.add('hidden');
+})();
+
+async function loadProject() {
+  try {
+    // Get user's project(s) â most recent first
+    const { data: projects } = await sb
+      .from('projects')
+      .select('*')
+      .eq('customer_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (!projects || projects.length === 0) {
+      // No project yet â may still be creating
+      document.getElementById('loadingScreen').classList.add('hidden');
+      renderNoProject();
+      return;
+    }
+
+    project   = projects[0];
+    projectId = project.id;
+
+    // Update header & sidebar
+    const name = project.name || 'My Project';
+    document.getElementById('headerProjectName').textContent = name;
+    document.getElementById('sidebarProjectName').textContent = name;
+    document.getElementById('sidebarTier').textContent = (project.tier || 'Starter') + ' Tier';
+    document.getElementById('overviewSub').textContent = project.project_type
+      ? `${project.project_type} Â· ${project.tier || 'Starter'} Tier`
+      : 'Your project at a glance';
+
+    updateStatusBadge(project.status);
+    renderBrief(project);
+    renderProgress(project.status);
+    document.getElementById('statTier').textContent = project.tier || 'STR';
+
+    // Load supporting data in parallel
+    await Promise.all([
+      loadUpdates(),
+      loadMessages(),
+      loadDocuments(),
+      loadBilling(),
+    ]);
+
+  } catch (err) {
+    console.error('loadProject error:', err);
+  }
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// STATUS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+const STATUS_CLASSES = {
+  'Pending':         'status-pending',
+  'Brief Review':    'status-brief',
+  'Design Approval': 'status-design',
+  'In Progress':     'status-building',
+  'Staging Review':  'status-review',
+  'Live':            'status-live',
+};
+
+function updateStatusBadge(status) {
+  const el = document.getElementById('headerStatus');
+  el.textContent = status || 'Pending';
+  el.className = 'status-badge ' + (STATUS_CLASSES[status] || 'status-pending');
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// BRIEF VIEWER (Task 3)
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function renderBrief(proj) {
+  const brief = proj.build_prompt;
+  const status = proj.status || 'Pending';
+  const el = document.getElementById('briefContent');
+  const approveSection = document.getElementById('approveSection');
+  const approveDivider = document.getElementById('approveDivider');
+  const btnApprove = document.getElementById('btnApprovePlan');
+
+  if (!brief) {
+    // No brief yet â placeholder already rendered in HTML
+    return;
+  }
+
+  // Render the brief
+  el.innerHTML = `<div class="brief-content">${escHtml(brief)}</div>`;
+
+  // Show Approve button only if status is Brief Review
+  if (status === 'Brief Review') {
+    approveDivider.style.display = '';
+    approveSection.style.display = '';
+  } else if (status === 'Design Approval' || isStatusPast('Design Approval', status)) {
+    approveDivider.style.display = '';
+    approveSection.style.display = '';
+    btnApprove.textContent = 'â Plan Approved';
+    btnApprove.classList.add('approved');
+    btnApprove.disabled = true;
+  }
+}
+
+function isStatusPast(checkStatus, currentStatus) {
+  const order = ['Pending','Brief Review','Design Approval','In Progress','Staging Review','Live'];
+  return order.indexOf(currentStatus) > order.indexOf(checkStatus);
+}
+
+async function approvePlan() {
+  const btn = document.getElementById('btnApprovePlan');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;"></div> Approvingâ¦';
+
+  try {
+    // Update project status
+    const { error } = await sb
+      .from('projects')
+      .update({ status: 'Design Approval' })
+      .eq('id', projectId);
+
+    if (error) throw error;
+
+    // Create a project_update notification
+    await sb.from('project_updates').insert({
+      project_id: projectId,
+      customer_id: userId,
+      update_type: 'milestone',
+      title: 'Plan Approved',
+      body: 'The customer has approved the project plan. Design phase begins now.',
+    });
+
+    // Send a message to the DM channel from the system
+    if (channelId) {
+      await sb.from('chat_messages').insert({
+        channel_id: channelId,
+    0   sender_id: userId,
+        content: 'â I\'ve reviewed and approved the project plan. Ready to move to design!',
+      });
+    }
+
+    project.status = 'Design Approval';
+    updateStatusBadge('Design Approval');
+    renderProgress('Design Approval');
+
+    btn.textContent = 'â Plan Approved';
+    btn.classList.add('approved');
+    btn.disabled = true;
+
+    showToast('Plan approved! The Liftori team has been notified.', 'success');
+
+    // Refresh updates
+    await loadUpdates();
+
+  } catch (err) {
+    console.error('approvePlan error:', err);
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Approve Plan & Begin Design';
+    showToast('Failed to approve plan. Please try again.', 'error');
+  }
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// PROGRESS STEPS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+const STEPS = [
+  { key: 'Pending',         label: 'Submitted',        desc: 'Project details received' },
+  { key: 'Brief Review',    label: 'Brief Ready',      desc: 'AI brief generated for your review' },
+  { key: 'Design Approval', label: 'Design Phase',     desc: 'Mockups & UI design in progress' },
+  { key: 'In Progress',     label: 'Building',         desc: 'Development underway' },
+  { key: 'Staging Review',  label: 'Staging Review',   desc: 'Testing before launch' },
+  { key: 'Live',            label: 'Live! ð',         desc: 'Your platform is live' },
+];
+
+function renderProgress(status) {
+  const order = STEPS.map(s => s.key);
+  const currentIdx = order.indexOf(status);
+  const container = document.getElementById('progressSteps');
+
+  container.innerHTML = STEPS.map((step, i) => {
+    let dotClass = 'pending';
+    let stepClass = '';
+    let dotContent = '';
+    if (i < currentIdx) { dotClass = 'done'; dotContent = 'â'; stepClass = 'step-done'; }
+    else if (i === currentIdx) { dotClass = 'active'; dotContent = (i + 1).toString(); }
+    else { dotContent = (i + 1).toString(); }
+
+    return `
+      <div class="step ${stepClass}">
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center;">
+          <div class="step-dot ${dotClass}">${dotContent}</div>
+          ${i < STEPS.length - 1 ? '<div class="step-line"></div>' : ''}
+        </div>
+        <div class="step-content">
+          <div class="step-name">${step.label}</div>
+          <div class="step-desc">${step.desc}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// UPDATES
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function loadUpdates() {
+  const { data } = await sb
+    .from('project_updates')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  const updates = data || [];
+  document.getElementById('statUpdates').textContent = updates.length;
+
+  const container = document.getElementById('updatesList');
+  if (updates.length === 0) {
+    container.innerHTML = '<div class="updates-empty"><p style="color:var(--text-dim);">No updates yet. Check back soon!</p></div>';
+    return;
+  }
+
+  container.innerHTML = updates.map(u => {
+    const typeClass = {
+      milestone: 'update-type-milestone',
+      status:    'update-type-status',
+      alert:     'update-type-alert',
+    }[u.update_type] || 'update-type-note';
+
+    return `
+      <div class="update-item">
+        <div class="update-header">
+     0    <div style="display:flex;align-items:center;gap:8px;">
+            <span class="update-type-badge ${typeClass}">${u.update_type || 'note'}</span>
+            <span class="update-title">${escHtml(u.title || '')}</span>
+  2       </div>
+          <span class="update-time">${formatRelTime(u.created_at)}</span>
+        </div>
+        ${u.body ? `<p class="update-body">${escHtml(u.body)}</p>` : ''}
+      </div>`;
+  }).join('');
+
+  // Badge
+  const badge = document.getElementById('updates-badge');
+  if (updates.length > 0) { badge.textContent = updates.length; badge.classList.remove('hidden'); }
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// MESSAGES (Task 4) â Supabase Realtime
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function loadMessages() {
+  // Find the client DM channel for this user/project
+  const { data: channels } = await sb
+    .from('chat_channels')
+    .select('*')
+    .eq('channel_type', 'client_dm')
+    .order('created_at', { ascending: false });
+
+  if (!channels || channels.length === 0) {
+    // No channel yet â will be created on wizard submit
+    document.getElementById('statMessages').textContent = '0';
+    document.getElementById('btnSend').disabled = true;
+    return;
+  }
+
+  // Find channel matching this project or use first available
+  const ch = channels.find(c =>
+    (c.project_id && c.project_id === projectId) ||
+    (c.customer_id && c.customer_id === userId)
+  ) || channels[0];
+
+  channelId = ch.id;
+
+  // Enable input
+  document.getElementById('msgInput').disabled = false;
+  document.getElementById('btnSend').disabled = false;
+
+  // Fetch messages
+  await fetchMessages();
+
+  // Subscribe to realtime
+  subscribeMessages();
+}
+
+async function fetchMessages() {
+  const { data } = await sb
+    .from('chat_messages')
+    .select('*, profiles!chat_messages_sender_id_fkey(full_name, email)')
+    .eq('channel_id', channelId)
+    .order('created_at', { ascending: true })
+    .limit(150);
+
+  messages = data || [];
+  document.getElementById('statMessages').textContent = messages.length;
+  renderMessages();
+  scrollToBottom();
+}
+
+function subscribeMessages() {
+  if (realtimeSub) sb.removeChannel(realtimeSub);
+
+  realtimeSub = sb.channel(`client-chat:${channelId}`)
+    .on('postgres_changes', {
+      event: 'INSERT', schema: 'public', table: 'chat_messages',
+      filter: `channel_id=eq.${channelId}`
+    }, async (payload) => {
+      // Fetch with profile join
+      const { data } = await sb
+        .from('chat_messages')
+        .select('*, profiles!chat_messages_sender_id_fkey(full_name, email)')
+        .eq('id', payload.new.id)
+        .single();
+      if (data && !messages.find(m => m.id === data.id)) {
+        messages.push(data);
+        renderMessages();
+        scrollToBottom();
+        document.getElementById('statMessages').textContent = messages.length;
+
+        // Badge if not on messages tab
+        if (activeTab !== 'messages' && data.sender_id !== userId) {
+          unreadMessages++;
+          const badge = document.getElementById('messages-badge');
+          badge.textContent = unreadMessages;
+          badge.classList.remove('hidden');
+        }
+      }
+    })
+    .on('postgres_changes', {
+      event: 'UPDATE', schema: 'public', table: 'chat_messages',
+      filter: `channel_id=eq.${channelId}`
+    }, async (payload) => {
+      const { data } = await sb
+        .from('chat_messages')
+        .select('*, profiles!chat_messages_sender_id_fkey(full_name, email)')
+        .eq('id', payload.new.id)
+        .single();
+      if (data) {
+        messages = messages.map(m => m.id === data.id ? data : m);
+        renderMessages();
+      }
+    })
+    .subscribe();
+}
+
+function renderMessages() {
+  const scroll = document.getElementById('messagesScroll');
+  const empty  = document.getElementById('messagesEmpty');
+
+  if (messages.length === 0) {
+    empty.style.display = 'flex';
+    // Remove old message elements
+    scroll.querySelectorAll('.msg-group').forEach(el => el.remove());
+    return;
+  }
+  empty.style.display = 'none';
+
+  // Rebuild message list
+  scroll.querySelectorAll('.msg-group').forEach(el => el.remove());
+
+  const frag = document.createDocumentFragment();
+  messages.forEach((msg, i) => {
+    const showHeader = shouldShowHeader(msg, i);
+    const isOwn      = msg.sender_id === userId;
+    const senderName = msg.profiles?.full_name || msg.profiles?.email || 'Liftori Team';
+    const div = document.createElement('div');
+    div.className = `msg-group ${showHeader ? 'has-header' : ''} ${isOwn ? 'msg-own' : 'msg-liftori'}`;
+    div.innerHTML = `
+      ${showHeader ? `
+        <div class="msg-header">
+          <span class="msg-sender">${escHtml(senderName)}</span>
+          <span class="msg-time">${formatMsgTime(msg.created_at)}</span>
+        </div>` : ''}
+      <div class="msg-bubble">
+        ${escHtml(msg.content)}
+        ${msg.edited_at ? '<span class="msg-edited"> (edited)</span>' : ''}
+      </div>`;
+    frag.appendChild(div);
+  });
+  scroll.appendChild(frag);
+}
+
+function shouldShowHeader(msg, i) {
+  if (i === 0) return true;
+  const prev = messages[i - 1];
+  if (prev.sender_id !== msg.sender_id) return true;
+  return (new Date(msg.created_at) - new Date(prev.created_at)) > 5 * 60 * 1000;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const content = input.value.trim();
+  if (!content || !channelId) return;
+
+  const btn = document.getElementById('btnSend');
+  btn.disabled = true;
+  input.value = '';
+  input.style.height = '';
+
+  try {
+    await sb.from('chat_messages').insert({
+      channel_id: channelId,
+      sender_id:  userId,
+      content,
+    });
+  } catch (err) {
+    console.error('sendMessage error:', err);
+    input.value = content;
+    showToast('Failed to send message.', 'error');
+  } finally {
+    btn.disabled = false;
+    input.focus();
+  }
+}
+
+function handleMsgKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResizeInput(el) {
+  el.style.height = '';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  document.getElementById('btnSend').disabled = !el.value.trim();
+}
+
+function scrollToBottom() {
+  const el = document.getElementById('messagesScroll');
+  el.scrollTop = el.scrollHeight;
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// WHITEBOARD
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function initWhiteboard() {
+  if (whiteboardLoaded) return;
+  whiteboardLoaded = true;
+  // Use Excalidraw embed with project-scoped room
+  // Store room ID in localStorage for persistence
+  let roomId = localStorage.getItem(`liftori_wb_${projectId}`);
+  if (!roomId) {
+    roomId = Math.random().toString(36).substring(2, 18) + Math.random().toString(36).substring(2, 18);
+    localStorage.setItem(`liftori_wb_${projectId}`, roomId);
+  }
+  const frame = document.getElementById('excalidrawFrame');
+  frame.src = `https://excalidraw.com/#room=${roomId},${Math.random().toString(36).substring(2,10)}`;
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// BILLING
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function loadBilling() {
+  const container = document.getElementById('milestonesContainer');
+  try {
+    const { data } = await sb
+      .from('project_milestones')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('due_date', { ascending: true });
+
+    const milestones = data || [];
+
+    if (milestones.length === 0) {
+      // Show default milestone structure based on tier
+      renderDefaultMilestones(container);
+      return;
+    }
+
+    container.innerHTML = `<div class="milestone-list">` +
+      milestones.map(m => {
+        const statusClass = m.paid ? 'paid' : (m.due_date && new Date(m.due_date) <= new Date() ? 'due' : 'pending');
+        const iconClass   = statusClass;
+        return `
+          <div class="milestone-item">
+            <div class="milestone-icon ${iconClass}">
+              ${m.paid
+                ? `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" style="color:var(--success)"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`
+                : `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--blue)"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>`
+              }
+            </div>
+            <div class="milestone-info">
+              <div class="milestone-name">${escHtml(m.name || 'Payment')}</div>
+              <div class="milestone-desc">${m.due_date ? 'Due ' + formatDate(m.due_date) : 'Schedule TBD'}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="milestone-amount">$${Number(m.amount || 0).toLocaleString()}</div>
+              <div class="milestone-status ${statusClass}">${m.paid ? 'Paid' : statusClass === 'due' ? 'Due' : 'Upcoming'}</div>
+            </div>
+          </div>`;
+      }).join('') + `</div>`;
+  } catch (err) {
+    // project_milestones table may not exist yet
+    renderDefaultMilestones(container);
+  }
+}
+
+function renderDefaultMilestones(container) {
+  const tier = project?.tier || 'Starter';
+  const amounts = {
+    Starter: [1250, 1000, 250],
+    Growth:  [2500, 2000, 500],
+    Scale:   [7500, 6000, 1500],
+  }[tier] || [1250, 1000, 250];
+
+  container.innerHTML = `
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">Standard ${tier} Tier milestone schedule (50/40/10):</p>
+    <div class="milestone-list">
+      <div class="milestone-item">
+        <div class="milestone-icon due">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--blue)"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+        </div>
+        <div class="milestone-info"><div class="milestone-name">Deposit â Design Approval</div><div class="milestone-desc">Due at plan approval</div></div>
+        <div style="text-align:right;"><div class="milestone-amount">$${amounts[0].toLocaleString()}</div><div class="milestone-status due">Due</div></div>
+      </div>
+      <div class="milestone-item">
+        <div class="milestone-icon pending">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--text-dim)"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+        </div>
+        <div class="milestone-info"><div class="milestone-name">Staging Delivery</div><div class="milestone-desc">Due at staging handoff</div></div>
+        <div style="text-align:right;"><div class="milestone-amount">$${amounts[1].toLocaleString()}</div><div class="milestone-status pending">Upcoming</div></div>
+      </div>
+      <div class="milestone-item">
+        <div class="milestone-icon pending">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--text-dim)"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+        </div>
+        <div class="milestone-info"><div class="milestone-name">Final â Launch</div><div class="milestone-desc">Due at go-live</div></div>
+        <div style="text-align:right;"><div class="milestone-amount">$${amounts[2].toLocaleString()}</div><div class="milestone-status pending">Upcoming</div></div>
+      </div>
+    </div>`;
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// DOCUMENTS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function loadDocuments() {
+  const container = document.getElementById('docsList');
+  try {
+    const { data } = await sb
+      .from('documents')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: false });
+
+    const docs = data || [];
+    document.getElementById('statDocs').textContent = docs.length;
+
+    if (docs.length === 0) {
+      container.innerHTML = '<div class="docs-empty"><p>No documents yet. Contract and design files will appear here.</p></div>';
+      return;
+    }
+
+    container.innerHTML = '<div class="doc-list">' + docs.map(d => `
+      <div class="doc-item" onclick="openDoc('${escHtml(d.file_url || '#')}')">
+        <div class="doc-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" style="color:var(--blue)"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">${escHtml(d.name || d.file_name || 'Document')}</div>
+          <div class="doc-meta">${formatDate(d.created_at)} ${d.file_size ? 'Â· ' + formatFileSize(d.file_size) : ''}</div>
+        </div>
+        <div class="doc-download">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        </div>
+      </div>`).join('') + '</div>';
+  } catch (err) {
+    container.innerHTML = '<div class="docs-empty"><p>Documents will appear here once uploaded by your project team.</p></div>';
+  }
+}
+
+function openDoc(url) {
+  if (url && url !== '#') window.open(url, '_blank');
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// NO PROJECT STATE
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function renderNoProject() {
+  document.getElementById('headerProjectName').textContent = 'No project found';
+  document.getElementById('briefContent').innerHTML = `
+    <div class="brief-placeholder">
+      <div class="brief-placeholder-icon">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--blue)"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+      </div>
+      <h3 style="color:white;margin-bottom:8px;">No project found</h3>
+      <p>It looks like your project submission is still being processed. <a href="/customer/wizard.html" style="color:var(--blue);">Complete the wizard</a> if you haven't already.</p>
+    </div>`;
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// TAB SWITCHING
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function switchTab(tab) {
+  activeTab = tab;
+
+  // Desktop sidebar
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + tab);
+  if (navEl) navEl.classList.add('active');
+
+  // Mobile nav
+  document.querySelectorAll('.tab-mobile-btn').forEach((el, i) => {
+    const tabs = ['overview','updates','messages','whiteboard','billing','documents'];
+    el.classList.toggle('active', tabs[i] === tab);
+  });
+
+  // Panels
+  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+
+  // Special inits
+  if (tab === 'messages') {
+    unreadMessages = 0;
+    const badge = document.getElementById('messages-badge');
+    badge.classList.add('hidden');
+    scrollToBottom();
+  }
+  if (tab === 'whiteboard') {
+    initWhiteboard();
+  }
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// AUTH
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function logout() {
+  await sb.auth.signOut();
+  window.location.href = '/customer/wizard.html';
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// UTILS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br>');
+}
+
+function formatRelTime(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diff = now - d;
+  if (diff < 60000)   return 'just now';
+  if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function formatMsgTime(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const isToday = d.toDateString() === now.toDateString();
+  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (isToday) return time;
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (d.toDateString() === yesterday.toDateString()) return 'Yesterday ' + time;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + time;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatFileSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024)     return bytes + ' B';
+  if (bytes < 1048576)  return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+let toastTimer;
+function showToast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.classList.remove('show'); }, 3500);
+}
+</script>
+</body>
+</html>
