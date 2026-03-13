@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Your Project | Liftori</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #060B18;
+      --navy2: #0C1628;
+      --blue: #0EA5E9;
+      --blue-light: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --white: #ffffff;
+      --gray: #6B7280;
+      --gray-light: #F9FAFB;
+      --gray-border: #E5E7EB;
+      --success: #10B981;
+      --error: #EF4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .nav-right { font-size: 0.875rem; color: var(--gray); }
+    .nav-right a { color: var(--blue-light); text-decoration: none; }
+    .nav-right a:hover { color: var(--blue); }
+
+    /* MAIN */
+    .wizard-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 16px 60px;
+    }
+    .wizard-card {
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 640px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    /* PROGRESS */
+    .progress-header {
+      margin-bottom: 32px;
+    }
+    .step-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 99px;
+      height: 4px;
+      width: 100%;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 99px;
+      height: 4px;
+      transition: width 0.4s ease;
+    }
+    .step-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      color: var(--white);
+    }
+    .step-subtitle {
+      font-size: 0.875rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    /* STEPS */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 22px; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="url"],
+    textarea,
+    select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.25); }
+    select option { background: var(--navy2); color: var(--white); }
+    textarea { resize: vertical; min-height: 100px; }
+
+    /* RADIO / CARD SELECTS */
+    .card-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .card-option {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 16px 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .card-option:hover {
+      border-color: rgba(14,165,233,0.4);
+      background: rgba(14,165,233,0.06);
+    }
+    .card-option.selected {
+      border-color: var(--blue);
+      background: rgba(14,165,233,0.12);
+    }
+    .card-option .card-icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .card-option .card-label { font-size: 0.8125rem; font-weight: 600; }
+    .card-option .card-desc { font-size: 0.75rem; color: var(--gray); margin-top: 4px; }
+
+    /* CHECKBOXES */
+    .feature-list { display: flex; flex-direction: column; gap: 8px; }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .feature-item:hover { border-color: rgba(14,165,233,0.3); }
+    .feature-item.checked {
+      border-color: var(--blue);
+      background: rgba(14,165,233,0.08);
+    }
+    .feature-item input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+    .feature-item span { font-size: 0.875rem; }
+
+    /* TAGS */
+    .tag-input-area {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      cursor: text;
+    }
+    .tag-input-area:focus-within { border-color: var(--blue); }
+    .tag {
+      background: rgba(14,165,233,0.2);
+      color: var(--blue-light);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.8125rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-remove { cursor: pointer; font-size: 0.75rem; opacity: 0.7; }
+    .tag-remove:hover { opacity: 1; }
+    .tag-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      min-width: 120px;
+      padding: 3px 4px;
+    }
+
+    /* VIBE SELECTOR */
+    .vibe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .vibe-card {
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .vibe-card.selected { border-color: var(--blue); }
+    .vibe-card .vibe-name { font-size: 0.8125rem; font-weight: 600; margin-top: 6px; }
+
+    /* REVIEW BOX */
+    .review-section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .review-section h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .review-section p {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    /* BUTTONS */
+    .btn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 32px;
+      gap: 12px;
+    }
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      flex: 1;
+      justify-content: center;
+    }
+    .btn-primary:hover { background: #0284c7; transform: translateY(-1px); }
+    .btn-primary:disabled { background: rgba(14,165,233,0.3); cursor: not-allowed; transform: none; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+    .btn-success {
+      background: var(--success);
+      color: var(--white);
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* ERROR / HELP */
+    .error-msg {
+      font-size: 0.8125rem;
+      color: var(--error);
+      margin-top: 6px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+    .help-text {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+
+    /* LOADING / SUCCESS SCREENS */
+    .overlay-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .overlay-screen.active { display: flex; }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(14,165,233,0.2);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .overlay-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .overlay-sub { font-size: 0.9375rem; color: var(--gray); line-height: 1.6; max-width: 400px; }
+    .tier-badge {
+      display: inline-block;
+      background: rgba(14,165,233,0.15);
+      border: 1px solid rgba(14,165,233,0.3);
+      color: var(--blue-light);
+      border-radius: 8px;
+      padding: 6px 16px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 12px 0;
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 20px 0; }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .wizard-card { padding: 24px 20px; }
+      .card-grid.cols-3 { grid-template-columns: 1fr; }
+      .vibe-grid { grid-template-columns: repeat(2, 1fr); }
+      nav { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">LIFTORI</a>
+  <div class="nav-right">Already have an account? <a href="/customer/dashboard.html">Go to Dashboard â</a></div>
+</nav>
+
+<div class="wizard-container">
+  <div class="wizard-card" id="wizardCard">
+
+    <!-- PROGRESS HEADER -->
+    <div class="progress-header" id="progressHeader">
+      <div class="step-label">Step <span id="currentStep">1</span> of 9</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:11%"></div></div>
+      <div id="stepTitleEl" class="step-title">LET'S START</div>
+      <div id="stepSubtitleEl" class="step-subtitle">Create your account to save your progress.</div>
+    </div>
+
+    <!-- STEP 1: ACCOUNT SETUP -->
+    <div class="step active" id="step1">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="s1_name" placeholder="Your full name" autocomplete="given-name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="s1_email" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="s1_password" placeholder="Min. 8 characters" autocomplete="new-password">
+        <div class="help-text">Returning user? <a href="#" id="switchToLoginLink" style="color:var(--blue-light)">Sign in instead â</a></div>
+      </div>
+      <div id="s1_error" class="error-msg">Please fill in all fields.</div>
+
+      <!-- Login form (hidden by default) -->
+      <div id="loginForm" style="display:none">
+        <hr class="divider">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="s1_login_email" placeholder="you@email.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="s1_login_password" placeholder="Your password">
+        </div>
+        <div id="s1_login_error" class="error-msg"></div>
+        <button class="btn btn-primary" onclick="doLogin()" style="width:100%;margin-top:4px;">Sign In</button>
+        <div style="text-align:center;margin-top:12px;">
+          <a href="#" id="switchToSignupLink" style="color:var(--gray);font-size:0.875rem;">New to Liftori? Create account â</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: PROJECT TYPE -->
+    <div class="step" id="step2">
+      <div class="card-grid cols-3">
+        <div class="card-option" data-value="Web App" onclick="selectCard(this, 's2_type')">
+          <div class="card-icon">ð</div>
+          <div class="card-label">Web App</div>
+          <div class="card-desc">Browser-based platform or dashboard</div>
+        </div>
+        <div class="card-option" data-value="Mobile App" onclick="selectCard(this, 's2_type')">
+          <div class="card-icon">ð±</div>
+          <div class="card-label">Mobile App</div>
+          <div class="card-desc">iOS and/or Android native app</div>
+        </div>
+        <div class="card-option" data-value="Business Platform" onclick="selectCard(this, 's2_type')">
+          <div class="card-icon">ð¢</div>
+          <div class="card-label">Business Platform</div>
+          <div class="card-desc">Full operations or CRM system</div>
+        </div>
+      </div>
+      <input type="hidden" id="s2_type">
+      <div class="form-group" style="margin-top:20px">
+        <label>Project Name (working title)</label>
+        <input type="text" id="s2_name" placeholder="e.g. QuickBook, MyStore, TeamFlow">
+      </div>
+      <div id="s2_error" class="error-msg">Please select a project type and enter a name.</div>
+    </div>
+
+    <!-- STEP 3: YOUR IDEA -->
+    <div class="step" id="step3">
+      <div class="form-group">
+        <label>Describe Your Idea</label>
+        <textarea id="s3_description" rows="4" placeholder="What does your app do? Describe it like you're explaining to a friend who has no tech background..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Who Is It For?</label>
+        <input type="text" id="s3_audience" placeholder="e.g. Small business owners, college students, freelance photographers...">
+      </div>
+      <div class="form-group">
+        <label>What Problem Does It Solve?</label>
+        <textarea id="s3_problem" rows="3" placeholder="What's frustrating about the current way people handle this?"></textarea>
+      </div>
+      <div id="s3_error" class="error-msg">Please describe your idea and target audience.</div>
+    </div>
+
+    <!-- STEP 4: KEY FEATURES -->
+    <div class="step" id="step4">
+      <div class="feature-list" id="featureList">
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="User accounts & profiles"><span>User accounts &amp; profiles</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Admin dashboard"><span>Admin dashboard / management panel</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Payments & billing"><span>Payments &amp; billing (subscriptions or one-time)</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Messaging / chat"><span>Messaging / chat between users</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Notifications"><span>Email &amp; push notifications</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Search & filtering"><span>Search &amp; filtering</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="File / image uploads"><span>File &amp; image uploads</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Analytics & reporting"><span>Analytics &amp; reporting</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="Booking / scheduling"><span>Booking &amp; scheduling</span>
+        </div>
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <input type="checkbox" value="AI-powered features"><span>AI-powered features (smart search, recommendations, etc.)</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:16px">
+        <label>Other features (type &amp; press Enter)</label>
+        <div class="tag-input-area" id="customFeaturesArea" onclick="document.getElementById('customFeatureInput').focus()">
+          <input type="text" class="tag-input" id="customFeatureInput" placeholder="Add custom feature...">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: DESIGN VIBE -->
+    <div class="step" id="step5">
+      <div class="vibe-grid">
+        <div class="vibe-card selected" onclick="selectVibe(this, 'Modern & Clean')" style="background:linear-gradient(135deg,#1e293b,#334155)">
+          <div style="font-size:1.2rem">â¦</div>
+          <div class="vibe-name">Modern & Clean</div>
+        </div>
+        <div class="vibe-card" onclick="selectVibe(this, 'Bold & Energetic')" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
+          <div style="font-size:1.2rem">â¡</div>
+          <div class="vibe-name">Bold & Energetic</div>
+        </div>
+        <div class="vibe-card" onclick="selectVibe(this, 'Professional & Corporate')" style="background:linear-gradient(135deg,#1e40af,#3b82f6)">
+          <div style="font-size:1.2rem">ð¼</div>
+          <div class="vibe-name">Professional</div>
+        </div>
+        <div class="vibe-card" onclick="selectVibe(this, 'Warm & Friendly')" style="background:linear-gradient(135deg,#ea580c,#f97316)">
+          <div style="font-size:1.2rem">ð</div>
+          <div class="vibe-name">Warm & Friendly</div>
+        </div>
+        <div class="vibe-card" onclick="selectVibe(this, 'Minimal & Elegant')" style="background:linear-gradient(135deg,#111827,#374151)">
+          <div style="font-size:1.2rem">â¯</div>
+          <div class="vibe-name">Minimal & Elegant</div>
+        </div>
+        <div class="vibe-card" onclick="selectVibe(this, 'Playful & Creative')" style="background:linear-gradient(135deg,#0d9488,#14b8a6)">
+          <div style="font-size:1.2rem">ð¨</div>
+          <div class="vibe-name">Playful & Creative</div>
+        </div>
+      </div>
+      <input type="hidden" id="s5_vibe" value="Modern & Clean">
+      <div class="form-group" style="margin-top:20px">
+        <label>Color Preferences (optional)</label>
+        <input type="text" id="s5_colors" placeholder="e.g. Navy and gold, earthy greens, bright and bold...">
+      </div>
+    </div>
+
+    <!-- STEP 6: REFERENCE EXAMPLES -->
+    <div class="step" id="step6">
+      <div class="form-group">
+        <label>Apps or Sites You Love (optional)</label>
+        <textarea id="s6_references" rows="3" placeholder="List URLs or names of apps/websites that inspire you or show the style/function you're going for&#10;&#10;e.g. Airbnb, Notion, Shopify â I love how clean the navigation is"></textarea>
+      </div>
+      <div class="form-group">
+        <label>What Do You Love About Them?</label>
+        <textarea id="s6_love" rows="3" placeholder="What specifically do you like? Layout, colors, how easy it is to use, specific features..."></textarea>
+      </div>
+      <p class="help-text">This step is optional â but the more context you share, the better your brief will be.</p>
+    </div>
+
+    <!-- STEP 7: TIMELINE & BUDGET -->
+    <div class="step" id="step7">
+      <div class="form-group">
+        <label>When Do You Need This?</label>
+        <div class="card-grid cols-2">
+          <div class="card-option" data-value="ASAP (1â2 weeks)" onclick="selectCard(this, 's7_timeline')">
+            <div class="card-icon">ð</div>
+            <div class="card-label">ASAP</div>
+            <div class="card-desc">1â2 weeks</div>
+          </div>
+          <div class="card-option" data-value="Within a month" onclick="selectCard(this, 's7_timeline')">
+            <div class="card-icon">ð</div>
+            <div class="card-label">Within a month</div>
+            <div class="card-desc">3â4 weeks</div>
+          </div>
+          <div class="card-option" data-value="2â3 months" onclick="selectCard(this, 's7_timeline')">
+            <div class="card-icon">ðï¸</div>
+            <div class="card-label">2â3 months</div>
+            <div class="card-desc">Steady build</div>
+          </div>
+          <div class="card-option" data-value="Flexible" onclick="selectCard(this, 's7_timeline')">
+            <div class="card-icon">â³</div>
+            <div class="card-label">Flexible</div>
+            <div class="card-desc">No hard deadline</div>
+          </div>
+        </div>
+        <input type="hidden" id="s7_timeline">
+      </div>
+      <div class="form-group">
+        <label>Investment Range</label>
+        <select id="s7_budget">
+          <option value="" disabled selected>Select your budget range</option>
+          <option value="Under $5,000">Under $5,000</option>
+          <option value="$5,000 â $10,000">$5,000 â $10,000</option>
+          <option value="$10,000 â $25,000">$10,000 â $25,000</option>
+          <option value="$25,000+">$25,000+</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+      <div id="s7_error" class="error-msg">Please select a timeline and budget range.</div>
+    </div>
+
+    <!-- STEP 8: MAIN SCREEN SKETCH -->
+    <div class="step" id="step8">
+      <div class="form-group">
+        <label>Describe Your Main Screen</label>
+        <textarea id="s8_mainscreen" rows="4" placeholder="When a user opens your app for the first time, what do they see? Describe the main page â what's on it, what they can do, what they click first..."></textarea>
+        <div class="help-text">Don't worry about being technical. Just describe it like you're describing a picture.</div>
+      </div>
+      <div class="form-group">
+        <label>Any Other Important Notes?</label>
+        <textarea id="s8_notes" rows="3" placeholder="Anything else we should know? Integrations you need (e.g. Stripe, Google Maps), compliance requirements, special users, etc."></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 9: REVIEW & SUBMIT -->
+    <div class="step" id="step9">
+      <div id="reviewContent">
+        <!-- Populated by JS -->
+      </div>
+      <div id="s9_consent" class="form-group" style="margin-top:20px">
+        <div class="feature-item" onclick="toggleConsent(this)" id="consentItem">
+          <input type="checkbox" id="consentCheck">
+          <span style="font-size:0.8125rem">I confirm this information is accurate and I'm ready for Liftori to generate my project brief.</span>
+        </div>
+      </div>
+      <div id="s9_error" class="error-msg">Please confirm your information above.</div>
+    </div>
+
+    <!-- NAVIGATION BUTTONS -->
+    <div class="btn-row" id="btnRow">
+      <button class="btn btn-ghost" id="btnBack" onclick="prevStep()" style="display:none">â Back</button>
+      <button class="btn btn-primary" id="btnNext" onclick="nextStep()">Next Step â</button>
+    </div>
+
+    <!-- LOADING SCREEN -->
+    <div class="overlay-screen" id="loadingScreen">
+      <div class="spinner"></div>
+      <div class="overlay-title">GENERATING YOUR BRIEF</div>
+      <p class="overlay-sub">Our AI is analyzing your project and building your personalized plan. This takes about 15 seconds...</p>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="overlay-screen" id="successScreen">
+      <div class="success-icon">ð</div>
+      <div class="overlay-title">YOUR BRIEF IS READY</div>
+      <div id="successTier" class="tier-badge">Starter Tier</div>
+      <p class="overlay-sub" id="successMsg">Your AI-generated project brief is ready. Head to your dashboard to review and approve your plan.</p>
+      <button class="btn btn-success" onclick="goToDashboard()" style="margin-top:24px;width:100%;max-width:320px">
+        View My Dashboard â
+      </button>
+    </div>
+
+  </div><!-- /wizard-card -->
+</div><!-- /wizard-container -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// âââ STATE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+let currentStepNum = 1;
+const TOTAL_STEPS = 9;
+let userId = null;
+let wizardSubmissionId = null;
+let projectId = null;
+let isLoginMode = false;
+const customFeatureTags = [];
+
+// Step metadata
+const STEPS = [
+  { title: "LET'S START",         sub: "Create your account to save your progress." },
+  { title: "PROJECT TYPE",        sub: "What kind of platform are you building?" },
+  { title: "YOUR IDEA",           sub: "Tell us about your project in plain English." },
+  { title: "KEY FEATURES",        sub: "What must your app be able to do?" },
+  { title: "DESIGN VIBE",         sub: "How should it look and feel?" },
+  { title: "REFERENCES",          sub: "Apps or sites that inspire you. (Optional)" },
+  { title: "TIMELINE & BUDGET",   sub: "When do you need it and what's your budget?" },
+  { title: "YOUR MAIN SCREEN",    sub: "Describe the first thing users see." },
+  { title: "REVIEW & SUBMIT",     sub: "Confirm your answers and generate your AI brief." },
+];
+
+// âââ INIT âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+(async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    userId = session.user.id;
+    // Check if they already have an active wizard submission
+    const { data: existing } = await sb.from('wizard_submissions')
+      .select('id, completed, project_id')
+      .eq('customer_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (existing && existing.length > 0 && existing[0].completed) {
+      // Already submitted â redirect to dashboard
+      window.location.href = '/customer/dashboard.html';
+      return;
+    }
+    if (existing && existing.length > 0) {
+      wizardSubmissionId = existing[0].id;
+      projectId = existing[0].project_id;
+    }
+    // Skip step 1 since already logged in
+    document.getElementById('step1').classList.remove('active');
+    currentStepNum = 2;
+    document.getElementById('step2').classList.add('active');
+    updateProgress();
+  }
+
+  // Custom feature input
+  document.getElementById('customFeatureInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addCustomFeature(this.value.trim());
+      this.value = '';
+    }
+  });
+
+  // Login/signup toggle
+  document.getElementById('switchToLoginLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    toggleLoginMode(true);
+  });
+  document.getElementById('switchToSignupLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    toggleLoginMode(false);
+  });
+})();
+
+function toggleLoginMode(toLogin) {
+  isLoginMode = toLogin;
+  document.getElementById('loginForm').style.display = toLogin ? 'block' : 'none';
+  // Hide signup fields
+  ['s1_name','s1_email','s1_password'].forEach(id => {
+    document.getElementById(id).closest('.form-group').style.display = toLogin ? 'none' : 'block';
+  });
+  document.getElementById('switchToLoginLink').parentElement.style.display = toLogin ? 'none' : 'block';
+}
+
+// âââ NAVIGATION âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function nextStep() {
+  if (!await validateStep(currentStepNum)) return;
+  await saveStepData(currentStepNum);
+
+  if (currentStepNum === 9) {
+    await submitWizard();
+    return;
+  }
+
+  hideStep(currentStepNum);
+  currentStepNum++;
+  showStep(currentStepNum);
+  updateProgress();
+}
+
+function prevStep() {
+  if (currentStepNum <= 1) return;
+  hideStep(currentStepNum);
+  currentStepNum--;
+  showStep(currentStepNum);
+  updateProgress();
+}
+
+function hideStep(n) {
+  document.getElementById('step' + n)?.classList.remove('active');
+}
+function showStep(n) {
+  document.getElementById('step' + n)?.classList.add('active');
+  if (n === 9) buildReviewContent();
+}
+
+function updateProgress() {
+  const pct = Math.round((currentStepNum / TOTAL_STEPS) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('currentStep').textContent = currentStepNum;
+  const meta = STEPS[currentStepNum - 1];
+  document.getElementById('stepTitleEl').textContent = meta.title;
+  document.getElementById('stepSubtitleEl').textContent = meta.sub;
+
+  // Back button
+  document.getElementById('btnBack').style.display = currentStepNum > 1 ? 'inline-flex' : 'none';
+
+  // Next button text
+  const btnNext = document.getElementById('btnNext');
+  if (currentStepNum === 9) {
+    btnNext.textContent = 'â¦ Generate My Brief';
+    btnNext.style.background = 'linear-gradient(135deg, #0EA5E9, #7C3AED)';
+  } else {
+    btnNext.textContent = 'Next Step â';
+    btnNext.style.background = '';
+  }
+}
+
+// âââ VALIDATION âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function validateStep(n) {
+  clearErrors();
+  if (n === 1) {
+    if (isLoginMode) return true; // login handled separately
+    const name = document.getElementById('s1_name').value.trim();
+    const email = document.getElementById('s1_email').value.trim();
+    const pass = document.getElementById('s1_password').value;
+    if (!name || !email || pass.length < 8) {
+      showError('s1_error', 'Please fill in all fields. Password must be at least 8 characters.');
+      return false;
+    }
+    // Create account
+    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+    if (error) { showError('s1_error', error.message); return false; }
+    userId = data.user.id;
+    // Create profile
+    await sb.from('profiles').upsert({ id: userId, email, full_name: name, role: 'customer', created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
+    return true;
+  }
+  if (n === 2) {
+    if (!document.getElementById('s2_type').value || !document.getElementById('s2_name').value.trim()) {
+      showError('s2_error', 'Please select a project type and enter a name.');
+      return false;
+    }
+  }
+  if (n === 3) {
+    if (!document.getElementById('s3_description').value.trim() || !document.getElementById('s3_audience').value.trim()) {
+      showError('s3_error', 'Please describe your idea and target audience.');
+      return false;
+    }
+  }
+  if (n === 7) {
+    if (!document.getElementById('s7_timeline').value || !document.getElementById('s7_budget').value) {
+      showError('s7_error', 'Please select a timeline and budget range.');
+      return false;
+    }
+  }
+  if (n === 9) {
+    if (!document.getElementById('consentCheck').checked) {
+      showError('s9_error', 'Please confirm your information above.');
+      return false;
+    }
+  }
+  return true;
+}
+
+// âââ SAVE STEP DATA âââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function saveStepData(n) {
+  if (!userId) return;
+  const stepData = gatherStepData(n);
+  if (!wizardSubmissionId) {
+    // Create wizard_submission + project records on first save
+    const projRes = await sb.from('projects').insert({
+      customer_id: userId,
+      name: document.getElementById('s2_name')?.value?.trim() || 'New Project',
+      project_type: document.getElementById('s2_type')?.value || 'Web App',
+      status: 'Wizard Complete',
+      tier: 'Starter',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).select();
+    if (projRes.data && projRes.data.length > 0) {
+      projectId = projRes.data[0].id;
+      const subRes = await sb.from('wizard_submissions').insert({
+        customer_id: userId,
+        project_id: projectId,
+        step_data: { ['step' + n]: stepData },
+        completed: false,
+        created_at: new Date().toISOString(),
+      }).select();
+      if (subRes.data && subRes.data.length > 0) wizardSubmissionId = subRes.data[0].id;
+    }
+  } else {
+    // Update existing submission with new step data
+    const { data: current } = await sb.from('wizard_submissions').select('step_data').eq('id', wizardSubmissionId).single();
+    const merged = { ...(current?.step_data || {}), ['step' + n]: stepData };
+    await sb.from('wizard_submissions').update({ step_data: merged }).eq('id', wizardSubmissionId);
+    // Also sync project fields
+    await syncProjectFromStep(n, stepData);
+  }
+}
+
+async function syncProjectFromStep(n, data) {
+  if (!projectId) return;
+  const updates = {};
+  if (n === 2) { updates.name = data.name; updates.project_type = data.type; }
+  if (n === 4) { updates.features = [...getCheckedFeatures(), ...customFeatureTags]; }
+  if (n === 5) { updates.vibe = data.vibe; }
+  if (n === 7) { updates.timeline_pref = data.timeline; updates.budget_range = data.budget; }
+  if (Object.keys(updates).length > 0) {
+    updates.updated_at = new Date().toISOString();
+    await sb.from('projects').update(updates).eq('id', projectId);
+  }
+}
+
+function gatherStepData(n) {
+  const s = {};
+  if (n === 1) { s.name = document.getElementById('s1_name').value.trim(); s.email = document.getElementById('s1_email').value.trim(); }
+  if (n === 2) { s.type = document.getElementById('s2_type').value; s.name = document.getElementById('s2_name').value.trim(); }
+  if (n === 3) { s.description = document.getElementById('s3_description').value.trim(); s.audience = document.getElementById('s3_audience').value.trim(); s.problem = document.getElementById('s3_problem').value.trim(); }
+  if (n === 4) { s.features = [...getCheckedFeatures(), ...customFeatureTags]; }
+  if (n === 5) { s.vibe = document.getElementById('s5_vibe').value; s.colors = document.getElementById('s5_colors').value.trim(); }
+  if (n === 6) { s.references = document.getElementById('s6_references').value.trim(); s.love = document.getElementById('s6_love').value.trim(); }
+  if (n === 7) { s.timeline = document.getElementById('s7_timeline').value; s.budget = document.getElementById('s7_budget').value; }
+  if (n === 8) { s.mainscreen = document.getElementById('s8_mainscreen').value.trim(); s.notes = document.getElementById('s8_notes').value.trim(); }
+  return s;
+}
+
+function getCheckedFeatures() {
+  return Array.from(document.querySelectorAll('#featureList input[type=checkbox]:checked')).map(cb => cb.value);
+}
+
+// âââ SUBMIT âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function submitWizard() {
+  if (!await validateStep(9)) return;
+
+  // Collect all step data
+  const allStepData = {};
+  for (let i = 1; i <= 9; i++) allStepData['step' + i] = gatherStepData(i);
+
+  // Show loading
+  document.getElementById('progressHeader').style.display = 'none';
+  document.getElementById('step9').style.display = 'none';
+  document.getElementById('btnRow').style.display = 'none';
+  document.getElementById('loadingScreen').classList.add('active');
+
+  // Final save
+  if (wizardSubmissionId) {
+    await sb.from('wizard_submissions').update({ step_data: allStepData }).eq('id', wizardSubmissionId);
+  } else {
+    await saveStepData(9);
+  }
+
+  // Ensure project exists
+  if (!projectId) {
+    const pr = await sb.from('projects').insert({
+      customer_id: userId,
+      name: allStepData.step2?.name || 'My Project',
+      project_type: allStepData.step2?.type || 'Web App',
+      features: allStepData.step4?.features || [],
+      vibe: allStepData.step5?.vibe || 'Modern & Clean',
+      timeline_pref: allStepData.step7?.timeline || '',
+      budget_range: allStepData.step7?.budget || '',
+      status: 'Wizard Complete',
+      tier: 'Starter',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).select();
+    if (pr.data?.length) projectId = pr.data[0].id;
+  }
+
+  // Update wizard_submission as complete
+  if (wizardSubmissionId) {
+    await sb.from('wizard_submissions').update({
+      completed: true,
+      submitted_at: new Date().toISOString(),
+      project_id: projectId,
+    }).eq('id', wizardSubmissionId);
+  }
+
+  // Call generate-brief edge function
+  let tier = 'Starter';
+  let estimatedCost = '$2,500 â $5,000';
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/generate-brief', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (await sb.auth.getSession()).data.session.access_token,
+      },
+      body: JSON.stringify({
+        wizard_submission_id: wizardSubmissionId,
+        project_id: projectId,
+        customer_id: userId,
+        step_data: allStepData,
+      }),
+    });
+    if (res.ok) {
+      const result = await res.json();
+      tier = result.tier || tier;
+      estimatedCost = result.estimated_cost || estimatedCost;
+    }
+  } catch (err) {
+    // Brief generation failed (likely API key not set) â project is still saved
+    // Admin will review and generate manually
+  }
+
+  // Auto-create DM channel if not exists
+  try {
+    await sb.rpc('create_client_dm_channel', {
+      p_customer_id: userId,
+      p_project_id: projectId,
+    });
+  } catch (e) { /* Channel may already exist */ }
+
+  // Show success
+  document.getElementById('loadingScreen').classList.remove('active');
+  document.getElementById('successTier').textContent = tier + ' Tier â ' + estimatedCost;
+  document.getElementById('successScreen').classList.add('active');
+}
+
+function goToDashboard() {
+  window.location.href = '/customer/dashboard.html';
+}
+
+// âââ LOGIN ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function doLogin() {
+  const email = document.getElementById('s1_login_email').value.trim();
+  const pass = document.getElementById('s1_login_password').value;
+  const errEl = document.getElementById('s1_login_error');
+  errEl.style.display = 'none';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  userId = data.user.id;
+  window.location.href = '/customer/dashboard.html';
+}
+
+// âââ UI HELPERS âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function selectCard(el, hiddenId) {
+  el.closest('.card-grid').querySelectorAll('.card-option').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(hiddenId).value = el.dataset.value;
+}
+
+function selectVibe(el, value) {
+  document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('s5_vibe').value = value;
+}
+
+function toggleFeature(el) {
+  el.classList.toggle('checked');
+  el.querySelector('input[type=checkbox]').checked = el.classList.contains('checked');
+}
+
+function toggleConsent(el) {
+  el.classList.toggle('checked');
+  el.querySelector('input[type=checkbox]').checked = el.classList.contains('checked');
+}
+
+function addCustomFeature(val) {
+  if (!val) return;
+  customFeatureTags.push(val);
+  const area = document.getElementById('customFeaturesArea');
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.innerHTML = `${val} <span class="tag-remove" onclick="removeCustomFeature(this, '${val}')">â</span>`;
+  area.insertBefore(tag, document.getElementById('customFeatureInput'));
+}
+
+function removeCustomFeature(el, val) {
+  const idx = customFeatureTags.indexOf(val);
+  if (idx > -1) customFeatureTags.splice(idx, 1);
+  el.parentElement.remove();
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.classList.add('visible'); }
+}
+function clearErrors() {
+  document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+}
+
+function buildReviewContent() {
+  const container = document.getElementById('reviewContent');
+  const data = {};
+  for (let i = 1; i <= 8; i++) data['s' + i] = gatherStepData(i);
+
+  container.innerHTML = `
+    <div class="review-section">
+      <h4>Project</h4>
+      <p><strong>${data.s2.name || 'â'}</strong> â ${data.s2.type || 'â'}</p>
+    </div>
+    <div class="review-section">
+      <h4>Your Idea</h4>
+      <p>${data.s3.description || 'â'}</p>
+      <p style="margin-top:6px;color:var(--blue-light)">For: ${data.s3.audience || 'â'}</p>
+    </div>
+    <div class="review-section">
+      <h4>Features</h4>
+      <p>${[...getCheckedFeatures(), ...customFeatureTags].join(', ') || 'None selected'}</p>
+    </div>
+    <div class="review-section">
+      <h4>Design Vibe &amp; Timeline</h4>
+      <p>${data.s5.vibe || 'â'} Â· ${data.s7.timeline || 'â'} Â· ${data.s7.budget || 'â'}</p>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
