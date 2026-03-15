@@ -275,6 +275,22 @@
     color: var(--white-ice);
   }
 
+  .btn-book {
+    color: #f59e0b;
+    padding: 16px 32px;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    border-radius: 4px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+  }
+  .btn-book:hover {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.08);
+    color: #fde68a;
+  }
+
   .hero-stats {
     display: flex;
     gap: 60px;
@@ -1248,6 +1264,7 @@
     <div class="hero-actions">
       <a href="#pricing" class="btn-primary"><span>Start Building Now</span></a>
       <a href="#how" class="btn-secondary">See How It Works</a>
+      <a href="https://admin.liftori.ai/portal/new-project?type=book" class="btn-book">✍ Build My Book App</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
