@@ -2453,7 +2453,7 @@
     <a href="#" onclick="openPrivacyModal();return false;">Privacy</a>
     <a href="#" onclick="openTermsModal();return false;">Terms</a>
     <a href="#" onclick="openContactModal();return false;">Contact Us</a>
-    <a href="mailto:Sales@Liftori.Ai">Sales@Liftori.Ai</a>
+    <a href="mailto:Sales@liftori.ai">Sales@liftori.ai</a>
   </div>
   <div class="footer-copy">© 2026 Liftori. All rights reserved.</div>
 </footer>
@@ -2851,7 +2851,7 @@
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#0EA5E9;">Message Sent!</h3>
       <p style="color:#94a3b8;">We'll get back to you shortly at the email you provided.</p>
     </div>
-    <p style="text-align:center;color:#64748b;font-size:0.8rem;margin-top:1.25rem;">Or email us directly: <a href="mailto:Sales@Liftori.Ai" style="color:#0EA5E9;">Sales@Liftori.Ai</a></p>
+    <p style="text-align:center;color:#64748b;font-size:0.8rem;margin-top:1.25rem;">Or email us directly: <a href="mailto:Sales@liftori.ai" style="color:#0EA5E9;">Sales@liftori.ai</a></p>
   </div>
 </div>
 
@@ -2881,7 +2881,7 @@
       <h3>8. Changes to This Policy</h3>
       <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
       <h3>9. Contact</h3>
-      <p>If you have questions about this Privacy Policy, contact us at <a href="mailto:Sales@Liftori.Ai" style="color:#0EA5E9;">Sales@Liftori.Ai</a>.</p>
+      <p>If you have questions about this Privacy Policy, contact us at <a href="mailto:Sales@liftori.ai" style="color:#0EA5E9;">Sales@liftori.ai</a>.</p>
     </div>
   </div>
 </div>
@@ -2913,7 +2913,7 @@
       <h3>9. Governing Law</h3>
       <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to conflict of law provisions.</p>
       <h3>10. Contact</h3>
-      <p>For questions about these Terms, contact us at <a href="mailto:Sales@Liftori.Ai" style="color:#0EA5E9;">Sales@Liftori.Ai</a>.</p>
+      <p>For questions about these Terms, contact us at <a href="mailto:Sales@liftori.ai" style="color:#0EA5E9;">Sales@liftori.ai</a>.</p>
     </div>
   </div>
 </div>
@@ -2942,7 +2942,7 @@ function submitContactForm(e){
   var btn=document.getElementById('contactSubmitBtn');
   btn.textContent='Sending...';btn.disabled=true;
   var data={name:document.getElementById('contactName').value,email:document.getElementById('contactEmail').value,phone:document.getElementById('contactPhone').value||'',message:document.getElementById('contactMessage').value};
-  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.name,email:'Sales@Liftori.Ai',contact_form:true,from_name:data.name,from_email:data.email,from_phone:data.phone,from_message:data.message})}).then(function(){
+  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.name,email:'Sales@liftori.ai',contact_form:true,from_name:data.name,from_email:data.email,from_phone:data.phone,from_message:data.message})}).then(function(){
     document.getElementById('contactForm').style.display='none';
     document.getElementById('contactSuccess').style.display='block';
   }).catch(function(){
