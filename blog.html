@@ -1,708 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog â Liftori</title>
-  <meta name="description" content="Insights, updates, and stories from the Liftori team â building the future of AI-powered business platforms." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Liftori</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --navy: #060B18;
-      --navy-800: #0D1424;
-      --navy-700: #111827;
       --blue: #0EA5E9;
-      --blue-light: #7DD3FC;
+      --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --slate-400: #94a3b8;
-      --slate-500: #64748b;
-      --slate-600: #475569;
-      --slate-700: #334155;
     }
+    body { background: var(--navy); color: #fff; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--navy);
-      color: #e2e8f0;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    /* ââ NAV ââ */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(6, 11, 24, 0.92);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,11,24,0.92);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(14, 165, 233, 0.1);
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 2px;
-      color: var(--white-ice);
-      text-decoration: none;
-    }
-
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #fff; letter-spacing: 0.05em; }
     .nav-logo span { color: var(--blue); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--slate-400);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--white-ice); }
-
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
     .nav-cta {
-      background: var(--blue);
-      color: white !important;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-weight: 600 !important;
-      transition: background 0.2s !important;
+      background: var(--blue); color: #fff !important;
+      padding: 0.5rem 1.25rem; border-radius: 9999px;
+      font-weight: 600 !important; font-size: 0.875rem !important;
     }
+    .nav-cta:hover { background: var(--light-blue) !important; color: var(--navy) !important; }
 
-    .nav-cta:hover { background: #0284c7 !important; }
-
-    /* ââ HERO BANNER ââ */
     .blog-hero {
-      text-align: center;
-      padding: 80px 24px 56px;
-      position: relative;
-      overflow: hidden;
+      padding: 5rem 2rem 3rem; max-width: 860px; margin: 0 auto; text-align: center;
     }
-
-    .blog-hero::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(ellipse, rgba(14,165,233,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .blog-hero .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(14,165,233,0.1);
-      border: 1px solid rgba(14,165,233,0.25);
-      color: var(--blue-light);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      margin-bottom: 20px;
-    }
-
     .blog-hero h1 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(48px, 8vw, 80px);
-      letter-spacing: 3px;
-      color: var(--white-ice);
-      line-height: 1.05;
-      margin-bottom: 16px;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 0.02em; margin-bottom: 1rem;
     }
-
-    .blog-hero p {
-      font-size: 18px;
-      color: var(--slate-400);
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* ââ LAYOUT ââ */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ââ POST LIST ââ */
-    #blog-list { padding: 0 0 80px; }
+    .blog-hero p { color: rgba(255,255,255,0.6); font-size: 1.125rem; line-height: 1.6; }
 
     .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
+      max-width: 860px; margin: 0 auto; padding: 2rem;
+      display: flex; flex-direction: column; gap: 2rem;
     }
-
     .post-card {
-      background: linear-gradient(145deg, rgba(13,20,36,0.8), rgba(6,11,24,0.9));
-      border: 1px solid rgba(14,165,233,0.12);
-      border-radius: 16px;
-      padding: 28px;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 2rem;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.2s;
     }
-
     .post-card:hover {
-      border-color: rgba(14,165,233,0.35);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(14,165,233,0.08);
-    }
-
-    .post-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .post-tag {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: var(--blue-light);
-      background: rgba(14,165,233,0.08);
-      border: 1px solid rgba(14,165,233,0.18);
-      padding: 3px 8px;
-      border-radius: 4px;
-    }
-
-    .post-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white-ice);
-      line-height: 1.3;
-    }
-
-    .post-excerpt {
-      font-size: 14px;
-      color: var(--slate-400);
-      line-height: 1.65;
-      flex: 1;
-    }
-
-    .post-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px solid rgba(14,165,233,0.08);
-    }
-
-    .post-author-block {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .author-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), #0369a1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .author-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: #cbd5e1;
-    }
-
-    .author-role-label {
-      font-size: 11px;
-      color: var(--slate-500);
-    }
-
-    .post-date {
-      font-size: 12px;
-      color: var(--slate-500);
-      font-family: 'DM Mono', monospace;
-    }
-
-    .read-more {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--blue);
-    }
-
-    /* ââ LOADING / EMPTY ââ */
-    .state-block {
-      text-align: center;
-      padding: 80px 24px;
-      color: var(--slate-500);
-    }
-
-    .state-block .icon { font-size: 48px; margin-bottom: 16px; }
-    .state-block h3 { font-size: 20px; color: var(--slate-400); margin-bottom: 8px; }
-    .state-block p { font-size: 14px; }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(14,165,233,0.15);
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ââ SINGLE POST VIEW ââ */
-    #post-view { display: none; padding: 0 0 100px; }
-
-    .post-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--slate-400);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: color 0.2s;
-      margin-bottom: 40px;
-      border: none;
-      background: none;
-      padding: 0;
-    }
-
-    .post-back:hover { color: var(--white-ice); }
-
-    .post-full {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .post-full-tags { margin-bottom: 16px; }
-
-    .post-full-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(36px, 6vw, 60px);
-      letter-spacing: 2px;
-      color: var(--white-ice);
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-
-    .post-full-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 0;
-      border-top: 1px solid rgba(14,165,233,0.1);
-      border-bottom: 1px solid rgba(14,165,233,0.1);
-      margin-bottom: 40px;
-    }
-
-    .post-full-meta .author-avatar { width: 42px; height: 42px; font-size: 16px; }
-
-    .post-full-meta .author-name { font-size: 15px; }
-
-    .post-full-meta .author-role-label { font-size: 12px; }
-
-    .post-full-date {
-      margin-left: auto;
-      font-size: 13px;
-      color: var(--slate-500);
-      font-family: 'DM Mono', monospace;
-    }
-
-    /* ââ BLOG CONTENT TYPOGRAPHY ââ */
-    .post-content {
-      color: #cbd5e1;
-      font-size: 17px;
-      line-height: 1.8;
-    }
-
-    .post-content p { margin-bottom: 20px; }
-    .post-content p.lead {
-      font-size: 20px;
-      color: var(--white-ice);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .post-content h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px;
-      letter-spacing: 1.5px;
-      color: var(--white-ice);
-      margin: 48px 0 16px;
-    }
-
-    .post-content h3 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white-ice);
-      margin: 32px 0 12px;
-    }
-
-    .post-content ol,
-    .post-content ul {
-      padding-left: 24px;
-      margin-bottom: 20px;
-    }
-
-    .post-content li {
-      margin-bottom: 10px;
-      line-height: 1.7;
-    }
-
-    .post-content li strong { color: var(--white-ice); }
-
-    .post-content strong { color: var(--white-ice); }
-
-    .post-content em { color: var(--blue-light); font-style: italic; }
-
-    .post-content a {
-      color: var(--blue);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .post-content a:hover { color: var(--blue-light); }
-
-    /* ââ CTA FOOTER ââ */
-    .blog-cta {
-      text-align: center;
-      padding: 80px 24px;
-      background: linear-gradient(180deg, transparent, rgba(14,165,233,0.04));
-      border-top: 1px solid rgba(14,165,233,0.08);
-      margin-top: 60px;
-    }
-
-    .blog-cta h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 48px;
-      letter-spacing: 2px;
-      color: var(--white-ice);
-      margin-bottom: 12px;
-    }
-
-    .blog-cta p {
-      color: var(--slate-400);
-      font-size: 16px;
-      margin-bottom: 28px;
-      max-width: 440px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .btn-cta {
-      display: inline-block;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      font-size: 15px;
-      padding: 14px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
-
-    .btn-cta:hover {
-      background: #0284c7;
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(14,165,233,0.3);
       transform: translateY(-2px);
     }
+    .post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .post-tag {
+      background: rgba(14,165,233,0.15); color: var(--light-blue);
+      padding: 0.25rem 0.75rem; border-radius: 9999px;
+      font-size: 0.75rem; font-family: 'DM Mono', monospace;
+    }
+    .post-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.3; }
+    .post-card .excerpt { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem; }
+    .post-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+    .post-meta .author { color: rgba(255,255,255,0.6); font-weight: 500; }
+    .read-more { color: var(--blue); font-size: 0.875rem; font-weight: 600; }
 
-    /* ââ FOOTER ââ */
-    footer {
-      background: rgba(0,0,0,0.3);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 32px 24px;
-      text-align: center;
-      color: var(--slate-500);
-      font-size: 13px;
+    #post-view { max-width: 720px; margin: 0 auto; padding: 2rem; display: none; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.6); font-size: 0.875rem;
+      margin-bottom: 2rem; cursor: pointer;
+      background: none; border: none; padding: 0; font-family: inherit;
+    }
+    .back-btn:hover { color: #fff; }
+    .post-title { font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .post-content { color: rgba(255,255,255,0.8); line-height: 1.8; font-size: 1.0625rem; }
+    .post-content h2 { color: #fff; font-size: 1.5rem; margin: 2rem 0 1rem; }
+    .post-content h3 { color: #fff; font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
+    .post-content p { margin-bottom: 1.25rem; }
+    .post-content ul, .post-content ol { margin: 0 0 1.25rem 1.5rem; }
+    .post-content li { margin-bottom: 0.5rem; }
+    .post-content a { color: var(--light-blue); text-decoration: underline; }
+    .post-content strong { color: #fff; }
+    .post-content blockquote {
+      border-left: 3px solid var(--blue); padding: 0.75rem 1.25rem;
+      margin: 1.5rem 0; background: rgba(14,165,233,0.07); border-radius: 0 8px 8px 0;
+    }
+    .post-content code {
+      background: rgba(255,255,255,0.08); padding: 0.2em 0.4em;
+      border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.875em;
     }
 
-    footer a { color: var(--slate-400); text-decoration: none; }
-    footer a:hover { color: var(--white-ice); }
+    .loading-state, .empty-state, .error-state { text-align: center; padding: 6rem 2rem; color: rgba(255,255,255,0.4); }
+    .spinner {
+      width: 36px; height: 36px; border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--blue); border-radius: 50%;
+      animation: spin 0.7s linear infinite; margin: 0 auto 1.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state h3 { font-size: 1.25rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; }
+    .error-state h3 { color: rgba(255,100,100,0.7); }
 
-    /* ââ RESPONSIVE ââ */
+    footer {
+      margin-top: 6rem; border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.8rem;
+    }
+    footer a { color: rgba(255,255,255,0.5); }
+    footer a:hover { color: #fff; }
+
     @media (max-width: 640px) {
-      .nav-links { gap: 14px; }
-      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
-      .posts-grid { grid-template-columns: 1fr; }
-      .post-full-date { display: none; }
+      .nav-links { display: none; }
+      .posts-grid, #post-view { padding: 1rem; }
+      .blog-hero { padding: 3rem 1rem 2rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
   <ul class="nav-links">
-    <li><a href="/#how-it-works">How It Works</a></li>
-    <li><a href="/#what-we-build">What We Build</a></li>
+    <li><a href="/#how">How It Works</a></li>
+    <li><a href="/#builds">What We Build</a></li>
     <li><a href="/blog" class="active">Blog</a></li>
-    <li><a href="/" class="nav-cta">Reserve My Spot</a></li>
+    <li><a href="/#waitlist" class="nav-cta">Reserve My Spot</a></li>
   </ul>
 </nav>
 
-<!-- BLOG HERO -->
-<div class="blog-hero">
-  <div class="badge">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-    </svg>
-    Liftori Blog
+<div id="list-view">
+  <div class="blog-hero">
+    <h1>The Liftori Blog</h1>
+    <p>Insights, updates, and stories from the team building the future of app delivery.</p>
   </div>
-  <h1>From The Team</h1>
-  <p>Insights, updates, and stories from the people building the future of AI-powered business platforms.</p>
+  <div id="posts-container" class="posts-grid">
+    <div class="loading-state"><div class="spinner"></div><p>Loading posts...</p></div>
+  </div>
 </div>
 
-<!-- BLOG LIST VIEW -->
-<section id="blog-list">
-  <div class="container">
-    <div id="posts-container">
-      <div class="state-block">
-        <div class="spinner"></div>
-        <h3>Loading posts...</h3>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SINGLE POST VIEW -->
-<section id="post-view">
-  <div class="container">
-    <button class="post-back" onclick="showList()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-      Back to Blog
-    </button>
-    <div class="post-full">
-      <div class="post-full-tags" id="post-full-tags"></div>
-      <h1 class="post-full-title" id="post-full-title"></h1>
-      <div class="post-full-meta">
-        <div class="author-avatar" id="post-full-avatar"></div>
-        <div>
-          <div class="author-name" id="post-full-author"></div>
-          <div class="author-role-label" id="post-full-role"></div>
-        </div>
-        <div class="post-full-date" id="post-full-date"></div>
-      </div>
-      <div class="post-content" id="post-full-content"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="blog-cta">
-  <h2>Ready to Build?</h2>
-  <p>Tell us your idea. We'll turn it into a real, live platform â faster than you think.</p>
-  <a href="/" class="btn-cta">Join the Waitlist â</a>
+<div id="post-view">
+  <button class="back-btn" onclick="showList()">&#8592; Back to Blog</button>
+  <div id="post-detail"></div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <p>Â© 2026 Liftori, LLC â Jacksonville, FL &nbsp;Â·&nbsp;
-    <a href="/">Home</a> &nbsp;Â·&nbsp;
-    <a href="/blog">Blog</a> &nbsp;Â·&nbsp;
-    <a href="mailto:hello@liftori.ai">hello@liftori.ai</a>
-  </p>
+  <p>&copy; 2025 Liftori, LLC. All rights reserved. &nbsp;&middot;&nbsp; <a href="/">liftori.ai</a></p>
 </footer>
 
-<script type="module">
-  const SUPA_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
-  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InQsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+<script>
+var SURL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+var AKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 
-  let allPosts = [];
+function hdrs() {
+  return { 'apikey': AKEY, 'Authorization': 'Bearer ' + AKEY, 'Content-Type': 'application/json' };
+}
 
-  // ââ FETCH POSTS ââ
-  async function fetchPosts() {
-    try {
-      const res = await fetch(
-        `${SUPA_URL}/rest/v1/blog_posts?status=eq.published&order=published_at.desc&select=id,title,slug,excerpt,author,author_role,tags,published_at`,
-        { headers: { apikey: SUPA_KEY, Authorization: `Bearer ${SUPA_KEY}` } }
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      console.error('Failed to fetch posts:', err);
-      return null;
-    }
+async function fetchPosts() {
+  try {
+    var r = await fetch(SURL + '/rest/v1/blog_posts?select=id,title,slug,excerpt,tags,author,author_role,published_at,created_at&status=eq.published&order=published_at.desc', { headers: hdrs() });
+    if (!r.ok) throw new Error('Status ' + r.status);
+    return await r.json();
+  } catch(e) {
+    console.error('fetchPosts error:', e);
+    return null;
   }
+}
 
-  async function fetchPost(slug) {
-    try {
-      const res = await fetch(
-        `${SUPA_URL}/rest/v1/blog_posts?status=eq.published&slug=eq.${encodeURIComponent(slug)}&select=*`,
-        { headers: { apikey: SUPA_KEY, Authorization: `Bearer ${SUPA_KEY}` } }
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data[0] || null;
-    } catch (err) {
-      console.error('Failed to fetch post:', err);
-      return null;
-    }
+async function fetchPost(slug) {
+  try {
+    var r = await fetch(SURL + '/rest/v1/blog_posts?select=*&slug=eq.' + encodeURIComponent(slug) + '&status=eq.published', { headers: hdrs() });
+    if (!r.ok) throw new Error('Status ' + r.status);
+    var d = await r.json();
+    return d[0] || null;
+  } catch(e) {
+    console.error('fetchPost error:', e);
+    return null;
   }
+}
 
-  // ââ FORMAT HELPERS ââ
-  function formatDate(iso) {
-    if (!iso) return '';
-    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtDate(s) {
+  if (!s) return '';
+  return new Date(s).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function renderPosts(posts) {
+  var c = document.getElementById('posts-container');
+  if (posts === null) {
+    c.innerHTML = '<div class="error-state"><h3>Could not load posts</h3><p>Please try refreshing the page.</p></div>';
+    return;
   }
-
-  function authorInitials(name) {
-    return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  if (posts.length === 0) {
+    c.innerHTML = '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon &mdash; we are writing.</p></div>';
+    return;
   }
+  c.innerHTML = posts.map(function(p) {
+    var tags = Array.isArray(p.tags) ? p.tags : [];
+    var tagsHtml = tags.length ? '<div class="post-tags">' + tags.map(function(t){ return '<span class="post-tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '';
+    return '<div class="post-card" onclick="openPost(\'' + p.slug.replace(/'/g,"\\'") + '\')">' +
+      tagsHtml +
+      '<h2>' + esc(p.title) + '</h2>' +
+      (p.excerpt ? '<p class="excerpt">' + esc(p.excerpt) + '</p>' : '') +
+      '<div class="post-meta"><span class="author">' + esc(p.author || 'Liftori Team') + '</span><span>' + fmtDate(p.published_at || p.created_at) + '</span></div>' +
+      '<br><span class="read-more">Read article &rarr;</span>' +
+      '</div>';
+  }).join('');
+}
 
-  // ââ RENDER LIST ââ
-  function renderList(posts) {
-    const container = document.getElementById('posts-container');
-    if (!posts || posts.length === 0) {
-      container.innerHTML = `
-        <div class="state-block">
-          <div class="icon">ð</div>
-          <h3>No posts yet</h3>
-          <p>Check back soon â we're writing.</p>
-        </div>`;
-      return;
-    }
-
-    const grid = document.createElement('div');
-    grid.className = 'posts-grid';
-
-    posts.forEach(post => {
-      const tags = (post.tags || []).slice(0, 3);
-      const card = document.createElement('div');
-      card.className = 'post-card';
-      card.setAttribute('role', 'article');
-      card.innerHTML = `
-        ${tags.length ? `<div class="post-tags">${tags.map(t => `<span class="post-tag">${t}</span>`).join('')}</div>` : ''}
-        <div class="post-title">${escHtml(post.title)}</div>
-        <div class="post-excerpt">${escHtml(post.excerpt || '')}</div>
-        <div class="post-meta">
-          <div class="post-author-block">
-            <div class="author-avatar">${authorInitials(post.author)}</div>
-            <div>
-              <div class="author-name">${escHtml(post.author)}</div>
-              <div class="author-role-label">${escHtml(post.author_role)}</div>
-            </div>
-          </div>
-          <div>
-            <div class="post-date">${formatDate(post.published_at)}</div>
-            <div class="read-more">Read â</div>
-          </div>
-        </div>`;
-      card.addEventListener('click', () => openPost(post.slug));
-      grid.appendChild(card);
-    });
-
-    container.innerHTML = '';
-    container.appendChild(grid);
+async function openPost(slug) {
+  history.pushState({ slug: slug }, '', '/blog?post=' + encodeURIComponent(slug));
+  document.getElementById('list-view').style.display = 'none';
+  document.getElementById('post-view').style.display = 'block';
+  document.getElementById('post-detail').innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading...</p></div>';
+  window.scrollTo(0, 0);
+  var post = await fetchPost(slug);
+  if (!post) {
+    document.getElementById('post-detail').innerHTML = '<p style="color:rgba(255,255,255,0.5)">Post not found.</p>';
+    return;
   }
+  var tags = Array.isArray(post.tags) ? post.tags : [];
+  var tagsHtml = tags.length ? '<div class="post-tags" style="margin-bottom:1.5rem">' + tags.map(function(t){ return '<span class="post-tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '';
+  document.getElementById('post-detail').innerHTML =
+    tagsHtml +
+    '<h1 class="post-title">' + esc(post.title) + '</h1>' +
+    '<div class="post-meta" style="margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08)">' +
+      '<span class="author">' + esc(post.author_ || 'Liftori Team') + '</span>' +
+      (post.author_role ? '<span>' + esc(post.author_role) + '</span>' : '') +
+      '<span>' + fmtDate(post.published_at || post.created_at) + '</span>' +
+    '</div>' +
+    '<div class="post-content">' + (post.content || '') + '</div>';
+}
 
-  // ââ RENDER SINGLE POST ââ
-  async function openPost(slug) {
-    // Update URL without reload
-    const url = new URL(window.location);
-    url.searchParams.set('post', slug);
-    history.pushState({ slug }, '', url);
+function showList() {
+  history.pushState({}, '', '/blog');
+  document.getElementById('list-view').style.display = 'block';
+  document.getElementById('post-view').style.display = 'none';
+}
 
-    // Show loader in post view
-    document.getElementById('blog-list').style.display = 'none';
-    document.getElementById('post-view').style.display = 'block';
-    document.getElementById('post-full-title').textContent = 'Loading...';
-    document.getElementById('post-full-content').innerHTML = '<div class="state-block"><div class="spinner"></div></div>';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+window.addEventListener('popstate', function(e) {
+  var p = new URLSearchParams(window.location.search).get('post');
+  if (p) { openPost(p); } else { showList(); }
+});
 
-    // Check cache
-    let post = allPosts.find(p => p.slug === slug);
-    if (!post || !post.content) {
-      post = await fetchPost(slug);
-    }
+async function init() {
+  var postSlug = new URLSearchParams(window.location.search).get('post');
+  var posts = await fetchPosts();
+  renderPosts(posts);
+  if (postSlug) await openPost(postSlug);
+}
 
-    if (!post) {
-      document.getElementById('post-full-title').textContent = 'Post not found';
-      document.getElementById('post-full-content').innerHTML = '<p>This post could not be loaded. <button onclick="showList()" style="color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;">â Back to blog</button></p>';
-      return;
-    }
-
-    const tags = (post.tags || []);
-    document.getElementById('post-full-tags').innerHTML = tags.map(t => `<span class="post-tag">${escHtml(t)}</span>`).join(' ');
-    document.getElementById('post-full-title').textContent = post.title;
-    document.getElementById('post-full-avatar').textContent = authorInitials(post.author);
-    document.getElementById('post-full-author').textContent = post.author;
-    document.getElementById('post-full-role').textContent = post.author_role;
-    document.getElementById('post-full-date').textContent = formatDate(post.published_at);
-    // Content is stored as HTML â sanitize by only allowing known safe tags
-    document.getElementById('post-full-content').innerHTML = post.content || '';
-    document.title = `${post.title} â Liftori Blog`;
-  }
-
-  function showList() {
-    document.getElementById('post-view').style.display = 'none';
-    document.getElementById('blog-list').style.display = 'block';
-    const url = new URL(window.location);
-    url.searchParams.delete('post');
-    history.pushState({}, '', url);
-    document.title = 'Blog â Liftori';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // ââ ESCAPE HTML ââ
-  function escHtml(str) {
-    if (!str) return '';
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ââ BROWSER BACK/FORWARD ââ
-  window.addEventListener('popstate', (e) => {
-    const slug = new URL(window.location).searchParams.get('post');
-    if (slug) { openPost(slug); }
-    else { showList(); }
-  });
-
-  // ââ INIT ââ
-  (async () => {
-    const slug = new URL(window.location).searchParams.get('post');
-    allPosts = await fetchPosts() || [];
-    renderList(allPosts);
-    if (slug) {
-      openPost(slug);
-    }
-  })();
+init();
 </script>
-
 </body>
 </html>
