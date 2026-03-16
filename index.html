@@ -3426,10 +3426,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
             if (role === 'admin') {
               window.location.href = 'https://admin.liftori.ai';
             } else {
-              window.location.href = '/dashboard/';
+              window.location.href = 'https://admin.liftori.ai/portal';
             }
           } catch(roleErr) {
-            window.location.href = '/dashboard/';
+            window.location.href = 'https://admin.liftori.ai/portal';
           }
         } catch(err) {
           var msg = (err && err.message) || 'Sign in failed. Please check your credentials.';
