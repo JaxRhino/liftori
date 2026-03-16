@@ -1437,6 +1437,149 @@
   .wb-success-wrap h3 { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: #e0f7ff; letter-spacing: 3px; margin-bottom: 12px; }
   .wb-success-wrap p { color: #64748b; font-size: 15px; line-height: 1.7; }
 
+
+  /* ===== LOGIN BUTTON IN NAV ===== */
+  .nav-login {
+    color: #94a3b8;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid rgba(14,165,233,0.25);
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-login:hover {
+    border-color: rgba(14,165,233,0.6);
+    color: #e0f7ff;
+    background: rgba(14,165,233,0.06);
+  }
+
+  /* ===== LOGIN MODAL ===== */
+  #login-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(6,11,24,0.92);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+  }
+  #login-overlay.active { display: flex; }
+  .login-modal {
+    background: linear-gradient(180deg, #0d1424 0%, #060B18 100%);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 10px;
+    padding: 44px 40px 36px;
+    max-width: 420px;
+    width: 92%;
+    position: relative;
+    animation: modalSlideUp 0.3s ease;
+    box-shadow: 0 0 80px rgba(14,165,233,0.08);
+  }
+  .login-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #4a5568;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .login-close:hover { color: #e0f7ff; }
+  .login-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(14,165,233,0.08);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 11px;
+    color: #0ea5e9;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .login-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    color: #e0f7ff;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .login-sub {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .login-field { margin-bottom: 16px; }
+  .login-field label {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .login-field input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 6px;
+    color: #e0f7ff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .login-field input:focus { outline: none; border-color: rgba(14,165,233,0.5); }
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+    border: none;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .login-btn:hover { background: linear-gradient(135deg, #0ea5e9, #38bdf8); transform: translateY(-1px); }
+  .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .login-err { color: #ef4444; font-size: 13px; margin-top: 14px; text-align: center; }
+  .login-forgot {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #4a5568;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .login-forgot:hover { color: #94a3b8; }
+  .login-divider {
+    text-align: center;
+    color: #2d3748;
+    font-size: 12px;
+    margin: 20px 0 0;
+    letter-spacing: 1px;
+  }
+
 </style>
 </head>
 <body>
@@ -1448,6 +1591,7 @@
     <li><a href="#how">How It Works</a></li>
     <li><a href="services.html">Services</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#" class="nav-login" onclick="loginOpen();return false;">&#128274; Login</a></li>
     <li><a href="#pricing" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
@@ -3187,6 +3331,129 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
         if (e.key === 'Escape') {
           var overlay = document.getElementById('wb-overlay');
           if (overlay && overlay.classList.contains('active')) wbClose();
+        }
+      });
+    })();
+  </script>
+
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div id="login-overlay">
+    <div class="login-modal">
+      <button class="login-close" onclick="loginClose()">&times;</button>
+      <div class="login-badge">&#128274; Secure Login</div>
+      <div class="login-title">WELCOME BACK</div>
+      <div class="login-sub">Sign in to your Liftori account to access your dashboard.</div>
+      <div class="login-field">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" />
+      </div>
+      <div id="login-err" class="login-err"></div>
+      <button class="login-btn" id="login-submit-btn" onclick="loginSubmit()">Sign In &rarr;</button>
+      <span class="login-forgot" onclick="loginForgot()">Forgot your password?</span>
+      <div class="login-divider">POWERED BY LIFTORI SECURE AUTH</div>
+    </div>
+  </div>
+
+
+  <!-- ===== LOGIN SCRIPT ===== -->
+  <script>
+    (function() {
+      window.loginOpen = function() {
+        document.getElementById('login-overlay').classList.add('active');
+        setTimeout(function() { document.getElementById('login-email').focus(); }, 100);
+      };
+
+      window.loginClose = function() {
+        document.getElementById('login-overlay').classList.remove('active');
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+        document.getElementById('login-err').textContent = '';
+        var btn = document.getElementById('login-submit-btn');
+        btn.disabled = false;
+        btn.textContent = 'Sign In →';
+      };
+
+      window.loginSubmit = async function() {
+        var email = (document.getElementById('login-email').value || '').trim();
+        var password = (document.getElementById('login-password').value || '').trim();
+        var errEl = document.getElementById('login-err');
+        var btn = document.getElementById('login-submit-btn');
+        errEl.textContent = '';
+
+        if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; return; }
+
+        btn.disabled = true;
+        btn.textContent = 'Signing in...';
+
+        try {
+          var result = await sb.auth.signInWithPassword({ email: email, password: password });
+          if (result.error) throw result.error;
+
+          var user = result.data.user;
+          // Check role in profiles table
+          try {
+            var profileResult = await sb.from('profiles').select('role').eq('id', user.id).single();
+            var role = profileResult.data && profileResult.data.role;
+            if (role === 'admin') {
+              window.location.href = 'https://admin.liftori.ai';
+            } else {
+              window.location.href = '/dashboard/';
+            }
+          } catch(roleErr) {
+            // Default to customer dashboard if role check fails
+            window.location.href = '/dashboard/';
+          }
+        } catch(err) {
+          var msg = err.message || 'Sign in failed. Please check your credentials.';
+          if (msg.toLowerCase().includes('invalid') || msg.toLowerCase().includes('credentials') || msg.toLowerCase().includes('password')) {
+            msg = 'Invalid email or password. Please try again.';
+          }
+          errEl.textContent = msg;
+          btn.disabled = false;
+          btn.textContent = 'Sign In →';
+        }
+      };
+
+      window.loginForgot = async function() {
+        var email = (document.getElementById('login-email').value || '').trim();
+        var errEl = document.getElementById('login-err');
+        if (!email) { errEl.textContent = 'Enter your email above first, then click Forgot Password.'; errEl.style.color = '#0ea5e9'; return; }
+        try {
+          await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/reset-password' });
+          errEl.style.color = '#10b981';
+          errEl.textContent = 'Reset link sent! Check your email.';
+        } catch(e) {
+          errEl.style.color = '#ef4444';
+          errEl.textContent = 'Could not send reset email. Please contact support@liftori.ai';
+        }
+      };
+
+      // Close on overlay click
+      document.addEventListener('DOMContentLoaded', function() {
+        var overlay = document.getElementById('login-overlay');
+        if (overlay) {
+          overlay.addEventListener('click', function(e) { if (e.target === overlay) loginClose(); });
+        }
+      });
+
+      // ESC to close
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          var overlay = document.getElementById('login-overlay');
+          if (overlay && overlay.classList.contains('active')) loginClose();
+        }
+      });
+
+      // Enter key to submit
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          var overlay = document.getElementById('login-overlay');
+          if (overlay && overlay.classList.contains('active')) loginSubmit();
         }
       });
     })();
