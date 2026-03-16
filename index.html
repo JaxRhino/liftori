@@ -1240,7 +1240,204 @@
       margin-top: 4px;
     }
 
-    </style>
+    
+  /* ===== WEBSITE BUILDER BUTTON ===== */
+  .btn-website {
+    color: #10b981;
+    padding: 16px 32px;
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    border-radius: 4px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+    cursor: pointer;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-website:hover {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+    color: #6ee7b7;
+  }
+
+  /* ===== WEBSITE BUILDER MODAL ===== */
+  #wb-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(6, 11, 24, 0.92);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+  }
+  #wb-overlay.active { display: flex; }
+  .wb-modal {
+    background: linear-gradient(180deg, #0d1424 0%, #060B18 100%);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    border-radius: 10px;
+    padding: 40px 36px 32px;
+    max-width: 560px;
+    width: 92%;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalSlideUp 0.3s ease;
+    box-shadow: 0 0 100px rgba(14, 165, 233, 0.08);
+  }
+  .wb-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #4a5568;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .wb-close:hover { color: #e0f7ff; }
+  .wb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #10b981;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .wb-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: #e0f7ff;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .wb-subtitle { font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.6; }
+  .wb-progress { display: flex; gap: 6px; margin-bottom: 28px; }
+  .wb-pip { flex: 1; height: 3px; background: rgba(14,165,233,0.15); border-radius: 2px; transition: background 0.3s; }
+  .wb-pip.active { background: #10b981; }
+  .wb-pip.done { background: rgba(16, 185, 129, 0.35); }
+  .wb-step { display: none; }
+  .wb-step.active { display: block; }
+  .wb-step-label { font-size: 11px; color: #10b981; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .wb-step h3 { font-size: 18px; color: #e0f7ff; font-weight: 600; margin-bottom: 20px; }
+  .wb-field { margin-bottom: 16px; }
+  .wb-field label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.5px; }
+  .wb-field input[type=text], .wb-field input[type=email], .wb-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 6px;
+    color: #e0f7ff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .wb-field input:focus, .wb-field textarea:focus { outline: none; border-color: rgba(14,165,233,0.5); }
+  .wb-field textarea { min-height: 80px; resize: vertical; }
+  .wb-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+  .wb-card {
+    padding: 14px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(14,165,233,0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    color: #94a3b8;
+  }
+  .wb-card-icon { font-size: 22px; margin-bottom: 6px; }
+  .wb-card-label { font-size: 12px; line-height: 1.4; }
+  .wb-card:hover { border-color: rgba(16,185,129,0.4); color: #e0f7ff; background: rgba(16,185,129,0.05); }
+  .wb-card.selected { border-color: #10b981; background: rgba(16,185,129,0.1); color: #6ee7b7; }
+  .wb-checkgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  .wb-checkitem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(14,165,233,0.12);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #94a3b8;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .wb-checkitem input[type=checkbox] { accent-color: #10b981; width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; }
+  .wb-checkitem:has(input:checked) { border-color: rgba(16,185,129,0.4); color: #e0f7ff; background: rgba(16,185,129,0.06); }
+  .wb-radios { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+  .wb-radio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(14,165,233,0.12);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #94a3b8;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .wb-radio input[type=radio] { accent-color: #10b981; cursor: pointer; }
+  .wb-radio:has(input:checked) { border-color: rgba(16,185,129,0.4); color: #e0f7ff; background: rgba(16,185,129,0.06); }
+  .wb-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(14,165,233,0.1);
+  }
+  .wb-nav-step { font-size: 12px; color: #4a5568; }
+  .wb-btn-back {
+    background: none;
+    border: 1px solid rgba(14,165,233,0.2);
+    color: #64748b;
+    padding: 11px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .wb-btn-back:hover { border-color: rgba(14,165,233,0.4); color: #94a3b8; }
+  .wb-btn-next {
+    background: linear-gradient(135deg, #059669, #10b981);
+    border: none;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .wb-btn-next:hover { background: linear-gradient(135deg, #10b981, #34d399); transform: translateY(-1px); }
+  .wb-btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .wb-error { color: #ef4444; font-size: 13px; margin-top: 12px; text-align: center; }
+  .wb-success-wrap { text-align: center; padding: 20px 0; }
+  .wb-success-icon { font-size: 52px; margin-bottom: 16px; }
+  .wb-success-wrap h3 { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: #e0f7ff; letter-spacing: 3px; margin-bottom: 12px; }
+  .wb-success-wrap p { color: #64748b; font-size: 15px; line-height: 1.7; }
+
+</style>
 </head>
 <body>
 
@@ -1281,6 +1478,7 @@
       <a href="#pricing" class="btn-primary"><span>Start Building Now</span></a>
       <a href="#how" class="btn-secondary">See How It Works</a>
       <a href="https://admin.liftori.ai/portal/new-project?type=book" class="btn-book">✍ Build My Book App</a>
+    <button class="btn-website" onclick="document.getElementById('wb-overlay').classList.add('active')">&#127760; Build My Website</button>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -2609,5 +2807,390 @@ function submitContactForm(e){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContactModal();closePrivacyModal();closeTermsModal();}});
 </script>
+
+  <!-- ===== WEBSITE BUILDER MODAL ===== -->
+  <div id="wb-overlay">
+    <div class="wb-modal">
+      <button class="wb-close" onclick="wbClose()">&times;</button>
+      <div id="wb-main">
+        <div class="wb-badge">&#127760; Website Builder</div>
+        <div class="wb-title">BUILD YOUR WEBSITE</div>
+        <div class="wb-subtitle">Tell us about your project &mdash; we&rsquo;ll handle the design, build, and launch.</div>
+        <div class="wb-progress">
+          <div class="wb-pip active" id="wb-pip-0"></div>
+          <div class="wb-pip" id="wb-pip-1"></div>
+          <div class="wb-pip" id="wb-pip-2"></div>
+          <div class="wb-pip" id="wb-pip-3"></div>
+          <div class="wb-pip" id="wb-pip-4"></div>
+          <div class="wb-pip" id="wb-pip-5"></div>
+        </div>
+
+        <!-- Step 1: About You -->
+        <div class="wb-step active" id="wb-step-0">
+          <div class="wb-step-label">Step 1 of 6 &mdash; About You</div>
+          <h3>Let&rsquo;s start with the basics</h3>
+          <div class="wb-field">
+            <label>Your Name *</label>
+            <input type="text" id="wb-name" placeholder="Full name" />
+          </div>
+          <div class="wb-field">
+            <label>Email Address *</label>
+            <input type="email" id="wb-email" placeholder="you@example.com" />
+          </div>
+          <div class="wb-field">
+            <label>Business / Project Name</label>
+            <input type="text" id="wb-bizname" placeholder="What are we building this for?" />
+          </div>
+          <div class="wb-nav">
+            <span class="wb-nav-step">1 / 6</span>
+            <button class="wb-btn-next" onclick="wbNext(0)">Continue &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Website Type -->
+        <div class="wb-step" id="wb-step-1">
+          <div class="wb-step-label">Step 2 of 6 &mdash; Website Type</div>
+          <h3>What kind of website do you need?</h3>
+          <div class="wb-cards">
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Business Website">
+              <div class="wb-card-icon">&#127970;</div>
+              <div class="wb-card-label">Business Website</div>
+            </div>
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Online Store">
+              <div class="wb-card-icon">&#128722;</div>
+              <div class="wb-card-label">Online Store</div>
+            </div>
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Portfolio">
+              <div class="wb-card-icon">&#128188;</div>
+              <div class="wb-card-label">Portfolio / Showcase</div>
+            </div>
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Blog / Content">
+              <div class="wb-card-icon">&#128221;</div>
+              <div class="wb-card-label">Blog / Content</div>
+            </div>
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Restaurant / Hospitality">
+              <div class="wb-card-icon">&#127869;</div>
+              <div class="wb-card-label">Restaurant / Hospitality</div>
+            </div>
+            <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Booking / Appointments">
+              <div class="wb-card-icon">&#128197;</div>
+              <div class="wb-card-label">Booking / Appointments</div>
+            </div>
+          </div>
+          <input type="hidden" id="wb-type" />
+          <div class="wb-nav">
+            <button class="wb-btn-back" onclick="wbBack(1)">&#8592; Back</button>
+            <span class="wb-nav-step">2 / 6</span>
+            <button class="wb-btn-next" onclick="wbNext(1)">Continue &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Goals & Audience -->
+        <div class="wb-step" id="wb-step-2">
+          <div class="wb-step-label">Step 3 of 6 &mdash; Goals</div>
+          <h3>What&rsquo;s the #1 goal for this website?</h3>
+          <div class="wb-radios">
+            <label class="wb-radio"><input type="radio" name="wb-goal" value="Generate leads &amp; inquiries" /> Generate leads &amp; inquiries</label>
+            <label class="wb-radio"><input type="radio" name="wb-goal" value="Sell products online" /> Sell products online</label>
+            <label class="wb-radio"><input type="radio" name="wb-goal" value="Showcase my work" /> Showcase my work / portfolio</label>
+            <label class="wb-radio"><input type="radio" name="wb-goal" value="Provide information &amp; resources" /> Provide information &amp; resources</label>
+            <label class="wb-radio"><input type="radio" name="wb-goal" value="Accept bookings / appointments" /> Accept bookings / appointments</label>
+          </div>
+          <div class="wb-field" style="margin-top:16px;">
+            <label>Who is your target audience?</label>
+            <textarea id="wb-audience" placeholder="e.g. Local homeowners, small business owners, young professionals..."></textarea>
+          </div>
+          <div class="wb-nav">
+            <button class="wb-btn-back" onclick="wbBack(2)">&#8592; Back</button>
+            <span class="wb-nav-step">3 / 6</span>
+            <button class="wb-btn-next" onclick="wbNext(2)">Continue &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Pages & Features -->
+        <div class="wb-step" id="wb-step-3">
+          <div class="wb-step-label">Step 4 of 6 &mdash; Pages &amp; Features</div>
+          <h3>What pages and features do you need?</h3>
+          <div class="wb-field">
+            <label>Pages (select all that apply)</label>
+            <div class="wb-checkgrid">
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Home" checked /> Home</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="About" /> About</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Services" /> Services</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Portfolio / Gallery" /> Portfolio / Gallery</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Blog" /> Blog</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Contact" /> Contact</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Booking" /> Booking</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Shop" /> Shop</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="FAQ" /> FAQ</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-pages" value="Testimonials" /> Testimonials</label>
+            </div>
+          </div>
+          <div class="wb-field" style="margin-top:14px;">
+            <label>Features (select all that apply)</label>
+            <div class="wb-checkgrid">
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Contact form" /> Contact form</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Online store" /> Online store</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Booking / scheduling" /> Booking / scheduling</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Blog / CMS" /> Blog / CMS</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Newsletter signup" /> Newsletter signup</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Photo gallery" /> Photo gallery</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Video embed" /> Video embed</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Customer login" /> Customer login</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Payment processing" /> Payment processing</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-features" value="Live chat" /> Live chat</label>
+            </div>
+          </div>
+          <div class="wb-nav">
+            <button class="wb-btn-back" onclick="wbBack(3)">&#8592; Back</button>
+            <span class="wb-nav-step">4 / 6</span>
+            <button class="wb-btn-next" onclick="wbNext(3)">Continue &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Step 5: Design & Content -->
+        <div class="wb-step" id="wb-step-4">
+          <div class="wb-step-label">Step 5 of 6 &mdash; Design &amp; Content</div>
+          <h3>Design style &amp; what you have ready</h3>
+          <div class="wb-field">
+            <label>Choose a design vibe</label>
+            <div class="wb-cards">
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Minimal / Clean">
+                <div class="wb-card-icon">&#9634;</div>
+                <div class="wb-card-label">Minimal / Clean</div>
+              </div>
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Bold / Modern">
+                <div class="wb-card-icon">&#9889;</div>
+                <div class="wb-card-label">Bold / Modern</div>
+              </div>
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Corporate / Professional">
+                <div class="wb-card-icon">&#128084;</div>
+                <div class="wb-card-label">Corporate / Professional</div>
+              </div>
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Creative / Artistic">
+                <div class="wb-card-icon">&#127912;</div>
+                <div class="wb-card-label">Creative / Artistic</div>
+              </div>
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Warm / Friendly">
+                <div class="wb-card-icon">&#9728;</div>
+                <div class="wb-card-label">Warm / Friendly</div>
+              </div>
+              <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Luxurious / Premium">
+                <div class="wb-card-icon">&#128142;</div>
+                <div class="wb-card-label">Luxurious / Premium</div>
+              </div>
+            </div>
+            <input type="hidden" id="wb-style" />
+          </div>
+          <div class="wb-field">
+            <label>Color preferences <span style="color:#4a5568">(optional)</span></label>
+            <input type="text" id="wb-colors" placeholder="e.g. Navy &amp; gold, earthy tones, black &amp; white..." />
+          </div>
+          <div class="wb-field">
+            <label>What assets do you already have?</label>
+            <div class="wb-checkgrid">
+              <label class="wb-checkitem"><input type="checkbox" name="wb-assets" value="Logo / branding" /> Logo / branding</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-assets" value="Professional photos" /> Professional photos</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-assets" value="Written copy" /> Written copy / text</label>
+              <label class="wb-checkitem"><input type="checkbox" name="wb-assets" value="Domain name" /> Domain name</label>
+            </div>
+          </div>
+          <div class="wb-nav">
+            <button class="wb-btn-back" onclick="wbBack(4)">&#8592; Back</button>
+            <span class="wb-nav-step">5 / 6</span>
+            <button class="wb-btn-next" onclick="wbNext(4)">Continue &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Step 6: Budget & Timeline -->
+        <div class="wb-step" id="wb-step-5">
+          <div class="wb-step-label">Step 6 of 6 &mdash; Budget &amp; Timeline</div>
+          <h3>Investment &amp; timing</h3>
+          <div class="wb-field">
+            <label>Budget range</label>
+            <div class="wb-radios">
+              <label class="wb-radio"><input type="radio" name="wb-budget" value="Starter: $2,500-$5,000" /> Starter &mdash; $2,500&ndash;$5,000</label>
+              <label class="wb-radio"><input type="radio" name="wb-budget" value="Growth: $5,000-$10,000" /> Growth &mdash; $5,000&ndash;$10,000</label>
+              <label class="wb-radio"><input type="radio" name="wb-budget" value="Scale: $10,000+" /> Scale &mdash; $10,000+</label>
+              <label class="wb-radio"><input type="radio" name="wb-budget" value="Not sure yet" /> Not sure yet</label>
+            </div>
+          </div>
+          <div class="wb-field" style="margin-top:16px;">
+            <label>Ideal timeline</label>
+            <div class="wb-radios">
+              <label class="wb-radio"><input type="radio" name="wb-timeline" value="ASAP (2-4 weeks)" /> ASAP &mdash; 2&ndash;4 weeks</label>
+              <label class="wb-radio"><input type="radio" name="wb-timeline" value="1-2 months" /> 1&ndash;2 months</label>
+              <label class="wb-radio"><input type="radio" name="wb-timeline" value="3+ months" /> 3+ months</label>
+              <label class="wb-radio"><input type="radio" name="wb-timeline" value="Flexible" /> Flexible</label>
+            </div>
+          </div>
+          <div class="wb-field" style="margin-top:16px;">
+            <label>Anything else we should know? <span style="color:#4a5568">(optional)</span></label>
+            <textarea id="wb-notes" placeholder="Inspiration websites, special requirements, competitor sites you like or hate..."></textarea>
+          </div>
+          <div id="wb-err" class="wb-error"></div>
+          <div class="wb-nav">
+            <button class="wb-btn-back" onclick="wbBack(5)">&#8592; Back</button>
+            <span class="wb-nav-step">6 / 6</span>
+            <button class="wb-btn-next" id="wb-sub-btn" onclick="wbSubmit()">&#128640; Submit My Project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div id="wb-done" style="display:none;">
+        <div class="wb-success-wrap">
+          <div class="wb-success-icon">&#127760;</div>
+          <h3>YOU&rsquo;RE IN THE QUEUE!</h3>
+          <p>Your website brief has been received. Our team will review it and reach out within <strong style="color:#e0f7ff">24 hours</strong> to schedule your kickoff call.</p>
+          <p style="margin-top:12px; color: #10b981; font-weight:600;">Check your email for confirmation.</p>
+          <button class="wb-btn-next" style="margin-top:28px;" onclick="wbClose()">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== WEBSITE BUILDER SCRIPT ===== -->
+  <script>
+    (function() {
+      var WB_STEPS = 6;
+      var wbCurrentStep = 0;
+
+      window.wbClose = function() {
+        var overlay = document.getElementById('wb-overlay');
+        overlay.classList.remove('active');
+        setTimeout(function() {
+          wbCurrentStep = 0;
+          wbShowStep(0);
+          var inputs = overlay.querySelectorAll('input[type=text], input[type=email], textarea');
+          inputs.forEach(function(el) { el.value = ''; });
+          overlay.querySelectorAll('input[type=radio]').forEach(function(el) { el.checked = false; });
+          overlay.querySelectorAll('input[type=checkbox]').forEach(function(el) { el.checked = false; });
+          overlay.querySelectorAll('.wb-card.selected').forEach(function(el) { el.classList.remove('selected'); });
+          overlay.querySelectorAll('input[type=hidden]').forEach(function(el) { el.value = ''; });
+          document.getElementById('wb-err').textContent = '';
+          document.getElementById('wb-done').style.display = 'none';
+          document.getElementById('wb-main').style.display = 'block';
+        }, 200);
+      };
+
+      window.wbShowStep = function(n) {
+        for (var i = 0; i < WB_STEPS; i++) {
+          var step = document.getElementById('wb-step-' + i);
+          var pip = document.getElementById('wb-pip-' + i);
+          if (!step || !pip) continue;
+          step.classList.remove('active');
+          pip.classList.remove('active', 'done');
+          if (i < n) pip.classList.add('done');
+          else if (i === n) pip.classList.add('active');
+        }
+        var target = document.getElementById('wb-step-' + n);
+        if (target) target.classList.add('active');
+        var modal = document.querySelector('.wb-modal');
+        if (modal) modal.scrollTop = 0;
+        wbCurrentStep = n;
+      };
+
+      window.wbCard = function(el, hiddenId) {
+        var cards = el.closest('.wb-cards').querySelectorAll('.wb-card');
+        cards.forEach(function(c) { c.classList.remove('selected'); });
+        el.classList.add('selected');
+        var hidden = document.getElementById(hiddenId);
+        if (hidden) hidden.value = el.getAttribute('data-val');
+      };
+
+      window.wbNext = function(fromStep) {
+        var err = document.getElementById('wb-err');
+        if (err) err.textContent = '';
+        if (fromStep === 0) {
+          var name = (document.getElementById('wb-name').value || '').trim();
+          var email = (document.getElementById('wb-email').value || '').trim();
+          if (!name) { alert('Please enter your name.'); return; }
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+        }
+        if (fromStep === 1) {
+          var type = (document.getElementById('wb-type').value || '').trim();
+          if (!type) { alert('Please select a website type.'); return; }
+        }
+        if (fromStep === 2) {
+          var goalEl = document.querySelector('input[name="wb-goal"]:checked');
+          if (!goalEl) { alert('Please select a goal for your website.'); return; }
+        }
+        wbShowStep(fromStep + 1);
+      };
+
+      window.wbBack = function(fromStep) {
+        if (fromStep > 0) wbShowStep(fromStep - 1);
+      };
+
+      window.wbSubmit = async function() {
+        var errEl = document.getElementById('wb-err');
+        var btn = document.getElementById('wb-sub-btn');
+        errEl.textContent = '';
+        var name = (document.getElementById('wb-name').value || '').trim();
+        var email = (document.getElementById('wb-email').value || '').trim();
+        var bizname = (document.getElementById('wb-bizname').value || '').trim();
+        var websiteType = (document.getElementById('wb-type').value || '').trim();
+        var goalEl = document.querySelector('input[name="wb-goal"]:checked');
+        var goal = goalEl ? goalEl.value : '';
+        var audience = (document.getElementById('wb-audience').value || '').trim();
+        var pages = Array.from(document.querySelectorAll('input[name="wb-pages"]:checked')).map(function(el) { return el.value; });
+        var features = Array.from(document.querySelectorAll('input[name="wb-features"]:checked')).map(function(el) { return el.value; });
+        var designStyle = (document.getElementById('wb-style').value || '').trim();
+        var colors = (document.getElementById('wb-colors').value || '').trim();
+        var assets = Array.from(document.querySelectorAll('input[name="wb-assets"]:checked')).map(function(el) { return el.value; });
+        var budgetEl = document.querySelector('input[name="wb-budget"]:checked');
+        var budget = budgetEl ? budgetEl.value : '';
+        var timelineEl = document.querySelector('input[name="wb-timeline"]:checked');
+        var timeline = timelineEl ? timelineEl.value : '';
+        var notes = (document.getElementById('wb-notes').value || '').trim();
+        if (!name || !email) { errEl.textContent = 'Please complete Step 1 with your name and email.'; return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+        var buildIdea = JSON.stringify({
+          source: 'website_builder', website_type: websiteType, goal: goal, audience: audience,
+          pages: pages, features: features, design_style: designStyle, colors: colors,
+          assets: assets, budget: budget, timeline: timeline, notes: notes, biz_name: bizname
+        });
+        try {
+          var insertData = { name: name, email: email, build_idea: buildIdea, referral_code: (window.REF_CODE || null) };
+          var result = await sb.from('waitlist_signups').insert([insertData]);
+          if (result.error) throw result.error;
+          try {
+            await sb.functions.invoke('welcome-email', { body: { name: name, email: email, type: 'website_builder' } });
+          } catch(emailErr) { console.warn('Email trigger failed:', emailErr); }
+          document.getElementById('wb-main').style.display = 'none';
+          document.getElementById('wb-done').style.display = 'block';
+          var modal = document.querySelector('.wb-modal');
+          if (modal) modal.scrollTop = 0;
+        } catch(err) {
+          var msg = err.message || 'Something went wrong. Please try again.';
+          if (msg.toLowerCase().includes('duplicate') || msg.toLowerCase().includes('unique')) {
+            document.getElementById('wb-main').style.display = 'none';
+            document.getElementById('wb-done').style.display = 'block';
+          } else {
+            errEl.textContent = msg;
+            btn.disabled = false;
+            btn.textContent = '\u{1F680} Submit My Project';
+          }
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var overlay = document.getElementById('wb-overlay');
+        if (overlay) { overlay.addEventListener('click', function(e) { if (e.target === overlay) wbClose(); }); }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          var overlay = document.getElementById('wb-overlay');
+          if (overlay && overlay.classList.contains('active')) wbClose();
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
