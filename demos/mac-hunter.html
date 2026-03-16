@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mac Hunter — Powered by Liftori</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy-950: #060B18;
+      --navy-900: #0A1022;
+      --navy-800: #0D1528;
+      --navy-700: #162040;
+      --navy-600: #1E2D55;
+      --blue: #0EA5E9;
+      --blue-light: #7DD3FC;
+      --emerald: #34D399;
+      --orange: #FB923C;
+      --red: #F87171;
+      --purple: #A78BFA;
+      --yellow: #FBBF24;
+      --white: #F0F6FF;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy-950);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      background: var(--navy-900);
+      border-bottom: 1px solid var(--navy-700);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .logo { font-size: 18px; font-weight: 700; color: var(--white); letter-spacing: -0.5px; }
+    .logo span { color: var(--blue); }
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 99px;
+      border: 1px solid;
+    }
+    .badge-blue { color: var(--blue); border-color: var(--blue); background: rgba(14,165,233,0.1); }
+    .badge-green { color: var(--emerald); border-color: var(--emerald); background: rgba(52,211,153,0.1); }
+    .badge-orange { color: var(--orange); border-color: var(--orange); background: rgba(251,146,60,0.1); }
+
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .status-pill {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 99px;
+      padding: 5px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--emerald);
+    }
+    .pulse-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .btn {
+      padding: 7px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--gray-400); border: 1px solid var(--navy-700); }
+
+    /* ─── LAYOUT ─── */
+    .layout { display: flex; min-height: calc(100vh - 56px); }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--navy-900);
+      border-right: 1px solid var(--navy-700);
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sidebar-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray-500); padding: 8px 8px 4px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-400); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { background: var(--navy-700); color: var(--white); }
+    .nav-item.active { background: rgba(14,165,233,0.12); color: var(--blue); }
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .nav-count {
+      margin-left: auto;
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 99px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* ─── MAIN ─── */
+    .main { flex: 1; padding: 28px 32px; overflow-y: auto; }
+    .page-header { margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .page-sub { font-size: 13px; color: var(--gray-400); }
+
+    /* ─── STAT CARDS ─── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--navy-800);
+      border: 1px solid var(--navy-700);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); margin-bottom: 8px; }
+    .stat-value { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+    .stat-note { font-size: 12px; color: var(--gray-500); }
+    .text-blue { color: var(--blue); }
+    .text-green { color: var(--emerald); }
+    .text-orange { color: var(--orange); }
+    .text-purple { color: var(--purple); }
+
+    /* ─── PANELS ─── */
+    .panels { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+    .card {
+      background: var(--navy-800);
+      border: 1px solid var(--navy-700);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--navy-700);
+    }
+    .card-title { font-size: 14px; font-weight: 600; color: var(--white); }
+    .card-body { padding: 0; }
+
+    /* ─── LISTINGS FEED ─── */
+    .listing-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--navy-700);
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .listing-item:last-child { border-bottom: none; }
+    .listing-item:hover { background: rgba(14,165,233,0.04); }
+    .listing-item.new-item { border-left: 3px solid var(--emerald); }
+    .listing-thumb {
+      width: 64px; height: 64px; border-radius: 8px;
+      background: var(--navy-700); flex-shrink: 0;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .listing-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .listing-thumb-placeholder {
+      font-size: 24px; opacity: 0.4;
+    }
+    .listing-info { flex: 1; min-width: 0; }
+    .listing-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; line-height: 1.3; }
+    .listing-meta { display: flex; align-items: center; gap: 10px; flex-wrap:     .listing-price { font-size: 15px; font-weight: 700; color: var(--emerald); }
+    .listing-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 500;
+      padding: 2px 7px; border-radius: 4px;
+    }
+    .tag-ram { background: rgba(14,165,233,0.15); color: var(--blue-light); }
+    .tag-year { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .tag-location { background: rgba(100,116,139,0.2); color: var(--gray-400); }
+    .listing-time { font-size: 11px; color: var(--gray-500); }
+    .listing-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0; }
+    .action-btn {
+      padding: 5px 12px; border-radius: 6px;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s; white-space: nowrap;
+    }
+    .action-btn:hover { opacity: 0.85; }
+    .btn-contact { background: var(--blue); color: #fff; }
+    .btn-contacted { background: rgba(52,211,153,0.15); color: var(--emerald); border: 1px solid rgba(52,211,153,0.3); }
+    .btn-skip { background: transparent; color: var(--gray-500); border: 1px solid var(--navy-700); }
+
+    /* ──── RIGHT PANEL ──── */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* ──── CRITERIA CARD ──── */
+    .criteria-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .criteria-row { display: flex; align-items: center; justify-content: space-between; }
+    .criteria-key { font-size: 12px; color: var(--gray-500); font-weight: 500; }
+    .criteria-val { font-size: 13px; font-weight: 600; color: var(--white); }
+
+    /* ──── ACTIVITY LOG ──── */
+    .activity-list { padding: 12px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .activity-item { display: flex; gap: 10px; align-items: flex-start; }
+    .activity-icon {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; margin-top: 1px;
+    }
+    .icon-green { background: rgba(52,211,153,0.15); }
+    .icon-blue { background: rgba(14,165,233,0.15); }
+    .icon-orange { background: rgba(251,146,60,0.15); }
+    .icon-gray { background: rgba(100,116,139,0.15); }
+    .activity-text { flex: 1; }
+    .activity-desc { font-size: 12px; color: var(--gray-400); line-height: 1.4; }
+    .activity-time { font-size: 11px; color: var(--gray-600); margin-top: 1px; }
+
+    /* ──── SETTINGS ──── */
+    .settings-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+    .setting-row { display: flex; flex-direction: column; gap: 5px; }
+    .setting-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); }
+    .setting-input {
+      background: var(--navy-700); border: 1px solid var(--navy-600);
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 13px; color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      width: 100%;
+    }
+    .setting-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+
+    /* ──── TOGGLE ──── */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; }
+    .toggle-label { font-size: 13px; color: var(--gray-400); }
+    .toggle {
+      width: 36px; height: 20px; border-radius: 99px;
+      background: var(--blue); position: relative; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle::after {
+      content: ''; position: absolute;
+      top: 3px; left: 19px;
+      width: 14px; height: 14px;
+      border-radius: 50%; background: #fff;
+      transition: left 0.2s;
+    }
+    .toggle.off { background: var(--navy-700); }
+    .toggle.off::after { left: 3px; }
+
+    /* ──── FOOTER BRAND ──── */
+    .powered-by {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+    .powered-by a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    .powered-by a:hover { text-decoration: underline; }
+
+    /* ──── NOTIFICATION TOAST ──── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--navy-800);
+      border: 1px solid rgba(52,211,153,0.4);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex; align-items: flex-start; gap: 12px;
+      max-width: 320px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: slideIn 0.3s ease;
+      z-index: 999;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .toast-icon { font-size: 18px; margin-top: 1px; }
+    .toast-title { font-size: 13px; font-weight: 600; color: var(--emerald); margin-bottom: 2px; }
+    .toast-body { font-size: 12px; color: var(--gray-400); line-height: 1.4; }
+
+    @media (max-width: 1100px) {
+      .panels { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo">Mac<span>Hunter</span></div>
+    <div class="badge badge-blue">Beta</div>
+  </div>
+  <div class="topbar-right">
+    <div class="status-pill">
+      <div class="pulse-dot"></div>
+      Watching · Manhattan, NY
+    </div>
+    <button class="btn btn-ghost" onclick="toggleWatch(this)">Pause</button>
+    <button class="btn btn-primary">Settings</button>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-label">Navigation</div>
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Live Listings
+      <span class="nav-count">3</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.38 2 2 0 0 1 3.05 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6.2 6.2"/></svg>
+      Bids Sent
+      <span class="nav-count">7</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Analytics
+    </div>
+    <div class="sidebar-label" style="margin-top:8px;">Alerts</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      Settings
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title">Your Mac Hunter Dashboard</div>
+      <div class="page-sub">Monitoring Craigslist · Auto-contacting sellers that match your criteria · Last scan: 2 min ago</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Listings Found</div>
+        <div class="stat-value text-blue">24</div>
+        <div class="stat-note">Since activation · 8 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Bids Sent</div>
+        <div class="stat-value text-green">7</div>
+        <div class="stat-note">3 sellers replied</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Response</div>
+        <div class="stat-value text-orange">4.2m</div>
+        <div class="stat-note">After listing posts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Best Deal Found</div>
+        <div class="stat-value text-purple">$749</div>
+        <div class="stat-note">Mac Mini M2 Pro 32GB</div>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <div class="panels">
+      <!-- LISTINGS FEED -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Live Listings Feed</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-green">3 New</span>
+            <span style="font-size:12px;color:var(--gray-500)">Scanning every 3 min</span>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <!-- NEW LISTING -->
+          <div class="listing-item new-item" id="listing1">
+            <div class="listing-thumb">
+              <div class="listing-thumb-placeholder">💻</div>
+            </div>
+            <div class="listing-info">
+              <div class="listing-title">Apple Mac Mini M4 Pro — 64GB RAM / 1TB SSD</div>
+              <div class="listing-meta">
+                <span class="listing-price">$1,150</span>
+                <span class="listing-time">posted 4 min ago</span>
+              </div>
+              <div class="listing-tags">
+                <span class="tag tag-ram">64 GB RAM ✓</span>
+                <span class="tag tag-year">2024 ✓</span>
+                <span class="tag tag-location">Manhattan, NY · 3.2 mi</span>
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="action-btn btn-contact" onclick="sendBid(this, 'listing1')">&#9889; Auto-Bid</button>
+              <button class="action-btn btn-skip">Skip</button>
+            </div>
+          </div>
+
+          <!-- NEW LISTING 2 -->
+          <div class="listing-item new-item" id="listing2">
+            <div class="listing-thumb">
+              <div class="listing-thumb-placeholder">💻</div>
+            </div>
+            <div class="listing-info">
+              <div class="listing-title">Mac Mini M2 Pro — 32GB Unified / 512GB — Like New</div>
+              <div class="listing-meta">
+                <span class="listing-price">$849</span>
+                <span class="listing-time">posted 11 min ago</span>
+              </div>
+              <div class="listing-tags">
+                <span class="tag tag-ram">32 GB RAM ✓</span>
+                <span class="tag tag-year">2023 ✓</span>
+                <span class="tag tag-location">Brooklyn, NY · 4.2 mi</span>
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="action-btn btn-contact" onclick="sendBid(this, 'listing2')">&#9889; Auto-Bid</button>
+              <button class="action-btn btn-skip">Skip</button>
+            </div>
+          </div>
+
+          <!-- NEW LISTING 3 -->
+          <div class="listing-item new-item" id="listing3">
+            <div class="listing-thumb"><div class="listing-thumb-placeholder">💻</div></div>
+            <div class="listing-info">
+              <div class="listing-title">Apple Mac Mini M4 — 32GB / 512GB Space Gray</div>
+              <div class="listing-meta"><span class="listing-price">$780</span><span class="listing-time">posted 18 min ago</span></div>
+              <div class="listing-tags"><span class="tag tag-ram">32 GB RAM ✓</span><span class="tag tag-year">2024 ✓</span><span class="tag tag-location">Upper West Side, NY · 1.8 mi</span></div>
+            </div>
+            <div class="listing-actions">
+              <button class="action-btn btn-contact" onclick="sendBid(this, 'listing3')">&#9889; Auto-Bid</button>
+              <button class="action-btn btn-skip">Skip</button>
+            </div>
+          </div>
+
+          <!-- ALREADY CONTACTED -->
+          <div class="listing-item" style="opacity:0.6">
+            <div class="listing-thumb"><div class="listing-thumb-placeholder">💻</div></div>
+            <div class="listing-info">
+              <div class="listing-title">Mac Mini M2 Max 32GB — Barely Used</div>
+              <div class="listing-meta"><span class="listing-price">$1,050</span><span class="listing-time">posted 2 hours ago</span></div>
+              <div class="listing-tags"><span class="tag tag-ram">32 GB RAM ✓</span><span class="tag tag-year">2023 ✓</span><span class="tag tag-location">Manhattan, NY · 5.8 mi</span></div>
+            </div>
+            <div class="listing-actions">
+              <button class="action-btn btn-contacted">✓ Bid Sent</button>
+              <div style="font-size:11px;color:var(--gray-500);text-align:center">Awaiting reply</div>
+            </div>
+          </div>
+
+          <div class="listing-item" style="opacity:0.6">
+            <div class="listing-thumb"><div class="listing-thumb-placeholder">💻</div></div>
+            <div class="listing-info">
+              <div class="listing-title">Apple Mac Mini M2 Pro 32GB 1TB — Perfect Cond</div>
+              <div class="listing-meta"><span class="listing-price">$899</span><span class="listing-time">posted 1 day ago</span></div>
+              <div class="listing-tags"><span class="tag tag-ram">32 GB RAM ✓</span><span class="tag tag-year">2023 ✓</span><span class="tag tag-location">Hoboken, NJ · 3.5 mi</span></div>
+            </div>
+            <div class="listing-actions">
+              <button class="action-btn btn-contacted" style="background:rgba(251,146,60,0.15);color:var(--orange);border:1px solid rgba(251,146,60,0.3)">↩ Replied</button>
+              <div style="font-size:11px;color:var(--emerald);text-align:center">Seller responded!</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+        <!-- HUNT FILTERS -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Hunt Filters</div><span class="badge badge-green">Active</span></div>
+          <div class="settings-body">
+            <div class="setting-row"><div class="setting-label">City / Craigslist Market</div><input class="setting-input" value="New York City (Manhattan)" placeholder="e.g. New York, Los Angeles…" /></div>
+            <div class="setting-row"><div class="setting-label">Search Radius</div><select class="setting-input" style="cursor:pointer"><option>Within 10 miles</option><option selected>Within 25 miles</option><option>Within 50 miles</option><option>Nationwide (all markets)</option></select></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="setting-row"><div class="setting-label">Min RAM</div><select class="setting-input" style="cursor:pointer"><option>16 GB+</option><option selected>32 GB+</option><option>64 GB+</option></select></div>
+              <div class="setting-row"><div class="setting-label">Min Year</div><select class="setting-input" style="cursor:pointer"><option>2022+</option><option selected>2023+</option><option>2024+</option></select></div>
+            </div>
+            <div class="setting-row"><div class="setting-label">Max Price</div><div style="position:relative"><span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray-500);font-size:13px">$</span><input class="setting-input" style="padding-left:24px" value="1200" placeholder="No limit" type="number" /></div></div>
+            <div class="criteria-row" style="padding-top:4px;border-top:1px solid var(--navy-700)"><span class="criteria-key" style="font-size:12px">Auto-Bid on Match</span><div class="toggle"></div></div>
+            <div class="criteria-row"><span class="criteria-key" style="font-size:12px">Email Alerts</span><div class="toggle"></div></div>
+          </div>
+        </div>
+        <!-- ALERT EMAIL -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Alert Email</div></div>
+          <div class="settings-body"><div class="setting-row"><div class="setting-label">Send Alerts To</div><input class="setting-input" value="kemarch01@gmail.com" type="email" placeholder="your@email.com" /></div></div>
+        </div>
+        <!-- BID MESSAGE -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Auto-Bid Message</div><span style="font-size:11px;color:var(--gray-500)">Sent to every seller</span></div>
+          <div class="settings-body">
+            <div class="setting-row"><textarea class="setting-input" rows="5" style="resize:vertical;line-height:1.5">Hi, I'm interested in your Mac Mini. Is it still available? I can pay cash and pick up today or tomorrow. What's your best price? — Kevin</textarea></div>
+            <button class="btn btn-primary" style="width:100%;font-size:13px">Save Filters &amp; Message</button>
+          </div>
+        </div>
+        <!-- ACTIVITY LOG -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Activity Log</div><span style="font-size:12px;color:var(--gray-500)">Today</span></div>
+          <div class="activity-list">
+            <div class="activity-item"><div class="activity-icon icon-green">🔍</div><div class="activity-text"><div class="activity-desc">New match found: M4 Pro 64GB in Manhattan</div><div class="activity-time">4 minutes ago</div></div></div>
+            <div class="activity-item"><div class="activity-icon icon-blue">✉️</div><div class="activity-text"><div class="activity-desc">Auto-bid sent to <strong style="color:var(--white)">M2 Max 32GB</strong> listing</div><div class="activity-time">2 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-icon icon-orange">💬</div><div class="activity-text"><div class="activity-desc">Seller replied on M2 Pro 32GB — check your email</div><div class="activity-time">3 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-icon icon-green">🔍</div><div class="activity-text"><div class="activity-desc">2 new listings found, 1 matched your criteria</div><div class="activity-time">Yesterday 11:43 PM</div></div></div>
+            <div class="activity-item"><div class="activity-icon icon-gray">⏸️</div><div class="activity-text"><div class="activity-desc">Hunt scan completed · 0 matches this cycle</div><div class="activity-time">Yesterday 8:12 PM</div></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="powered-by">Built by <a href="https://liftori.ai" target="_blank">Liftori.ai</a> · Your idea, live in days.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast" style="display:none">
+  <div class="toast-icon">🎯</div>
+  <div><div class="toast-title">Bid Sent Automatically!</div><div class="toast-body" id="toast-body">Your message was sent to the seller. You'll get an alert when they reply.</div></div>
+</div>
+
+<script>
+  function sendBid(btn, listingId) {
+    btn.textContent = '✓ Bid Sent';
+    btn.className = 'action-btn btn-contacted';
+    btn.disabled = true;
+    const listing = document.getElementById(listingId);
+    listing.classList.remove('new-item');
+    listing.style.opacity = '0.65';
+    showToast('Bid sent! The seller has been contacted. You\'ll get an email if they reply.');
+  }
+  function toggleWatch(btn) {
+    const pill = document.querySelector('.status-pill');
+    const dot = pill.querySelector('.pulse-dot');
+    if (btn.textContent === 'Pause') {
+      btn.textContent = 'Resume'; pill.style.background = 'rgba(100,116,139,0.1)'; pill.style.borderColor = 'rgba(100,116,139,0.3)'; pill.style.color = 'var(--gray-400)'; dot.style.background = 'var(--gray-400)'; dot.style.animation = 'none'; pill.lastChild.textContent = ' Paused · Manhattan, NY';
+    } else {
+      btn.textContent = 'Pause'; pill.style.background = 'rgba(52,211,153,0.1)'; pill.style.borderColor = 'rgba(52,211,153,0.3)'; pill.style.color = 'var(--emerald)'; dot.style.background = 'var(--emerald)'; dot.style.animation = 'pulse 2s infinite'; pill.lastChild.textContent = ' Watching · Manhattan, NY';
+    }
+  }
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-body').textContent = msg;
+    toast.style.display = 'flex';
+    setTimeout(() => { toast.style.display = 'none'; }, 5000);
+  }
+  setTimeout(() => { showToast('New match found: Mac Mini M2 Pro 32GB just posted in Astoria, Queens!'); }, 8000);
+</script>
+</body>
+</html>
