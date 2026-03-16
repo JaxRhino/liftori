@@ -2,28 +2,15 @@
   "routes": [
     {
       "src": "/",
-      "has": [
-        {
-          "type": "header",
-          "key": "host",
-          "value": "www.vjthriftfinds.com"
-        }
-      ],
+      "has": [{ "type": "header", "key": "host", "value": "www.vjthriftfinds.com" }],
       "dest": "/vj/index.html"
     },
     {
       "src": "/(.*)",
-      "has": [
-        {
-          "type": "header",
-          "key": "host",
-          "value": "www.vjthriftfinds.com"
-        }
-      ],
+      "has": [{ "type": "header", "key": "host", "value": "www.vjthriftfinds.com" }],
       "dest": "/vj/$1"
     },
-    {
-      "handle": "filesystem"
-    }
+    { "src": "/blog", "dest": "/blog.html" },
+    { "handle": "filesystem" }
   ]
 }
