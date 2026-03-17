@@ -1111,7 +1111,7 @@
       <div class="empty-state">
         <div class="empty-icon">&#128197;</div>
         <div class="empty-title">Booking system setup in progress</div>
-        <div class="empty-desc">Your appointment booking system is being configured. We&#397ll notify you when it&#39;s live.</div>
+        <div class="empty-desc">Your appointment booking system is being configured. We&#39;ll notify you when it&#39;s live.</div>
         <button class="btn-outline" onclick="switchTab('messages')">Message the Team</button>
       </div>
     </div>
@@ -1357,4 +1357,43 @@
     "I can help with that. For store questions, check the Store tab once you've added your store product.",
     "Your Liftori team is always available in the Messages tab too if you need direct support.",
     "Based on your current plan, you have access to all four product types: Store, Website, Booking, and App.",
-    "That's a great goal. Let me know if you want me to walk you through setting up your first produc
+    "That's a great goal. Let me know if you want me to walk you through setting up your first product step by step.",
+  ];
+  let aiIdx = 0;
+
+  function sendAI() {
+    const input = document.getElementById('aiInput');
+    const text  = input.value.trim();
+    if (!text) return;
+    const body = document.getElementById('aiBody');
+
+    const userEl = document.createElement('div');
+    userEl.className = 'ai-msg user';
+    userEl.innerHTML = `<div class="ai-msg-content">${text}</div>`;
+    body.appendChild(userEl);
+    input.value = '';
+
+    setTimeout(() => {
+      const aiEl = document.createElement('div');
+      aiEl.className = 'ai-msg ai';
+      aiEl.innerHTML = `<div class="ai-msg-content">${AI_RESPONSES[aiIdx % AI_RESPONSES.length]}</div>`;
+      body.appendChild(aiEl);
+      body.scrollTop = body.scrollHeight;
+      aiIdx++;
+    }, 600);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // ── Toast ──
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast show ${type}`;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  // ── Init ──
+  checkAuth();
+</script>
+</body>
+</html>
