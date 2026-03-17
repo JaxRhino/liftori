@@ -1,503 +1,1360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin — My Store</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<style>
-:root{--bg-deep:#0a0907;--bg-dark:#13110e;--bg-card:#1a1714;--bg-surface:#262219;--gold:#c5a55a;--gold-light:#d4b96a;--gold-dim:#8a7540;--cream:#f5e6c8;--text-primary:#e8dcc8;--text-secondary:#a89a80;--text-muted:#6b6050;--border:#2a2520;--border-gold:rgba(197,165,90,0.3);--font-display:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;--font-accent:'Cormorant Garamond',Georgia,serif;--radius:6px;--transition:0.2s ease;--danger:#c44;--success:#5a8;--warning:#c90}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
-a{color:var(--gold);text-decoration:none}
-img{max-width:100%;display:block}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal — Liftori</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* ============================================================
+       LIFTORI DESIGN TOKENS
+       Navy #060B18 | Blue #0EA5E9 | DM Sans | Bebas Neue
+    ============================================================ */
+    :root {
+      --bg:        #060B18;
+      --bg-nav:    #080F1E;
+      --bg-card:   #0D1526;
+      --bg-input:  #111827;
+      --blue:      #0EA5E9;
+      --blue-lt:   #7DD3FC;
+      --blue-glow: rgba(14,165,233,0.12);
+      --white:     #FFFFFF;
+      --gray-300:  #D1D5DB;
+      --gray-400:  #9CA3AF;
+      --gray-500:  #6B7280;
+      --gray-700:  #374151;
+      --gray-800:  #1F2937;
+      --border:    #1E2D3D;
+      --green:     #10B981;
+      --red:       #F87171;
+      --radius:    10px;
+    }
 
-/* LOGIN */
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.login-box{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:12px;padding:48px 40px;width:100%;max-width:400px;text-align:center}
-.login-box h1{font-family:var(--font-display);font-size:1.8rem;color:var(--gold);margin-bottom:4px}
-.login-box p{color:var(--text-secondary);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:32px}
-.login-box input{width:100%;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:12px 16px;border-radius:var(--radius);font-size:.95rem;margin-bottom:12px;outline:none;transition:border var(--transition)}
-.login-box input:focus{border-color:var(--gold-dim)}
-.login-box button{width:100%;background:var(--gold);color:#000;font-weight:600;font-size:.95rem;padding:13px;border:none;border-radius:var(--radius);cursor:pointer;margin-top:4px;transition:background var(--transition)}
-.login-box button:hover{background:var(--gold-light)}
-#loginError{color:#c44;font-size:.85rem;margin-top:10px;display:none}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* DASHBOARD LAYOUT */
-#dashboard{display:none;min-height:100vh;flex-direction:column}
-.top-bar{background:var(--bg-dark);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
-.top-bar-brand{font-family:var(--font-display);color:var(--gold);font-size:1.2rem}
-.top-bar-right{display:flex;align-items:center;gap:16px}
-.top-bar-email{color:var(--text-muted);font-size:.8rem}
-.logout-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);padding:6px 14px;border-radius:var(--radius);cursor:pointer;font-size:.8rem;transition:all var(--transition)}
-.logout-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      font-size: 14px;
+    }
 
-/* TAB NAV */
-.tab-nav{background:var(--bg-dark);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;overflow-x:auto}
-.tab-btn{background:none;border:none;color:var(--text-muted);padding:14px 16px;font-size:.85rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all var(--transition);letter-spacing:.03em}
-.tab-btn:hover{color:var(--text-secondary)}
-.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+    /* ============================================================
+       LOGIN
+    ============================================================ */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-/* MAIN CONTENT */
-.tab-content{display:none;padding:28px 24px}
-.tab-content.active{display:block}
-.section-title{font-family:var(--font-display);font-size:1.3rem;color:var(--cream);margin-bottom:20px}
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+    }
 
-/* STAT CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-.stat-label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.stat-value{font-family:var(--font-display);font-size:2rem;color:var(--gold)}
-.stat-sub{font-size:.75rem;color:var(--text-secondary);margin-top:4px}
+    .login-brand {
+      text-align: center;
+      margin-bottom: 32px;
+    }
 
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:64px 24px}
-.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4}
-.empty-title{font-family:var(--font-display);font-size:1.2rem;color:var(--text-secondary);margin-bottom:8px}
-.empty-desc{color:var(--text-muted);font-size:.9rem;max-width:300px;margin:0 auto 24px}
-.empty-action{display:inline-block;background:var(--gold);color:#000;font-weight:600;font-size:.85rem;padding:10px 20px;border-radius:var(--radius);cursor:pointer;border:none;transition:background var(--transition)}
-.empty-action:hover{background:var(--gold-light)}
+    .login-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--blue);
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 14px;
+    }
 
-/* TABLE */
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.88rem}
-th{text-align:left;padding:10px 14px;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);font-weight:500}
-td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
-tr:last-child td{border-bottom:none}
+    .login-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 3px;
+      color: var(--white);
+    }
 
-/* FORM ELEMENTS */
-.form-group{margin-bottom:18px}
-.form-group label{display:block;font-size:.8rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:11px 14px;border-radius:var(--radius);font-size:.9rem;outline:none;transition:border var(--transition);font-family:var(--font-body)}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold-dim)}
-.form-group textarea{resize:vertical;min-height:80px}
-.btn-gold{background:var(--gold);color:#000;font-weight:600;font-size:.85rem;padding:10px 20px;border:none;border-radius:var(--radius);cursor:pointer;transition:background var(--transition)}
-.btn-gold:hover{background:var(--gold-light)}
-.btn-ghost{background:none;border:1px solid var(--border);color:var(--text-secondary);font-size:.85rem;padding:9px 18px;border-radius:var(--radius);cursor:pointer;transition:all var(--transition)}
-.btn-ghost:hover{border-color:var(--gold-dim);color:var(--gold)}
-.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:600px){.settings-grid{grid-template-columns:1fr}}
-.settings-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
-.settings-section h3{font-family:var(--font-display);font-size:1rem;color:var(--cream);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .login-tagline {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
 
-/* ACTIVITY */
-.activity-list{display:flex;flex-direction:column;gap:1px}
-.activity-item{background:var(--bg-card);padding:14px 18px;display:flex;align-items:center;gap:12px;border-radius:var(--radius);border:1px solid var(--border)}
-.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--gold-dim);flex-shrink:0}
-.activity-text{color:var(--text-secondary);font-size:.88rem}
-.activity-time{color:var(--text-muted);font-size:.78rem;margin-left:auto}
+    .field { margin-bottom: 16px; }
 
-/* BADGE */
-.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.badge-draft{background:rgba(107,96,80,.2);color:var(--text-muted)}
-.badge-published{background:rgba(90,136,90,.2);color:#5a8}
-.badge-pending{background:rgba(204,153,0,.15);color:#c90}
+    .field-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 6px;
+    }
 
-/* TOAST */
-#toast{position:fixed;bottom:24px;right:24px;background:var(--bg-surface);border:1px solid var(--border-gold);color:var(--text-primary);padding:14px 20px;border-radius:var(--radius);font-size:.88rem;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s ease;pointer-events:none}
-#toast.show{opacity:1;transform:translateY(0)}
-#toast.success{border-color:rgba(90,136,90,.5);color:#5a8}
+    .field-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--gray-800);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
 
-/* DEMO BANNER */
-.demo-banner{background:rgba(197,165,90,.08);border:1px solid var(--border-gold);border-radius:var(--radius);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--text-secondary)}
-.demo-banner span{color:var(--gold);font-weight:600}
+    .field-input::placeholder { color: var(--gray-500); }
 
-/* MESSAGES PANEL */
-.messages-list{display:flex;flex-direction:column;gap:12px}
-.message-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
-.message-header{display:flex;justify-content:space-between;margin-bottom:8px}
-.message-name{font-weight:600;color:var(--text-primary);font-size:.9rem}
-.message-time{font-size:.78rem;color:var(--text-muted)}
-.message-body{color:var(--text-secondary);font-size:.88rem}
+    .field-input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-glow);
+    }
 
-/* CHAT */
-.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 200px);min-height:400px}
-.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
-.chat-msg{max-width:70%}
-.chat-msg.admin{align-self:flex-end}
-.chat-bubble{padding:12px 16px;border-radius:12px;font-size:.88rem;line-height:1.5}
-.chat-msg:not(.admin) .chat-bubble{background:var(--bg-surface);color:var(--text-primary);border-bottom-left-radius:4px}
-.chat-msg.admin .chat-bubble{background:rgba(197,165,90,.12);color:var(--cream);border-bottom-right-radius:4px;border:1px solid var(--border-gold)}
-.chat-meta{font-size:.72rem;color:var(--text-muted);margin-top:4px;text-align:right}
-.chat-msg:not(.admin) .chat-meta{text-align:left}
-.chat-input-row{display:flex;gap:10px;padding:16px;border-top:1px solid var(--border);background:var(--bg-dark)}
-.chat-input-row input{flex:1;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:11px 16px;border-radius:var(--radius);font-size:.9rem;outline:none}
-.chat-input-row input:focus{border-color:var(--gold-dim)}
-.chat-send-btn{background:var(--gold);color:#000;font-weight:600;padding:11px 20px;border:none;border-radius:var(--radius);cursor:pointer;font-size:.85rem}
-</style>
+    .btn-primary {
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 11px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.15s;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover { background: #0284C7; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .login-err {
+      text-align: center;
+      font-size: 13px;
+      color: var(--red);
+      margin-top: 12px;
+      min-height: 18px;
+    }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 58px;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .topbar-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px;
+      color: #fff;
+    }
+
+    .topbar-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 19px;
+      letter-spacing: 2.5px;
+      color: var(--white);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .topbar-user {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .topbar-user strong { color: var(--white); font-weight: 500; }
+
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .btn-ghost:hover { color: var(--white); border-color: var(--gray-500); }
+
+    /* ============================================================
+       TAB NAV
+    ============================================================ */
+    .tab-nav {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tab-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-400);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .tab-btn:hover { color: var(--white); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    .main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .page-header { margin-bottom: 28px; }
+    .page-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .page-sub { font-size: 13px; color: var(--gray-400); }
+
+    /* ============================================================
+       TAB PANELS
+    ============================================================ */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ============================================================
+       STAT CARDS
+    ============================================================ */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--gray-500);
+      margin-bottom: 10px;
+    }
+
+    .stat-val {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--gray-500);
+      margin-top: 6px;
+    }
+
+    /* ============================================================
+       SECTION HEADING
+    ============================================================ */
+    .sec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .sec-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       PRODUCTS GRID
+    ============================================================ */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue-glow), 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .product-card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(16,185,129,0.15);
+      color: var(--green);
+    }
+
+    .product-card-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--blue-glow);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .product-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .product-card-desc {
+      font-size: 11px;
+      color: var(--gray-400);
+    }
+
+    .add-card {
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 110px;
+      gap: 8px;
+    }
+
+    .add-card:hover {
+      border-color: var(--blue);
+      background: var(--blue-glow);
+    }
+
+    .add-card-plus {
+      font-size: 22px;
+      color: var(--gray-500);
+      line-height: 1;
+    }
+
+    .add-card:hover .add-card-plus { color: var(--blue); }
+
+    .add-card-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+
+    .add-card:hover .add-card-label { color: var(--blue); }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+    .empty-state {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 52px 24px;
+      text-align: center;
+    }
+
+    .empty-icon { font-size: 38px; margin-bottom: 14px; }
+    .empty-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .empty-desc { font-size: 13px; color: var(--gray-400); max-width: 300px; margin: 0 auto 22px; line-height: 1.6; }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .btn-outline:hover { background: var(--blue-glow); }
+
+    /* ============================================================
+       MESSAGES
+    ============================================================ */
+    .msg-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 14px;
+      height: 560px;
+    }
+
+    .msg-sidebar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-y: auto;
+    }
+
+    .msg-sidebar-hd {
+      padding: 14px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--gray-500);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .msg-thread-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    .msg-thread-item:hover, .msg-thread-item.active {
+      background: var(--blue-glow);
+    }
+
+    .msg-thread-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .msg-thread-preview { font-size: 11px; color: var(--gray-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .msg-pane {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .msg-pane-hd {
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .msg-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .msg-bubble { max-width: 68%; }
+    .msg-bubble.them { margin-right: auto; }
+    .msg-bubble.me { margin-left: auto; }
+
+    .msg-content {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .msg-bubble.them .msg-content {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+    }
+
+    .msg-bubble.me .msg-content {
+      background: var(--blue);
+    }
+
+    .msg-meta {
+      font-size: 10px;
+      color: var(--gray-500);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .msg-bubble.me .msg-meta { text-align: right; }
+
+    .msg-input-row {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+    }
+
+    .msg-input {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .msg-input:focus { outline: none; border-color: var(--blue); }
+    .msg-input::placeholder { color: var(--gray-500); }
+
+    .btn-send {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-send:hover { background: #0284C7; }
+
+    /* ============================================================
+       SETTINGS
+    ============================================================ */
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 14px;
+    }
+
+    .settings-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .fields-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .btn-sm-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .btn-sm-primary:hover { background: #0284C7; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-row input[type="checkbox"] { accent-color: var(--blue); width: 15px; height: 15px; cursor: pointer; }
+
+    /* ============================================================
+       STORE / PRODUCT TABS
+    ============================================================ */
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .table-card-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-card-title { font-size: 14px; font-weight: 600; }
+    .table-empty { padding: 40px; text-align: center; color: var(--gray-400); font-size: 13px; }
+    .table-empty-icon { font-size: 26px; margin-bottom: 10px; }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 24px;
+    }
+
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .modal-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .modal-title { font-size: 17px; font-weight: 700; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 2px 4px;
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--white); }
+
+    .modal-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 22px; line-height: 1.5; }
+
+    .picker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .picker-item {
+      background: var(--bg-input);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .picker-item:hover, .picker-item.selected {
+      border-color: var(--blue);
+      background: var(--blue-glow);
+    }
+
+    .picker-item.disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .picker-icon { font-size: 22px; margin-bottom: 8px; }
+    .picker-name { font-size: 13px; font-weight: 600; }
+    .picker-desc { font-size: 11px; color: var(--gray-400); margin-top: 3px; }
+
+    /* ============================================================
+       AI ADVISOR BUBBLE
+    ============================================================ */
+    .ai-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 50px;
+      height: 50px;
+      background: var(--blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(14,165,233,0.4);
+      z-index: 150;
+      font-size: 20px;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ai-fab:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 26px rgba(14,165,233,0.55);
+    }
+
+    .ai-panel {
+      position: fixed;
+      bottom: 92px;
+      right: 28px;
+      width: 320px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: none;
+      z-index: 150;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    .ai-panel.open { display: flex; flex-direction: column; }
+
+    .ai-panel-hd {
+      padding: 14px 16px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ai-panel-title { font-size: 13px; font-weight: 700; }
+    .ai-panel-close { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 16px; }
+    .ai-panel-close:hover { color: #fff; }
+
+    .ai-chat-body {
+      padding: 16px;
+      height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ai-msg { max-width: 85%; }
+    .ai-msg.ai { margin-right: auto; }
+    .ai-msg.user { margin-left: auto; }
+
+    .ai-msg-content {
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .ai-msg.ai .ai-msg-content { background: var(--bg-input); border: 1px solid var(--border); }
+    .ai-msg.user .ai-msg-content { background: var(--blue); }
+
+    .ai-input-row {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .ai-input {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 11px;
+      font-size: 12px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .ai-input:focus { outline: none; border-color: var(--blue); }
+    .ai-input::placeholder { color: var(--gray-500); }
+
+    .ai-send {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 0 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .ai-send:hover { background: #0284C7; }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #1A2742;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 400;
+      opacity: 0;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { border-color: rgba(16,185,129,0.4); color: #34D399; }
+    .toast.error   { border-color: rgba(248,113,113,0.4); color: var(--red); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 680px) {
+      .main { padding: 20px 16px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .fields-row { grid-template-columns: 1fr; }
+      .msg-layout { grid-template-columns: 1fr; height: auto; }
+      .msg-sidebar { display: none; }
+      .msg-pane { height: 480px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Store</h1>
-    <p>Admin Dashboard</p>
-    <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
-    <input type="password" id="loginPw" placeholder="Password" autocomplete="current-password">
-    <button onclick="handleLogin()">Sign In</button>
-    <div id="loginError">Invalid email or password.</div>
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-icon">L</div>
+      <div class="login-wordmark">LIFTORI</div>
+      <div class="login-tagline">Client Portal — Sign in to manage your products</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Email</label>
+      <input type="email" id="loginEmail" class="field-input" placeholder="you@email.com" />
+    </div>
+
+    <div class="field">
+      <label class="field-label">Password</label>
+      <input type="password" id="loginPw" class="field-input" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter') doLogin()" />
+    </div>
+
+    <button id="loginBtn" class="btn-primary" onclick="doLogin()">Sign In</button>
+    <div id="loginErr" class="login-err"></div>
   </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <div class="top-bar">
-    <div class="top-bar-brand">My Store</div>
-    <div class="top-bar-right">
-      <span class="top-bar-email" id="userEmail"></span>
-      <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
+<!-- ============================================================
+     PORTAL
+============================================================ -->
+<div id="portal" style="display:none">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <a class="topbar-brand" href="#">
+      <div class="topbar-icon">L</div>
+      <span class="topbar-wordmark">LIFTORI</span>
+    </a>
+    <div class="topbar-right">
+      <span class="topbar-user" id="topbarUser"></span>
+      <button class="btn-ghost" onclick="signOut()">Sign Out</button>
     </div>
   </div>
 
-  <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('dashboard',this)">Dashboard</button>
-    <button class="tab-btn" onclick="switchTab('products',this)">Products</button>
-    <button class="tab-btn" onclick="switchTab('orders',this)">Orders</button>
-    <button class="tab-btn" onclick="switchTab('messages',this)">Messages</button>
-    <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews</button>
-    <button class="tab-btn" onclick="switchTab('subscribers',this)">Subscribers</button>
-    <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
-    <button class="tab-btn" onclick="switchTab('chat',this)">Chat</button>
-  </div>
+  <!-- Tab Nav -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="messages">Messages</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+  </nav>
 
-  <!-- DASHBOARD TAB -->
-  <div id="tab-dashboard" class="tab-content active">
-    <div class="demo-banner">
-      <span>Demo Portal</span> — This is a blank store template. No real data is connected.
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Total Products</div>
-        <div class="stat-value">0</div>
-        <div class="stat-sub">Add your first product</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Published</div>
-        <div class="stat-value">0</div>
-        <div class="stat-sub">Live in store</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Total Orders</div>
-        <div class="stat-value">0</div>
-        <div class="stat-sub">Revenue: $0.00</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Questions</div>
-        <div class="stat-value">0</div>
-        <div class="stat-sub">Awaiting reply</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Subscribers</div>
-        <div class="stat-value">0</div>
-        <div class="stat-sub">Active subscribers</div>
-      </div>
-    </div>
-    <div class="section-title">Recent Activity</div>
-    <div class="empty-state">
-      <div class="empty-icon">📋</div>
-      <div class="empty-title">No activity yet</div>
-      <div class="empty-desc">Activity will appear here as orders come in and products are added.</div>
-    </div>
-  </div>
+  <!-- Content Area -->
+  <div class="main">
 
-  <!-- PRODUCTS TAB -->
-  <div id="tab-products" class="tab-content">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-      <div class="section-title" style="margin-bottom:0">Products</div>
-      <button class="btn-gold" onclick="showProductForm()">+ Add Product</button>
-    </div>
+    <!-- ── OVERVIEW ── -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="page-header">
+        <div class="page-title">Welcome back, <span id="greetName">there</span> &#128075;</div>
+        <div class="page-sub">Your Liftori hub — manage all your products in one place.</div>
+      </div>
 
-    <!-- ADD PRODUCT FORM (hidden) -->
-    <div id="productForm" style="display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px">
-      <h3 style="font-family:var(--font-display);color:var(--cream);margin-bottom:20px">New Product</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="form-group">
-          <label>Title *</label>
-          <input type="text" id="pTitle" placeholder="e.g. Vintage Lamp">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">My Products</div>
+          <div class="stat-val" id="statProducts">0</div>
+          <div class="stat-sub">Active services</div>
         </div>
-        <div class="form-group">
-          <label>Price *</label>
-          <input type="number" id="pPrice" placeholder="0.00" step="0.01">
+        <div class="stat-card">
+          <div class="stat-label">Messages</div>
+          <div class="stat-val" id="statMessages">1</div>
+          <div class="stat-sub">From your team</div>
         </div>
-        <div class="form-group">
-          <label>Condition</label>
-          <select id="pCondition">
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="pStatus">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-          </select>
+        <div class="stat-card">
+          <div class="stat-label">Plan</div>
+          <div class="stat-val" style="font-size:20px; line-height:1.4">Starter</div>
+          <div class="stat-sub">Active</div>
         </div>
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="pDesc" placeholder="Describe this item..."></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button class="btn-gold" onclick="saveProduct()">Save Product</button>
-        <button class="btn-ghost" onclick="hideProductForm()">Cancel</button>
-      </div>
-    </div>
 
-    <!-- PRODUCT LIST -->
-    <div id="productList">
-      <div class="empty-state">
-        <div class="empty-icon">🛍️</div>
-        <div class="empty-title">No products yet</div>
-        <div class="empty-desc">Add your first product to start selling.</div>
-        <button class="empty-action" onclick="showProductForm()">+ Add First Product</button>
+      <div class="sec-header">
+        <div class="sec-title">Your Products</div>
+        <button class="btn-sm-primary" onclick="openModal()">+ Add Product</button>
       </div>
-    </div>
-  </div>
 
-  <!-- ORDERS TAB -->
-  <div id="tab-orders" class="tab-content">
-    <div class="section-title">Orders</div>
-    <div class="empty-state">
-      <div class="empty-icon">📦</div>
-      <div class="empty-title">No orders yet</div>
-      <div class="empty-desc">Orders from your customers will appear here once your store is live.</div>
-    </div>
-  </div>
-
-  <!-- MESSAGES TAB -->
-  <div id="tab-messages" class="tab-content">
-    <div class="section-title">Product Questions</div>
-    <div class="empty-state">
-      <div class="empty-icon">💬</div>
-      <div class="empty-title">No questions yet</div>
-      <div class="empty-desc">Customer questions about your products will appear here.</div>
-    </div>
-  </div>
-
-  <!-- REVIEWS TAB -->
-  <div id="tab-reviews" class="tab-content">
-    <div class="section-title">Reviews</div>
-    <div class="empty-state">
-      <div class="empty-icon">⭐</div>
-      <div class="empty-title">No reviews yet</div>
-      <div class="empty-desc">Customer reviews will appear here for your approval.</div>
-    </div>
-  </div>
-
-  <!-- SUBSCRIBERS TAB -->
-  <div id="tab-subscribers" class="tab-content">
-    <div class="section-title">Email Subscribers</div>
-    <div class="empty-state" style="margin-bottom:24px">
-      <div class="empty-icon">📧</div>
-      <div class="empty-title">No subscribers yet</div>
-      <div class="empty-desc">Email subscribers from your store will appear here.</div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Email</th><th>Name</th><th>Source</th><th>Date</th></tr>
-        </thead>
-        <tbody id="subscriberTable">
-          <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px">No subscribers yet</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SETTINGS TAB -->
-  <div id="tab-settings" class="tab-content">
-    <div class="section-title">Store Settings</div>
-    <div class="settings-section">
-      <h3>Store Information</h3>
-      <div class="settings-grid">
-        <div class="form-group">
-          <label>Store Name</label>
-          <input type="text" id="settingName" placeholder="Your Store Name">
-        </div>
-        <div class="form-group">
-          <label>Contact Email</label>
-          <input type="email" id="settingEmail" placeholder="hello@yourbusiness.com">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Tagline</label>
-        <input type="text" id="settingTagline" placeholder="A short description of your store">
-      </div>
-      <div class="form-group">
-        <label>Store Description</label>
-        <textarea id="settingDesc" placeholder="Tell customers about your store..."></textarea>
-      </div>
-    </div>
-    <div class="settings-section">
-      <h3>Shipping</h3>
-      <div class="settings-grid">
-        <div class="form-group">
-          <label>Flat Rate Shipping ($)</label>
-          <input type="number" id="settingShipping" placeholder="0.00" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Free Shipping Over ($)</label>
-          <input type="number" id="settingFreeShipping" placeholder="0.00" step="0.01">
+      <div class="products-grid" id="productsGrid">
+        <div class="add-card" onclick="openModal()">
+          <div class="add-card-plus">+</div>
+          <div class="add-card-label">Add Your First Product</div>
         </div>
       </div>
     </div>
-    <button class="btn-gold" onclick="saveSettings()">Save Settings</button>
-  </div>
 
-  <!-- CHAT TAB -->
-  <div id="tab-chat" class="tab-content" style="padding:0">
-    <div class="chat-wrap">
-      <div id="chatMessages" class="chat-messages">
-        <div class="chat-msg">
-          <div class="chat-bubble">
-            👋 Welcome to your Liftori support channel! This is where you can message the Liftori team directly. We're here to help you set up and grow your store.
+    <!-- ── MESSAGES ── -->
+    <div class="tab-panel" id="tab-messages">
+      <div class="page-header">
+        <div class="page-title">Messages</div>
+        <div class="page-sub">Direct line to your Liftori team.</div>
+      </div>
+
+      <div class="msg-layout">
+        <div class="msg-sidebar">
+          <div class="msg-sidebar-hd">Conversations</div>
+          <div class="msg-thread-item active">
+            <div class="msg-thread-name">Liftori Team</div>
+            <div class="msg-thread-preview">Welcome to Liftori!</div>
           </div>
-          <div class="chat-meta">Liftori Team · just now</div>
+        </div>
+        <div class="msg-pane">
+          <div class="msg-pane-hd">Liftori Team</div>
+          <div class="msg-body" id="msgBody">
+            <div class="msg-bubble them">
+              <div class="msg-content">Hey! &#128075; Welcome to Liftori. We&#39;re building something great for you. Ask us anything or let us know what you need.</div>
+              <div class="msg-meta">Liftori Team &middot; Today</div>
+            </div>
+          </div>
+          <div class="msg-input-row">
+            <input type="text" id="msgInput" class="msg-input" placeholder="Type a message..."
+                   onkeydown="if(event.key==='Enter') sendMsg()" />
+            <button class="btn-send" onclick="sendMsg()">Send</button>
+          </div>
         </div>
       </div>
-      <div class="chat-input-row">
-        <input type="text" id="chatInput" placeholder="Message Liftori team..." onkeydown="if(event.key==='Enter')sendChatMsg()">
-        <button class="chat-send-btn" onclick="sendChatMsg()">Send</button>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="page-header">
+        <div class="page-title">Account Settings</div>
+        <div class="page-sub">Manage your Liftori account.</div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-title">Profile</div>
+        <div class="fields-row">
+          <div class="field" style="margin:0">
+            <label class="field-label">First Name</label>
+            <input type="text" class="field-input" placeholder="First name" />
+          </div>
+          <div class="field" style="margin:0">
+            <label class="field-label">Last Name</label>
+            <input type="text" class="field-input" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Email</label>
+          <input type="email" id="settingsEmail" class="field-input" placeholder="you@email.com" />
+        </div>
+        <button class="btn-sm-primary" onclick="showToast('Profile saved!','success')">Save Changes</button>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-title">Notifications</div>
+        <label class="checkbox-row"><input type="checkbox" checked> Email me when I get a message</label>
+        <label class="checkbox-row"><input type="checkbox" checked> Email me on product updates</label>
+        <label class="checkbox-row"><input type="checkbox"> Weekly digest</label>
       </div>
     </div>
+
+    <!-- ── STORE (inserted dynamically) ── -->
+    <div class="tab-panel" id="tab-store">
+      <div class="page-header">
+        <div class="page-title">&#128722; My Store</div>
+        <div class="page-sub">Manage your products, orders, and customers.</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Products</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">In catalog</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Orders</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">Revenue: $0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Reviews</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">Avg: —</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Subscribers</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">Email list</div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-card-hd">
+          <div class="table-card-title">Products</div>
+          <button class="btn-sm-primary" onclick="showToast('Product management coming soon!','success')">+ Add Product</button>
+        </div>
+        <div class="table-empty">
+          <div class="table-empty-icon">&#128230;</div>
+          No products yet. Add your first item to get started.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WEBSITE ── -->
+    <div class="tab-panel" id="tab-website">
+      <div class="page-header">
+        <div class="page-title">&#127760; My Website</div>
+        <div class="page-sub">Your Liftori-built business site.</div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon">&#127760;</div>
+        <div class="empty-title">Your website is in progress</div>
+        <div class="empty-desc">Our team is building your site. You&#39;ll get a preview link as soon as it&#39;s ready.</div>
+        <button class="btn-outline" onclick="switchTab('messages')">Message the Team</button>
+      </div>
+    </div>
+
+    <!-- ── BOOKING ── -->
+    <div class="tab-panel" id="tab-booking">
+      <div class="page-header">
+        <div class="page-title">&#128197; Booking</div>
+        <div class="page-sub">Manage appointments and reservations.</div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon">&#128197;</div>
+        <div class="empty-title">Booking system setup in progress</div>
+        <div class="empty-desc">Your appointment booking system is being configured. We&#397ll notify you when it&#39;s live.</div>
+        <button class="btn-outline" onclick="switchTab('messages')">Message the Team</button>
+      </div>
+    </div>
+
+    <!-- ── APP ── -->
+    <div class="tab-panel" id="tab-app">
+      <div class="page-header">
+        <div class="page-title">&#128241; My App</div>
+        <div class="page-sub">Your custom Liftori application.</div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon">&#128241;</div>
+        <div class="empty-title">Your app is in development</div>
+        <div class="empty-desc">Our engineers are actively building your app. We share milestone previews as we go.</div>
+        <button class="btn-outline" onclick="switchTab('messages')">Message the Team</button>
+      </div>
+    </div>
+
+  </div><!-- /.main -->
+
+  <!-- AI Advisor FAB -->
+  <button class="ai-fab" id="aiFab" onclick="toggleAI()" title="AI Advisor">&#128172;</button>
+
+  <!-- AI Advisor Panel -->
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-hd">
+      <span class="ai-panel-title">&#129302; Liftori AI Advisor</span>
+      <button class="ai-panel-close" onclick="toggleAI()">&#10005;</button>
+    </div>
+    <div class="ai-chat-body" id="aiBody">
+      <div class="ai-msg ai">
+        <div class="ai-msg-content">Hi! I&#39;m your Liftori AI advisor. I can help you get the most out of your products, answer questions, and suggest next steps for your business. What can I help with?</div>
+      </div>
+    </div>
+    <div class="ai-input-row">
+      <input type="text" id="aiInput" class="ai-input" placeholder="Ask me anything..."
+             onkeydown="if(event.key==='Enter') sendAI()" />
+      <button class="ai-send" onclick="sendAI()">&#8594;</button>
+    </div>
+  </div>
+
+</div><!-- /#portal -->
+
+<!-- ============================================================
+     ADD PRODUCT MODAL
+============================================================ -->
+<div class="overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title">Add a Product</div>
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    </div>
+    <div class="modal-sub">Choose which Liftori service you&#39;d like to activate on your account.</div>
+    <div class="picker-grid" id="pickerGrid">
+      <div class="picker-item" id="pick-store" onclick="pickProduct('store')">
+        <div class="picker-icon">&#128722;</div>
+        <div class="picker-name">Store</div>
+        <div class="picker-desc">E-commerce &amp; resale</div>
+      </div>
+      <div class="picker-item" id="pick-website" onclick="pickProduct('website')">
+        <div class="picker-icon">&#127760;</div>
+        <div class="picker-name">Website</div>
+        <div class="picker-desc">Business landing page</div>
+      </div>
+      <div class="picker-item" id="pick-booking" onclick="pickProduct('booking')">
+        <div class="picker-icon">&#128197;</div>
+        <div class="picker-name">Booking</div>
+        <div class="picker-desc">Appointments &amp; reservations</div>
+      </div>
+      <div class="picker-item" id="pick-app" onclick="pickProduct('app')">
+        <div class="picker-icon">&#128241;</div>
+        <div class="picker-name">App</div>
+        <div class="picker-desc">Custom web or mobile app</div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="confirmProduct()">Activate Product</button>
   </div>
 </div>
 
-<!-- TOAST -->
-<div id="toast"></div>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
 <script>
-// ── Supabase client ─────────────────────────────────────────────────────────
-const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExNTQ2MDQsImV4cCI6MjA4NjczMDYwNH0.N0lJE0pzJKkUyMNQN9pNvL1sPn_BibJb6Qq4v8nqCwI';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── Auth ────────────────────────────────────────────────────────────────────
-async function checkAuth() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    showDashboard(session.user);
+  // ── State ──
+  let activeProducts = [];
+  let selectedPick   = null;
+
+  const PRODUCTS = {
+    store:   { label: 'Store',   icon: '&#128722;', desc: 'E-commerce store' },
+    website: { label: 'Website', icon: '&#127760;', desc: 'Business website' },
+    booking: { label: 'Booking', icon: '&#128197;', desc: 'Appointment booking' },
+    app:     { label: 'App',     icon: '&#128241;', desc: 'Custom application' },
+  };
+
+  // ── Auth ──
+  async function checkAuth() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) showPortal(session.user);
   }
-}
 
-async function handleLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pw = document.getElementById('loginPw').value;
-  const err = document.getElementById('loginError');
-  err.style.display = 'none';
-  if (!email || !pw) { err.textContent = 'Please enter email and password.'; err.style.display = 'block'; return; }
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-  if (error) { err.textContent = 'Invalid email or password.'; err.style.display = 'block'; return; }
-  showDashboard(data.user);
-}
-
-async function handleLogout() {
-  await sb.auth.signOut();
-  location.reload();
-}
-
-function showDashboard(user) {
-  document.getElementById('loginScreen').style.display = 'none';
-  const dash = document.getElementById('dashboard');
-  dash.style.display = 'flex';
-  document.getElementById('userEmail').textContent = user.email;
-}
-
-// ── Tab switching ────────────────────────────────────────────────────────────
-let activeTab = 'dashboard';
-function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  btn.classList.add('active');
-  activeTab = tab;
-}
-
-// ── Products (local state only — demo mode) ──────────────────────────────────
-let products = [];
-
-function showProductForm() {
-  document.getElementById('productForm').style.display = 'block';
-  document.getElementById('productList').innerHTML = '';
-  renderProducts();
-}
-
-function hideProductForm() {
-  document.getElementById('productForm').style.display = 'none';
-  renderProducts();
-}
-
-function saveProduct() {
-  const title = document.getElementById('pTitle').value.trim();
-  const price = parseFloat(document.getElementById('pPrice').value) || 0;
-  const condition = document.getElementById('pCondition').value;
-  const status = document.getElementById('pStatus').value;
-  const desc = document.getElementById('pDesc').value.trim();
-  if (!title) { showToast('Title is required', 'error'); return; }
-  products.push({ id: Date.now(), title, price, condition, status, description: desc });
-  document.getElementById('pTitle').value = '';
-  document.getElementById('pPrice').value = '';
-  document.getElementById('pDesc').value = '';
-  hideProductForm();
-  showToast('Product added!', 'success');
-}
-
-function renderProducts() {
-  const list = document.getElementById('productList');
-  if (products.length === 0) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛍️</div><div class="empty-title">No products yet</div><div class="empty-desc">Add your first product to start selling.</div><button class="empty-action" onclick="showProductForm()">+ Add First Product</button></div>';
-    return;
+  async function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pw    = document.getElementById('loginPw').value;
+    const btn   = document.getElementById('loginBtn');
+    const err   = document.getElementById('loginErr');
+    if (!email || !pw) { err.textContent = 'Please enter your email and password.'; return; }
+    err.textContent = '';
+    btn.textContent = 'Signing in…';
+    btn.disabled = true;
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
+    if (error) { err.textContent = error.message; return; }
+    showPortal(data.user);
   }
-  list.innerHTML = '<div class="table-wrap"><table><thead><tr><th>Title</th><th>Price</th><th>Condition</th><th>Status</th></tr></thead><tbody>' +
-    products.map(p => `<tr>
-      <td style="color:var(--text-primary)">${p.title}</td>
-      <td>$${p.price.toFixed(2)}</td>
-      <td>${p.condition}</td>
-      <td><span class="badge badge-${p.status}">${p.status}</span></td>
-    </tr>`).join('') +
-    '</tbody></table></div>';
-}
 
-// ── Settings ────────────────────────────────────────────────────────────────
-function saveSettings() {
-  const name = document.getElementById('settingName').value.trim();
-  if (name) {
-    document.querySelector('.top-bar-brand').textContent = name;
-    document.querySelector('.login-box h1') && (document.querySelector('.login-box h1').textContent = name);
+  function showPortal(user) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+    const name = (user.email || '').split('@')[0];
+    const cap  = name.charAt(0).toUpperCase() + name.slice(1);
+    document.getElementById('topbarUser').innerHTML = `Signed in as <strong>${user.email}</strong>`;
+    document.getElementById('greetName').textContent = cap;
+    document.getElementById('settingsEmail').value = user.email || '';
   }
-  showToast('Settings saved!', 'success');
-}
 
-// ── Chat (local demo) ────────────────────────────────────────────────────────
-function sendChatMsg() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  const container = document.getElementById('chatMessages');
-  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const el = document.createElement('div');
-  el.className = 'chat-msg admin';
-  el.innerHTML = `<div class="chat-bubble">${msg}</div><div class="chat-meta">${time}</div>`;
-  container.appendChild(el);
-  container.scrollTop = container.scrollHeight;
-}
+  async function signOut() {
+    await sb.auth.signOut();
+    location.reload();
+  }
 
-// ── Toast ────────────────────────────────────────────────────────────────────
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show' + (type === 'success' ? ' success' : '');
-  setTimeout(() => { t.className = ''; }, 3000);
-}
+  // ── Tabs ──
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
 
-// ── Init ─────────────────────────────────────────────────────────────────────
-checkAuth();
-</script>
-</body>
-</html>
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
+    const panel = document.getElementById(`tab-${name}`);
+    if (btn) btn.classList.add('active');
+    if (panel) panel.classList.add('active');
+  }
+
+  // ── Add Product Modal ──
+  function openModal() {
+    selectedPick = null;
+    document.querySelectorAll('.picker-item').forEach(el => {
+      el.classList.remove('selected');
+      const key = el.id.replace('pick-', '');
+      el.classList.toggle('disabled', activeProducts.includes(key));
+    });
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function pickProduct(key) {
+    if (activeProducts.includes(key)) return;
+    selectedPick = key;
+    document.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
+    document.getElementById(`pick-${key}`).classList.add('selected');
+  }
+
+  function confirmProduct() {
+    if (!selectedPick) { showToast('Please choose a product type', 'error'); return; }
+    if (activeProducts.includes(selectedPick)) { showToast('Already activated', 'error'); return; }
+    activeProducts.push(selectedPick);
+    addProductTab(selectedPick);
+    renderProductCards();
+    document.getElementById('statProducts').textContent = activeProducts.length;
+    closeModal();
+    switchTab(selectedPick);
+    showToast(`${PRODUCTS[selectedPick].label} activated!`, 'success');
+  }
+
+  function addProductTab(key) {
+    const cfg = PRODUCTS[key];
+    const nav = document.getElementById('tabNav');
+    const settingsBtn = nav.querySelector('[data-tab="settings"]');
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.dataset.tab = key;
+    btn.innerHTML = cfg.icon + ' ' + cfg.label;
+    btn.addEventListener('click', () => switchTab(key));
+    nav.insertBefore(btn, settingsBtn);
+  }
+
+  function renderProductCards() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+    activeProducts.forEach(key => {
+      const cfg = PRODUCTS[key];
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.onclick = () => switchTab(key);
+      card.innerHTML = `
+        <div class="product-card-badge">Active</div>
+        <div class="product-card-icon">${cfg.icon}</div>
+        <div class="product-card-name">${cfg.label}</div>
+        <div class="product-card-desc">${cfg.desc}</div>`;
+      grid.appendChild(card);
+    });
+    const addCard = document.createElement('div');
+    addCard.className = 'add-card';
+    addCard.onclick = openModal;
+    addCard.innerHTML = `<div class="add-card-plus">+</div><div class="add-card-label">Add Another Product</div>`;
+    grid.appendChild(addCard);
+  }
+
+  // ── Messages ──
+  function sendMsg() {
+    const input = document.getElementById('msgInput');
+    const text  = input.value.trim();
+    if (!text) return;
+    const body = document.getElementById('msgBody');
+    const el = document.createElement('div');
+    el.className = 'msg-bubble me';
+    el.innerHTML = `<div class="msg-content">${text}</div><div class="msg-meta">You &middot; Just now</div>`;
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+    input.value = '';
+  }
+
+  // ── AI Advisor ──
+  function toggleAI() {
+    document.getElementById('aiPanel').classList.toggle('open');
+  }
+
+  const AI_RESPONSES = [
+    "Great question! Adding your first product is the best place to start. Head to Overview and click '+ Add Product'.",
+    "I can help with that. For store questions, check the Store tab once you've added your store product.",
+    "Your Liftori team is always available in the Messages tab too if you need direct support.",
+    "Based on your current plan, you have access to all four product types: Store, Website, Booking, and App.",
+    "That's a great goal. Let me know if you want me to walk you through setting up your first produc
