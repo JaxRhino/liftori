@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — My Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg-deep:#0a0907;--bg-dark:#13110e;--bg-card:#1a1714;--bg-surface:#262219;--gold:#c5a55a;--gold-light:#d4b96a;--gold-dim:#8a7540;--cream:#f5e6c8;--text-primary:#e8dcc8;--text-secondary:#a89a80;--text-muted:#6b6050;--border:#2a2520;--border-gold:rgba(197,165,90,0.3);--font-display:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;--font-accent:'Cormorant Garamond',Georgia,serif;--radius:6px;--transition:0.2s ease;--danger:#c44;--success:#5a8;--warning:#c90}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--gold);text-decoration:none}
+img{max-width:100%;display:block}
+
+/* LOGIN */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:12px;padding:48px 40px;width:100%;max-width:400px;text-align:center}
+.login-box h1{font-family:var(--font-display);font-size:1.8rem;color:var(--gold);margin-bottom:4px}
+.login-box p{color:var(--text-secondary);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:32px}
+.login-box input{width:100%;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:12px 16px;border-radius:var(--radius);font-size:.95rem;margin-bottom:12px;outline:none;transition:border var(--transition)}
+.login-box input:focus{border-color:var(--gold-dim)}
+.login-box button{width:100%;background:var(--gold);color:#000;font-weight:600;font-size:.95rem;padding:13px;border:none;border-radius:var(--radius);cursor:pointer;margin-top:4px;transition:background var(--transition)}
+.login-box button:hover{background:var(--gold-light)}
+#loginError{color:#c44;font-size:.85rem;margin-top:10px;display:none}
+
+/* DASHBOARD LAYOUT */
+#dashboard{display:none;min-height:100vh;flex-direction:column}
+.top-bar{background:var(--bg-dark);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.top-bar-brand{font-family:var(--font-display);color:var(--gold);font-size:1.2rem}
+.top-bar-right{display:flex;align-items:center;gap:16px}
+.top-bar-email{color:var(--text-muted);font-size:.8rem}
+.logout-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);padding:6px 14px;border-radius:var(--radius);cursor:pointer;font-size:.8rem;transition:all var(--transition)}
+.logout-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* TAB NAV */
+.tab-nav{background:var(--bg-dark);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;overflow-x:auto}
+.tab-btn{background:none;border:none;color:var(--text-muted);padding:14px 16px;font-size:.85rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all var(--transition);letter-spacing:.03em}
+.tab-btn:hover{color:var(--text-secondary)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* MAIN CONTENT */
+.tab-content{display:none;padding:28px 24px}
+.tab-content.active{display:block}
+.section-title{font-family:var(--font-display);font-size:1.3rem;color:var(--cream);margin-bottom:20px}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.stat-label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.stat-value{font-family:var(--font-display);font-size:2rem;color:var(--gold)}
+.stat-sub{font-size:.75rem;color:var(--text-secondary);margin-top:4px}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:64px 24px}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4}
+.empty-title{font-family:var(--font-display);font-size:1.2rem;color:var(--text-secondary);margin-bottom:8px}
+.empty-desc{color:var(--text-muted);font-size:.9rem;max-width:300px;margin:0 auto 24px}
+.empty-action{display:inline-block;background:var(--gold);color:#000;font-weight:600;font-size:.85rem;padding:10px 20px;border-radius:var(--radius);cursor:pointer;border:none;transition:background var(--transition)}
+.empty-action:hover{background:var(--gold-light)}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;padding:10px 14px;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);font-weight:500}
+td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+tr:last-child td{border-bottom:none}
+
+/* FORM ELEMENTS */
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.8rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:11px 14px;border-radius:var(--radius);font-size:.9rem;outline:none;transition:border var(--transition);font-family:var(--font-body)}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold-dim)}
+.form-group textarea{resize:vertical;min-height:80px}
+.btn-gold{background:var(--gold);color:#000;font-weight:600;font-size:.85rem;padding:10px 20px;border:none;border-radius:var(--radius);cursor:pointer;transition:background var(--transition)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text-secondary);font-size:.85rem;padding:9px 18px;border-radius:var(--radius);cursor:pointer;transition:all var(--transition)}
+.btn-ghost:hover{border-color:var(--gold-dim);color:var(--gold)}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:600px){.settings-grid{grid-template-columns:1fr}}
+.settings-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.settings-section h3{font-family:var(--font-display);font-size:1rem;color:var(--cream);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+
+/* ACTIVITY */
+.activity-list{display:flex;flex-direction:column;gap:1px}
+.activity-item{background:var(--bg-card);padding:14px 18px;display:flex;align-items:center;gap:12px;border-radius:var(--radius);border:1px solid var(--border)}
+.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--gold-dim);flex-shrink:0}
+.activity-text{color:var(--text-secondary);font-size:.88rem}
+.activity-time{color:var(--text-muted);font-size:.78rem;margin-left:auto}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge-draft{background:rgba(107,96,80,.2);color:var(--text-muted)}
+.badge-published{background:rgba(90,136,90,.2);color:#5a8}
+.badge-pending{background:rgba(204,153,0,.15);color:#c90}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg-surface);border:1px solid var(--border-gold);color:var(--text-primary);padding:14px 20px;border-radius:var(--radius);font-size:.88rem;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s ease;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+#toast.success{border-color:rgba(90,136,90,.5);color:#5a8}
+
+/* DEMO BANNER */
+.demo-banner{background:rgba(197,165,90,.08);border:1px solid var(--border-gold);border-radius:var(--radius);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--text-secondary)}
+.demo-banner span{color:var(--gold);font-weight:600}
+
+/* MESSAGES PANEL */
+.messages-list{display:flex;flex-direction:column;gap:12px}
+.message-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.message-header{display:flex;justify-content:space-between;margin-bottom:8px}
+.message-name{font-weight:600;color:var(--text-primary);font-size:.9rem}
+.message-time{font-size:.78rem;color:var(--text-muted)}
+.message-body{color:var(--text-secondary);font-size:.88rem}
+
+/* CHAT */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 200px);min-height:400px}
+.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.chat-msg{max-width:70%}
+.chat-msg.admin{align-self:flex-end}
+.chat-bubble{padding:12px 16px;border-radius:12px;font-size:.88rem;line-height:1.5}
+.chat-msg:not(.admin) .chat-bubble{background:var(--bg-surface);color:var(--text-primary);border-bottom-left-radius:4px}
+.chat-msg.admin .chat-bubble{background:rgba(197,165,90,.12);color:var(--cream);border-bottom-right-radius:4px;border:1px solid var(--border-gold)}
+.chat-meta{font-size:.72rem;color:var(--text-muted);margin-top:4px;text-align:right}
+.chat-msg:not(.admin) .chat-meta{text-align:left}
+.chat-input-row{display:flex;gap:10px;padding:16px;border-top:1px solid var(--border);background:var(--bg-dark)}
+.chat-input-row input{flex:1;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:11px 16px;border-radius:var(--radius);font-size:.9rem;outline:none}
+.chat-input-row input:focus{border-color:var(--gold-dim)}
+.chat-send-btn{background:var(--gold);color:#000;font-weight:600;padding:11px 20px;border:none;border-radius:var(--radius);cursor:pointer;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>My Store</h1>
+    <p>Admin Dashboard</p>
+    <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
+    <input type="password" id="loginPw" placeholder="Password" autocomplete="current-password">
+    <button onclick="handleLogin()">Sign In</button>
+    <div id="loginError">Invalid email or password.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="top-bar">
+    <div class="top-bar-brand">My Store</div>
+    <div class="top-bar-right">
+      <span class="top-bar-email" id="userEmail"></span>
+      <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('dashboard',this)">Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('products',this)">Products</button>
+    <button class="tab-btn" onclick="switchTab('orders',this)">Orders</button>
+    <button class="tab-btn" onclick="switchTab('messages',this)">Messages</button>
+    <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews</button>
+    <button class="tab-btn" onclick="switchTab('subscribers',this)">Subscribers</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
+    <button class="tab-btn" onclick="switchTab('chat',this)">Chat</button>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard" class="tab-content active">
+    <div class="demo-banner">
+      <span>Demo Portal</span> — This is a blank store template. No real data is connected.
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">Add your first product</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Published</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">Live in store</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">Revenue: $0.00</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Questions</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">Awaiting reply</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Subscribers</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">Active subscribers</div>
+      </div>
+    </div>
+    <div class="section-title">Recent Activity</div>
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">No activity yet</div>
+      <div class="empty-desc">Activity will appear here as orders come in and products are added.</div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS TAB -->
+  <div id="tab-products" class="tab-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="section-title" style="margin-bottom:0">Products</div>
+      <button class="btn-gold" onclick="showProductForm()">+ Add Product</button>
+    </div>
+
+    <!-- ADD PRODUCT FORM (hidden) -->
+    <div id="productForm" style="display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px">
+      <h3 style="font-family:var(--font-display);color:var(--cream);margin-bottom:20px">New Product</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" id="pTitle" placeholder="e.g. Vintage Lamp">
+        </div>
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="number" id="pPrice" placeholder="0.00" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Condition</label>
+          <select id="pCondition">
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="pStatus">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="pDesc" placeholder="Describe this item..."></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-gold" onclick="saveProduct()">Save Product</button>
+        <button class="btn-ghost" onclick="hideProductForm()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- PRODUCT LIST -->
+    <div id="productList">
+      <div class="empty-state">
+        <div class="empty-icon">🛍️</div>
+        <div class="empty-title">No products yet</div>
+        <div class="empty-desc">Add your first product to start selling.</div>
+        <button class="empty-action" onclick="showProductForm()">+ Add First Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS TAB -->
+  <div id="tab-orders" class="tab-content">
+    <div class="section-title">Orders</div>
+    <div class="empty-state">
+      <div class="empty-icon">📦</div>
+      <div class="empty-title">No orders yet</div>
+      <div class="empty-desc">Orders from your customers will appear here once your store is live.</div>
+    </div>
+  </div>
+
+  <!-- MESSAGES TAB -->
+  <div id="tab-messages" class="tab-content">
+    <div class="section-title">Product Questions</div>
+    <div class="empty-state">
+      <div class="empty-icon">💬</div>
+      <div class="empty-title">No questions yet</div>
+      <div class="empty-desc">Customer questions about your products will appear here.</div>
+    </div>
+  </div>
+
+  <!-- REVIEWS TAB -->
+  <div id="tab-reviews" class="tab-content">
+    <div class="section-title">Reviews</div>
+    <div class="empty-state">
+      <div class="empty-icon">⭐</div>
+      <div class="empty-title">No reviews yet</div>
+      <div class="empty-desc">Customer reviews will appear here for your approval.</div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIBERS TAB -->
+  <div id="tab-subscribers" class="tab-content">
+    <div class="section-title">Email Subscribers</div>
+    <div class="empty-state" style="margin-bottom:24px">
+      <div class="empty-icon">📧</div>
+      <div class="empty-title">No subscribers yet</div>
+      <div class="empty-desc">Email subscribers from your store will appear here.</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Email</th><th>Name</th><th>Source</th><th>Date</th></tr>
+        </thead>
+        <tbody id="subscriberTable">
+          <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px">No subscribers yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div id="tab-settings" class="tab-content">
+    <div class="section-title">Store Settings</div>
+    <div class="settings-section">
+      <h3>Store Information</h3>
+      <div class="settings-grid">
+        <div class="form-group">
+          <label>Store Name</label>
+          <input type="text" id="settingName" placeholder="Your Store Name">
+        </div>
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input type="email" id="settingEmail" placeholder="hello@yourbusiness.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tagline</label>
+        <input type="text" id="settingTagline" placeholder="A short description of your store">
+      </div>
+      <div class="form-group">
+        <label>Store Description</label>
+        <textarea id="settingDesc" placeholder="Tell customers about your store..."></textarea>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Shipping</h3>
+      <div class="settings-grid">
+        <div class="form-group">
+          <label>Flat Rate Shipping ($)</label>
+          <input type="number" id="settingShipping" placeholder="0.00" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Free Shipping Over ($)</label>
+          <input type="number" id="settingFreeShipping" placeholder="0.00" step="0.01">
+        </div>
+      </div>
+    </div>
+    <button class="btn-gold" onclick="saveSettings()">Save Settings</button>
+  </div>
+
+  <!-- CHAT TAB -->
+  <div id="tab-chat" class="tab-content" style="padding:0">
+    <div class="chat-wrap">
+      <div id="chatMessages" class="chat-messages">
+        <div class="chat-msg">
+          <div class="chat-bubble">
+            👋 Welcome to your Liftori support channel! This is where you can message the Liftori team directly. We're here to help you set up and grow your store.
+          </div>
+          <div class="chat-meta">Liftori Team · just now</div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Message Liftori team..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+        <button class="chat-send-btn" onclick="sendChatMsg()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Supabase client ─────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Auth ────────────────────────────────────────────────────────────────────
+async function checkAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    showDashboard(session.user);
+  }
+}
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  const err = document.getElementById('loginError');
+  err.style.display = 'none';
+  if (!email || !pw) { err.textContent = 'Please enter email and password.'; err.style.display = 'block'; return; }
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) { err.textContent = 'Invalid email or password.'; err.style.display = 'block'; return; }
+  showDashboard(data.user);
+}
+
+async function handleLogout() {
+  await sb.auth.signOut();
+  location.reload();
+}
+
+function showDashboard(user) {
+  document.getElementById('loginScreen').style.display = 'none';
+  const dash = document.getElementById('dashboard');
+  dash.style.display = 'flex';
+  document.getElementById('userEmail').textContent = user.email;
+}
+
+// ── Tab switching ────────────────────────────────────────────────────────────
+let activeTab = 'dashboard';
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+  activeTab = tab;
+}
+
+// ── Products (local state only — demo mode) ──────────────────────────────────
+let products = [];
+
+function showProductForm() {
+  document.getElementById('productForm').style.display = 'block';
+  document.getElementById('productList').innerHTML = '';
+  renderProducts();
+}
+
+function hideProductForm() {
+  document.getElementById('productForm').style.display = 'none';
+  renderProducts();
+}
+
+function saveProduct() {
+  const title = document.getElementById('pTitle').value.trim();
+  const price = parseFloat(document.getElementById('pPrice').value) || 0;
+  const condition = document.getElementById('pCondition').value;
+  const status = document.getElementById('pStatus').value;
+  const desc = document.getElementById('pDesc').value.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+  products.push({ id: Date.now(), title, price, condition, status, description: desc });
+  document.getElementById('pTitle').value = '';
+  document.getElementById('pPrice').value = '';
+  document.getElementById('pDesc').value = '';
+  hideProductForm();
+  showToast('Product added!', 'success');
+}
+
+function renderProducts() {
+  const list = document.getElementById('productList');
+  if (products.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛍️</div><div class="empty-title">No products yet</div><div class="empty-desc">Add your first product to start selling.</div><button class="empty-action" onclick="showProductForm()">+ Add First Product</button></div>';
+    return;
+  }
+  list.innerHTML = '<div class="table-wrap"><table><thead><tr><th>Title</th><th>Price</th><th>Condition</th><th>Status</th></tr></thead><tbody>' +
+    products.map(p => `<tr>
+      <td style="color:var(--text-primary)">${p.title}</td>
+      <td>$${p.price.toFixed(2)}</td>
+      <td>${p.condition}</td>
+      <td><span class="badge badge-${p.status}">${p.status}</span></td>
+    </tr>`).join('') +
+    '</tbody></table></div>';
+}
+
+// ── Settings ────────────────────────────────────────────────────────────────
+function saveSettings() {
+  const name = document.getElementById('settingName').value.trim();
+  if (name) {
+    document.querySelector('.top-bar-brand').textContent = name;
+    document.querySelector('.login-box h1') && (document.querySelector('.login-box h1').textContent = name);
+  }
+  showToast('Settings saved!', 'success');
+}
+
+// ── Chat (local demo) ────────────────────────────────────────────────────────
+function sendChatMsg() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  const container = document.getElementById('chatMessages');
+  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const el = document.createElement('div');
+  el.className = 'chat-msg admin';
+  el.innerHTML = `<div class="chat-bubble">${msg}</div><div class="chat-meta">${time}</div>`;
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (type === 'success' ? ' success' : '');
+  setTimeout(() => { t.className = ''; }, 3000);
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+checkAuth();
+</script>
+</body>
+</html>
