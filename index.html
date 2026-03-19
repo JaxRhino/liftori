@@ -482,7 +482,8 @@
     line-height: 1.1;
   }
 
-  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
+  /* BUG 3 fix: min-height ensures feature bullets start at the same vertical position across all 3 cards */
+  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; min-height: 88px; }
 
   .service-features { list-style: none; }
   .service-features li {
@@ -505,9 +506,10 @@
 
   .pricing-header { margin-bottom: 80px; }
 
+  /* BUG 4 fix: fixed 3-col grid for clean 2-row alignment */
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--border);
   }
@@ -550,12 +552,28 @@
     .fin-monthly small { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--muted); }
     .financing-note { font-size: 11px; color: var(--muted); font-style: italic; margin-bottom: 20px; }
 
+  /* BUG 4 fix: add hover glow like service cards */
   .price-card {
     background: var(--navy);
     padding: 52px 40px;
     position: relative;
+    overflow: hidden;
     transition: background 0.3s;
   }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue-mid), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .price-card:hover { background: rgba(14, 165, 233, 0.04); }
+  .price-card:hover::before { opacity: 1; }
+  .price-card.featured:hover { background: linear-gradient(180deg, rgba(18, 64, 196, 0.18), rgba(14, 165, 233, 0.10)); }
 
   .price-card.featured {
     background: linear-gradient(180deg, rgba(18, 64, 196, 0.12), rgba(14, 165, 233, 0.06));
@@ -2642,8 +2660,17 @@
             },
             body: JSON.stringify(data)
           });
-          const error = res.ok ? null : { message: 'Signup failed (' + res.status + ')' };
-        if (error) throw error;
+          // BUG 5 fix: detect 409 (already signed up) and show a friendly message
+          if (!res.ok) {
+            if (res.status === 409) {
+              // Already on the waitlist — treat as success
+              waitlistFormDiv.style.display = 'none';
+              waitlistSuccess.classList.add('show');
+              return;
+            }
+            const errData = await res.json().catch(() => ({}));
+            throw { message: errData.message || 'Signup failed. Please try again.' };
+          }
 
         // Fire welcome email (non-blocking)
         fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
@@ -2652,7 +2679,9 @@
           body: JSON.stringify({ name: data.full_name, email: data.email })
         }).catch(() => {});
 
-        form.innerHTML = '<div style="text-align:center;padding:30px 0;"><div style="font-size:2.5rem;margin-bottom:12px;">\u{1F680}</div><h3 style="color:#0EA5E9;margin-bottom:8px;font-family:Bebas Neue,sans-serif;font-size:1.8rem;letter-spacing:0.04em;">You\u2019re In!</h3><p style="color:#94a3b8;font-size:0.95rem;">We\u2019ll notify you when it\u2019s time to start building.</p></div>';
+        // BUG 1 fix: show the proper success screen instead of replacing form innerHTML
+        waitlistFormDiv.style.display = 'none';
+        waitlistSuccess.classList.add('show');
       } catch (err) {
         errEl.textContent = err.message || 'Something went wrong. Please try again.';
         errEl.classList.add('show');
@@ -3300,12 +3329,30 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
           assets: assets, budget: budget, timeline: timeline, notes: notes, biz_name: bizname
         });
         try {
-          var insertData = { name: name, email: email, build_idea: buildIdea, referral_code: (window.REF_CODE || null) };
-          var result = await sb.from('waitlist_signups').insert([insertData]);
-          if (result.error) throw result.error;
-          try {
-            await sb.functions.invoke('welcome-email', { body: { name: name, email: email, type: 'website_builder' } });
-          } catch(emailErr) { console.warn('Email trigger failed:', emailErr); }
+          // BUG 2+7 fix: use raw fetch instead of sb client (sb is not defined in this scope)
+          var WB_SUPA_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+          var WB_SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+          var insertData = { full_name: name, email: email, build_idea: buildIdea, referral_code: (window.REF_CODE || null) };
+          var wbRes = await fetch(WB_SUPA_URL + '/rest/v1/waitlist_signups', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': WB_SUPA_KEY,
+              'Authorization': 'Bearer ' + WB_SUPA_KEY,
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(insertData)
+          });
+          if (!wbRes.ok && wbRes.status !== 409) {
+            var wbErr = await wbRes.json().catch(function() { return {}; });
+            throw new Error(wbErr.message || 'Signup failed. Please try again.');
+          }
+          // Fire welcome email non-blocking
+          fetch(WB_SUPA_URL + '/functions/v1/welcome-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, email: email })
+          }).catch(function() {});
           document.getElementById('wb-main').style.display = 'none';
           document.getElementById('wb-done').style.display = 'block';
           var modal = document.querySelector('.wb-modal');
@@ -3356,6 +3403,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
       <div id="login-err" class="login-err"></div>
       <button class="login-btn" id="login-submit-btn" onclick="loginSubmit()">Sign In &rarr;</button>
       <span class="login-forgot" onclick="loginForgot()">Forgot your password?</span>
+      <!-- BUG 6 fix: add create account / sign up link -->
+      <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted);">
+        Don't have an account?
+        <span onclick="loginClose();openModal();" style="color:var(--blue-light);cursor:pointer;text-decoration:underline;">Sign up for early access</span>
+      </div>
       <div class="login-divider">POWERED BY LIFTORI SECURE AUTH</div>
     </div>
   </div>
