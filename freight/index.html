@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIH Logistics — Trusted Freight Experts Across the U.S.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --black: #161616;
+      --black-mid: #1A1A1A;
+      --black-light: #222222;
+      --black-card: #1E1E1E;
+      --border: #303030;
+      --border-light: #2A2A2A;
+      --green: #00FF7F;
+      --green-dim: rgba(0, 255, 127, 0.15);
+      --green-border: rgba(0, 255, 127, 0.25);
+      --green-glow: rgba(0, 255, 127, 0.08);
+      --white: #FFFFFF;
+      --gray: #808080;
+      --gray-light: #AAAAAA;
+      --gray-dark: #555555;
+      --text: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --text-muted: #808080;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--black);
+      color:var(--text);
+      font-family:'Roboto',sans-serif;
+      font-size:16px;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+
+    /* Subtle dot grid */
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:radial-gradient(rgba(0,255,127,0.04) 1px, transparent 1px);
+      background-size:32px 32px;pointer-events:none;z-index:0;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      height:72px;display:flex;align-items:center;
+      padding:0 48px;
+      background:rgba(22,22,22,0.95);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .nav-logo-mark{
+      width:40px;height:40px;border-radius:6px;
+      background:var(--green);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
+    .nav-logo-mark svg{width:22px;height:22px}
+    .nav-brand{display:flex;flex-direction:column}
+    .nav-brand-name{
+      font-family:'Montserrat',sans-serif;
+      font-size:17px;font-weight:800;
+      letter-spacing:.12em;color:var(--white);line-height:1;
+    }
+    .nav-brand-sub{
+      font-size:10px;font-weight:500;color:var(--gray);
+      letter-spacing:.08em;text-transform:uppercase;margin-top:2px;
+    }
+    .nav-links{
+      display:flex;align-items:center;gap:6px;margin-left:auto;
+    }
+    .nav-link{
+      color:var(--gray-light);font-size:14px;font-weight:500;
+      text-decoration:none;padding:8px 16px;border-radius:6px;
+      transition:all .2s;font-family:'Montserrat',sans-serif;
+    }
+    .nav-link:hover{color:var(--white)}
+    .nav-divider{width:1px;height:22px;background:var(--border);margin:0 10px}
+    .btn-nav-outline{
+      padding:9px 20px;border-radius:6px;font-size:13px;font-weight:700;
+      cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;
+      background:transparent;color:var(--white);
+      border:1px solid var(--border);letter-spacing:.04em;
+    }
+    .btn-nav-outline:hover{border-color:var(--green);color:var(--green)}
+    .btn-nav-green{
+      padding:9px 24px;border-radius:6px;font-size:13px;font-weight:700;
+      cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;
+      background:var(--green);color:var(--black);border:none;
+      letter-spacing:.04em;margin-left:4px;
+    }
+    .btn-nav-green:hover{background:#00E870;transform:translateY(-1px)}
+
+    /* ── HERO ── */
+    .hero{
+      position:relative;z-index:1;
+      padding:160px 48px 120px;
+      max-width:1300px;margin:0 auto;
+    }
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      margin-bottom:28px;
+    }
+    .hero-eyebrow-line{width:32px;height:2px;background:var(--green)}
+    .hero-eyebrow-text{
+      font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;
+      letter-spacing:.15em;text-transform:uppercase;color:var(--green);
+    }
+    .hero h1{
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(48px,7vw,80px);
+      line-height:1.05;letter-spacing:-.01em;font-weight:900;
+      color:var(--white);margin-bottom:28px;
+      max-width:800px;
+    }
+    .hero h1 em{font-style:normal;color:var(--green)}
+    .hero-sub{
+      font-size:18px;color:var(--text-secondary);font-weight:400;
+      max-width:560px;margin-bottom:48px;line-height:1.7;
+    }
+    .hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .btn-primary{
+      padding:16px 36px;border-radius:6px;font-size:15px;font-weight:700;
+      background:var(--green);color:var(--black);border:none;cursor:pointer;
+      transition:all .25s;font-family:'Montserrat',sans-serif;letter-spacing:.04em;
+    }
+    .btn-primary:hover{background:#00E870;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,255,127,0.25)}
+    .btn-ghost{
+      padding:16px 36px;border-radius:6px;font-size:15px;font-weight:700;
+      background:transparent;color:var(--white);cursor:pointer;
+      border:1px solid var(--border);transition:all .25s;
+      font-family:'Montserrat',sans-serif;letter-spacing:.04em;
+    }
+    .btn-ghost:hover{border-color:var(--green);color:var(--green)}
+
+    /* Hero bottom bar */
+    .hero-bar{
+      display:flex;align-items:center;gap:0;
+      margin-top:80px;
+      border-top:1px solid var(--border);
+      padding-top:48px;
+    }
+    .hero-bar-item{
+      flex:1;padding:0 32px 0 0;
+    }
+    .hero-bar-item:not(:last-child){
+      border-right:1px solid var(--border);margin-right:32px;
+    }
+    .hero-bar-num{
+      font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;
+      color:var(--green);line-height:1;margin-bottom:6px;
+    }
+    .hero-bar-label{font-size:13px;color:var(--gray);font-weight:500;letter-spacing:.04em}
+
+    /* ── TICKER STRIP ── */
+    .ticker{
+      position:relative;z-index:1;
+      background:var(--green);padding:12px 0;overflow:hidden;
+    }
+    .ticker-inner{
+      display:flex;gap:48px;white-space:nowrap;
+      animation:ticker 30s linear infinite;
+    }
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-item{
+      display:inline-flex;align-items:center;gap:12px;
+      font-family:'Montserrat',sans-serif;font-size:12px;
+      font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--black);flex-shrink:0;
+    }
+    .ticker-dot{width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.3)}
+
+    /* ── SECTION BASE ── */
+    section{position:relative;z-index:1;padding:100px 48px}
+    .section-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;
+    }
+    .section-eyebrow-line{width:24px;height:2px;background:var(--green)}
+    .section-eyebrow-text{
+      font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;
+      letter-spacing:.15em;text-transform:uppercase;color:var(--green);
+    }
+    .section-title{
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(32px,4.5vw,48px);
+      font-weight:800;letter-spacing:-.01em;
+      color:var(--white);margin-bottom:16px;line-height:1.1;
+    }
+    .section-sub{font-size:16px;color:var(--text-secondary);max-width:520px;line-height:1.7}
+    .container{max-width:1200px;margin:0 auto}
+
+    /* ── SERVICES STRIP ── */
+    .services{background:var(--black-mid)}
+    .services-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:1px;background:var(--border);
+      border:1px solid var(--border);border-radius:12px;overflow:hidden;
+      margin-top:64px;
+    }
+    .service-card{
+      background:var(--black-card);padding:36px 32px;
+      transition:background .2s;
+    }
+    .service-card:hover{background:#1F1F1F}
+    .service-icon{
+      width:48px;height:48px;border-radius:8px;
+      border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:20px;
+      background:var(--green-glow);
+    }
+    .service-icon svg{width:24px;height:24px;stroke:var(--green)}
+    .service-card h3{
+      font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;
+      color:var(--white);margin-bottom:10px;
+    }
+    .service-card p{font-size:14px;color:var(--gray-light);line-height:1.6}
+    .service-tag{
+      display:inline-block;margin-top:16px;
+      font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--green);border:1px solid var(--green-border);
+      border-radius:4px;padding:3px 9px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:24px;margin-top:64px;
+    }
+    .step-card{
+      background:var(--black-card);border:1px solid var(--border);
+      border-radius:12px;padding:32px 28px;
+      position:relative;
+      transition:border-color .2s;
+    }
+    .step-card:hover{border-color:var(--green-border)}
+    .step-num{
+      font-family:'Montserrat',sans-serif;font-size:64px;font-weight:900;
+      color:rgba(0,255,127,0.06);line-height:1;margin-bottom:20px;
+    }
+    .step-card h3{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:10px}
+    .step-card p{font-size:14px;color:var(--gray-light);line-height:1.6}
+
+    /* ── PORTALS ── */
+    .portals-section{background:var(--black-mid)}
+    .portals-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+      gap:24px;margin-top:64px;
+    }
+    .portal-card{
+      border-radius:12px;padding:40px;
+      border:1px solid var(--border);
+      background:var(--black-card);
+      transition:all .25s;
+      position:relative;overflow:hidden;
+    }
+    .portal-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:var(--green);
+    }
+    .portal-card:hover{border-color:var(--green-border);transform:translateY(-3px);box-shadow:0 20px 48px rgba(0,0,0,0.4)}
+    .portal-label{
+      font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;
+      color:var(--green);margin-bottom:20px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .portal-label::before{content:'';width:20px;height:2px;background:var(--green)}
+    .portal-card h3{
+      font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;
+      color:var(--white);margin-bottom:12px;
+    }
+    .portal-card p{font-size:15px;color:var(--text-secondary);margin-bottom:28px;line-height:1.6}
+    .portal-features{list-style:none;margin-bottom:32px}
+    .portal-features li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-size:14px;color:var(--gray-light);
+      padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .portal-features li:last-child{border:none}
+    .check-icon{
+      width:16px;height:16px;border-radius:50%;
+      background:var(--green-dim);border:1px solid var(--green-border);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+    }
+    .check-icon::after{
+      content:'';width:6px;height:4px;
+      border-left:1.5px solid var(--green);border-bottom:1.5px solid var(--green);
+      transform:rotate(-45deg) translateY(-1px);
+    }
+    .btn-portal-green{
+      width:100%;padding:14px;border-radius:8px;font-size:14px;font-weight:700;
+      background:var(--green);color:var(--black);border:none;cursor:pointer;
+      transition:all .2s;font-family:'Montserrat',sans-serif;letter-spacing:.04em;
+    }
+    .btn-portal-green:hover{background:#00E870;box-shadow:0 8px 24px rgba(0,255,127,0.2)}
+    .btn-portal-outline{
+      width:100%;padding:14px;border-radius:8px;font-size:14px;font-weight:700;
+      background:transparent;color:var(--white);
+      border:1px solid var(--border);cursor:pointer;
+      transition:all .2s;font-family:'Montserrat',sans-serif;letter-spacing:.04em;
+    }
+    .btn-portal-outline:hover{border-color:var(--green);color:var(--green)}
+
+    /* ── CONTACT ── */
+    .contact-section{background:var(--black)}
+    .contact-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:center;
+    }
+    .contact-info h2{
+      font-family:'Montserrat',sans-serif;font-size:clamp(32px,4vw,44px);
+      font-weight:800;color:var(--white);margin-bottom:16px;line-height:1.1;
+    }
+    .contact-info p{font-size:16px;color:var(--text-secondary);margin-bottom:36px;line-height:1.7}
+    .contact-details{display:flex;flex-direction:column;gap:16px}
+    .contact-item{display:flex;align-items:flex-start;gap:14px}
+    .contact-item-icon{
+      width:40px;height:40px;border-radius:8px;flex-shrink:0;
+      background:var(--green-glow);border:1px solid var(--green-border);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .contact-item-icon svg{width:18px;height:18px;stroke:var(--green)}
+    .contact-item-text{display:flex;flex-direction:column}
+    .contact-item-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:2px}
+    .contact-item-value{font-size:15px;color:var(--white);font-weight:500}
+    .contact-item-value a{color:var(--green);text-decoration:none}
+    .contact-item-value a:hover{text-decoration:underline}
+
+    /* Contact form side */
+    .contact-form-box{
+      background:var(--black-card);border:1px solid var(--border);
+      border-radius:12px;padding:40px;
+    }
+    .contact-form-box h3{
+      font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;
+      color:var(--white);margin-bottom:6px;
+    }
+    .contact-form-box p{font-size:14px;color:var(--gray);margin-bottom:28px}
+    .form-group{margin-bottom:16px}
+    .form-label{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+    .form-input{
+      width:100%;padding:12px 14px;border-radius:7px;font-size:15px;
+      background:var(--black-light);border:1px solid var(--border);
+      color:var(--white);font-family:'Roboto',sans-serif;
+      outline:none;transition:border-color .2s;
+    }
+    .form-input:focus{border-color:var(--green)}
+    .form-input::placeholder{color:var(--gray-dark)}
+    .btn-submit-green{
+      width:100%;padding:14px;border-radius:7px;font-size:14px;font-weight:700;
+      background:var(--green);color:var(--black);border:none;cursor:pointer;
+      font-family:'Montserrat',sans-serif;letter-spacing:.05em;transition:all .2s;
+      margin-top:4px;
+    }
+    .btn-submit-green:hover{background:#00E870}
+    .btn-submit-green:disabled{opacity:.5;cursor:not-allowed}
+    .form-success-msg{font-size:14px;color:var(--green);text-align:center;padding:12px;display:none}
+    .form-success-msg.show{display:block}
+
+    /* ── FOOTER ── */
+    footer{
+      position:relative;z-index:1;
+      background:var(--black-mid);
+      border-top:1px solid var(--border);
+      padding:56px 48px 32px;
+    }
+    .footer-top{
+      display:grid;grid-template-columns:2fr 1fr 1fr;
+      gap:48px;margin-bottom:48px;
+    }
+    .footer-brand-name{
+      font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;
+      letter-spacing:.1em;color:var(--white);margin-bottom:12px;
+    }
+    .footer-brand-name span{color:var(--green)}
+    .footer-tagline{font-size:13px;color:var(--gray);line-height:1.6;max-width:280px}
+    .footer-col-title{
+      font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:var(--green);
+      margin-bottom:16px;
+    }
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .footer-links a{font-size:14px;color:var(--gray-light);text-decoration:none;transition:color .2s}
+    .footer-links a:hover{color:var(--white)}
+    .footer-bottom{
+      padding-top:24px;border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    }
+    .footer-copy{font-size:12px;color:var(--gray-dark)}
+    .powered{font-size:12px;color:var(--gray-dark)}
+    .powered a{color:var(--gray);text-decoration:none}
+    .powered a:hover{color:var(--white)}
+
+    /* ── LOGIN MODAL ── */
+    .modal-overlay{
+      display:none;position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);
+      align-items:center;justify-content:center;padding:20px;
+    }
+    .modal-overlay.open{display:flex}
+    .modal{
+      background:var(--black-card);border:1px solid var(--border);
+      border-radius:12px;width:100%;max-width:420px;
+      overflow:hidden;position:relative;
+    }
+    .modal-top{height:3px;background:var(--green)}
+    .modal-body{padding:40px}
+    .modal-close{
+      position:absolute;top:18px;right:18px;
+      background:rgba(255,255,255,0.06);border:1px solid var(--border);
+      width:30px;height:30px;border-radius:6px;
+      color:var(--gray);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .2s;
+    }
+    .modal-close:hover{background:rgba(255,255,255,0.1);color:var(--white)}
+    .modal-logo{
+      font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;
+      letter-spacing:.1em;color:var(--white);margin-bottom:28px;
+    }
+    .modal-logo span{color:var(--green)}
+    .modal h2{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px}
+    .modal-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
+    .role-tabs{
+      display:flex;background:var(--black);border:1px solid var(--border);
+      border-radius:8px;padding:3px;gap:3px;margin-bottom:24px;
+    }
+    .role-tab{
+      flex:1;padding:9px;border:none;border-radius:5px;
+      font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;
+      letter-spacing:.05em;cursor:pointer;transition:all .2s;
+      background:transparent;color:var(--gray);
+    }
+    .role-tab.active{background:var(--green);color:var(--black)}
+    .modal-form-group{margin-bottom:16px}
+    .modal-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:block}
+    .modal-input{
+      width:100%;padding:12px 14px;border-radius:7px;font-size:15px;
+      background:var(--black-light);border:1px solid var(--border);
+      color:var(--white);font-family:'Roboto',sans-serif;
+      outline:none;transition:border-color .2s;
+    }
+    .modal-input:focus{border-color:var(--green)}
+    .modal-input::placeholder{color:var(--gray-dark)}
+    .btn-modal-submit{
+      width:100%;padding:13px;border-radius:7px;font-size:14px;font-weight:700;
+      background:var(--green);color:var(--black);border:none;cursor:pointer;
+      font-family:'Montserrat',sans-serif;letter-spacing:.05em;
+      transition:all .2s;margin-top:8px;
+    }
+    .btn-modal-submit:hover{background:#00E870}
+    .btn-modal-submit:disabled{opacity:.5;cursor:not-allowed}
+    .modal-error{
+      font-size:13px;color:#FF6B6B;margin-top:10px;
+      padding:10px 14px;background:rgba(255,107,107,0.08);
+      border:1px solid rgba(255,107,107,0.2);border-radius:7px;display:none;
+    }
+    .modal-error.show{display:block}
+
+    @media(max-width:900px){
+      nav{padding:0 24px}
+      .hero{padding:120px 24px 80px}
+      .hero-bar{flex-wrap:wrap;gap:24px}
+      .hero-bar-item{flex:none;border:none !important;margin:0 !important;padding:0 !important;min-width:calc(50% - 12px)}
+      section{padding:72px 24px}
+      .contact-grid{grid-template-columns:1fr}
+      .footer-top{grid-template-columns:1fr 1fr}
+      footer{padding:48px 24px 28px}
+      .nav-links .nav-link{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg fill="none" viewBox="0 0 24 24" stroke="#161616" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+      </svg>
+    </div>
+    <div class="nav-brand">
+      <span class="nav-brand-name">BIHFREIGHT</span>
+      <span class="nav-brand-sub">BIH Logistics Inc.</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#how-it-works" class="nav-link">How It Works</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <div class="nav-divider"></div>
+    <button class="btn-nav-outline" onclick="openLogin('broker')">Broker Login</button>
+    <button class="btn-nav-green" onclick="openLogin('shipper')">Shipper Portal →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding:160px 48px 100px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span class="hero-eyebrow-text">Trusted Freight Experts Across the U.S.</span>
+    </div>
+    <h1 style="font-family:'Montserrat',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1.05;font-weight:900;color:var(--white);margin-bottom:28px;max-width:800px;letter-spacing:-.02em">
+      Move Freight<br>Smarter with <em style="font-style:normal;color:var(--green)">BIH Logistics</em>
+    </h1>
+    <p style="font-size:18px;color:var(--text-secondary);max-width:540px;margin-bottom:48px;line-height:1.7">
+      Full Truckload, LTL, and Drop Trailer solutions nationwide — now with a digital platform for real-time load management, bidding, and tracking.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openLogin('shipper')">Post a Load Today →</button>
+      <a href="#contact" class="btn-ghost" style="text-decoration:none;display:inline-block;line-height:normal;text-align:center">Get a Quote</a>
+    </div>
+    <div class="hero-bar">
+      <div class="hero-bar-item">
+        <div class="hero-bar-num">FTL &amp; LTL</div>
+        <div class="hero-bar-label">Full &amp; Partial Truckloads</div>
+      </div>
+      <div class="hero-bar-item">
+        <div class="hero-bar-num">48hr</div>
+        <div class="hero-bar-label">Average Response Time</div>
+      </div>
+      <div class="hero-bar-item">
+        <div class="hero-bar-num">100%</div>
+        <div class="hero-bar-label">Digital Load Management</div>
+      </div>
+      <div class="hero-bar-item">
+        <div class="hero-bar-num">U.S.</div>
+        <div class="hero-bar-label">Nationwide Coverage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <!-- Duplicated for seamless loop -->
+    <span class="ticker-item"><span class="ticker-dot"></span>Full Truckload (FTL)</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Less-Than-Truckload (LTL)</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Drop Trailer Service</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Shuttle Service</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Nationwide Coverage</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Real-Time Tracking</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Digital Bidding</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Auto Invoicing</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Full Truckload (FTL)</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Less-Than-Truckload (LTL)</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Drop Trailer Service</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Shuttle Service</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Nationwide Coverage</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Real-Time Tracking</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Digital Bidding</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Auto Invoicing</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="section-eyebrow-line"></span>
+      <span class="section-eyebrow-text">Our Services</span>
+    </div>
+    <h2 class="section-title">Complete Freight Solutions</h2>
+    <p class="section-sub">From single loads to long-term partnerships — BIH Logistics delivers reliable transportation services across the country.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+        </div>
+        <h3>Full Truckload (FTL)</h3>
+        <p>Dedicated truckload capacity for large shipments. Your freight gets the full trailer — direct, fast, and secure from origin to destination.</p>
+        <span class="service-tag">Most Popular</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375z"/></svg>
+        </div>
+        <h3>Less-Than-Truckload (LTL)</h3>
+        <p>Cost-effective solutions for smaller shipments. Pay only for the space you use while we consolidate freight efficiently across lanes.</p>
+        <span class="service-tag">Cost Efficient</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg>
+        </div>
+        <h3>Drop Trailer Service</h3>
+        <p>Pre-loaded trailer drops at your facility for flexible loading schedules. Ideal for warehouses with high volume or extended loading windows.</p>
+        <span class="service-tag">Flexible</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+        </div>
+        <h3>Shuttle Service</h3>
+        <p>Short-haul and continuous shuttle runs between facilities. Perfect for just-in-time manufacturing and high-frequency distribution networks.</p>
+        <span class="service-tag">High Frequency</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" style="background:var(--black)">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="section-eyebrow-line"></span>
+      <span class="section-eyebrow-text">The Process</span>
+    </div>
+    <h2 class="section-title">How the Platform Works</h2>
+    <p class="section-sub">Post your load, receive a competitive bid from BIH, accept and track — all in one place.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h3>Post Your Load</h3>
+        <p>Enter origin, destination, equipment type, pickup date, and your target rate. Takes 2 minutes and your load is live immediately.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h3>BIH Reviews &amp; Bids</h3>
+        <p>Our team sees your load instantly and submits a competitive bid. You'll be notified the moment a bid comes in — no waiting on phone calls.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h3>Accept the Bid</h3>
+        <p>Review BIH's rate and accept with one click. Rate confirmation and paperwork are generated automatically — no back-and-forth emails.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h3>Track &amp; Invoice</h3>
+        <p>Real-time status updates from pickup to delivery. Invoices are generated on delivery and commissions calculated automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTALS -->
+<section class="portals-section" id="portals">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="section-eyebrow-line"></span>
+      <span class="section-eyebrow-text">Platform Access</span>
+    </div>
+    <h2 class="section-title">Your Portal,<br>Your Workflow</h2>
+    <div class="portals-grid">
+      <div class="portal-card">
+        <div class="portal-label">BIH Freight — Broker</div>
+        <h3>Broker Portal</h3>
+        <p>For the BIH team. Manage the full load board, place bids, track shipments, and monitor commissions and revenue.</p>
+        <ul class="portal-features">
+          <li><span class="check-icon"></span>Live load board — all shipper loads</li>
+          <li><span class="check-icon"></span>One-click bid submission</li>
+          <li><span class="check-icon"></span>Active shipment tracking</li>
+          <li><span class="check-icon"></span>Invoice management</li>
+          <li><span class="check-icon"></span>Sales profile &amp; commission view</li>
+        </ul>
+        <button class="btn-portal-outline" onclick="openLogin('broker')">Broker Login →</button>
+      </div>
+      <div class="portal-card">
+        <div class="portal-label">For Shipping Companies</div>
+        <h3>Shipper Portal</h3>
+        <p>For your shipping team. Post loads, review BIH's bids, approve shipments, and track every delivery in real-time.</p>
+        <ul class="portal-features">
+          <li><span class="check-icon"></span>Easy load posting — 2 minutes</li>
+          <li><span class="check-icon"></span>Instant bid notifications from BIH</li>
+          <li><span class="check-icon"></span>One-click bid acceptance</li>
+          <li><span class="check-icon"></span>Real-time shipment status</li>
+          <li><span class="check-icon"></span>Digital invoice history</li>
+        </ul>
+        <button class="btn-portal-green" onclick="openLogin('shipper')">Access Shipper Portal →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow-line"></span>
+          <span class="section-eyebrow-text">Get In Touch</span>
+        </div>
+        <h2>Ready to Start Moving Freight?</h2>
+        <p>Contact BIH Logistics to get your account set up and start moving loads through the platform today. Trusted freight experts across the U.S.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+            </div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Phone</span>
+              <span class="contact-item-value"><a href="tel:8603845665">(860) 384-5665</a></span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            </div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Email</span>
+              <span class="contact-item-value"><a href="mailto:operations@bihlogisticsinc.com">operations@bihlogisticsinc.com</a></span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            </div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Address</span>
+              <span class="contact-item-value">101 Brookside Ln, East Hartford, CT 06108</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+            </div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Website</span>
+              <span class="contact-item-value"><a href="https://www.bihfreight.com" target="_blank">www.bihfreight.com</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-box">
+        <h3>Request a Quote</h3>
+        <p>Tell us about your freight needs and we'll get back to you within 24 hours.</p>
+        <div class="form-success-msg" id="contactSuccess">✓ Message sent! We'll be in touch within 24 hours.</div>
+        <div class="form-group">
+          <label class="form-label">Company Name</label>
+          <input type="text" class="form-input" id="cName" placeholder="Your company">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="cEmail" placeholder="your@company.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" id="cPhone" placeholder="(000) 000-0000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell Us About Your Freight</label>
+          <textarea class="form-input" id="cMessage" placeholder="Origin, destination, equipment type, frequency…" rows="3" style="resize:vertical"></textarea>
+        </div>
+        <button class="btn-submit-green" onclick="submitContact()" id="contactBtn">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name"><span>BIH</span>FREIGHT</div>
+      <div class="footer-tagline">BIH Logistics Inc. — Trusted freight experts across the U.S. Moving freight smarter since day one.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Full Truckload (FTL)</a></li>
+        <li><a href="#services">LTL Freight</a></li>
+        <li><a href="#services">Drop Trailer</a></li>
+        <li><a href="#services">Shuttle Service</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Platform</div>
+      <ul class="footer-links">
+        <li><a href="javascript:void(0)" onclick="openLogin('shipper')">Shipper Portal</a></li>
+        <li><a href="javascript:void(0)" onclick="openLogin('broker')">Broker Login</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 BIH Logistics Inc. All rights reserved.</div>
+    <div class="powered">Platform by <a href="https://liftori.ai" target="_blank">Liftori</a></div>
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <div class="modal-top"></div>
+    <button class="modal-close" onclick="closeLogin()">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="modal-body">
+      <div class="modal-logo"><span>BIH</span>FREIGHT</div>
+      <h2>Sign In</h2>
+      <div class="modal-sub">Access your freight portal</div>
+      <div class="role-tabs">
+        <button class="role-tab active" data-role="broker" onclick="switchRole('broker')">BIH Broker</button>
+        <button class="role-tab" data-role="shipper" onclick="switchRole('shipper')">Shipper</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="modal-form-group">
+          <label class="modal-label">Email Address</label>
+          <input type="email" class="modal-input" id="loginEmail" placeholder="your@email.com" required>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Password</label>
+          <input type="password" class="modal-input" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <div class="modal-error" id="loginError"></div>
+        <button type="submit" class="btn-modal-submit" id="loginBtn">Sign In →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co'
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk'
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+  let activeRole = 'broker'
+
+  function openLogin(role) {
+    activeRole = role || 'broker'
+    document.getElementById('loginModal').classList.add('open')
+    switchRole(activeRole)
+    setTimeout(() => document.getElementById('loginEmail').focus(), 100)
+  }
+
+  function closeLogin() {
+    document.getElementById('loginModal').classList.remove('open')
+    document.getElementById('loginError').classList.remove('show')
+    document.getElementById('loginEmail').value = ''
+    document.getElementById('loginPassword').value = ''
+  }
+
+  function switchRole(role) {
+    activeRole = role
+    document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'))
+    document.querySelector(`[data-role="${role}"]`).classList.add('active')
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault()
+    const email = document.getElementById('loginEmail').value.trim()
+    const password = document.getElementById('loginPassword').value
+    const btn = document.getElementById('loginBtn')
+    const errEl = document.getElementById('loginError')
+    errEl.classList.remove('show')
+    btn.disabled = true
+    btn.textContent = 'Signing in…'
+    try {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      window.location.href = activeRole === 'broker' ? '/freight/broker.html' : '/freight/shipper.html'
+    } catch (err) {
+      errEl.textContent = err.message || 'Invalid email or password'
+      errEl.classList.add('show')
+      btn.disabled = false
+      btn.textContent = 'Sign In →'
+    }
+  }
+
+  async function submitContact() {
+    const btn = document.getElementById('contactBtn')
+    btn.disabled = true
+    btn.textContent = 'Sending…'
+    // Could POST to Supabase or email endpoint — for now just show success
+    setTimeout(() => {
+      document.getElementById('contactSuccess').classList.add('show')
+      btn.textContent = 'Message Sent ✓'
+      document.getElementById('cName').value = ''
+      document.getElementById('cEmail').value = ''
+      document.getElementById('cPhone').value = ''
+      document.getElementById('cMessage').value = ''
+    }, 800)
+  }
+
+  document.getElementById('loginModal').addEventListener('click', e => { if (e.target === document.getElementById('loginModal')) closeLogin() })
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin() })
+</script>
+</body>
+</html>
