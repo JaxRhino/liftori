@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>BHF Logistics — Shipper Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --black: #161616;
+      --black-mid: #1A1A1A;
+      --black-card: #1E1E1E;
+      --black-border: #2A2A2A;
+      --green: #00FF7F;
+      --green-light: #7FFFB0;
+      --green-dark: #00CC66;
+      --green-glow: rgba(0,255,127,0.15);
+      --text-primary: #FFFFFF;
+      --text-secondary: #AAAAAA;
+      --text-muted: #666666;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --error: #EF4444;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;min-height:100dvh}
+    body{background:var(--black);color:var(--text-primary);font-family:'Roboto',system-ui,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,127,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,127,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+    /* ── LOGIN ── */
+    #loginScreen{display:none;position:fixed;inset:0;z-index:200;background:var(--black);align-items:center;justify-content:center;padding:20px}
+    #loginScreen.show{display:flex}
+    .login-card{background:var(--black-mid);border:1px solid var(--black-border);border-radius:20px;width:100%;max-width:400px;overflow:hidden}
+    .login-top{height:4px;background:linear-gradient(90deg,var(--green),#FBBF24)}
+    .login-body{padding:40px}
+    .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+    .login-logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--green),#FBBF24);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px}
+    .login-logo-text{font-family:'Montserrat',sans-serif;font-size:20px;letter-spacing:.06em}
+    .login-logo-sub{font-size:11px;color:var(--text-muted);display:block;letter-spacing:.05em;text-transform:uppercase}
+    .login-card h2{font-size:22px;font-weight:700;margin-bottom:6px}
+    .login-card p{font-size:14px;color:var(--text-secondary);margin-bottom:28px}
+    .form-group{margin-bottom:16px}
+    .form-label{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:6px;display:block}
+    .form-input{width:100%;padding:12px 14px;border-radius:9px;font-size:15px;background:rgba(42,42,42,0.6);border:1px solid var(--black-border);color:var(--text-primary);font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s}
+    .form-input:focus{border-color:var(--green)}
+    .form-input::placeholder{color:var(--text-muted)}
+    .btn-login-submit{width:100%;padding:13px;border-radius:10px;font-size:15px;font-weight:600;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:'Roboto',sans-serif;margin-top:8px;transition:all .2s}
+    .btn-login-submit:hover{background:#EA580C}
+    .btn-login-submit:disabled{opacity:.6;cursor:not-allowed}
+    .form-error{font-size:13px;color:var(--error);margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;display:none}
+    .form-error.show{display:block}
+    .login-back{font-size:13px;color:var(--text-muted);text-align:center;margin-top:20px}
+    .login-back a{color:var(--green);text-decoration:none}
+
+    /* ── APP ── */
+    #app{display:none;position:relative;z-index:1;min-height:100dvh}
+    #app.show{display:flex;flex-direction:column}
+
+    /* HEADER */
+    .header{position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;padding:0 24px;gap:16px;background:rgba(22,22,22,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--black-border);flex-shrink:0}
+    .header-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .header-logo-icon{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--green),#FBBF24);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:13px;flex-shrink:0}
+    .header-logo-text{font-family:'Montserrat',sans-serif;font-size:18px;letter-spacing:.06em;color:var(--text-primary)}
+    .header-badge{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green);background:rgba(0,255,127,0.1);border:1px solid rgba(249,115,22,0.2);border-radius:6px;padding:3px 8px}
+    .header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+    .user-chip{display:flex;align-items:center;gap:8px;background:rgba(0,255,127,0.08);border:1px solid rgba(0,255,127,0.15);border-radius:100px;padding:5px 12px 5px 5px}
+    .user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--green),#FBBF24);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+    .user-name{font-size:13px;font-weight:500;color:var(--text-primary)}
+    .btn-signout{background:transparent;border:1px solid var(--black-border);border-radius:7px;color:var(--text-secondary);font-size:13px;font-family:'Roboto',sans-serif;padding:6px 12px;cursor:pointer;transition:all .2s}
+    .btn-signout:hover{border-color:var(--error);color:var(--error)}
+
+    /* TABS */
+    .tab-nav{position:sticky;top:60px;z-index:90;background:rgba(22,22,22,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--black-border);padding:0 24px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+    .tab-nav::-webkit-scrollbar{display:none}
+    .tab-btn{padding:14px 18px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-secondary);font-family:'Roboto',sans-serif;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px}
+    .tab-btn:hover{color:var(--text-primary)}
+    .tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
+    .tab-btn svg{width:15px;height:15px;flex-shrink:0}
+    .tab-badge{font-size:10px;font-weight:700;background:var(--green);color:#fff;border-radius:100px;padding:1px 6px;min-width:18px;text-align:center}
+
+    /* CONTENT */
+    .content{flex:1;padding:28px 24px;max-width:1200px;width:100%}
+
+    /* STATS */
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:28px}
+    .stat-card{background:var(--black-mid);border:1px solid var(--black-border);border-radius:14px;padding:20px 24px}
+    .stat-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+    .stat-value{font-family:'Montserrat',sans-serif;font-size:32px;letter-spacing:.04em;color:var(--text-primary);line-height:1}
+    .stat-value.orange{color:var(--green)}
+    .stat-value.blue{color:var(--green)}
+    .stat-value.green{color:var(--success)}
+    .stat-delta{font-size:12px;color:var(--text-muted);margin-top:6px}
+
+    /* CARDS */
+    .card{background:var(--black-mid);border:1px solid var(--black-border);border-radius:14px;overflow:hidden;margin-bottom:24px}
+    .card-header{padding:16px 20px;border-bottom:1px solid var(--black-border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .card-title{font-size:15px;font-weight:600;color:var(--text-primary)}
+    .card-sub{font-size:13px;color:var(--text-muted)}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse}
+    th{padding:11px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);background:rgba(0,0,0,0.2);border-bottom:1px solid var(--black-border)}
+    td{padding:13px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(30,42,66,0.5)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(0,255,127,0.02)}
+    .td-primary{color:var(--text-primary);font-weight:500}
+
+    /* BADGES */
+    .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;border-radius:6px;padding:3px 8px}
+    .badge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .badge-posted{background:rgba(14,165,233,0.1);color:var(--green-light)}
+    .badge-posted .badge-dot{background:var(--green)}
+    .badge-bid{background:rgba(0,255,127,0.1);color:#FB923C}
+    .badge-bid .badge-dot{background:var(--green)}
+    .badge-accepted{background:rgba(16,185,129,0.1);color:#34D399}
+    .badge-accepted .badge-dot{background:var(--success)}
+    .badge-transit{background:rgba(99,102,241,0.1);color:#A5B4FC}
+    .badge-transit .badge-dot{background:#6366F1}
+    .badge-delivered{background:rgba(16,185,129,0.15);color:#6EE7B7}
+    .badge-delivered .badge-dot{background:#10B981}
+    .badge-pending{background:rgba(245,158,11,0.1);color:#FCD34D}
+    .badge-pending .badge-dot{background:var(--warning)}
+    .badge-paid{background:rgba(16,185,129,0.1);color:#34D399}
+    .badge-paid .badge-dot{background:var(--success)}
+    .badge-overdue{background:rgba(239,68,68,0.1);color:#FCA5A5}
+    .badge-overdue .badge-dot{background:var(--error)}
+
+    /* BUTTONS */
+    .btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Roboto',sans-serif;border:none}
+    .btn-orange{background:var(--green);color:#fff}
+    .btn-orange:hover{background:#EA580C}
+    .btn-blue{background:var(--green);color:#fff}
+    .btn-blue:hover{background:var(--green-dark)}
+    .btn-outline{background:transparent;border:1px solid var(--black-border);color:var(--text-secondary)}
+    .btn-outline:hover{border-color:rgba(0,255,127,0.4);color:var(--text-primary)}
+    .btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+    .btn-accept{background:rgba(16,185,129,0.15);color:#34D399;border:1px solid rgba(16,185,129,0.25)}
+    .btn-accept:hover{background:rgba(16,185,129,0.25)}
+    .btn-reject{background:rgba(239,68,68,0.1);color:#FCA5A5;border:1px solid rgba(239,68,68,0.2)}
+    .btn-reject:hover{background:rgba(239,68,68,0.2)}
+
+    /* POST LOAD FORM */
+    .form-section{background:var(--black-mid);border:1px solid var(--black-border);border-radius:14px;padding:28px;margin-bottom:24px}
+    .form-section h3{font-size:16px;font-weight:600;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--black-border)}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:16px}
+    .form-col{display:flex;flex-direction:column;gap:6px}
+    .form-col.full{grid-column:1/-1}
+    label.lbl{font-size:12px;font-weight:500;color:var(--text-secondary)}
+    .input{padding:10px 12px;border-radius:8px;font-size:14px;background:rgba(42,42,42,0.6);border:1px solid var(--black-border);color:var(--text-primary);font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s;width:100%}
+    .input:focus{border-color:var(--green)}
+    .input::placeholder{color:var(--text-muted)}
+    select.input option{background:var(--black-mid);color:var(--text-primary)}
+    .form-actions{display:flex;justify-content:flex-end;gap:12px;padding-top:8px;border-top:1px solid var(--black-border);margin-top:8px}
+    .form-success{padding:14px 16px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:10px;font-size:14px;color:#34D399;margin-bottom:20px;display:none}
+    .form-success.show{display:block}
+
+    /* MISC */
+    .loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--text-muted);font-size:14px}
+    .spinner{width:18px;height:18px;border:2px solid var(--black-border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .empty-state{text-align:center;padding:60px 24px}
+    .empty-icon{width:48px;height:48px;margin:0 auto 16px;background:rgba(0,255,127,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center}
+    .empty-icon svg{width:24px;height:24px;stroke:var(--text-muted)}
+    .empty-state h3{font-size:15px;font-weight:600;margin-bottom:6px}
+    .empty-state p{font-size:13px;color:var(--text-muted)}
+    .route-arrow{color:var(--text-muted);margin:0 4px;font-size:12px}
+    .bid-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(30,42,66,0.5)}
+    .bid-row:last-child{border-bottom:none}
+    .section-divider{height:1px;background:var(--black-border);margin:24px 0}
+
+    @media(max-width:640px){
+      .content{padding:20px 16px}
+      .stat-grid{grid-template-columns:1fr 1fr}
+      .form-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="show">
+  <div class="login-card">
+    <div class="login-top"></div>
+    <div class="login-body">
+      <div class="login-logo">
+        <div class="login-logo-icon">S</div>
+        <div>
+          <span class="login-logo-text">BHF LOGISTICS</span>
+          <span class="login-logo-sub">Shipper Portal</span>
+        </div>
+      </div>
+      <h2>Shipper Sign In</h2>
+      <p>Manage your loads, track shipments, and view invoices.</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="loginEmail" placeholder="your@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <div class="form-error" id="loginError"></div>
+        <button type="submit" class="btn-login-submit" id="loginBtn">Sign In</button>
+      </form>
+      <div class="login-back"><a href="/freight/">← Back to BHF Logistics</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <header class="header">
+    <a href="/freight/" class="header-logo">
+      <div class="header-logo-icon">S</div>
+      <span class="header-logo-text">BHF LOGISTICS</span>
+    </a>
+    <span class="header-badge">Shipper Portal</span>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <span class="user-name" id="userName">Loading…</span>
+      </div>
+      <button class="btn-signout" onclick="handleSignOut()">Sign Out</button>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('dashboard')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+      Dashboard
+    </button>
+    <button class="tab-btn" onclick="showTab('post')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      Post a Load
+    </button>
+    <button class="tab-btn" onclick="showTab('myloads')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
+      My Loads
+      <span class="tab-badge" id="myLoadsCount">0</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('bids')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75"/></svg>
+      Review Bids
+      <span class="tab-badge" id="pendingBidsCount" style="background:var(--green);display:none">0</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('tracking')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+      Tracking
+    </button>
+    <button class="tab-btn" onclick="showTab('invoices')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"/></svg>
+      Invoices
+    </button>
+  </nav>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Loads</div>
+          <div class="stat-value orange" id="stat-total">—</div>
+          <div class="stat-delta">All time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending Bids</div>
+          <div class="stat-value blue" id="stat-bids">—</div>
+          <div class="stat-delta">Awaiting your review</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">In Transit</div>
+          <div class="stat-value" id="stat-transit">—</div>
+          <div class="stat-delta">Active shipments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Spend MTD</div>
+          <div class="stat-value green" id="stat-spend">—</div>
+          <div class="stat-delta">Delivered loads this month</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Recent Loads</div>
+            <div class="card-sub">Your most recent posted loads</div>
+          </div>
+          <button class="btn btn-orange btn-sm" onclick="showTab('post')">+ Post New Load</button>
+        </div>
+        <div id="dash-loads-table"><div class="loading"><span class="spinner"></span>Loading…</div></div>
+      </div>
+
+      <div class="card" id="pending-bids-card" style="display:none">
+        <div class="card-header">
+          <div>
+            <div class="card-title">⚡ Bids Awaiting Your Review</div>
+            <div class="card-sub">BIH Freight has submitted bids on your loads</div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="showTab('bids')">Review All →</button>
+        </div>
+        <div id="dash-bids-list"></div>
+      </div>
+    </div>
+
+    <!-- POST A LOAD -->
+    <div id="tab-post" style="display:none">
+      <div class="form-success" id="postSuccess">✓ Load posted successfully! BIH Freight will review and submit a bid shortly.</div>
+
+      <div class="form-section">
+        <h3>
+          <svg style="width:18px;height:18px;stroke:var(--green);display:inline;vertical-align:-3px;margin-right:6px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+          Origin &amp; Destination
+        </h3>
+        <div class="form-grid">
+          <div class="form-col">
+            <label class="lbl">Origin City *</label>
+            <input type="text" class="input" id="originCity" placeholder="e.g. Chicago" required>
+          </div>
+          <div class="form-col">
+            <label class="lbl">Origin State *</label>
+            <input type="text" class="input" id="originState" placeholder="e.g. IL" maxlength="2" style="text-transform:uppercase">
+          </div>
+          <div class="form-col">
+            <label class="lbl">Destination City *</label>
+            <input type="text" class="input" id="destCity" placeholder="e.g. Dallas" required>
+          </div>
+          <div class="form-col">
+            <label class="lbl">Destination State *</label>
+            <input type="text" class="input" id="destState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>
+          <svg style="width:18px;height:18px;stroke:var(--green);display:inline;vertical-align:-3px;margin-right:6px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+          Shipment Details
+        </h3>
+        <div class="form-grid">
+          <div class="form-col">
+            <label class="lbl">Equipment Type *</label>
+            <select class="input" id="equipmentType">
+              <option value="">Select type…</option>
+              <option value="Dry Van">Dry Van</option>
+              <option value="Flatbed">Flatbed</option>
+              <option value="Reefer">Refrigerated (Reefer)</option>
+              <option value="Step Deck">Step Deck</option>
+              <option value="Lowboy">Lowboy</option>
+              <option value="Power Only">Power Only</option>
+              <option value="Box Truck">Box Truck</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-col">
+            <label class="lbl">Weight (lbs)</label>
+            <input type="number" class="input" id="weight" placeholder="e.g. 40000" min="0">
+          </div>
+          <div class="form-col">
+            <label class="lbl">Pickup Date *</label>
+            <input type="date" class="input" id="pickupDate">
+          </div>
+          <div class="form-col">
+            <label class="lbl">Delivery Date</label>
+            <input type="date" class="input" id="deliveryDate">
+          </div>
+          <div class="form-col">
+            <label class="lbl">Target Rate ($)</label>
+            <input type="number" class="input" id="targetRate" placeholder="e.g. 2500" min="0" step="0.01">
+          </div>
+          <div class="form-col full">
+            <label class="lbl">Additional Notes</label>
+            <textarea class="input" id="loadNotes" placeholder="Commodity type, special handling requirements, dock hours, etc." rows="3" style="resize:vertical"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-error show" id="postError" style="display:none;margin-bottom:16px"></div>
+      <div class="form-actions">
+        <button class="btn btn-outline" onclick="clearPostForm()">Clear Form</button>
+        <button class="btn btn-orange" onclick="submitLoad()" id="postBtn">Post Load →</button>
+      </div>
+    </div>
+
+    <!-- MY LOADS -->
+    <div id="tab-myloads" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">My Loads</div>
+            <div class="card-sub">All loads posted by your company</div>
+          </div>
+          <button class="btn btn-orange btn-sm" onclick="showTab('post')">+ Post New</button>
+        </div>
+        <div id="myloads-body"><div class="loading"><span class="spinner"></span>Loading loads…</div></div>
+      </div>
+    </div>
+
+    <!-- REVIEW BIDS -->
+    <div id="tab-bids" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Bids from BIH Freight</div>
+            <div class="card-sub">Review and accept or reject bids on your loads</div>
+          </div>
+        </div>
+        <div id="bids-body"><div class="loading"><span class="spinner"></span>Loading bids…</div></div>
+      </div>
+    </div>
+
+    <!-- TRACKING -->
+    <div id="tab-tracking" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Shipment Tracking</div>
+            <div class="card-sub">Real-time status for your active shipments</div>
+          </div>
+        </div>
+        <div id="tracking-body"><div class="loading"><span class="spinner"></span>Loading shipments…</div></div>
+      </div>
+    </div>
+
+    <!-- INVOICES -->
+    <div id="tab-invoices" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Invoice History</div>
+            <div class="card-sub">All invoices for your freight shipments</div>
+          </div>
+        </div>
+        <div id="invoices-body"><div class="loading"><span class="spinner"></span>Loading invoices…</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co'
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk'
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+  let currentUser = null
+  let currentShipperId = null
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession()
+    if (session) {
+      await startApp(session.user)
+    } else {
+      document.getElementById('loginScreen').classList.add('show')
+    }
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault()
+    const email = document.getElementById('loginEmail').value.trim()
+    const password = document.getElementById('loginPassword').value
+    const btn = document.getElementById('loginBtn')
+    const errEl = document.getElementById('loginError')
+    errEl.classList.remove('show')
+    btn.disabled = true
+    btn.textContent = 'Signing in…'
+    try {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      await startApp(data.user)
+    } catch (err) {
+      errEl.textContent = err.message || 'Invalid credentials'
+      errEl.classList.add('show')
+      btn.disabled = false
+      btn.textContent = 'Sign In'
+    }
+  }
+
+  async function startApp(user) {
+    currentUser = user
+    document.getElementById('loginScreen').classList.remove('show')
+    document.getElementById('app').classList.add('show')
+    const name = user.user_metadata?.full_name || user.email
+    document.getElementById('userName').textContent = name
+    document.getElementById('userAvatar').textContent = name[0].toUpperCase()
+    // Find shipper record by email
+    try {
+      const { data } = await sb.from('freight_shippers').select('id').eq('contact_email', user.email).limit(1).single()
+      if (data) currentShipperId = data.id
+    } catch(e) {}
+    await loadDashboard()
+  }
+
+  async function handleSignOut() {
+    await sb.auth.signOut()
+    window.location.href = '/freight/'
+  }
+
+  // ── TABS ──
+  function showTab(tab) {
+    document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none')
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'))
+    document.getElementById(`tab-${tab}`).style.display = 'block'
+    const tabs = ['dashboard','post','myloads','bids','tracking','invoices']
+    const idx = tabs.indexOf(tab)
+    if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active')
+    loadTabData(tab)
+  }
+
+  async function loadTabData(tab) {
+    switch(tab) {
+      case 'dashboard': await loadDashboard(); break
+      case 'myloads': await loadMyLoads(); break
+      case 'bids': await loadBidsForReview(); break
+      case 'tracking': await loadTracking(); break
+      case 'invoices': await loadInvoices(); break
+    }
+  }
+
+  // ── DASHBOARD ──
+  async function loadDashboard() {
+    try {
+      const query = currentShipperId
+        ? sb.from('freight_loads').select('id,status,rate').eq('shipper_id', currentShipperId)
+        : sb.from('freight_loads').select('id,status,rate')
+
+      const { data: loads } = await query
+      const all = loads || []
+      const transit = all.filter(l => ['accepted','in_transit'].includes(l.status))
+      document.getElementById('stat-total').textContent = all.length
+      document.getElementById('stat-transit').textContent = transit.length
+      document.getElementById('myLoadsCount').textContent = all.length
+
+      // Count pending bids for shipper's loads
+      if (all.length > 0) {
+        const loadIds = all.map(l => l.id)
+        const { data: bids } = await sb.from('freight_bids').select('id').in('load_id', loadIds).eq('status','pending')
+        const bidCount = bids?.length || 0
+        document.getElementById('stat-bids').textContent = bidCount
+        document.getElementById('pendingBidsCount').textContent = bidCount
+        if (bidCount > 0) {
+          document.getElementById('pendingBidsCount').style.display = 'inline'
+          document.getElementById('pending-bids-card').style.display = 'block'
+          loadDashBids(loadIds)
+        }
+      } else {
+        document.getElementById('stat-bids').textContent = '0'
+      }
+
+      // MTD spend
+      const now = new Date()
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+      const delivered = all.filter(l => l.status === 'delivered')
+      const spend = delivered.reduce((s, l) => s + (l.rate || 0), 0)
+      document.getElementById('stat-spend').textContent = spend > 0 ? '$' + spend.toLocaleString() : '$0'
+
+      // Recent loads table
+      const recent = [...all].sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0)).slice(0,5)
+      await loadDashLoads()
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
+  async function loadDashLoads() {
+    const el = document.getElementById('dash-loads-table')
+    try {
+      let q = sb.from('freight_loads').select('*').order('created_at', { ascending: false }).limit(5)
+      if (currentShipperId) q = q.eq('shipper_id', currentShipperId)
+      const { data } = await q
+      el.innerHTML = renderLoadsTable(data || [])
+    } catch(e) { el.innerHTML = renderLoadsTable([]) }
+  }
+
+  async function loadDashBids(loadIds) {
+    const el = document.getElementById('dash-bids-list')
+    try {
+      const { data } = await sb.from('freight_bids')
+        .select('*, freight_loads(origin_city,origin_state,dest_city,dest_state,rate)')
+        .in('load_id', loadIds)
+        .eq('status','pending')
+        .order('created_at', { ascending: false })
+        .limit(3)
+      if (!data?.length) { el.innerHTML = ''; return }
+      el.innerHTML = data.map(b => `
+        <div class="bid-row">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text-primary)">
+              ${b.freight_loads?.origin_city||'?'}, ${b.freight_loads?.origin_state||'?'} → ${b.freight_loads?.dest_city||'?'}, ${b.freight_loads?.dest_state||'?'}
+            </div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:2px">
+              Your rate: $${Number(b.freight_loads?.rate||0).toLocaleString()} &nbsp;·&nbsp; BIH bid: <strong style="color:var(--success)">$${Number(b.bid_amount||0).toLocaleString()}</strong>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <button class="btn btn-accept btn-sm" onclick="respondBid('${b.id}','${b.load_id}','accepted')">Accept</button>
+            <button class="btn btn-reject btn-sm" onclick="respondBid('${b.id}','${b.load_id}','rejected')">Decline</button>
+          </div>
+        </div>
+      `).join('')
+    } catch(e) {}
+  }
+
+  // ── MY LOADS ──
+  async function loadMyLoads() {
+    const el = document.getElementById('myloads-body')
+    try {
+      let q = sb.from('freight_loads').select('*').order('created_at', { ascending: false })
+      if (currentShipperId) q = q.eq('shipper_id', currentShipperId)
+      const { data, error } = await q
+      if (error) throw error
+      el.innerHTML = renderLoadsTable(data || [])
+    } catch(e) {
+      el.innerHTML = `<div class="empty-state"><p style="color:var(--error)">Error loading loads</p></div>`
+    }
+  }
+
+  function renderLoadsTable(loads) {
+    if (!loads.length) return `<div class="empty-state">
+      <div class="empty-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg></div>
+      <h3>No loads yet</h3>
+      <p>Post your first load to get a bid from BIH Freight</p>
+      <button class="btn btn-orange" style="margin-top:16px" onclick="showTab('post')">Post a Load →</button>
+    </div>`
+
+    return `<div class="table-wrap"><table>
+      <thead><tr><th>Route</th><th>Equipment</th><th>Pickup</th><th>Rate</th><th>Weight</th><th>Status</th></tr></thead>
+      <tbody>
+      ${loads.map(l => `<tr>
+        <td class="td-primary">${l.origin_city||'?'}, ${l.origin_state||'?'}<span class="route-arrow">→</span>${l.dest_city||'?'}, ${l.dest_state||'?'}</td>
+        <td>${l.equipment_type||'—'}</td>
+        <td style="font-size:12px">${l.pickup_date ? new Date(l.pickup_date).toLocaleDateString() : '—'}</td>
+        <td class="td-primary">${l.rate ? '$'+Number(l.rate).toLocaleString() : '—'}</td>
+        <td style="font-size:12px">${l.weight ? Number(l.weight).toLocaleString()+' lbs' : '—'}</td>
+        <td>${statusBadge(l.status)}</td>
+      </tr>`).join('')}
+      </tbody>
+    </table></div>`
+  }
+
+  // ── BIDS REVIEW ──
+  async function loadBidsForReview() {
+    const el = document.getElementById('bids-body')
+    try {
+      // Get shipper's load IDs
+      let loadIds = []
+      if (currentShipperId) {
+        const { data: lds } = await sb.from('freight_loads').select('id').eq('shipper_id', currentShipperId)
+        loadIds = lds?.map(l => l.id) || []
+      }
+      if (!loadIds.length) { el.innerHTML = `<div class="empty-state"><h3>No bids yet</h3><p>Post a load and BIH Freight will submit bids for you to review</p></div>`; return }
+
+      const { data, error } = await sb.from('freight_bids')
+        .select('*, freight_loads(origin_city,origin_state,dest_city,dest_state,rate,equipment_type,pickup_date)')
+        .in('load_id', loadIds)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      if (!data?.length) { el.innerHTML = `<div class="empty-state"><h3>No bids received yet</h3><p>BIH Freight will review your loads and submit competitive bids</p></div>`; return }
+
+      el.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th>Route</th><th>Equipment</th><th>Pickup</th><th>Your Rate</th><th>BIH Bid</th><th>Bid Status</th><th>Action</th></tr></thead>
+        <tbody>
+        ${data.map(b => `<tr>
+          <td class="td-primary">${b.freight_loads?.origin_city||'?'}, ${b.freight_loads?.origin_state||'?'}<span class="route-arrow">→</span>${b.freight_loads?.dest_city||'?'}, ${b.freight_loads?.dest_state||'?'}</td>
+          <td>${b.freight_loads?.equipment_type||'—'}</td>
+          <td style="font-size:12px">${b.freight_loads?.pickup_date ? new Date(b.freight_loads.pickup_date).toLocaleDateString() : '—'}</td>
+          <td>${b.freight_loads?.rate ? '$'+Number(b.freight_loads.rate).toLocaleString() : '—'}</td>
+          <td class="td-primary" style="color:var(--success)">${b.bid_amount ? '$'+Number(b.bid_amount).toLocaleString() : '—'}</td>
+          <td>${statusBadge(b.status)}</td>
+          <td>
+            ${b.status === 'pending' ? `
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-accept btn-sm" onclick="respondBid('${b.id}','${b.load_id}','accepted')">Accept</button>
+                <button class="btn btn-reject btn-sm" onclick="respondBid('${b.id}','${b.load_id}','rejected')">Decline</button>
+              </div>
+            ` : `<span style="font-size:12px;color:var(--text-muted)">${b.status === 'accepted' ? '✓ Accepted' : '✗ Declined'}</span>`}
+          </td>
+        </tr>`).join('')}
+        </tbody>
+      </table></div>`
+    } catch(e) {
+      el.innerHTML = `<div class="empty-state"><p style="color:var(--error)">Error loading bids</p></div>`
+    }
+  }
+
+  async function respondBid(bidId, loadId, response) {
+    try {
+      await sb.from('freight_bids').update({ status: response }).eq('id', bidId)
+      if (response === 'accepted') {
+        await sb.from('freight_loads').update({ status: 'accepted' }).eq('id', loadId)
+        // Reject any other pending bids on this load
+        await sb.from('freight_bids').update({ status: 'rejected' }).eq('load_id', loadId).neq('id', bidId).eq('status','pending')
+      }
+      await loadBidsForReview()
+      await loadDashboard()
+    } catch(e) { console.error(e) }
+  }
+
+  // ── TRACKING ──
+  async function loadTracking() {
+    const el = document.getElementById('tracking-body')
+    try {
+      let q = sb.from('freight_loads').select('*').in('status',['accepted','in_transit','delivered']).order('updated_at',{ascending:false})
+      if (currentShipperId) q = q.eq('shipper_id', currentShipperId)
+      const { data, error } = await q
+      if (error) throw error
+      if (!data?.length) { el.innerHTML = `<div class="empty-state"><div class="empty-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25"/></svg></div><h3>No active shipments</h3><p>Accepted loads will show tracking status here</p></div>`; return }
+      el.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th>Route</th><th>Equipment</th><th>Pickup</th><th>Est. Delivery</th><th>Rate</th><th>Status</th></tr></thead>
+        <tbody>
+        ${data.map(l => `<tr>
+          <td class="td-primary">${l.origin_city||'?'}, ${l.origin_state||'?'}<span class="route-arrow">→</span>${l.dest_city||'?'}, ${l.dest_state||'?'}</td>
+          <td>${l.equipment_type||'—'}</td>
+          <td style="font-size:12px">${l.pickup_date ? new Date(l.pickup_date).toLocaleDateString() : '—'}</td>
+          <td style="font-size:12px">${l.delivery_date ? new Date(l.delivery_date).toLocaleDateString() : '—'}</td>
+          <td class="td-primary">${l.rate ? '$'+Number(l.rate).toLocaleString() : '—'}</td>
+          <td>${statusBadge(l.status)}</td>
+        </tr>`).join('')}
+        </tbody>
+      </table></div>`
+    } catch(e) {
+      el.innerHTML = `<div class="empty-state"><p style="color:var(--error)">Error loading tracking data</p></div>`
+    }
+  }
+
+  // ── INVOICES ──
+  async function loadInvoices() {
+    const el = document.getElementById('invoices-body')
+    try {
+      let q = sb.from('freight_invoices').select('*, freight_loads(origin_city,origin_state,dest_city,dest_state)').order('created_at',{ascending:false})
+      if (currentShipperId) q = q.eq('shipper_id', currentShipperId)
+      const { data, error } = await q
+      if (error) throw error
+      if (!data?.length) { el.innerHTML = `<div class="empty-state"><h3>No invoices yet</h3><p>Invoices are generated automatically when shipments are delivered</p></div>`; return }
+      el.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th>Route</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+        <tbody>
+        ${data.map(inv => `<tr>
+          <td class="td-primary">${inv.freight_loads?.origin_city||'?'}, ${inv.freight_loads?.origin_state||'?'}<span class="route-arrow">→</span>${inv.freight_loads?.dest_city||'?'}, ${inv.freight_loads?.dest_state||'?'}</td>
+          <td class="td-primary">${inv.amount ? '$'+Number(inv.amount).toLocaleString() : '—'}</td>
+          <td style="font-size:12px">${inv.due_date ? new Date(inv.due_date).toLocaleDateString() : '—'}</td>
+          <td>${statusBadge(inv.status)}</td>
+        </tr>`).join('')}
+        </tbody>
+      </table></div>`
+    } catch(e) {
+      el.innerHTML = `<div class="empty-state"><p style="color:var(--error)">Error loading invoices</p></div>`
+    }
+  }
+
+  // ── POST LOAD ──
+  async function submitLoad() {
+    const btn = document.getElementById('postBtn')
+    const errEl = document.getElementById('postError')
+    errEl.style.display = 'none'
+
+    const originCity = document.getElementById('originCity').value.trim()
+    const originState = document.getElementById('originState').value.trim().toUpperCase()
+    const destCity = document.getElementById('destCity').value.trim()
+    const destState = document.getElementById('destState').value.trim().toUpperCase()
+    const equipType = document.getElementById('equipmentType').value
+    const pickupDate = document.getElementById('pickupDate').value
+    const deliveryDate = document.getElementById('deliveryDate').value
+    const weight = document.getElementById('weight').value
+    const rate = document.getElementById('targetRate').value
+    const notes = document.getElementById('loadNotes').value.trim()
+
+    if (!originCity || !originState || !destCity || !destState) {
+      errEl.textContent = 'Origin and destination city/state are required'
+      errEl.style.display = 'block'; return
+    }
+    if (!equipType) { errEl.textContent = 'Please select an equipment type'; errEl.style.display = 'block'; return }
+    if (!pickupDate) { errEl.textContent = 'Pickup date is required'; errEl.style.display = 'block'; return }
+
+    btn.disabled = true
+    btn.textContent = 'Posting…'
+
+    try {
+      const payload = {
+        shipper_id: currentShipperId,
+        origin_city: originCity,
+        origin_state: originState,
+        dest_city: destCity,
+        dest_state: destState,
+        equipment_type: equipType,
+        pickup_date: pickupDate,
+        delivery_date: deliveryDate || null,
+        weight: weight ? parseFloat(weight) : null,
+        rate: rate ? parseFloat(rate) : null,
+        notes: notes || null,
+        status: 'posted'
+      }
+      const { error } = await sb.from('freight_loads').insert(payload)
+      if (error) throw error
+      document.getElementById('postSuccess').classList.add('show')
+      clearPostForm()
+      setTimeout(() => document.getElementById('postSuccess').classList.remove('show'), 5000)
+    } catch(e) {
+      errEl.textContent = e.message || 'Error posting load. Please try again.'
+      errEl.style.display = 'block'
+    } finally {
+      btn.disabled = false
+      btn.textContent = 'Post Load →'
+    }
+  }
+
+  function clearPostForm() {
+    ['originCity','originState','destCity','destState','weight','pickupDate','deliveryDate','targetRate','loadNotes'].forEach(id => {
+      const el = document.getElementById(id)
+      if (el) el.value = ''
+    })
+    document.getElementById('equipmentType').value = ''
+    document.getElementById('postError').style.display = 'none'
+  }
+
+  // ── HELPERS ──
+  function statusBadge(status) {
+    const map = {
+      posted: 'badge-posted', bid_placed: 'badge-bid', accepted: 'badge-accepted',
+      in_transit: 'badge-transit', delivered: 'badge-delivered',
+      pending: 'badge-pending', paid: 'badge-paid', overdue: 'badge-overdue',
+      active: 'badge-accepted', rejected: 'badge-bid'
+    }
+    const cls = map[status] || 'badge-pending'
+    const label = (status||'unknown').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
+    return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`
+  }
+
+  init()
+</script>
+</body>
+</html>
