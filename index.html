@@ -410,7 +410,49 @@
     max-width: 540px;
   }
 
-  /* —— HOW IT WORKS —— */
+  /* —— WHAT IS LIFTORI —— */
+    .what-is {
+      padding: 120px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .what-is-header { text-align: center; margin-bottom: 64px; }
+    .what-is-header .section-desc { max-width: 680px; margin: 0 auto; }
+    .what-is-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .what-is-card {
+      padding: 36px 32px;
+      background: rgba(11, 20, 40, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+    .what-is-card:hover {
+      border-color: rgba(14, 165, 233, 0.4);
+      background: rgba(14, 165, 233, 0.04);
+      transform: translateY(-4px);
+    }
+    .what-is-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+    .what-is-card h3 { font-size: 17px; font-weight: 500; color: var(--white-ice); margin-bottom: 10px; letter-spacing: 0.3px; }
+    .what-is-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .what-is-highlight {
+      margin-top: 48px;
+      text-align: center;
+      padding: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(18, 64, 196, 0.08));
+      border: 1px solid rgba(14, 165, 233, 0.15);
+    }
+    .what-is-highlight p { font-size: 17px; color: var(--text); line-height: 1.8; max-width: 780px; margin: 0 auto; }
+    .what-is-highlight strong { color: var(--blue-light); font-weight: 500; }
+
+    /* —— HOW IT WORKS —— */
   .how {
     padding: 120px 60px;
     max-width: 1200px;
@@ -962,6 +1004,8 @@
     .nav-links { display: none; }
     .hero { padding: 120px 24px 80px; }
     .how { padding: 80px 24px; }
+      .what-is { padding: 80px 24px; }
+      .what-is-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     .steps::before { display: none; }
     .services { padding: 80px 24px; }
@@ -1724,7 +1768,53 @@
   </div>
 </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- WHAT IS LIFTORI -->
+  <section class="what-is" id="what-is">
+    <div class="what-is-header reveal">
+      <div class="section-label">More Than a Builder</div>
+      <div class="section-title">YOUR VISION.<br/>OUR SYSTEM.</div>
+      <p class="section-desc">Liftori isn't just a build platform — it's a complete launch system. From the spark of an idea to a live, revenue-ready product, we guide you through every step. Whether you know exactly what you want or need help figuring it out, we meet you where you are.</p>
+    </div>
+
+    <div class="what-is-grid">
+      <div class="what-is-card reveal">
+        <span class="what-is-icon">💡</span>
+        <h3>Nurture Your Vision</h3>
+        <p>Not sure where to start? Our system helps you shape raw ideas into clear, buildable plans. We'll walk you through business planning, audience targeting, and feature mapping so your vision has a solid foundation.</p>
+      </div>
+      <div class="what-is-card reveal" style="transition-delay:0.1s">
+        <span class="what-is-icon">🧩</span>
+        <h3>Guided Project Wizard</h3>
+        <p>Our AI-powered wizard walks you through creating your project step by step. Answer simple questions about what you want to build, and we'll handle the technical complexity behind the scenes.</p>
+      </div>
+      <div class="what-is-card reveal" style="transition-delay:0.15s">
+        <span class="what-is-icon">💼</span>
+        <h3>Business Formation</h3>
+        <p>Need to form a legal business first? Our system walks you through LLC or corporation formation with ZenBusiness — right inside the platform. Some builds may require an EIN or bank account to accept customer payments.</p>
+      </div>
+      <div class="what-is-card reveal" style="transition-delay:0.2s">
+        <span class="what-is-icon">⚡</span>
+        <h3>Fast or Full-Scale</h3>
+        <p>Simple builds like landing pages and booking sites can launch in days. More complex platforms — SaaS, marketplaces, AI tools — may take weeks or months. Your timeline, your complexity, your call.</p>
+      </div>
+      <div class="what-is-card reveal" style="transition-delay:0.25s">
+        <span class="what-is-icon">📊</span>
+        <h3>Your Dashboard, Your Projects</h3>
+        <p>Track every milestone from your personal dashboard. Launch one project or ten — manage them all from a single place. Real-time updates, previews, and direct communication with your build team.</p>
+      </div>
+      <div class="what-is-card reveal" style="transition-delay:0.3s">
+        <span class="what-is-icon">🤝</span>
+        <h3>Teams &amp; Collaboration</h3>
+        <p>Have a team? Invite them to collaborate on projects together. Flying solo right now? No problem — we help individuals build and grow at their own pace.</p>
+      </div>
+    </div>
+
+    <div class="what-is-highlight reveal">
+      <p><strong>Business Coaching &amp; Mentorship</strong> — Even if it's just you right now, we help you grow into the powerhouse you want to be. Liftori offers coaching and mentorship programs to guide you beyond the build.<br/><br/><strong>Payment plans available</strong> — so your budget never holds your vision back. Get started today and pay as you grow.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="how-header reveal">
     <div class="section-label">The Process</div>
