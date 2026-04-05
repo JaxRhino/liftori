@@ -426,18 +426,10 @@
     position: relative;
   }
 
-  .steps::before {
-    content: '';
-    position: absolute;
-    top: 40px;
-    left: 12.5%;
-    right: 12.5%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue-deep), var(--blue-mid), var(--blue-deep), transparent);
-  }
+  .steps::before { display: none; }
 
   .step {
-    padding: 48px 32px;
+    padding: 36px 28px;
     background: rgba(11, 20, 40, 0.6);
     border: 1px solid var(--border);
     position: relative;
@@ -451,13 +443,13 @@
 
   .step-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 56px;
+    font-size: 44px;
     letter-spacing: 2px;
     background: linear-gradient(180deg, var(--blue-mid), var(--blue-deep));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .step-title {
@@ -1736,29 +1728,49 @@
 <section class="how" id="how">
   <div class="how-header reveal">
     <div class="section-label">The Process</div>
-    <div class="section-title">FROM IDEA TO LIVE<br/>IN 4 STEPS</div>
+    <div class="section-title">FROM IDEA TO LIVE<br/>IN 8 STEPS</div>
     <p class="section-desc">No meetings. No jargon. No waiting months to see anything. Just a guided, AI-powered process that turns your vision into a real, working product.</p>
   </div>
   <div class="steps">
     <div class="step reveal">
       <div class="step-num">01</div>
-      <div class="step-title">Describe Your Vision</div>
-      <div class="step-desc">Answer our AI-guided wizard. Tell us what you're building, who it's for, how it should look, and what it needs to do. Zero tech knowledge required.</div>
+      <div class="step-title">Create a Free Account</div>
+      <div class="step-desc">Sign up in seconds — no credit card required. Your account gives you access to your personal dashboard and project tools.</div>
     </div>
     <div class="step reveal" style="transition-delay:0.1s">
       <div class="step-num">02</div>
-      <div class="step-title">AI Builds Your Plan</div>
-      <div class="step-desc">Our AI instantly generates a full project brief, build plan, and cost estimate. You review, approve, and pay. That's your green light.</div>
+      <div class="step-title">Start a Project</div>
+      <div class="step-desc">Launch a new project from your dashboard. Choose the type of app, platform, or website you want to build.</div>
+    </div>
+    <div class="step reveal" style="transition-delay:0.15s">
+      <div class="step-num">03</div>
+      <div class="step-title">Describe Your Vision</div>
+      <div class="step-desc">Tell us what you’re building, who it’s for, and how it should work. No tech knowledge required — just your idea.</div>
     </div>
     <div class="step reveal" style="transition-delay:0.2s">
-      <div class="step-num">03</div>
-      <div class="step-title">We Build It</div>
-      <div class="step-desc">Our team and AI agents execute the build. You watch progress in real time through your dashboard — updates, previews, and milestones all the way to launch.</div>
+      <div class="step-num">04</div>
+      <div class="step-title">Liftori Guides You</div>
+      <div class="step-desc">Our AI walks you through any additional steps needed to shape your build — features, audience, design preferences, and more.</div>
+    </div>
+    <div class="step reveal" style="transition-delay:0.25s">
+      <div class="step-num">05</div>
+      <div class="step-title">Review Mockups</div>
+      <div class="step-desc">Liftori generates visual mockups of your project so you can see exactly what it will look like before anything is built.</div>
     </div>
     <div class="step reveal" style="transition-delay:0.3s">
-      <div class="step-num">04</div>
-      <div class="step-title">Launch & Scale</div>
-      <div class="step-desc">Your app goes live. Choose to take the code and run, or stay on Liftori for hosting, updates, support, and AI-powered growth tools. We scale with you.</div>
+      <div class="step-num">06</div>
+      <div class="step-title">Approve & Pay</div>
+      <div class="step-desc">Review your design and project plan, choose a payment option, and give the green light. No surprises — you see the full build estimate upfront.</div>
+    </div>
+    <div class="step reveal" style="transition-delay:0.35s">
+      <div class="step-num">07</div>
+      <div class="step-title">We Build Your Vision</div>
+      <div class="step-desc">Our team and AI agents get to work building your project. Real code, real infrastructure, fully custom to your specifications.</div>
+    </div>
+    <div class="step reveal" style="transition-delay:0.4s">
+      <div class="step-num">08</div>
+      <div class="step-title">Track Progress</div>
+      <div class="step-desc">Follow every milestone on your dashboard — live updates, previews, and direct communication with your build team all the way to launch.</div>
     </div>
   </div>
 </section>
