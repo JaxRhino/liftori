@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Website | Liftori Services</title>
+  <meta name="description" content="Professional multi-page business websites built by Liftori. SEO-optimized, mobile-responsive, with contact forms and analytics. Launch in days, not months.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0c1426;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --green: #00d4aa;
+      --white-ice: #E0F7FF;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: #fff; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: var(--light-blue); }
+
+    /* ===== NAV ===== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(6,11,24,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #fff; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy) !important; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+    .nav-cta:hover { transform: scale(1.02); color: var(--navy) !important; }
+
+    /* ===== HERO ===== */
+    .hero { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(14,165,233,0.12); color: var(--blue); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(14,165,233,0.2); }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: 1px; margin-bottom: 1.5rem; }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(14,165,233,0.3); color: var(--navy); }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ===== MOCKUP SECTION ===== */
+    .mockup-section { padding: 3rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .mockup-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .mockup-section .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 768px) { .mockup-grid { grid-template-columns: 1fr; } }
+
+    /* Browser Frame Mockup */
+    .browser-frame { background: var(--navy-light); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .browser-frame:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .browser-bar { background: #111827; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #ef4444; }
+    .browser-dots span:nth-child(2) { background: #eab308; }
+    .browser-dots span:nth-child(3) { background: #22c55e; }
+    .browser-url { flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 0.3rem 0.8rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; margin-left: 0.75rem; }
+    .browser-content { padding: 0; min-height: 280px; position: relative; }
+    .mockup-label { position: absolute; bottom: 0.75rem; right: 0.75rem; background: rgba(14,165,233,0.15); color: var(--blue); padding: 0.25rem 0.7rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(14,165,233,0.2); }
+
+    /* ===== MOCKUP CONTENT STYLES ===== */
+    .mock-hero-section { background: linear-gradient(135deg, #0c1426 0%, #0f1d36 100%); padding: 2rem 1.5rem; text-align: center; }
+    .mock-nav { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0 1.5rem; }
+    .mock-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-nav-items { display: flex; gap: 0.75rem; }
+    .mock-nav-items span { font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+    .mock-h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1.1; margin-bottom: 0.5rem; }
+    .mock-h1 .blue { color: var(--blue); }
+    .mock-p { font-size: 0.6rem; color: rgba(255,255,255,0.5); line-height: 1.5; max-width: 300px; margin: 0 auto 1rem; }
+    .mock-btn { display: inline-block; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; }
+    .mock-btn-outline { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; margin-left: 0.5rem; }
+
+    /* Mock cards */
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1.5rem; }
+    .mock-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 1rem 0.75rem; text-align: center; }
+    .mock-card-icon { width: 28px; height: 28px; background: rgba(14,165,233,0.15); border-radius: 6px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; }
+    .mock-card-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
+    .mock-card h4 { font-size: 0.6rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .mock-card p { font-size: 0.5rem; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+    /* Mock contact form */
+    .mock-contact { padding: 1.5rem; }
+    .mock-contact-header { text-align: center; margin-bottom: 1rem; }
+    .mock-contact-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; margin-bottom: 0.25rem; }
+    .mock-contact-header p { font-size: 0.55rem; color: rgba(255,255,255,0.4); }
+    .mock-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .mock-input { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem; color: rgba(255,255,255,0.3); }
+    .mock-textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem; color: rgba(255,255,255,0.3); width: 100%; height: 50px; margin-bottom: 0.5rem; display: block; }
+    .mock-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.4rem 1.2rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; width: 100%; }
+
+    /* Mock footer */
+    .mock-footer { background: #050a14; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); }
+    .mock-footer span { font-size: 0.5rem; color: rgba(255,255,255,0.3); }
+
+    /* Mock stats bar */
+    .mock-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 1rem 1.5rem; background: rgba(14,165,233,0.04); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+    .mock-stat { text-align: center; }
+    .mock-stat .number { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-stat .label { font-size: 0.45rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Mobile mockup */
+    .phone-frame { width: 220px; margin: 0 auto; background: var(--navy-light); border: 2px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; padding: 0.5rem; }
+    .phone-notch { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 0 auto 0.5rem; }
+    .phone-screen { border-radius: 16px; overflow: hidden; background: #0c1426; }
+    .phone-content { padding: 1rem; text-align: center; }
+    .phone-content .mock-h1 { font-size: 0.9rem; }
+    .phone-content .mock-p { font-size: 0.5rem; }
+    .phone-home-bar { width: 60px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0.5rem auto 0; }
+
+    /* ===== FEATURES SECTION ===== */
+    .features { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .features h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .features .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3.5rem; font-size: 0.95rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 1.75rem; transition: transform 0.3s, border-color 0.3s; }
+    .feature-card:hover { transform: translateY(-3px); border-color: rgba(14,165,233,0.3); }
+    .feature-icon { width: 44px; height: 44px; background: rgba(14,165,233,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* ===== WHAT'S INCLUDED ===== */
+    .included { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .included h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; }
+    .included .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .included-grid { grid-template-columns: 1fr; } }
+    .included-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; }
+    .included-check { flex-shrink: 0; width: 22px; height: 22px; background: rgba(0,212,170,0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .included-check svg { width: 14px; height: 14px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+    .included-item span { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+    /* ===== PRICING TEASER ===== */
+    .pricing-teaser { padding: 4rem 2rem; max-width: 700px; margin: 0 auto; text-align: center; }
+    .pricing-card { background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(0,212,170,0.05)); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; padding: 3rem; }
+    .pricing-card .tier { font-size: 0.8rem; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .pricing-card .price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
+    .pricing-card .price span { font-size: 1.2rem; color: rgba(255,255,255,0.4); font-family: 'DM Sans', sans-serif; }
+    .pricing-card .desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section { padding: 5rem 2rem; max-width: 700px; margin: 0 auto; }
+    .cta-card { background: linear-gradient(135deg, rgba(14,165,233,0.06), rgba(0,212,170,0.04)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; }
+    .cta-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .cta-card p { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .cta-form label { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+    .cta-form input, .cta-form textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; font-family: 'DM Sans', sans-serif; width: 100%; transition: border-color 0.2s; }
+    .cta-form input:focus, .cta-form textarea:focus { outline: none; border-color: var(--blue); }
+    .cta-form textarea { height: 80px; resize: vertical; }
+    .cta-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.85rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
+    .cta-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(14,165,233,0.3); }
+    .cta-success { display: none; text-align: center; padding: 2rem; }
+    .cta-success h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--green); }
+    .cta-success p { color: rgba(255,255,255,0.5); }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--glass-border); }
+    .footer p { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+    .footer a { color: var(--blue); }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6,11,24,0.98); flex-direction: column; padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
+      .nav-links.open { display: flex; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .mockup-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/services/">All Services</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="#inquiry" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Business Website
+  </div>
+  <h1>A Professional Website<br><span class="accent">That Works as Hard as You Do</span></h1>
+  <p>Your business deserves more than a template. We build custom, mobile-responsive websites with SEO, analytics, and contact forms baked in — designed to convert visitors into customers.</p>
+  <a href="#inquiry" class="hero-cta">
+    Request Your Free Consultation
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ===== MOCKUPS ===== -->
+<section class="mockup-section">
+  <h2>See What You’ll Get</h2>
+  <p class="subtitle">Every business website we build follows this proven structure</p>
+
+  <div class="mockup-grid">
+    <!-- Mockup 1: Homepage -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourbusiness.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-hero-section">
+          <div class="mock-nav">
+            <div class="mock-logo">YOUR BRAND</div>
+            <div class="mock-nav-items">
+              <span>About</span>
+              <span>Services</span>
+              <span>Contact</span>
+            </div>
+          </div>
+          <div class="mock-h1">Grow Your Business<br><span class="blue">With Confidence</span></div>
+          <div class="mock-p">We help local businesses thrive with expert solutions tailored to your unique needs.</div>
+          <span class="mock-btn">Get Started</span>
+          <span class="mock-btn-outline">Learn More</span>
+        </div>
+        <div class="mock-stats">
+          <div class="mock-stat"><div class="number">500+</div><div class="label">Clients</div></div>
+          <div class="mock-stat"><div class="number">98%</div><div class="label">Satisfaction</div></div>
+          <div class="mock-stat"><div class="number">24/7</div><div class="label">Support</div></div>
+          <div class="mock-stat"><div class="number">10yr</div><div class="label">Experience</div></div>
+        </div>
+        <div class="mock-cards">
+          <div class="mock-card">
+            <div class="mock-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+            <h4>Service One</h4>
+            <p>Description of your first core service offering.</p>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h4>Service Two</h4>
+            <p>Description of your second service offering.</p>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <h4>Service Three</h4>
+            <p>Description of your third service offering.</p>
+          </div>
+        </div>
+        <span class="mockup-label">Homepage</span>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Contact Page -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourbusiness.com/contact</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-contact">
+          <div class="mock-contact-header">
+            <h3>Get In Touch</h3>
+            <p>Fill out the form below and we’ll get back to you within 24 hours.</p>
+          </div>
+          <div class="mock-form-row">
+            <div class="mock-input">First Name</div>
+            <div class="mock-input">Last Name</div>
+          </div>
+          <div class="mock-form-row">
+            <div class="mock-input">Email Address</div>
+            <div class="mock-input">Phone Number</div>
+          </div>
+          <div class="mock-textarea">Your message here...</div>
+          <div class="mock-submit">Send Message</div>
+        </div>
+        <div class="mock-footer">
+          <span>Your Brand © 2026</span>
+          <span>Privacy Policy | Terms</span>
+        </div>
+        <span class="mockup-label">Contact Page</span>
+      </div>
+    </div>
+
+    <!-- Mockup 3: About Page -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourbusiness.com/about</div>
+      </div>
+      <div class="browser-content">
+        <div style="padding: 1.5rem;">
+          <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+            <div style="flex: 1;">
+              <div style="font-size: 0.5rem; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">About Us</div>
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; margin-bottom: 0.5rem;">Our Story &<br><span style="color: var(--blue);">Our Mission</span></div>
+              <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 0.75rem;">Founded with a simple belief: every local business deserves a professional online presence that drives real results.</div>
+              <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); line-height: 1.6;">Our team combines years of industry expertise with cutting-edge design to deliver websites that work.</div>
+            </div>
+            <div style="flex: 0.8;">
+              <div style="background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(0,212,170,0.1)); border-radius: 12px; height: 160px; display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem; text-align: center;">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--green);">150+</div>
+              <div style="font-size: 0.45rem; color: rgba(255,255,255,0.4);">Projects Completed</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem; text-align: center;">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--green);">5 Star</div>
+              <div style="font-size: 0.45rem; color: rgba(255,255,255,0.4);">Average Rating</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem; text-align: center;">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--green);">48hr</div>
+              <div style="font-size: 0.45rem; color: rgba(255,255,255,0.4);">Avg Response Time</div>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">About Page</span>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Mobile View -->
+    <div class="browser-frame" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy-light), #0f1d36);">
+      <div style="padding: 2rem;">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-content">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div style="font-family: 'Bebas Neue'; font-size: 0.7rem; color: var(--blue);">YOUR BRAND</div>
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                </div>
+              </div>
+              <div class="mock-h1" style="font-size: 0.85rem;">Grow Your<br><span class="blue">Business</span></div>
+              <div class="mock-p" style="font-size: 0.45rem; margin-bottom: 0.75rem;">Expert solutions tailored for local businesses.</div>
+              <div class="mock-btn" style="font-size: 0.5rem; display: block; margin-bottom: 0.75rem;">Get Started</div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.5rem; margin-top: 0.5rem;">
+                <div style="font-size: 0.45rem; font-weight: 600; margin-bottom: 0.25rem;">Our Services</div>
+                <div style="font-size: 0.4rem; color: rgba(255,255,255,0.4);">Consulting · Design · Marketing</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.4);">Fully responsive on every device</div>
+      </div>
+      <span class="mockup-label">Mobile View</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <h2>Everything Your Business Website Needs</h2>
+  <p class="subtitle">Built-in features that drive traffic, capture leads, and grow revenue</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h3>Custom Multi-Page Design</h3>
+      <p>Home, About, Services, Contact, and more. Each page uniquely designed to match your brand identity and business goals.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <h3>Mobile-First Responsive</h3>
+      <p>Over 60% of web traffic is mobile. Every page we build looks flawless on phones, tablets, and desktops.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <h3>SEO Optimized</h3>
+      <p>Meta tags, structured data, fast load times, and semantic HTML. Your site is built to rank on Google from day one.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h3>Contact Forms</h3>
+      <p>Smart contact forms with email delivery and spam protection. Never miss a lead again with instant notifications.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+      </div>
+      <h3>Analytics Dashboard</h3>
+      <p>Track visitors, page views, conversions, and traffic sources. Know exactly how your website performs with built-in analytics.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>SSL &amp; Security</h3>
+      <p>Free SSL certificate, secure hosting, and automatic backups. Your site and your visitors’ data stay protected 24/7.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S INCLUDED ===== -->
+<section class="included">
+  <h2>What’s Included in Every Build</h2>
+  <p class="subtitle">No hidden costs. No surprises. Everything below comes standard.</p>
+
+  <div class="included-grid">
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Custom domain setup and DNS configuration</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>5+ professionally designed pages</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Mobile-responsive on all devices</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Contact form with email notifications</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>SEO meta tags and sitemap</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Google Analytics integration</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>SSL certificate (HTTPS)</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Fast CDN-powered hosting</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Social media link integration</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>30-day post-launch support</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING TEASER ===== -->
+<section class="pricing-teaser">
+  <div class="pricing-card">
+    <div class="tier">Starting At</div>
+    <div class="price">$499 <span>one-time</span></div>
+    <div class="desc">Professional business website with everything listed above. No monthly fees for the first year of hosting. Need something more advanced? Our Growth and Scale tiers offer even more.</div>
+    <a href="#inquiry" class="hero-cta" style="display: inline-flex;">
+      See If This Fits Your Needs
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== CTA / INQUIRY FORM ===== -->
+<section class="cta-section" id="inquiry">
+  <div class="cta-card">
+    <h2>Ready to Launch Your Website?</h2>
+    <p>Tell us a bit about your business and we’ll reach out with a custom plan — no obligation, no pressure.</p>
+
+    <form class="cta-form" id="serviceForm" onsubmit="submitServiceForm(event)">
+      <input type="hidden" name="service" value="Business Website">
+      <div>
+        <label>Your Name</label>
+        <input type="text" name="name" id="svcName" required placeholder="John Smith">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" id="svcEmail" required placeholder="john@yourbusiness.com">
+      </div>
+      <div>
+        <label>Phone (optional)</label>
+        <input type="tel" name="phone" id="svcPhone" placeholder="(555) 123-4567">
+      </div>
+      <div>
+        <label>Tell us about your project</label>
+        <textarea name="message" id="svcMessage" placeholder="What does your business do? What’s the #1 goal for your website?"></textarea>
+      </div>
+      <button type="submit" class="cta-submit" id="svcSubmitBtn">Get My Free Consultation</button>
+    </form>
+
+    <div class="cta-success" id="serviceSuccess">
+      <h3>We Got Your Request!</h3>
+      <p>Ryan from Liftori will reach out within 24 hours with a custom plan for your business website.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">Liftori</a>. All rights reserved. &nbsp;|&nbsp; <a href="mailto:Sales@liftori.ai">Sales@liftori.ai</a></p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+function submitServiceForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('svcSubmitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var data = {
+    name: document.getElementById('svcName').value,
+    email: document.getElementById('svcEmail').value,
+    phone: document.getElementById('svcPhone').value || '',
+    message: document.getElementById('svcMessage').value,
+    service: 'Business Website'
+  };
+
+  // Send notification to Ryan@Liftori.ai via the welcome-email edge function
+  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      email: 'Ryan@Liftori.ai',
+      contact_form: true,
+      from_name: data.name,
+      from_email: data.email,
+      from_phone: data.phone,
+      from_message: '[Service Inquiry: Business Website] ' + data.message
+    })
+  }).then(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).catch(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).finally(function() {
+    btn.textContent = 'Get My Free Consultation';
+    btn.disabled = false;
+  });
+}
+</script>
+
+</body>
+</html>
