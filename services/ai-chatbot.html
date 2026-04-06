@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot & Assistant | Liftori Services</title>
+  <meta name="description" content="Custom AI chatbot and assistant service trained on your business data. Handles customer support, lead capture, scheduling, and FAQs 24/7. Deploy in days with our proven platform.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0c1426;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --green: #00d4aa;
+      --white-ice: #E0F7FF;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: #fff; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: var(--light-blue); }
+
+    /* ===== NAV ===== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(6,11,24,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #fff; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy) !important; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+    .nav-cta:hover { transform: scale(1.02); color: var(--navy) !important; }
+
+    /* ===== HERO ===== */
+    .hero { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(14,165,233,0.12); color: var(--blue); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(14,165,233,0.2); }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: 1px; margin-bottom: 1.5rem; }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(14,165,233,0.3); color: var(--navy); }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ===== MOCKUP SECTION ===== */
+    .mockup-section { padding: 3rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .mockup-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .mockup-section .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 768px) { .mockup-grid { grid-template-columns: 1fr; } }
+
+    /* Browser Frame Mockup */
+    .browser-frame { background: var(--navy-light); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .browser-frame:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .browser-bar { background: #111827; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #ef4444; }
+    .browser-dots span:nth-child(2) { background: #eab308; }
+    .browser-dots span:nth-child(3) { background: #22c55e; }
+    .browser-url { flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 0.3rem 0.8rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; margin-left: 0.75rem; }
+    .browser-content { padding: 0; min-height: 280px; position: relative; }
+    .mockup-label { position: absolute; bottom: 0.75rem; right: 0.75rem; background: rgba(14,165,233,0.15); color: var(--blue); padding: 0.25rem 0.7rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(14,165,233,0.2); }
+
+    /* ===== MOCKUP CONTENT STYLES ===== */
+    .mock-hero-section { background: linear-gradient(135deg, #0c1426 0%, #0f1d36 100%); padding: 2rem 1.5rem; text-align: center; }
+    .mock-nav { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0 1.5rem; }
+    .mock-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-nav-items { display: flex; gap: 0.75rem; }
+    .mock-nav-items span { font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+    .mock-h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1.1; margin-bottom: 0.5rem; }
+    .mock-h1 .blue { color: var(--blue); }
+    .mock-p { font-size: 0.6rem; color: rgba(255,255,255,0.5); line-height: 1.5; max-width: 300px; margin: 0 auto 1rem; }
+    .mock-btn { display: inline-block; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; }
+    .mock-btn-outline { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; margin-left: 0.5rem; }
+
+    /* Mock chat widget */
+    .mock-chat-widget { padding: 1.5rem; background: linear-gradient(135deg, rgba(14,165,233,0.05), rgba(0,212,170,0.02)); }
+    .mock-chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(14,165,233,0.15); }
+    .mock-chat-title { font-size: 0.7rem; font-weight: 600; color: var(--blue); }
+    .mock-chat-close { font-size: 0.8rem; color: rgba(255,255,255,0.3); cursor: pointer; }
+    .mock-chat-messages { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.75rem; max-height: 150px; overflow-y: auto; }
+    .mock-message { font-size: 0.55rem; line-height: 1.4; padding: 0.5rem 0.7rem; border-radius: 6px; max-width: 85%; }
+    .mock-message.user { background: rgba(14,165,233,0.15); color: #fff; align-self: flex-end; text-align: right; }
+    .mock-message.bot { background: rgba(0,212,170,0.1); color: rgba(255,255,255,0.8); align-self: flex-start; }
+    .mock-chat-suggestions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+    .mock-suggestion { background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.15); color: rgba(255,255,255,0.7); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.5rem; cursor: pointer; }
+    .mock-chat-input { display: flex; gap: 0.4rem; }
+    .mock-input-field { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 0.35rem 0.5rem; font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+    .mock-send-btn { background: var(--blue); color: var(--navy); padding: 0.35rem 0.6rem; border: none; border-radius: 4px; font-size: 0.55rem; font-weight: 600; cursor: pointer; }
+
+    /* Mock dashboard */
+    .mock-dashboard { padding: 1.5rem; }
+    .mock-dashboard-header { margin-bottom: 1rem; }
+    .mock-dashboard-title { font-size: 0.75rem; font-weight: 600; color: var(--blue); margin-bottom: 0.5rem; }
+    .mock-dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+    .mock-dashboard-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.6rem; }
+    .mock-dashboard-stat { font-size: 0.7rem; color: var(--green); font-weight: 600; margin-bottom: 0.2rem; }
+    .mock-dashboard-label { font-size: 0.5rem; color: rgba(255,255,255,0.4); }
+    .mock-analytics-bar { display: flex; align-items: flex-end; gap: 0.3rem; margin-top: 0.5rem; height: 40px; }
+    .mock-bar { background: linear-gradient(135deg, var(--blue), var(--light-blue)); border-radius: 2px; flex: 1; }
+    .mock-bar-1 { height: 60%; }
+    .mock-bar-2 { height: 85%; }
+    .mock-bar-3 { height: 70%; }
+    .mock-bar-4 { height: 95%; }
+    .mock-faq-list { font-size: 0.5rem; }
+    .mock-faq-item { padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mock-faq-q { color: var(--blue); margin-bottom: 0.1rem; }
+    .mock-faq-c { color: rgba(255,255,255,0.4); }
+
+    /* Mock cards */
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1.5rem; }
+    .mock-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 1rem 0.75rem; text-align: center; }
+    .mock-card-icon { width: 28px; height: 28px; background: rgba(14,165,233,0.15); border-radius: 6px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; }
+    .mock-card-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
+    .mock-card h4 { font-size: 0.6rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .mock-card p { font-size: 0.5rem; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+    /* Mock footer */
+    .mock-footer { background: #050a14; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); }
+    .mock-footer span { font-size: 0.5rem; color: rgba(255,255,255,0.3); }
+
+    /* Mobile mockup */
+    .phone-frame { width: 220px; margin: 0 auto; background: var(--navy-light); border: 2px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; padding: 0.5rem; }
+    .phone-notch { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 0 auto 0.5rem; }
+    .phone-screen { border-radius: 16px; overflow: hidden; background: #0c1426; }
+    .phone-content { padding: 1rem; }
+    .phone-chat { display: flex; flex-direction: column; gap: 0.4rem; }
+    .phone-msg { font-size: 0.5rem; padding: 0.4rem 0.6rem; border-radius: 6px; max-width: 80%; line-height: 1.3; }
+    .phone-msg.user { background: rgba(14,165,233,0.15); align-self: flex-end; text-align: right; }
+    .phone-msg.bot { background: rgba(0,212,170,0.1); align-self: flex-start; color: rgba(255,255,255,0.9); }
+    .phone-input-area { padding: 0.75rem 0; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 0.3rem; }
+    .phone-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 0.3rem 0.5rem; font-size: 0.5rem; color: rgba(255,255,255,0.4); }
+    .phone-send { background: var(--blue); color: var(--navy); width: 24px; height: 24px; border: none; border-radius: 4px; font-size: 0.6rem; }
+    .phone-home-bar { width: 60px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0.5rem auto 0; }
+
+    /* ===== FEATURES SECTION ===== */
+    .features { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .features h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .features .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3.5rem; font-size: 0.95rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 1.75rem; transition: transform 0.3s, border-color 0.3s; }
+    .feature-card:hover { transform: translateY(-3px); border-color: rgba(14,165,233,0.3); }
+    .feature-icon { width: 44px; height: 44px; background: rgba(14,165,233,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* ===== WHAT'S INCLUDED ===== */
+    .included { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .included h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; }
+    .included .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .included-grid { grid-template-columns: 1fr; } }
+    .included-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; }
+    .included-check { flex-shrink: 0; width: 22px; height: 22px; background: rgba(0,212,170,0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .included-check svg { width: 14px; height: 14px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+    .included-item span { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+    /* ===== PRICING TEASER ===== */
+    .pricing-teaser { padding: 4rem 2rem; max-width: 700px; margin: 0 auto; text-align: center; }
+    .pricing-card { background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(0,212,170,0.05)); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; padding: 3rem; }
+    .pricing-card .tier { font-size: 0.8rem; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .pricing-card .price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
+    .pricing-card .price span { font-size: 1.2rem; color: rgba(255,255,255,0.4); font-family: 'DM Sans', sans-serif; }
+    .pricing-card .desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section { padding: 5rem 2rem; max-width: 700px; margin: 0 auto; }
+    .cta-card { background: linear-gradient(135deg, rgba(14,165,233,0.06), rgba(0,212,170,0.04)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; }
+    .cta-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .cta-card p { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .cta-form label { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+    .cta-form input, .cta-form textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; font-family: 'DM Sans', sans-serif; width: 100%; transition: border-color 0.2s; }
+    .cta-form input:focus, .cta-form textarea:focus { outline: none; border-color: var(--blue); }
+    .cta-form textarea { height: 80px; resize: vertical; }
+    .cta-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.85rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
+    .cta-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(14,165,233,0.3); }
+    .cta-success { display: none; text-align: center; padding: 2rem; }
+    .cta-success h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--green); }
+    .cta-success p { color: rgba(255,255,255,0.5); }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--glass-border); }
+    .footer p { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+    .footer a { color: var(--blue); }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6,11,24,0.98); flex-direction: column; padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
+      .nav-links.open { display: flex; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .mockup-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/services/">All Services</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="#inquiry" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><circle cx="12" cy="9" r="1"/><path d="M12 13v1.5"/></svg>
+    AI Chatbot & Assistant
+  </div>
+  <h1>Your AI Assistant<br><span class="accent">Works 24/7, So You Don't Have To</span></h1>
+  <p>Custom AI chatbot trained on your business data handles customer questions, captures leads, schedules appointments, and provides support around the clock. Get more done with less effort while your customers get instant answers.</p>
+  <a href="#inquiry" class="hero-cta">
+    Launch Your AI Chatbot
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ===== MOCKUPS ===== -->
+<section class="mockup-section">
+  <h2>See What You'll Get</h2>
+  <p class="subtitle">A complete AI chatbot platform built for your business</p>
+
+  <div class="mockup-grid">
+    <!-- Mockup 1: Chat Widget on Website -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourbusiness.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-hero-section">
+          <div class="mock-nav">
+            <div class="mock-logo">YOUR BRAND</div>
+            <div class="mock-nav-items">
+              <span>About</span>
+              <span>Services</span>
+              <span>Contact</span>
+            </div>
+          </div>
+          <div class="mock-h1">Welcome to Our<br><span class="blue">Business</span></div>
+          <div class="mock-p">Explore our services and get instant answers to your questions from our AI assistant.</div>
+        </div>
+        <div style="padding: 1.5rem; background: rgba(0,212,170,0.02); border-top: 1px solid rgba(0,212,170,0.1);">
+          <div style="font-size: 0.6rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem; font-weight: 500;">💬 Chat with our assistant:</div>
+          <div style="background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(0,212,170,0.05)); border-radius: 8px; padding: 0.75rem; border: 1px solid rgba(0,212,170,0.15);">
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="align-self: flex-start; background: rgba(0,212,170,0.15); color: rgba(255,255,255,0.8); padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.55rem; max-width: 70%; line-height: 1.4;">Hi! How can I help you today?</div>
+              <div style="align-self: flex-end; background: rgba(14,165,233,0.15); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.55rem; max-width: 70%; text-align: right;">What services do you offer?</div>
+              <div style="align-self: flex-start; background: rgba(0,212,170,0.15); color: rgba(255,255,255,0.8); padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.55rem; max-width: 75%; line-height: 1.4;">We offer web design, mobile apps, and AI solutions. Let me know what interests you!</div>
+            </div>
+            <div style="display: flex; gap: 0.4rem; margin-top: 0.75rem; flex-wrap: wrap;">
+              <div style="background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.15); color: rgba(255,255,255,0.7); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.5rem; cursor: pointer;">Pricing</div>
+              <div style="background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.15); color: rgba(255,255,255,0.7); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.5rem; cursor: pointer;">Schedule Demo</div>
+              <div style="background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.15); color: rgba(255,255,255,0.7); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.5rem; cursor: pointer;">Contact Us</div>
+            </div>
+            <div style="display: flex; gap: 0.4rem; margin-top: 0.5rem;">
+              <input type="text" placeholder="Ask a question..." style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 0.35rem 0.5rem; font-size: 0.55rem; color: rgba(255,255,255,0.5);">
+              <button style="background: var(--blue); color: var(--navy); padding: 0.35rem 0.6rem; border: none; border-radius: 4px; font-size: 0.55rem; font-weight: 600; cursor: pointer;">→</button>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">Website Chat Widget</span>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Knowledge Base & Training Dashboard -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">dashboard.liftori.ai/kb</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-dashboard">
+          <div class="mock-dashboard-header">
+            <div class="mock-dashboard-title">Knowledge Base & Training</div>
+            <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4);">Manage your AI's training data</div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid var(--glass-border);">
+            <div style="text-align: center;">
+              <div style="font-size: 0.7rem; color: var(--green); font-weight: 600;">12</div>
+              <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4);">Documents</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 0.7rem; color: var(--green); font-weight: 600;">48</div>
+              <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4);">FAQ Items</div>
+            </div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid var(--glass-border);">
+            <div style="font-size: 0.6rem; font-weight: 600; margin-bottom: 0.5rem;">Recent Uploads</div>
+            <div style="font-size: 0.5rem; padding: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);">
+              <div style="color: var(--blue); margin-bottom: 0.1rem;">product_guide.pdf</div>
+              <div style="color: rgba(255,255,255,0.3);">Training: 95% complete ●●●●○</div>
+            </div>
+            <div style="font-size: 0.5rem; padding: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);">
+              <div style="color: var(--blue); margin-bottom: 0.1rem;">faq_responses.doc</div>
+              <div style="color: rgba(255,255,255,0.3);">Training: 100% complete ●●●●●</div>
+            </div>
+            <div style="font-size: 0.5rem; padding: 0.4rem; color: rgba(255,255,255,0.6);">
+              <div style="color: var(--blue); margin-bottom: 0.1rem;">service_policies.txt</div>
+              <div style="color: rgba(255,255,255,0.3);">Training: 88% complete ●●●●○</div>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">Knowledge Base</span>
+      </div>
+    </div>
+
+    <!-- Mockup 3: Analytics Dashboard -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">dashboard.liftori.ai/analytics</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-dashboard">
+          <div class="mock-dashboard-header">
+            <div class="mock-dashboard-title">Conversation Analytics</div>
+            <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4);">Last 30 days</div>
+          </div>
+          <div class="mock-dashboard-grid">
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-stat">1,247</div>
+              <div class="mock-dashboard-label">Total Conversations</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-stat">94%</div>
+              <div class="mock-dashboard-label">Resolution Rate</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-stat">47sec</div>
+              <div class="mock-dashboard-label">Avg Response Time</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-stat">3.8/5</div>
+              <div class="mock-dashboard-label">User Satisfaction</div>
+            </div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid var(--glass-border);">
+            <div style="font-size: 0.6rem; font-weight: 600; margin-bottom: 0.75rem;">Top Questions This Week</div>
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.5rem;">
+                <div style="color: rgba(255,255,255,0.7);">How do I reset my password?</div>
+                <div style="color: var(--blue);">156</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.5rem;">
+                <div style="color: rgba(255,255,255,0.7);">What are your pricing tiers?</div>
+                <div style="color: var(--blue);">124</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.5rem;">
+                <div style="color: rgba(255,255,255,0.7);">Do you offer refunds?</div>
+                <div style="color: var(--blue);">98</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">Analytics</span>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Mobile Chat View -->
+    <div class="browser-frame" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy-light), #0f1d36);">
+      <div style="padding: 2rem;">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid rgba(0,212,170,0.1); background: rgba(0,212,170,0.03);">
+              <div style="font-size: 0.6rem; font-weight: 600; color: var(--green);">Chat Support</div>
+              <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4);">Online</div>
+            </div>
+            <div class="phone-chat" style="padding: 0.75rem; height: 120px; overflow-y: auto;">
+              <div class="phone-msg bot">Hi! Need help with anything?</div>
+              <div class="phone-msg user">Can you help me with my account?</div>
+              <div class="phone-msg bot">Of course! What do you need?</div>
+            </div>
+            <div class="phone-input-area">
+              <input type="text" class="phone-input" placeholder="Type here...">
+              <button class="phone-send">→</button>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.4);">Mobile chat experience</div>
+      </div>
+      <span class="mockup-label">Mobile Chat</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <h2>Everything You Need for AI Success</h2>
+  <p class="subtitle">Complete platform for deploying, managing, and optimizing your AI chatbot</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+      </div>
+      <h3>Custom AI Training on Your Data</h3>
+      <p>Upload documents, FAQs, and policies. Your AI learns from real business data to give accurate, on-brand responses instantly.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
+      </div>
+      <h3>24/7 Instant Responses</h3>
+      <p>Your AI answers customer questions instantly, day or night. Never miss a conversation or let customers wait for help.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V6c0-1.1-.9-2-2-2zm-2 12H4V6h14v10z"/></svg>
+      </div>
+      <h3>Lead Capture & Qualification</h3>
+      <p>Automatically qualify and capture leads in real conversations. Your AI gathers contact info and needs before passing to your team.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.03-2.71-1.41 1.41L10.5 19l4.96-6.63z"/></svg>
+      </div>
+      <h3>Seamless Human Handoff</h3>
+      <p>When a conversation gets complex, smoothly handoff to your team. Full context and conversation history comes along.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.21-6.64H17V7h-6.08V3h-2v4H3v2h10.04v.03c-.31 1.48-.92 2.84-1.64 4.04-1.72-1.31-2.78-2.72-2.78-4.04h-2c0 2.05 1.53 4.03 4.02 5.29-1.49 1.3-2.73 3.13-2.73 5.71 0 2.5 1.6 4.41 3.6 4.41.96 0 1.89-.23 2.75-.72 1.06.72 2.4 1.12 3.85 1.12 2.8 0 5-2.2 5-5 0-2.35-1.82-4.3-4.25-4.7z"/></svg>
+      </div>
+      <h3>Multi-Language Support</h3>
+      <p>Serve customers in their language. Your AI communicates fluently in English, Spanish, French, German, and more.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4-2h2v20h-2zm4 4h2v16h-2z"/></svg>
+      </div>
+      <h3>Conversation Analytics</h3>
+      <p>Track conversation volume, resolution rates, satisfaction scores, and common questions. Data-driven insights to improve your chatbot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S INCLUDED ===== -->
+<section class="included">
+  <h2>What's Included in Every AI Chatbot</h2>
+  <p class="subtitle">No add-ons. No surprises. Everything below comes standard.</p>
+
+  <div class="included-grid">
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Custom AI training on your business data and documents</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Chat widget for website and app integration</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Knowledge base and FAQ management dashboard</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Lead capture and qualification forms</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Human handoff and escalation system</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Complete conversation history and transcripts</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Advanced analytics and reporting dashboard</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Email notifications for escalations and leads</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Multi-platform embed code and API access</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>30 days of hands-on setup and support</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING TEASER ===== -->
+<section class="pricing-teaser">
+  <div class="pricing-card">
+    <div class="tier">Starting At</div>
+    <div class="price">$1,499 <span>one-time</span></div>
+    <div class="desc">Complete AI chatbot platform with everything listed above. Custom trained to your business needs and fully functional on day one. Need a more advanced setup? We offer custom packages for enterprise clients.</div>
+    <a href="#inquiry" class="hero-cta" style="display: inline-flex;">
+      Get Your AI Chatbot Quote
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== CTA / INQUIRY FORM ===== -->
+<section class="cta-section" id="inquiry">
+  <div class="cta-card">
+    <h2>Ready for AI Customer Support?</h2>
+    <p>Tell us about your business and we'll build a custom AI chatbot tailored to your specific needs. No pressure, just solutions.</p>
+
+    <form class="cta-form" id="serviceForm" onsubmit="submitServiceForm(event)">
+      <input type="hidden" name="service" value="AI Chatbot & Assistant">
+      <div>
+        <label>Your Name</label>
+        <input type="text" name="name" id="svcName" required placeholder="John Smith">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" id="svcEmail" required placeholder="john@yourbusiness.com">
+      </div>
+      <div>
+        <label>Phone (optional)</label>
+        <input type="tel" name="phone" id="svcPhone" placeholder="(555) 123-4567">
+      </div>
+      <div>
+        <label>Tell us about your needs</label>
+        <textarea name="message" id="svcMessage" placeholder="What type of customer support do you need? What's your biggest customer service pain point?"></textarea>
+      </div>
+      <button type="submit" class="cta-submit" id="svcSubmitBtn">Get My AI Chatbot Quote</button>
+    </form>
+
+    <div class="cta-success" id="serviceSuccess">
+      <h3>We Got Your Request!</h3>
+      <p>Ryan from Liftori will reach out within 24 hours with a custom AI chatbot plan for your business.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">Liftori</a>. All rights reserved. &nbsp;|&nbsp; <a href="mailto:Sales@liftori.ai">Sales@liftori.ai</a></p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+function submitServiceForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('svcSubmitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var data = {
+    name: document.getElementById('svcName').value,
+    email: document.getElementById('svcEmail').value,
+    phone: document.getElementById('svcPhone').value || '',
+    message: document.getElementById('svcMessage').value,
+    service: 'AI Chatbot & Assistant'
+  };
+
+  // Send notification to Ryan@Liftori.ai via the welcome-email edge function
+  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      email: 'Ryan@Liftori.ai',
+      contact_form: true,
+      from_name: data.name,
+      from_email: data.email,
+      from_phone: data.phone,
+      from_message: '[Service Inquiry: AI Chatbot & Assistant] ' + data.message
+    })
+  }).then(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).catch(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).finally(function() {
+    btn.textContent = 'Get My AI Chatbot Quote';
+    btn.disabled = false;
+  });
+}
+</script>
+
+</body>
+</html>
