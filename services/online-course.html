@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Course & Membership | Liftori Services</title>
+  <meta name="description" content="Expert-led online course platforms with video hosting, student progress tracking, certificates, and membership tiers. Turn your expertise into a profitable course with integrated community and automation.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0c1426;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --green: #00d4aa;
+      --white-ice: #E0F7FF;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: #fff; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: var(--light-blue); }
+
+    /* ===== NAV ===== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(6,11,24,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #fff; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy) !important; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+    .nav-cta:hover { transform: scale(1.02); color: var(--navy) !important; }
+
+    /* ===== HERO ===== */
+    .hero { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(14,165,233,0.12); color: var(--blue); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(14,165,233,0.2); }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: 1px; margin-bottom: 1.5rem; }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(14,165,233,0.3); color: var(--navy); }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ===== MOCKUP SECTION ===== */
+    .mockup-section { padding: 3rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .mockup-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .mockup-section .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 768px) { .mockup-grid { grid-template-columns: 1fr; } }
+
+    /* Browser Frame Mockup */
+    .browser-frame { background: var(--navy-light); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .browser-frame:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .browser-bar { background: #111827; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #ef4444; }
+    .browser-dots span:nth-child(2) { background: #eab308; }
+    .browser-dots span:nth-child(3) { background: #22c55e; }
+    .browser-url { flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 0.3rem 0.8rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; margin-left: 0.75rem; }
+    .browser-content { padding: 0; min-height: 280px; position: relative; }
+    .mockup-label { position: absolute; bottom: 0.75rem; right: 0.75rem; background: rgba(14,165,233,0.15); color: var(--blue); padding: 0.25rem 0.7rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(14,165,233,0.2); }
+
+    /* ===== MOCKUP CONTENT STYLES ===== */
+    .mock-hero-section { background: linear-gradient(135deg, #0c1426 0%, #0f1d36 100%); padding: 2rem 1.5rem; text-align: center; }
+    .mock-nav { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0 1.5rem; }
+    .mock-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-nav-items { display: flex; gap: 0.75rem; }
+    .mock-nav-items span { font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+    .mock-h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1.1; margin-bottom: 0.5rem; }
+    .mock-h1 .blue { color: var(--blue); }
+    .mock-p { font-size: 0.6rem; color: rgba(255,255,255,0.5); line-height: 1.5; max-width: 300px; margin: 0 auto 1rem; }
+    .mock-btn { display: inline-block; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; }
+    .mock-btn-outline { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; margin-left: 0.5rem; }
+
+    /* Mock course catalog cards */
+    .mock-course-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1.5rem; }
+    .mock-course-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; text-align: left; }
+    .mock-course-thumbnail { background: linear-gradient(135deg, rgba(14,165,233,0.2), rgba(0,212,170,0.1)); height: 60px; display: flex; align-items: center; justify-content: center; font-size: 0.45rem; color: rgba(255,255,255,0.3); }
+    .mock-course-content { padding: 0.6rem; }
+    .mock-course-title { font-size: 0.55rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.3; }
+    .mock-course-meta { font-size: 0.45rem; color: rgba(255,255,255,0.4); margin-bottom: 0.4rem; }
+    .mock-course-price { font-size: 0.6rem; font-weight: 700; color: var(--green); }
+    .mock-rating { font-size: 0.45rem; color: rgba(255,255,255,0.4); }
+
+    /* Mock lesson player */
+    .mock-lesson-container { padding: 1.5rem; display: flex; gap: 1rem; }
+    .mock-video-player { background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(0,212,170,0.08)); border-radius: 6px; flex: 1; height: 140px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border); }
+    .mock-video-player svg { width: 32px; height: 32px; stroke: rgba(255,255,255,0.3); }
+    .mock-lesson-sidebar { width: 90px; }
+    .mock-lesson-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 4px; padding: 0.4rem; margin-bottom: 0.4rem; font-size: 0.45rem; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 0.3rem; }
+    .mock-lesson-check { width: 10px; height: 10px; background: var(--green); border-radius: 2px; flex-shrink: 0; }
+    .mock-progress-bar { background: rgba(255,255,255,0.1); border-radius: 2px; height: 3px; margin-top: 0.75rem; overflow: hidden; }
+    .mock-progress-fill { background: var(--green); height: 100%; width: 65%; }
+
+    /* Mock student dashboard */
+    .mock-dashboard { padding: 1.5rem; }
+    .mock-dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .mock-dashboard-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.6rem; }
+    .mock-dashboard-label { font-size: 0.45rem; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 0.3rem; }
+    .mock-dashboard-value { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; color: var(--blue); }
+    .mock-cert-badge { display: inline-block; background: rgba(0,212,170,0.15); border: 1px solid var(--green); border-radius: 4px; padding: 0.4rem 0.6rem; margin-top: 0.5rem; font-size: 0.5rem; color: var(--green); }
+
+    /* Mobile mockup */
+    .phone-frame { width: 220px; margin: 0 auto; background: var(--navy-light); border: 2px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; padding: 0.5rem; }
+    .phone-notch { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 0 auto 0.5rem; }
+    .phone-screen { border-radius: 16px; overflow: hidden; background: #0c1426; }
+    .phone-content { padding: 1rem; text-align: center; }
+    .phone-content .mock-h1 { font-size: 0.9rem; }
+    .phone-content .mock-p { font-size: 0.5rem; }
+    .phone-home-bar { width: 60px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0.5rem auto 0; }
+    .mock-mobile-course { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.5rem; margin-top: 0.5rem; text-align: left; }
+    .mock-mobile-course-thumb { background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(0,212,170,0.08)); height: 40px; border-radius: 4px; margin-bottom: 0.3rem; }
+    .mock-mobile-course-title { font-size: 0.5rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .mock-mobile-course-meta { font-size: 0.4rem; color: rgba(255,255,255,0.4); }
+
+    /* ===== FEATURES SECTION ===== */
+    .features { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .features h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .features .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3.5rem; font-size: 0.95rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 1.75rem; transition: transform 0.3s, border-color 0.3s; }
+    .feature-card:hover { transform: translateY(-3px); border-color: rgba(14,165,233,0.3); }
+    .feature-icon { width: 44px; height: 44px; background: rgba(14,165,233,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* ===== WHAT'S INCLUDED ===== */
+    .included { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .included h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; }
+    .included .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .included-grid { grid-template-columns: 1fr; } }
+    .included-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; }
+    .included-check { flex-shrink: 0; width: 22px; height: 22px; background: rgba(0,212,170,0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .included-check svg { width: 14px; height: 14px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+    .included-item span { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+    /* ===== PRICING TEASER ===== */
+    .pricing-teaser { padding: 4rem 2rem; max-width: 700px; margin: 0 auto; text-align: center; }
+    .pricing-card { background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(0,212,170,0.05)); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; padding: 3rem; }
+    .pricing-card .tier { font-size: 0.8rem; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .pricing-card .price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
+    .pricing-card .price span { font-size: 1.2rem; color: rgba(255,255,255,0.4); font-family: 'DM Sans', sans-serif; }
+    .pricing-card .desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section { padding: 5rem 2rem; max-width: 700px; margin: 0 auto; }
+    .cta-card { background: linear-gradient(135deg, rgba(14,165,233,0.06), rgba(0,212,170,0.04)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; }
+    .cta-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .cta-card p { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .cta-form label { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+    .cta-form input, .cta-form textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; font-family: 'DM Sans', sans-serif; width: 100%; transition: border-color 0.2s; }
+    .cta-form input:focus, .cta-form textarea:focus { outline: none; border-color: var(--blue); }
+    .cta-form textarea { height: 80px; resize: vertical; }
+    .cta-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.85rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
+    .cta-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(14,165,233,0.3); }
+    .cta-success { display: none; text-align: center; padding: 2rem; }
+    .cta-success h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--green); }
+    .cta-success p { color: rgba(255,255,255,0.5); }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--glass-border); }
+    .footer p { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+    .footer a { color: var(--blue); }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6,11,24,0.98); flex-direction: column; padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
+      .nav-links.open { display: flex; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .mockup-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/services/">All Services</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="#inquiry" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    Online Course & Membership
+  </div>
+  <h1>Turn Your Expertise Into<br><span class="accent">A Profitable Online Course</span></h1>
+  <p>Build a complete course platform with video hosting, student progress tracking, certificates, membership tiers, and community. No technical knowledge required. Launch in weeks, not months.</p>
+  <a href="#inquiry" class="hero-cta">
+    Build Your Course Platform
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ===== MOCKUPS ===== -->
+<section class="mockup-section">
+  <h2>See What You'll Get</h2>
+  <p class="subtitle">Every online course platform we build follows this proven structure</p>
+
+  <div class="mockup-grid">
+    <!-- Mockup 1: Course Catalog -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourplatform.com/courses</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-hero-section">
+          <div class="mock-nav">
+            <div class="mock-logo">ACADEMY</div>
+            <div class="mock-nav-items">
+              <span>Courses</span>
+              <span>Dashboard</span>
+              <span>Community</span>
+            </div>
+          </div>
+          <div class="mock-h1">Expand Your<br><span class="blue">Skills</span></div>
+          <div class="mock-p">Expert-led courses designed for real results.</div>
+        </div>
+        <div class="mock-course-cards">
+          <div class="mock-course-card">
+            <div class="mock-course-thumbnail">Video Thumbnail</div>
+            <div class="mock-course-content">
+              <div class="mock-course-title">Digital Marketing Mastery</div>
+              <div class="mock-course-meta">by Sarah Chen</div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="mock-rating">4.8/5 (234)</div>
+                <div class="mock-course-price">$49</div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-course-card">
+            <div class="mock-course-thumbnail">Video Thumbnail</div>
+            <div class="mock-course-content">
+              <div class="mock-course-title">Web Design Fundamentals</div>
+              <div class="mock-course-meta">by Alex Rivera</div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="mock-rating">4.9/5 (567)</div>
+                <div class="mock-course-price">$69</div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-course-card">
+            <div class="mock-course-thumbnail">Video Thumbnail</div>
+            <div class="mock-course-content">
+              <div class="mock-course-title">Business Strategy Pro</div>
+              <div class="mock-course-meta">by Jordan Kim</div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="mock-rating">4.7/5 (123)</div>
+                <div class="mock-course-price">$99</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">Course Catalog</span>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Lesson Player -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourplatform.com/lesson/module-1-video-2</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-lesson-container">
+          <div style="flex: 1;">
+            <div class="mock-video-player">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="margin-top: 0.75rem;">
+              <div style="font-size: 0.6rem; font-weight: 600; margin-bottom: 0.25rem;">Digital Marketing - Module 1: Foundations</div>
+              <div class="mock-progress-bar">
+                <div class="mock-progress-fill"></div>
+              </div>
+              <div style="font-size: 0.45rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">65% Complete</div>
+            </div>
+          </div>
+        </div>
+        <div class="mock-lesson-sidebar">
+          <div style="font-size: 0.5rem; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 0.5rem;">Lessons</div>
+          <div class="mock-lesson-item">
+            <div class="mock-lesson-check"></div>
+            <span>Intro Video</span>
+          </div>
+          <div class="mock-lesson-item">
+            <div class="mock-lesson-check"></div>
+            <span>Workbook</span>
+          </div>
+          <div class="mock-lesson-item" style="background: rgba(14,165,233,0.1);">
+            <div style="width: 10px; height: 10px; background: var(--blue); border-radius: 2px; flex-shrink: 0;"></div>
+            <span>Current</span>
+          </div>
+          <div class="mock-lesson-item">
+            <span>Next Lesson</span>
+          </div>
+        </div>
+        <span class="mockup-label">Lesson Player</span>
+      </div>
+    </div>
+
+    <!-- Mockup 3: Student Dashboard -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">yourplatform.com/dashboard</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-dashboard">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">Welcome Back, Alex</div>
+          </div>
+          <div class="mock-dashboard-grid">
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-label">Courses Enrolled</div>
+              <div class="mock-dashboard-value">3</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-label">Total Progress</div>
+              <div class="mock-dashboard-value">62%</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-label">Certificates Earned</div>
+              <div class="mock-dashboard-value">2</div>
+            </div>
+            <div class="mock-dashboard-card">
+              <div class="mock-dashboard-label">Next Deadline</div>
+              <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">3 days</div>
+            </div>
+          </div>
+          <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 6px;">
+            <div style="font-size: 0.55rem; font-weight: 600; margin-bottom: 0.5rem;">Certificates</div>
+            <div class="mock-cert-badge">Completed: Digital Marketing</div>
+            <div class="mock-cert-badge">Completed: Web Design</div>
+          </div>
+        </div>
+        <span class="mockup-label">Student Dashboard</span>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Mobile View -->
+    <div class="browser-frame" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy-light), #0f1d36);">
+      <div style="padding: 2rem;">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-content">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div style="font-family: 'Bebas Neue'; font-size: 0.7rem; color: var(--blue);">ACADEMY</div>
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                </div>
+              </div>
+              <div class="mock-h1" style="font-size: 0.85rem;">My<br><span class="blue">Courses</span></div>
+              <div class="mock-p" style="font-size: 0.45rem; margin-bottom: 0.75rem;">Continue learning on the go.</div>
+              <div class="mock-mobile-course">
+                <div class="mock-mobile-course-thumb"></div>
+                <div class="mock-mobile-course-title">Digital Marketing</div>
+                <div class="mock-mobile-course-meta">65% complete</div>
+              </div>
+              <div class="mock-mobile-course">
+                <div class="mock-mobile-course-thumb"></div>
+                <div class="mock-mobile-course-title">Web Design</div>
+                <div class="mock-mobile-course-meta">100% complete</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.4);">Fully responsive on every device</div>
+      </div>
+      <span class="mockup-label">Mobile View</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <h2>Everything Your Course Platform Needs</h2>
+  <p class="subtitle">Built-in features that engage students and drive completion rates</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      </div>
+      <h3>Video Lesson Hosting</h3>
+      <p>Built-in video hosting with streaming optimization. Upload once, stream reliably to students worldwide with automatic quality adaptation.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3>Student Progress Tracking</h3>
+      <p>Automatic progress tracking across all lessons and modules. Students see their completion status, and you get detailed analytics on engagement.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      </div>
+      <h3>Membership Tiers & Paywalls</h3>
+      <p>Create unlimited membership tiers with flexible pricing. Gate courses, modules, and content by tier. Manage subscriptions and recurring revenue effortlessly.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <h3>Certificates & Badges</h3>
+      <p>Automatically generate branded certificates upon course completion. Award digital badges students can share on LinkedIn and social media.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>Community Discussion Forums</h3>
+      <p>Built-in forums for students to ask questions, share insights, and connect. Moderation tools keep conversations productive and on-topic.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <h3>Drip Content Scheduling</h3>
+      <p>Release lessons and content on a schedule. Keep students engaged with timed releases, preventing them from rushing through material.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S INCLUDED ===== -->
+<section class="included">
+  <h2>What's Included in Your Platform</h2>
+  <p class="subtitle">No hidden costs. No surprises. Everything below comes standard.</p>
+
+  <div class="included-grid">
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Drag-and-drop course builder with no coding required</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Professional video hosting and streaming</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Student dashboard with progress tracking</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Automatic progress and completion tracking</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Certificate generator with custom branding</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Membership and subscription billing (Stripe integration)</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Community discussion forums and moderation tools</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Email automation and notification system</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Quiz and assessment system with scoring</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>30 days of post-launch training and support</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING TEASER ===== -->
+<section class="pricing-teaser">
+  <div class="pricing-card">
+    <div class="tier">Starting At</div>
+    <div class="price">$1,299 <span>one-time</span></div>
+    <div class="desc">Complete online course and membership platform fully customized to your brand. Launch your courses, build your community, and start generating recurring revenue. No monthly platform fees for the first year.</div>
+    <a href="#inquiry" class="hero-cta" style="display: inline-flex;">
+      See If This Fits Your Needs
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== CTA / INQUIRY FORM ===== -->
+<section class="cta-section" id="inquiry">
+  <div class="cta-card">
+    <h2>Ready to Build Your Course?</h2>
+    <p>Tell us about your course and audience. We'll design a custom platform that fits your teaching style and business goals.</p>
+
+    <form class="cta-form" id="serviceForm" onsubmit="submitServiceForm(event)">
+      <input type="hidden" name="service" value="Online Course & Membership">
+      <div>
+        <label>Your Name</label>
+        <input type="text" name="name" id="svcName" required placeholder="Jane Smith">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" id="svcEmail" required placeholder="jane@yourschool.com">
+      </div>
+      <div>
+        <label>Phone (optional)</label>
+        <input type="tel" name="phone" id="svcPhone" placeholder="(555) 123-4567">
+      </div>
+      <div>
+        <label>Tell us about your course</label>
+        <textarea name="message" id="svcMessage" placeholder="What will you teach? How many students? Any specific features you need?"></textarea>
+      </div>
+      <button type="submit" class="cta-submit" id="svcSubmitBtn">Get My Course Plan</button>
+    </form>
+
+    <div class="cta-success" id="serviceSuccess">
+      <h3>We Got Your Request!</h3>
+      <p>Ryan from Liftori will reach out within 24 hours with a custom platform plan for your online course.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">Liftori</a>. All rights reserved. &nbsp;|&nbsp; <a href="mailto:Sales@liftori.ai">Sales@liftori.ai</a></p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+function submitServiceForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('svcSubmitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var data = {
+    name: document.getElementById('svcName').value,
+    email: document.getElementById('svcEmail').value,
+    phone: document.getElementById('svcPhone').value || '',
+    message: document.getElementById('svcMessage').value,
+    service: 'Online Course & Membership'
+  };
+
+  // Send notification to Ryan@Liftori.ai via the welcome-email edge function
+  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      email: 'Ryan@Liftori.ai',
+      contact_form: true,
+      from_name: data.name,
+      from_email: data.email,
+      from_phone: data.phone,
+      from_message: '[Service Inquiry: Online Course & Membership] ' + data.message
+    })
+  }).then(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).catch(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).finally(function() {
+    btn.textContent = 'Get My Course Plan';
+    btn.disabled = false;
+  });
+}
+</script>
+
+</body>
+</html>
