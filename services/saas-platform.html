@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Platform | Liftori Services</title>
+  <meta name="description" content="Fully-featured SaaS platform built by Liftori. User authentication, subscription billing with Stripe, admin dashboard, role-based access, API integrations, and multi-tenant architecture. Launch your software product in weeks.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0c1426;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --green: #00d4aa;
+      --white-ice: #E0F7FF;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: #fff; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: var(--light-blue); }
+
+    /* ===== NAV ===== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(6,11,24,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #fff; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy) !important; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+    .nav-cta:hover { transform: scale(1.02); color: var(--navy) !important; }
+
+    /* ===== HERO ===== */
+    .hero { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(14,165,233,0.12); color: var(--blue); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(14,165,233,0.2); }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: 1px; margin-bottom: 1.5rem; }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(14,165,233,0.3); color: var(--navy); }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ===== MOCKUP SECTION ===== */
+    .mockup-section { padding: 3rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .mockup-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .mockup-section .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 768px) { .mockup-grid { grid-template-columns: 1fr; } }
+
+    /* Browser Frame Mockup */
+    .browser-frame { background: var(--navy-light); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .browser-frame:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .browser-bar { background: #111827; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #ef4444; }
+    .browser-dots span:nth-child(2) { background: #eab308; }
+    .browser-dots span:nth-child(3) { background: #22c55e; }
+    .browser-url { flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 0.3rem 0.8rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; margin-left: 0.75rem; }
+    .browser-content { padding: 0; min-height: 280px; position: relative; }
+    .mockup-label { position: absolute; bottom: 0.75rem; right: 0.75rem; background: rgba(14,165,233,0.15); color: var(--blue); padding: 0.25rem 0.7rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(14,165,233,0.2); }
+
+    /* ===== MOCKUP CONTENT STYLES ===== */
+    .mock-hero-section { background: linear-gradient(135deg, #0c1426 0%, #0f1d36 100%); padding: 2rem 1.5rem; text-align: center; }
+    .mock-nav { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0 1.5rem; }
+    .mock-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-nav-items { display: flex; gap: 0.75rem; }
+    .mock-nav-items span { font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+    .mock-h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1.1; margin-bottom: 0.5rem; }
+    .mock-h1 .blue { color: var(--blue); }
+    .mock-p { font-size: 0.6rem; color: rgba(255,255,255,0.5); line-height: 1.5; max-width: 300px; margin: 0 auto 1rem; }
+    .mock-btn { display: inline-block; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; }
+    .mock-btn-outline { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.35rem 1rem; border-radius: 6px; font-size: 0.6rem; margin-left: 0.5rem; }
+
+    /* Mock cards */
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1.5rem; }
+    .mock-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 1rem 0.75rem; text-align: center; }
+    .mock-card-icon { width: 28px; height: 28px; background: rgba(14,165,233,0.15); border-radius: 6px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; }
+    .mock-card-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
+    .mock-card h4 { font-size: 0.6rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .mock-card p { font-size: 0.5rem; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+    /* Mock contact form */
+    .mock-contact { padding: 1.5rem; }
+    .mock-contact-header { text-align: center; margin-bottom: 1rem; }
+    .mock-contact-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; margin-bottom: 0.25rem; }
+    .mock-contact-header p { font-size: 0.55rem; color: rgba(255,255,255,0.4); }
+    .mock-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .mock-input { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem; color: rgba(255,255,255,0.3); }
+    .mock-textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem; color: rgba(255,255,255,0.3); width: 100%; height: 50px; margin-bottom: 0.5rem; display: block; }
+    .mock-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.4rem 1.2rem; border-radius: 6px; font-size: 0.6rem; font-weight: 700; width: 100%; }
+
+    /* Mock footer */
+    .mock-footer { background: #050a14; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); }
+    .mock-footer span { font-size: 0.5rem; color: rgba(255,255,255,0.3); }
+
+    /* Mock stats bar */
+    .mock-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 1rem 1.5rem; background: rgba(14,165,233,0.04); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+    .mock-stat { text-align: center; }
+    .mock-stat .number { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--blue); }
+    .mock-stat .label { font-size: 0.45rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Mobile mockup */
+    .phone-frame { width: 220px; margin: 0 auto; background: var(--navy-light); border: 2px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; padding: 0.5rem; }
+    .phone-notch { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 0 auto 0.5rem; }
+    .phone-screen { border-radius: 16px; overflow: hidden; background: #0c1426; }
+    .phone-content { padding: 1rem; text-align: center; }
+    .phone-content .mock-h1 { font-size: 0.9rem; }
+    .phone-content .mock-p { font-size: 0.5rem; }
+    .phone-home-bar { width: 60px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0.5rem auto 0; }
+
+    /* Dashboard mockup styles */
+    .mock-dashboard { padding: 1rem; background: #0c1426; }
+    .mock-dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--glass-border); }
+    .mock-dashboard-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; color: #fff; }
+    .mock-dashboard-user { font-size: 0.5rem; color: rgba(255,255,255,0.4); }
+    .mock-metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+    .mock-metric { background: rgba(14,165,233,0.08); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.6rem; }
+    .mock-metric-label { font-size: 0.45rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+    .mock-metric-value { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; color: var(--blue); }
+    .mock-metric-change { font-size: 0.4rem; color: var(--green); margin-top: 0.2rem; }
+    .mock-chart { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.6rem; height: 50px; display: flex; align-items: flex-end; gap: 0.25rem; justify-content: center; }
+    .mock-chart-bar { flex: 1; background: linear-gradient(180deg, var(--blue), var(--light-blue)); border-radius: 2px; }
+
+    /* Table mockup */
+    .mock-table { padding: 1rem; }
+    .mock-table-header { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 1fr 0.8fr; gap: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    .mock-table-header span { font-size: 0.5rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .mock-table-row { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 1fr 0.8fr; gap: 0.5rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); align-items: center; }
+    .mock-table-cell { font-size: 0.55rem; color: rgba(255,255,255,0.6); }
+    .mock-table-status { font-size: 0.5rem; padding: 0.2rem 0.4rem; border-radius: 3px; background: rgba(0,212,170,0.15); color: var(--green); text-transform: capitalize; }
+    .mock-table-action { font-size: 0.5rem; color: var(--blue); cursor: pointer; }
+
+    /* Pricing tier mockup */
+    .mock-pricing-tiers { padding: 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+    .mock-tier-card { background: rgba(14,165,233,0.05); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.8rem; }
+    .mock-tier-name { font-family: 'Bebas Neue', sans-serif; font-size: 0.7rem; color: #fff; margin-bottom: 0.3rem; }
+    .mock-tier-price { font-size: 0.75rem; color: var(--blue); font-weight: 700; margin-bottom: 0.4rem; }
+    .mock-tier-feature { font-size: 0.5rem; color: rgba(255,255,255,0.5); margin-bottom: 0.2rem; }
+    .mock-tier-check { color: var(--green); }
+    .mock-tier-btn { display: block; width: 100%; background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); padding: 0.3rem; border-radius: 4px; font-size: 0.5rem; font-weight: 700; margin-top: 0.5rem; text-align: center; }
+
+    /* ===== FEATURES SECTION ===== */
+    .features { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .features h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .features .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3.5rem; font-size: 0.95rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 1.75rem; transition: transform 0.3s, border-color 0.3s; }
+    .feature-card:hover { transform: translateY(-3px); border-color: rgba(14,165,233,0.3); }
+    .feature-icon { width: 44px; height: 44px; background: rgba(14,165,233,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* ===== WHAT'S INCLUDED ===== */
+    .included { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .included h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 0.6rem; }
+    .included .subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+    .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .included-grid { grid-template-columns: 1fr; } }
+    .included-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; }
+    .included-check { flex-shrink: 0; width: 22px; height: 22px; background: rgba(0,212,170,0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .included-check svg { width: 14px; height: 14px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+    .included-item span { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+    /* ===== PRICING TEASER ===== */
+    .pricing-teaser { padding: 4rem 2rem; max-width: 700px; margin: 0 auto; text-align: center; }
+    .pricing-card { background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(0,212,170,0.05)); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; padding: 3rem; }
+    .pricing-card .tier { font-size: 0.8rem; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .pricing-card .price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
+    .pricing-card .price span { font-size: 1.2rem; color: rgba(255,255,255,0.4); font-family: 'DM Sans', sans-serif; }
+    .pricing-card .desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section { padding: 5rem 2rem; max-width: 700px; margin: 0 auto; }
+    .cta-card { background: linear-gradient(135deg, rgba(14,165,233,0.06), rgba(0,212,170,0.04)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; }
+    .cta-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .cta-card p { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .cta-form label { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+    .cta-form input, .cta-form textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; font-family: 'DM Sans', sans-serif; width: 100%; transition: border-color 0.2s; }
+    .cta-form input:focus, .cta-form textarea:focus { outline: none; border-color: var(--blue); }
+    .cta-form textarea { height: 80px; resize: vertical; }
+    .cta-submit { background: linear-gradient(135deg, var(--blue), var(--light-blue)); color: var(--navy); border: none; padding: 0.85rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
+    .cta-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(14,165,233,0.3); }
+    .cta-success { display: none; text-align: center; padding: 2rem; }
+    .cta-success h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--green); }
+    .cta-success p { color: rgba(255,255,255,0.5); }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--glass-border); }
+    .footer p { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+    .footer a { color: var(--blue); }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6,11,24,0.98); flex-direction: column; padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
+      .nav-links.open { display: flex; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .mockup-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/services/">All Services</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="#inquiry" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    SaaS Platform
+  </div>
+  <h1>Build and Scale Your<br><span class="accent">Software Product</span></h1>
+  <p>A complete, production-ready SaaS platform with user authentication, subscription billing, admin dashboard, and API integrations. Launch faster. Focus on your product, not the infrastructure.</p>
+  <a href="#inquiry" class="hero-cta">
+    Request a Demo
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ===== MOCKUPS ===== -->
+<section class="mockup-section">
+  <h2>See What You’ll Get</h2>
+  <p class="subtitle">A fully-featured SaaS platform built to scale</p>
+
+  <div class="mockup-grid">
+    <!-- Mockup 1: Dashboard -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">app.yourproduct.com/dashboard</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-dashboard">
+          <div class="mock-dashboard-header">
+            <div class="mock-dashboard-title">Dashboard</div>
+            <div class="mock-dashboard-user">User Settings</div>
+          </div>
+          <div class="mock-metric-grid">
+            <div class="mock-metric">
+              <div class="mock-metric-label">MRR</div>
+              <div class="mock-metric-value">$12.4K</div>
+              <div class="mock-metric-change">+8.2%</div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-metric-label">Active Users</div>
+              <div class="mock-metric-value">284</div>
+              <div class="mock-metric-change">+12</div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-metric-label">Churn Rate</div>
+              <div class="mock-metric-value">2.1%</div>
+              <div class="mock-metric-change">-0.3%</div>
+            </div>
+          </div>
+          <div class="mock-chart">
+            <div class="mock-chart-bar" style="height: 30%;"></div>
+            <div class="mock-chart-bar" style="height: 45%;"></div>
+            <div class="mock-chart-bar" style="height: 55%;"></div>
+            <div class="mock-chart-bar" style="height: 70%;"></div>
+            <div class="mock-chart-bar" style="height: 85%;"></div>
+            <div class="mock-chart-bar" style="height: 65%;"></div>
+            <div class="mock-chart-bar" style="height: 80%;"></div>
+          </div>
+        </div>
+        <span class="mockup-label">Analytics Dashboard</span>
+      </div>
+    </div>
+
+    <!-- Mockup 2: User Management -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">app.yourproduct.com/admin/users</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-table">
+          <div class="mock-table-header">
+            <span>User Name</span>
+            <span>Email</span>
+            <span>Plan</span>
+            <span>Status</span>
+            <span>Action</span>
+          </div>
+          <div class="mock-table-row">
+            <div class="mock-table-cell">Sarah Chen</div>
+            <div class="mock-table-cell">sarah@company.io</div>
+            <div class="mock-table-cell">Pro</div>
+            <div class="mock-table-cell"><span class="mock-table-status">Active</span></div>
+            <div class="mock-table-action">Edit</div>
+          </div>
+          <div class="mock-table-row">
+            <div class="mock-table-cell">James Martinez</div>
+            <div class="mock-table-cell">james@startup.co</div>
+            <div class="mock-table-cell">Enterprise</div>
+            <div class="mock-table-cell"><span class="mock-table-status">Active</span></div>
+            <div class="mock-table-action">Edit</div>
+          </div>
+          <div class="mock-table-row">
+            <div class="mock-table-cell">Emma Wilson</div>
+            <div class="mock-table-cell">emma@business.com</div>
+            <div class="mock-table-cell">Starter</div>
+            <div class="mock-table-cell"><span class="mock-table-status">Active</span></div>
+            <div class="mock-table-action">Edit</div>
+          </div>
+          <div class="mock-table-row">
+            <div class="mock-table-cell">David Lee</div>
+            <div class="mock-table-cell">david@oldacct.net</div>
+            <div class="mock-table-cell">Starter</div>
+            <div class="mock-table-cell"><span class="mock-table-status" style="background: rgba(239,68,68,0.15); color: #ef4444;">Inactive</span></div>
+            <div class="mock-table-action">Edit</div>
+          </div>
+        </div>
+        <span class="mockup-label">User Management</span>
+      </div>
+    </div>
+
+    <!-- Mockup 3: Pricing Plans -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">app.yourproduct.com/pricing</div>
+      </div>
+      <div class="browser-content">
+        <div class="mock-pricing-tiers">
+          <div class="mock-tier-card">
+            <div class="mock-tier-name">Starter</div>
+            <div class="mock-tier-price">$29<span style="font-size:0.5rem;color:rgba(255,255,255,0.4);">/mo</span></div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Up to 100 users</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Basic analytics</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> API access</div>
+            <div class="mock-tier-btn">Select Plan</div>
+          </div>
+          <div class="mock-tier-card" style="border-color: rgba(0,212,170,0.3); background: rgba(0,212,170,0.08);">
+            <div class="mock-tier-name">Pro</div>
+            <div class="mock-tier-price">$99<span style="font-size:0.5rem;color:rgba(255,255,255,0.4);">/mo</span></div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Up to 500 users</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Advanced analytics</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Webhooks &amp; RBAC</div>
+            <div class="mock-tier-btn">Select Plan</div>
+          </div>
+          <div class="mock-tier-card">
+            <div class="mock-tier-name">Enterprise</div>
+            <div class="mock-tier-price">Custom</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Unlimited users</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Custom features</div>
+            <div class="mock-tier-feature"><span class="mock-tier-check">✓</span> Dedicated support</div>
+            <div class="mock-tier-btn">Contact Sales</div>
+          </div>
+        </div>
+        <span class="mockup-label">Pricing &amp; Plans</span>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Mobile View -->
+    <div class="browser-frame" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy-light), #0f1d36);">
+      <div style="padding: 2rem;">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-content">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div style="font-family: 'Bebas Neue'; font-size: 0.7rem; color: var(--blue);">YOUR APP</div>
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                  <div style="width: 14px; height: 1.5px; background: rgba(255,255,255,0.5);"></div>
+                </div>
+              </div>
+              <div class="mock-h1" style="font-size: 0.85rem;">Dashboard<br><span class="blue">Analytics</span></div>
+              <div class="mock-p" style="font-size: 0.45rem; margin-bottom: 0.75rem;">Track your metrics on the go</div>
+              <div style="background: rgba(14,165,233,0.1); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.5rem; margin-top: 0.5rem;">
+                <div style="font-size: 0.45rem; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 0.25rem;">Active Users</div>
+                <div style="font-family: 'Bebas Neue'; font-size: 1rem; color: var(--blue); margin-bottom: 0.25rem;">284</div>
+                <div style="font-size: 0.4rem; color: var(--green);">+12 today</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.4);">Fully responsive dashboard</div>
+      </div>
+      <span class="mockup-label">Mobile Dashboard</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <h2>Built for Scale and Security</h2>
+  <p class="subtitle">Everything you need to run a professional SaaS business</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 11h6"/><path d="M16 15h6"/></svg>
+      </div>
+      <h3>User Authentication &amp; SSO</h3>
+      <p>Secure email/password auth, OAuth integrations, and single sign-on. Multi-factor authentication built in for enterprise users.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/><path d="M12 1v6m0 6v6"/><path d="M4.22 4.22l4.24 4.24m0 5.08l4.24 4.24"/><path d="M1 12h6m6 0h6"/><path d="M4.22 19.78l4.24-4.24m5.08 0l4.24 4.24"/><path d="M19.78 4.22l-4.24 4.24m0 5.08l-4.24 4.24"/></svg>
+      </div>
+      <h3>Subscription Billing (Stripe)</h3>
+      <p>Stripe-powered recurring billing, invoicing, and payment processing. Manage tiers, trials, coupons, and upgrades automatically.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>
+      </div>
+      <h3>Admin Dashboard &amp; Analytics</h3>
+      <p>Real-time metrics, revenue tracking, user insights, and churn analysis. Custom dashboards for different user roles and teams.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>
+      </div>
+      <h3>Role-Based Access Control</h3>
+      <p>Fine-grained permissions system. Assign roles (Admin, Manager, User) with customizable access levels and data visibility.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>API &amp; Webhook Integrations</h3>
+      <p>RESTful API with full documentation. Webhooks for events (user signup, payment, plan change) to power your custom workflows.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="7"/><rect x="14" y="4" width="7" height="7"/><rect x="3" y="15" width="7" height="7"/><rect x="14" y="15" width="7" height="7"/></svg>
+      </div>
+      <h3>Multi-Tenant Architecture</h3>
+      <p>True multi-tenancy with data isolation, custom branding, and tenant-specific configurations. Scale without rebuilding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S INCLUDED ===== -->
+<section class="included">
+  <h2>What’s Included in Your Platform</h2>
+  <p class="subtitle">No hidden costs. No surprises. Everything below comes standard.</p>
+
+  <div class="included-grid">
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Complete user authentication system (email/password + OAuth)</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Stripe subscription billing and recurring payments</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Admin dashboard with analytics and metrics</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>User management interface and profile system</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Role-based access control and permissions</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>RESTful API with complete documentation</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Webhook support for event-driven architecture</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Email notifications and automated workflows</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>Usage analytics and performance monitoring</span>
+    </div>
+    <div class="included-item">
+      <div class="included-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span>30 days of post-launch support and optimization</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING TEASER ===== -->
+<section class="pricing-teaser">
+  <div class="pricing-card">
+    <div class="tier">Starting At</div>
+    <div class="price">$2,499 <span>one-time</span></div>
+    <div class="desc">Complete SaaS platform with all features listed above. Includes 30 days of post-launch support. Custom pricing available for high-volume platforms and enterprise features.</div>
+    <a href="#inquiry" class="hero-cta" style="display: inline-flex;">
+      Schedule Your Platform Demo
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== CTA / INQUIRY FORM ===== -->
+<section class="cta-section" id="inquiry">
+  <div class="cta-card">
+    <h2>Ready to Build Your SaaS?</h2>
+    <p>Tell us about your product vision and we'll create a custom proposal with timeline and pricing — no obligation.</p>
+
+    <form class="cta-form" id="serviceForm" onsubmit="submitServiceForm(event)">
+      <input type="hidden" name="service" value="SaaS Platform">
+      <div>
+        <label>Your Name</label>
+        <input type="text" name="name" id="svcName" required placeholder="John Smith">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" id="svcEmail" required placeholder="john@yourproduct.com">
+      </div>
+      <div>
+        <label>Phone (optional)</label>
+        <input type="tel" name="phone" id="svcPhone" placeholder="(555) 123-4567">
+      </div>
+      <div>
+        <label>Tell us about your product</label>
+        <textarea name="message" id="svcMessage" placeholder="What problem does your SaaS solve? Who are your users? What are your key features?"></textarea>
+      </div>
+      <button type="submit" class="cta-submit" id="svcSubmitBtn">Request Platform Demo</button>
+    </form>
+
+    <div class="cta-success" id="serviceSuccess">
+      <h3>We Got Your Request!</h3>
+      <p>Ryan from Liftori will reach out within 24 hours with a custom SaaS platform proposal and demo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">Liftori</a>. All rights reserved. &nbsp;|&nbsp; <a href="mailto:Sales@liftori.ai">Sales@liftori.ai</a></p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+function submitServiceForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('svcSubmitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var data = {
+    name: document.getElementById('svcName').value,
+    email: document.getElementById('svcEmail').value,
+    phone: document.getElementById('svcPhone').value || '',
+    message: document.getElementById('svcMessage').value,
+    service: 'SaaS Platform'
+  };
+
+  // Send notification to Ryan@Liftori.ai via the welcome-email edge function
+  fetch('https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/welcome-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      email: 'Ryan@Liftori.ai',
+      contact_form: true,
+      from_name: data.name,
+      from_email: data.email,
+      from_phone: data.phone,
+      from_message: '[Service Inquiry: SaaS Platform] ' + data.message
+    })
+  }).then(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).catch(function() {
+    document.getElementById('serviceForm').style.display = 'none';
+    document.getElementById('serviceSuccess').style.display = 'block';
+  }).finally(function() {
+    btn.textContent = 'Request Platform Demo';
+    btn.disabled = false;
+  });
+}
+</script>
+
+</body>
+</html>
