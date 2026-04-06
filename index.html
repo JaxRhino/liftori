@@ -106,17 +106,32 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 16px;
+    margin-top: 0;
+    padding-top: 16px;
+    background: transparent;
+    min-width: 520px;
+    z-index: 200;
+  }
+  .nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 16px;
+  }
+  .nav-dropdown-inner {
     background: rgba(11, 20, 40, 0.97);
     backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px 8px;
-    min-width: 520px;
-    z-index: 200;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
-  .nav-dropdown-wrapper:hover .nav-dropdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .nav-dropdown-wrapper:hover .nav-dropdown { display: block; }
   .nav-dropdown-group { padding: 0 12px; }
   .nav-dropdown-label {
     font-size: 10px;
@@ -1692,26 +1707,28 @@
 <nav>
   <a href="#" class="nav-logo">LIFTORI</a>
   <ul class="nav-links">
-    <li class="nav-dropdown-wrapper"><a href="services.html" class="nav-dropdown-trigger">Services <span class="nav-arrow">&#9662;</span></a>
+    <li class="nav-dropdown-wrapper"><a href="/services/" class="nav-dropdown-trigger">Services <span class="nav-arrow">&#9662;</span></a>
       <div class="nav-dropdown">
-        <div class="nav-dropdown-group">
+          <div class="nav-dropdown-inner">
+            <div class="nav-dropdown-group">
           <div class="nav-dropdown-label">Apps & Platforms</div>
-          <a href="services.html#saas">SaaS Platform</a>
-          <a href="services.html#ecommerce">Online Store</a>
-          <a href="services.html#digital">Digital Product Store</a>
+          <a href="/services/saas-platform.html">SaaS Platform</a>
+          <a href="/services/online-store.html">Online Store</a>
+          <a href="/services/digital-products.html">Digital Product Store</a>
         </div>
         <div class="nav-dropdown-group">
           <div class="nav-dropdown-label">Business Tools</div>
-          <a href="services.html#booking">Booking & Scheduling</a>
-          <a href="services.html#restaurant">Restaurant & Ordering</a>
-          <a href="services.html#ai">AI Chatbot & Assistant</a>
+          <a href="/services/booking.html">Booking & Scheduling</a>
+          <a href="/services/restaurant.html">Restaurant & Ordering</a>
+          <a href="/services/ai-chatbot.html">AI Chatbot & Assistant</a>
         </div>
         <div class="nav-dropdown-group">
           <div class="nav-dropdown-label">Web & Creative</div>
-          <a href="services.html#website">Business Website</a>
-          <a href="services.html#portfolio">Portfolio & Creator Site</a>
-          <a href="services.html#course">Online Course & Membership</a>
-        </div>
+          <a href="/services/business-website.html">Business Website</a>
+          <a href="/services/portfolio.html">Portfolio & Creator Site</a>
+          <a href="/services/online-course.html">Online Course & Membership</a>
+          </div>
+          </div>
       </div>
     </li>
     <li><a href="#pricing">Pricing</a></li>
