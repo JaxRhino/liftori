@@ -111,6 +111,8 @@
     background: transparent;
     min-width: 520px;
     z-index: 200;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
   .nav-dropdown::before {
     content: '';
@@ -426,49 +428,98 @@
   }
 
   /* —— WHAT IS LIFTORI —— */
-    .what-is {
-      padding: 120px 60px;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    .what-is-header { text-align: center; margin-bottom: 64px; }
-    .what-is-header .section-desc { max-width: 680px; margin: 0 auto; }
-    .what-is-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 48px;
-    }
-    .what-is-card {
-      padding: 36px 32px;
-      background: rgba(11, 20, 40, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      transition: border-color 0.3s, background 0.3s, transform 0.3s;
-    }
-    .what-is-card:hover {
-      border-color: rgba(14, 165, 233, 0.4);
-      background: rgba(14, 165, 233, 0.04);
-      transform: translateY(-4px);
-    }
-    .what-is-icon { margin-bottom: 16px; display: block; width: 32px; height: 32px; }
-    .what-is-icon svg { width: 32px; height: 32px; stroke: #0EA5E9; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .what-is-card h3 { font-size: 17px; font-weight: 500; color: var(--white-ice); margin-bottom: 10px; letter-spacing: 0.3px; }
-    .what-is-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-    .what-is-highlight {
-      margin-top: 48px;
-      text-align: center;
-      padding: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(18, 64, 196, 0.08));
-      border: 1px solid rgba(14, 165, 233, 0.15);
-    }
-    .what-is-highlight p { font-size: 17px; color: var(--text); line-height: 1.8; max-width: 780px; margin: 0 auto; }
-    .what-is-highlight strong { color: var(--blue-light); font-weight: 500; }
+  .what-is {
+    padding: 120px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
 
-    /* —— HOW IT WORKS —— */
+  .what-is-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .what-is-header .section-desc {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .what-is-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .what-is-card {
+    padding: 36px 32px;
+    background: rgba(11, 20, 40, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  }
+
+  .what-is-card:hover {
+    border-color: rgba(14, 165, 233, 0.4);
+    background: rgba(14, 165, 233, 0.04);
+    transform: translateY(-4px);
+  }
+
+  .what-is-icon {
+    margin-bottom: 16px;
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+  .what-is-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: #0EA5E9;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .what-is-card h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--white-ice);
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .what-is-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .what-is-highlight {
+    margin-top: 48px;
+    text-align: center;
+    padding: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(18, 64, 196, 0.08));
+    border: 1px solid rgba(14, 165, 233, 0.15);
+  }
+
+  .what-is-highlight p {
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .what-is-highlight strong {
+    color: var(--blue-light);
+    font-weight: 500;
+  }
+
+  /* —— HOW IT WORKS —— */
   .how {
     padding: 120px 60px;
     max-width: 1200px;
@@ -484,7 +535,9 @@
     position: relative;
   }
 
-  .steps::before { display: none; }
+  .steps::before {
+    display: none;
+  }
 
   .step {
     padding: 36px 28px;
@@ -1019,9 +1072,9 @@
     nav { padding: 20px 24px; }
     .nav-links { display: none; }
     .hero { padding: 120px 24px 80px; }
+    .what-is { padding: 80px 24px; }
+    .what-is-grid { grid-template-columns: 1fr; }
     .how { padding: 80px 24px; }
-      .what-is { padding: 80px 24px; }
-      .what-is-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     .steps::before { display: none; }
     .services { padding: 80px 24px; }
@@ -1709,26 +1762,26 @@
   <ul class="nav-links">
     <li class="nav-dropdown-wrapper"><a href="/services/" class="nav-dropdown-trigger">Services <span class="nav-arrow">&#9662;</span></a>
       <div class="nav-dropdown">
-          <div class="nav-dropdown-inner">
-            <div class="nav-dropdown-group">
-          <div class="nav-dropdown-label">Apps & Platforms</div>
-          <a href="/services/saas-platform.html">SaaS Platform</a>
-          <a href="/services/online-store.html">Online Store</a>
-          <a href="/services/digital-products.html">Digital Product Store</a>
-        </div>
-        <div class="nav-dropdown-group">
-          <div class="nav-dropdown-label">Business Tools</div>
-          <a href="/services/booking.html">Booking & Scheduling</a>
-          <a href="/services/restaurant.html">Restaurant & Ordering</a>
-          <a href="/services/ai-chatbot.html">AI Chatbot & Assistant</a>
-        </div>
-        <div class="nav-dropdown-group">
-          <div class="nav-dropdown-label">Web & Creative</div>
-          <a href="/services/business-website.html">Business Website</a>
-          <a href="/services/portfolio.html">Portfolio & Creator Site</a>
-          <a href="/services/online-course.html">Online Course & Membership</a>
+        <div class="nav-dropdown-inner">
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Apps & Platforms</div>
+            <a href="/services/saas-platform.html">SaaS Platform</a>
+            <a href="/services/online-store.html">Online Store</a>
+            <a href="/services/digital-products.html">Digital Product Store</a>
           </div>
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Business Tools</div>
+            <a href="/services/booking.html">Booking & Scheduling</a>
+            <a href="/services/restaurant.html">Restaurant & Ordering</a>
+            <a href="/services/ai-chatbot.html">AI Chatbot & Assistant</a>
           </div>
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Web & Creative</div>
+            <a href="/services/business-website.html">Business Website</a>
+            <a href="/services/portfolio.html">Portfolio & Creator Site</a>
+            <a href="/services/online-course.html">Online Course & Membership</a>
+          </div>
+        </div>
       </div>
     </li>
     <li><a href="#pricing">Pricing</a></li>
@@ -1763,6 +1816,7 @@
     <div class="hero-actions">
       <a href="#pricing" class="btn-primary"><span>Start Building Now</span></a>
       <a href="#how" class="btn-secondary">See How It Works</a>
+
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -1787,52 +1841,52 @@
 </section>
 
     <!-- WHAT IS LIFTORI -->
-  <section class="what-is" id="what-is">
-    <div class="what-is-header reveal">
-      <div class="section-label">More Than a Builder</div>
-      <div class="section-title">YOUR VISION.<br/>OUR SYSTEM.</div>
-      <p class="section-desc">Liftori isn't just a build platform — it's a complete launch system. From the spark of an idea to a live, revenue-ready product, we guide you through every step. Whether you know exactly what you want or need help figuring it out, we meet you where you are.</p>
-    </div>
+<section class="what-is" id="what-is">
+  <div class="what-is-header reveal">
+    <div class="section-label">More Than a Builder</div>
+    <div class="section-title">YOUR VISION.<br/>OUR SYSTEM.</div>
+    <p class="section-desc">Liftori isn't just a build platform — it's a complete launch system. From the spark of an idea to a live, revenue-ready product, we guide you through every step. Whether you know exactly what you want or need help figuring it out, we meet you where you are.</p>
+  </div>
 
-    <div class="what-is-grid">
-      <div class="what-is-card reveal">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4 12.7V17H8v-2.3A7 7 0 0 1 12 2z"/></svg></span>
-        <h3>Nurture Your Vision</h3>
-        <p>Not sure where to start? Our system helps you shape raw ideas into clear, buildable plans. We'll walk you through business planning, audience targeting, and feature mapping so your vision has a solid foundation.</p>
-      </div>
-      <div class="what-is-card reveal" style="transition-delay:0.1s">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
-        <h3>Guided Project Wizard</h3>
-        <p>Our AI-powered wizard walks you through creating your project step by step. Answer simple questions about what you want to build, and we'll handle the technical complexity behind the scenes.</p>
-      </div>
-      <div class="what-is-card reveal" style="transition-delay:0.15s">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v1"/></svg></span>
-        <h3>Business Formation</h3>
-        <p>Need to form a legal business first? Our system walks you through LLC or corporation formation with ZenBusiness — right inside the platform. Some builds may require an EIN or bank account to accept customer payments.</p>
-      </div>
-      <div class="what-is-card reveal" style="transition-delay:0.2s">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
-        <h3>Fast or Full-Scale</h3>
-        <p>Simple builds like landing pages and booking sites can launch in days. More complex platforms — SaaS, marketplaces, AI tools — may take weeks or months. Your timeline, your complexity, your call.</p>
-      </div>
-      <div class="what-is-card reveal" style="transition-delay:0.25s">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></span>
-        <h3>Your Dashboard, Your Projects</h3>
-        <p>Track every milestone from your personal dashboard. Launch one project or ten — manage them all from a single place. Real-time updates, previews, and direct communication with your build team.</p>
-      </div>
-      <div class="what-is-card reveal" style="transition-delay:0.3s">
-        <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-        <h3>Teams &amp; Collaboration</h3>
-        <p>Have a team? Invite them to collaborate on projects together. Flying solo right now? No problem — we help individuals build and grow at their own pace.</p>
-      </div>
+  <div class="what-is-grid">
+    <div class="what-is-card reveal">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4 12.7V17H8v-2.3A7 7 0 0 1 12 2z"/></svg></span>
+      <h3>Nurture Your Vision</h3>
+      <p>Not sure where to start? Our system helps you shape raw ideas into clear, buildable plans. We'll walk you through business planning, audience targeting, and feature mapping so your vision has a solid foundation.</p>
     </div>
-
-    <div class="what-is-highlight reveal">
-      <p><strong>Business Coaching &amp; Mentorship</strong> — Even if it's just you right now, we help you grow into the powerhouse you want to be. Liftori offers coaching and mentorship programs to guide you beyond the build.<br/><br/><strong>Payment plans available</strong> — so your budget never holds your vision back. Get started today and pay as you grow.</p>
+    <div class="what-is-card reveal" style="transition-delay:0.1s">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+      <h3>Guided Project Wizard</h3>
+      <p>Our AI-powered wizard walks you through creating your project step by step. Answer simple questions about what you want to build, and we'll handle the technical complexity behind the scenes.</p>
     </div>
-  </section>
+    <div class="what-is-card reveal" style="transition-delay:0.15s">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v1"/></svg></span>
+      <h3>Business Formation</h3>
+      <p>Need to form a legal business first? Our system walks you through LLC or corporation formation with ZenBusiness — right inside the platform. Some builds may require an EIN or bank account to accept customer payments.</p>
+    </div>
+    <div class="what-is-card reveal" style="transition-delay:0.2s">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+      <h3>Fast or Full-Scale</h3>
+      <p>Simple builds like landing pages and booking sites can launch in days. More complex platforms — SaaS, marketplaces, AI tools — may take weeks or months. Your timeline, your complexity, your call.</p>
+    </div>
+    <div class="what-is-card reveal" style="transition-delay:0.25s">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></span>
+      <h3>Your Dashboard, Your Projects</h3>
+      <p>Track every milestone from your personal dashboard. Launch one project or ten — manage them all from a single place. Real-time updates, previews, and direct communication with your build team.</p>
+    </div>
+    <div class="what-is-card reveal" style="transition-delay:0.3s">
+      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <h3>Teams &amp; Collaboration</h3>
+      <p>Have a team? Invite them to collaborate on projects together. Flying solo right now? No problem — we help individuals build and grow at their own pace.</p>
+    </div>
+  </div>
 
-  <!-- HOW IT WORKS -->
+  <div class="what-is-highlight reveal">
+    <p><strong>Business Coaching &amp; Mentorship</strong> — Even if it's just you right now, we help you grow into the powerhouse you want to be. Liftori offers coaching and mentorship programs to guide you beyond the build.<br/><br/><strong>Payment plans available</strong> — so your budget never holds your vision back. Get started today and pay as you grow.</p>
+  </div>
+</section>
+
+    <!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="how-header reveal">
     <div class="section-label">The Process</div>
@@ -1853,7 +1907,7 @@
     <div class="step reveal" style="transition-delay:0.15s">
       <div class="step-num">03</div>
       <div class="step-title">Describe Your Vision</div>
-      <div class="step-desc">Tell us what you’re building, who it’s for, and how it should work. No tech knowledge required — just your idea.</div>
+      <div class="step-desc">Tell us what you're building, who it's for, and how it should work. No tech knowledge required — just your idea.</div>
     </div>
     <div class="step reveal" style="transition-delay:0.2s">
       <div class="step-num">04</div>
@@ -2022,7 +2076,7 @@
       <div style="max-width: 1100px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 60px;">
           <div style="display: inline-block; padding: 6px 16px; border: 1px solid rgba(0, 212, 170, 0.3); border-radius: 50px; font-size: 13px; color: #00d4aa; letter-spacing: 1px; margin-bottom: 20px;">
-            <span style="margin-right: 8px;"></span>What We Deliver
+            What We Deliver
           </div>
           <h2 style="font-size: 2.2rem; font-weight: 700; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">
             DIGITAL PRODUCTS <span style="color: #00d4aa;">WE BUILD</span>
@@ -2038,7 +2092,7 @@
           <!-- Card 1: Business Website -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">WEBSITE</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Business Website</h3>
@@ -2058,7 +2112,7 @@
           <!-- Card 2: E-Commerce Store -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">E-COMMERCE</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Online Store</h3>
@@ -2078,7 +2132,7 @@
           <!-- Card 3: SaaS / Web App -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">SAAS / WEB APP</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">SaaS Platform</h3>
@@ -2098,7 +2152,7 @@
           <!-- Card 4: Booking / Scheduling App -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">BOOKING APP</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Booking &amp; Scheduling</h3>
@@ -2118,7 +2172,7 @@
           <!-- Card 5: Course / Membership Platform -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">COURSE PLATFORM</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Online Course &amp; Membership</h3>
@@ -2138,7 +2192,7 @@
           <!-- Card 6: Digital Product Store -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">DIGITAL PRODUCTS</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Digital Product Store</h3>
@@ -2158,7 +2212,7 @@
           <!-- Card 7: AI Chatbot / Assistant -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="9.5" cy="16" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="9" cy="13" r="1" fill="#00d4aa"/><circle cx="15" cy="13" r="1" fill="#00d4aa"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">AI TOOL</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">AI Chatbot &amp; Assistant</h3>
@@ -2178,7 +2232,7 @@
           <!-- Card 8: Restaurant / Food Ordering -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l1.578 17.824a2 2 0 0 0 1.99 1.776h10.864a2 2 0 0 0 1.99-1.776L21 2"/><path d="M3 2h18"/><path d="M7 8h10"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">FOOD & ORDERING</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Restaurant &amp; Ordering System</h3>
@@ -2198,7 +2252,7 @@
           <!-- Card 9: Portfolio / Creator Site -->
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 2rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="#00d4aa"/><circle cx="17.5" cy="10.5" r="0.5" fill="#00d4aa"/><circle cx="8.5" cy="7.5" r="0.5" fill="#00d4aa"/><circle cx="6.5" cy="12.5" r="0.5" fill="#00d4aa"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.64 1.5-1.5 0-.4-.13-.76-.38-1.07-.25-.3-.38-.67-.38-1.07 0-.83.67-1.5 1.5-1.5H16a8 8 0 0 0 8-8c0-4.42-4.03-6.86-12-6.86z"/></svg></span>
+              <span style="font-size: 2rem; color: #00d4aa;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
               <span style="background: rgba(0,212,170,0.1); color: #00d4aa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">PORTFOLIO</span>
             </div>
             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Portfolio &amp; Creator Site</h3>
@@ -2245,11 +2299,11 @@
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Single-page site or landing page</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI-assisted design & copy</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Mobile-responsive build</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Contact form or waitlist setup</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Source code delivered</li>
+          <li>✓ Single-page site or landing page</li>
+          <li>✓ AI-assisted design & copy</li>
+          <li>✓ Mobile-responsive build</li>
+          <li>✓ Contact form or waitlist setup</li>
+          <li>✓ Source code delivered</li>
           <li>– Custom features</li>
           <li>– Ongoing support</li>
           <li>– Hosting included</li>
@@ -2269,12 +2323,12 @@
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Multi-page site or web app</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI onboarding wizard</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Full project brief + build plan</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Custom design & development</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Complete source code delivered</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI launch kit included</li>
+          <li>✓ Multi-page site or web app</li>
+          <li>✓ AI onboarding wizard</li>
+          <li>✓ Full project brief + build plan</li>
+          <li>✓ Custom design & development</li>
+          <li>✓ Complete source code delivered</li>
+          <li>✓ AI launch kit included</li>
           <li>– Hosting & maintenance</li>
           <li>– Ongoing support</li>
         </ul>
@@ -2292,11 +2346,11 @@
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI onboarding wizard</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Full project brief + build plan</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Custom design & development</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Complete source code delivered</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI launch kit included</li>
+          <li>✓ AI onboarding wizard</li>
+          <li>✓ Full project brief + build plan</li>
+          <li>✓ Custom design & development</li>
+          <li>✓ Complete source code delivered</li>
+          <li>✓ AI launch kit included</li>
           <li>– Hosting & maintenance</li>
           <li>– Ongoing support</li>
           <li>– AI feature integration</li>
@@ -2315,12 +2369,12 @@
           <div class="price-note">+ $500–$2,000 / month</div>
         </div>
         <ul class="price-features">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Everything in Starter</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Managed hosting & deployment</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> 3 months of updates & bug fixes</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Email & chat support</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Monthly performance report</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI feature add-ons available</li>
+          <li>✓ Everything in Starter</li>
+          <li>✓ Managed hosting & deployment</li>
+          <li>✓ 3 months of updates & bug fixes</li>
+          <li>✓ Email & chat support</li>
+          <li>✓ Monthly performance report</li>
+          <li>✓ AI feature add-ons available</li>
           <li>– Dedicated account manager</li>
           <li>– Priority build queue</li>
         </ul>
@@ -2338,14 +2392,14 @@
           <div class="price-note">+ $2,000–$5,000 / month</div>
         </div>
         <ul class="price-features">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Everything in Growth</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Ongoing updates & enhancements</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> AI features fully integrated</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Dedicated account manager</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Priority build queue</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Phone + priority support</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> Quarterly strategy sessions</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg> White-label option available</li>
+          <li>✓ Everything in Growth</li>
+          <li>✓ Ongoing updates & enhancements</li>
+          <li>✓ AI features fully integrated</li>
+          <li>✓ Dedicated account manager</li>
+          <li>✓ Priority build queue</li>
+          <li>✓ Phone + priority support</li>
+          <li>✓ Quarterly strategy sessions</li>
+          <li>✓ White-label option available</li>
         </ul>
         <a href="#" class="price-cta">Get Started</a>
       </div>
@@ -2391,19 +2445,19 @@
     <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
 
       <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
         <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Full E-Commerce Store</h3>
         <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">Product catalog, shopping cart, customer reviews, FAQ page, contact forms &mdash; the complete package, branded and live.</p>
       </div>
 
       <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;"></div>
+        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
         <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Admin Dashboard</h3>
         <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">Product management, order tracking, customer messages, review moderation, subscriber lists, and store settings &mdash; all in one panel.</p>
       </div>
 
       <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Delivered in &lt; 1 Hour</h3>
         <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">From idea to live deployment. 8 custom pages, Supabase backend, Vercel hosting, and a branded admin panel &mdash; all built and shipped in a single session.</p>
       </div>
@@ -2581,7 +2635,7 @@
       <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.4), transparent);"></div>
       <div style="max-width: 600px; margin: 0 auto; position: relative; z-index: 1;">
         <div style="display: inline-block; padding: 6px 16px; border: 1px solid rgba(0, 212, 170, 0.3); border-radius: 50px; font-size: 13px; color: #00d4aa; letter-spacing: 1px; margin-bottom: 24px;">
-          <span style="margin-right: 8px;"></span>Partner Program
+          Partner Program
         </div>
         <h2 style="font-size: 2.2rem; font-weight: 700; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">
           BECOME AN <span style="color: #00d4aa;">AFFILIATE</span>
@@ -2624,7 +2678,7 @@
         <!-- Success State (hidden by default) -->
         <div id="affiliateSuccess" style="display: none;">
           <div style="background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.3); border-radius: 12px; padding: 32px 24px; margin-bottom: 20px;">
-            <div style="font-size: 2.5rem; margin-bottom: 12px;"></div>
+            <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6"/><path d="M4 11l2-2"/><path d="M2 13l2-2"/><path d="M13 4l-2 2"/><path d="M11 2l-2 2"/><path d="M22 22L12 12"/><path d="M16 8l2-2 4 4-2 2"/><path d="M8 16l-2 2-4-4 2-2"/></svg></div>
             <h3 style="color: #00d4aa; font-size: 1.3rem; margin-bottom: 8px;">You're In!</h3>
             <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 20px;">Here's your unique affiliate code:</p>
             <div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
@@ -2749,11 +2803,11 @@
     if (e.key === 'Escape') closeModal();
   });
 
-  // Wire ALL CTA buttons to open the modal
+  // Wire ALL CTA buttons to the onboarding wizard
   document.querySelectorAll('.nav-cta, .btn-primary, .price-cta').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openModal();
+      window.location.href = 'https://admin.liftori.ai/onboard';
     });
   });
 
@@ -3063,7 +3117,7 @@
       <button type="submit" id="contactSubmitBtn" style="width:100%;padding:0.85rem;border:none;border-radius:8px;background:linear-gradient(135deg,#0EA5E9,#7DD3FC);color:#060B18;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:transform 0.2s;">Send Message</button>
     </form>
     <div id="contactSuccess" style="display:none;text-align:center;padding:2rem 0;">
-      <div style="font-size:3rem;margin-bottom:1rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></div>
+      <div style="margin-bottom:1rem;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#0EA5E9;">Message Sent!</h3>
       <p style="color:#94a3b8;">We'll get back to you shortly at the email you provided.</p>
     </div>
@@ -3174,7 +3228,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
     <div class="wb-modal">
       <button class="wb-close" onclick="wbClose()">&times;</button>
       <div id="wb-main">
-        <div class="wb-badge"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Website Builder</div>
+        <div class="wb-badge">Website Builder</div>
         <div class="wb-title">BUILD YOUR WEBSITE</div>
         <div class="wb-subtitle">Tell us about your project &mdash; we&rsquo;ll handle the design, build, and launch.</div>
         <div class="wb-progress">
@@ -3214,27 +3268,27 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
           <h3>What kind of website do you need?</h3>
           <div class="wb-cards">
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Business Website">
-              <div class="wb-card-icon"></div>
+              <div class="wb-card-icon">&#9634;</div>
               <div class="wb-card-label">Business Website</div>
             </div>
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Online Store">
-              <div class="wb-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+              <div class="wb-card-icon">&#9633;</div>
               <div class="wb-card-label">Online Store</div>
             </div>
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Portfolio">
-              <div class="wb-card-icon"></div>
+              <div class="wb-card-icon">&#9670;</div>
               <div class="wb-card-label">Portfolio / Showcase</div>
             </div>
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Blog / Content">
-              <div class="wb-card-icon"></div>
+              <div class="wb-card-icon">&#9998;</div>
               <div class="wb-card-label">Blog / Content</div>
             </div>
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Restaurant / Hospitality">
-              <div class="wb-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg></div>
+              <div class="wb-card-icon">&#9733;</div>
               <div class="wb-card-label">Restaurant / Hospitality</div>
             </div>
             <div class="wb-card" onclick="wbCard(this,'wb-type')" data-val="Booking / Appointments">
-              <div class="wb-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></div>
+              <div class="wb-card-icon">&#9673;</div>
               <div class="wb-card-label">Booking / Appointments</div>
             </div>
           </div>
@@ -3321,23 +3375,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
                 <div class="wb-card-label">Minimal / Clean</div>
               </div>
               <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Bold / Modern">
-                <div class="wb-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                <div class="wb-card-icon">&#9889;</div>
                 <div class="wb-card-label">Bold / Modern</div>
               </div>
               <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Corporate / Professional">
-                <div class="wb-card-icon"></div>
+                <div class="wb-card-icon">&#9674;</div>
                 <div class="wb-card-label">Corporate / Professional</div>
               </div>
               <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Creative / Artistic">
-                <div class="wb-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="#00d4aa"/><circle cx="17.5" cy="10.5" r="0.5" fill="#00d4aa"/><circle cx="8.5" cy="7.5" r="0.5" fill="#00d4aa"/><circle cx="6.5" cy="12.5" r="0.5" fill="#00d4aa"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.64 1.5-1.5 0-.4-.13-.76-.38-1.07-.25-.3-.38-.67-.38-1.07 0-.83.67-1.5 1.5-1.5H16a8 8 0 0 0 8-8c0-4.42-4.03-6.86-12-6.86z"/></svg></div>
+                <div class="wb-card-icon">&#10047;</div>
                 <div class="wb-card-label">Creative / Artistic</div>
               </div>
               <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Warm / Friendly">
-                <div class="wb-card-icon"></div>
+                <div class="wb-card-icon">&#10036;</div>
                 <div class="wb-card-label">Warm / Friendly</div>
               </div>
               <div class="wb-card" onclick="wbCard(this,'wb-style')" data-val="Luxurious / Premium">
-                <div class="wb-card-icon"></div>
+                <div class="wb-card-icon">&#10022;</div>
                 <div class="wb-card-label">Luxurious / Premium</div>
               </div>
             </div>
@@ -3393,7 +3447,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
           <div class="wb-nav">
             <button class="wb-btn-back" onclick="wbBack(5)">&#8592; Back</button>
             <span class="wb-nav-step">6 / 6</span>
-            <button class="wb-btn-next" id="wb-sub-btn" onclick="wbSubmit()"> Submit My Project</button>
+            <button class="wb-btn-next" id="wb-sub-btn" onclick="wbSubmit()">Submit My Project</button>
           </div>
         </div>
       </div>
@@ -3401,7 +3455,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeContac
       <!-- Success state -->
       <div id="wb-done" style="display:none;">
         <div class="wb-success-wrap">
-          <div class="wb-success-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="wb-success-icon" style="font-size:3rem; color:#00d4aa;">&#10003;</div>
           <h3>YOU&rsquo;RE IN THE QUEUE!</h3>
           <p>Your website brief has been received. Our team will review it and reach out within <strong style="color:#e0f7ff">24 hours</strong> to schedule your kickoff call.</p>
           <p style="margin-top:12px; color: #10b981; font-weight:600;">Check your email for confirmation.</p>
