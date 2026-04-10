@@ -161,6 +161,230 @@
     color: var(--blue-light) !important;
   }
 
+  /* —— LABOS TOP BANNER —— */
+  .labos-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: linear-gradient(90deg, #00d4aa, #0EA5E9, #00d4aa);
+    background-size: 200% 100%;
+    animation: banner-shimmer 4s ease-in-out infinite;
+    padding: 10px 20px;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #060B18;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: opacity 0.3s;
+  }
+  .labos-banner:hover { opacity: 0.92; }
+  .labos-banner .banner-close {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.15);
+    border: none;
+    color: #060B18;
+    font-size: 18px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  @keyframes banner-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Shift nav and hero down for banner */
+  body.has-banner nav { top: 40px; }
+  body.has-banner .hero { padding-top: 160px; }
+
+  /* —— LABOS MODAL —— */
+  .labos-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(6, 11, 24, 0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .labos-modal-overlay.active { display: flex; }
+  .labos-modal {
+    background: linear-gradient(180deg, #0B1428 0%, #060B18 100%);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    border-radius: 20px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 48px 40px;
+    position: relative;
+  }
+  .labos-modal::-webkit-scrollbar { width: 6px; }
+  .labos-modal::-webkit-scrollbar-track { background: transparent; }
+  .labos-modal::-webkit-scrollbar-thumb { background: rgba(0,212,170,0.3); border-radius: 3px; }
+  .labos-modal .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 28px;
+    cursor: pointer;
+  }
+  .labos-modal h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 8px;
+    background: linear-gradient(180deg, #E0F7FF, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .labos-modal .modal-sub {
+    text-align: center;
+    color: #7DD3FC;
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  .labos-modal label {
+    display: block;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .labos-modal input,
+  .labos-modal select,
+  .labos-modal textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,212,170,0.25);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  .labos-modal input:focus,
+  .labos-modal select:focus,
+  .labos-modal textarea:focus { border-color: #00d4aa; }
+  .labos-modal textarea { resize: vertical; min-height: 80px; }
+  .labos-modal select option { background: #0B1428; color: #fff; }
+  .labos-modal .dept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .labos-modal .dept-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(14,165,233,0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #7DD3FC;
+    margin-bottom: 0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .labos-modal .dept-grid label:hover { border-color: rgba(0,212,170,0.4); background: rgba(0,212,170,0.05); }
+  .labos-modal .dept-grid input[type="checkbox"] { width: auto; margin-bottom: 0; accent-color: #00d4aa; }
+  .labos-modal .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .labos-modal .tier-row label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(14,165,233,0.15);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .labos-modal .tier-row label:hover { border-color: rgba(0,212,170,0.4); }
+  .labos-modal .tier-row input[type="radio"] { display: none; }
+  .labos-modal .tier-row input[type="radio"]:checked + .tier-info { color: #00d4aa; }
+  .labos-modal .tier-row label:has(input:checked) { border-color: #00d4aa; background: rgba(0,212,170,0.08); }
+  .labos-modal .tier-info .tier-name { font-weight: 600; font-size: 0.85rem; color: #E0F7FF; }
+  .labos-modal .tier-info .tier-price { font-size: 0.75rem; color: #7DD3FC; margin-top: 2px; }
+  .labos-modal .labos-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #00d4aa, #0EA5E9);
+    color: #060B18;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .labos-modal .labos-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,170,0.3); }
+  .labos-modal .labos-error {
+    color: #ff6b6b;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    display: none;
+  }
+  .labos-modal .labos-success {
+    text-align: center;
+    display: none;
+  }
+  .labos-modal .labos-success.show { display: block; }
+  .labos-modal .labos-success h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: #00d4aa;
+    -webkit-text-fill-color: #00d4aa;
+    margin-bottom: 12px;
+  }
+  .labos-modal .labos-success p { color: #7DD3FC; font-size: 0.95rem; line-height: 1.6; }
+
+  @media (max-width: 768px) {
+    .labos-banner { font-size: 12px; padding: 8px 40px 8px 20px; }
+    body.has-banner nav { top: 36px; }
+    body.has-banner .hero { padding-top: 156px; }
+    .labos-modal { padding: 36px 24px; }
+    .labos-modal .dept-grid { grid-template-columns: 1fr; }
+    .labos-modal .tier-row { grid-template-columns: 1fr 1fr; }
+  }
+
   /* —— HERO —— */
   .hero {
     position: relative;
@@ -1762,6 +1986,30 @@
 <body>
 
 <!-- NAV -->
+<!-- LABOS TOP BANNER -->
+<div class="labos-banner" id="labosBanner" onclick="document.getElementById('labos').scrollIntoView({behavior:'smooth'})">
+  <span style="font-size: 16px;">&#x1F680;</span>
+  <span><strong>NEW:</strong> Liftori AI Business Operating System &mdash; One platform for every department. AI-powered.</span>
+  <span style="text-decoration: underline; margin-left: 4px;">Learn More &rarr;</span>
+  <button class="banner-close" onclick="event.stopPropagation();closeBanner()" aria-label="Close">&times;</button>
+</div>
+
+<script>
+  // Add banner class to body on load
+  document.body.classList.add('has-banner');
+  function closeBanner() {
+    document.getElementById('labosBanner').style.display = 'none';
+    document.body.classList.remove('has-banner');
+    sessionStorage.setItem('labos-banner-closed', '1');
+  }
+  if (sessionStorage.getItem('labos-banner-closed') === '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('labosBanner').style.display = 'none';
+      document.body.classList.remove('has-banner');
+    });
+  }
+</script>
+
 <nav>
   <a href="#" class="nav-logo">LIFTORI</a>
   <ul class="nav-links">
@@ -2541,7 +2789,7 @@
     <!-- CTA -->
     <div class="reveal" style="margin-top: 16px;">
       <p style="color: #E0F7FF; font-size: 1.15rem; margin-bottom: 24px; font-weight: 500;">Be first to access the most complete business operating system ever built.</p>
-      <button class="btn-primary" onclick="openModal()" style="font-size: 1.15rem; padding: 18px 48px; cursor: pointer; background: linear-gradient(135deg, #00d4aa, #0EA5E9); border: none; border-radius: 12px; color: #060B18; font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 0 30px rgba(0,212,170,0.3);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 50px rgba(0,212,170,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 30px rgba(0,212,170,0.3)'">
+      <button class="btn-primary" onclick="openLabosModal()" style="font-size: 1.15rem; padding: 18px 48px; cursor: pointer; background: linear-gradient(135deg, #00d4aa, #0EA5E9); border: none; border-radius: 12px; color: #060B18; font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 0 30px rgba(0,212,170,0.3);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 50px rgba(0,212,170,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 30px rgba(0,212,170,0.3)'">
         Get Early Access &rarr;
       </button>
       <p style="color: rgba(125,211,252,0.5); font-size: 0.8rem; margin-top: 14px;">Launching soon. Early access members get priority onboarding + locked-in pricing.</p>
@@ -2849,6 +3097,103 @@
       </div>
       <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.4), transparent);"></div>
     </div>
+<!-- LABOS SIGNUP MODAL -->
+<div class="labos-modal-overlay" id="labosModal">
+  <div class="labos-modal">
+    <button class="modal-close" onclick="closeLabosModal()">&times;</button>
+
+    <div id="labosFormContainer">
+      <h2>LABOS EARLY ACCESS</h2>
+      <p class="modal-sub">Join the waitlist for the most complete AI business operating system ever built. Tell us about your business so we can tailor your experience.</p>
+
+      <form id="labosSignupForm">
+        <label>Full Name *</label>
+        <input type="text" name="full_name" placeholder="Your full name" required />
+
+        <label>Email *</label>
+        <input type="email" name="email" placeholder="you@company.com" required />
+
+        <label>Phone</label>
+        <input type="tel" name="phone" placeholder="(555) 123-4567" />
+
+        <label>Company Name</label>
+        <input type="text" name="company_name" placeholder="Your company or business name" />
+
+        <label>Company Size</label>
+        <select name="company_size">
+          <option value="">How big is your team?</option>
+          <option value="1-5">1-5 people</option>
+          <option value="6-25">6-25 people</option>
+          <option value="26-75">26-75 people</option>
+          <option value="76-200">76-200 people</option>
+          <option value="200+">200+ people</option>
+        </select>
+
+        <label>What tools do you currently use?</label>
+        <input type="text" name="current_tools" placeholder="e.g., HubSpot, Slack, Zoom, Monday, Salesforce..." />
+
+        <label>Which departments do you need?</label>
+        <div class="dept-grid">
+          <label><input type="checkbox" name="departments" value="crm" /> Sales CRM</label>
+          <label><input type="checkbox" name="departments" value="chat" /> Team Chat</label>
+          <label><input type="checkbox" name="departments" value="video" /> Video Calls</label>
+          <label><input type="checkbox" name="departments" value="marketing" /> Marketing</label>
+          <label><input type="checkbox" name="departments" value="hr" /> HR &amp; Hiring</label>
+          <label><input type="checkbox" name="departments" value="finance" /> Finance</label>
+          <label><input type="checkbox" name="departments" value="call_center" /> Call Center</label>
+          <label><input type="checkbox" name="departments" value="ai_departments" /> AI Departments</label>
+          <label><input type="checkbox" name="departments" value="eos" /> EOS Tools</label>
+          <label><input type="checkbox" name="departments" value="operations" /> Operations</label>
+        </div>
+
+        <label>Interested Tier</label>
+        <div class="tier-row">
+          <label>
+            <input type="radio" name="interest_tier" value="starter" />
+            <span class="tier-info">
+              <span class="tier-name">Starter</span>
+              <span class="tier-price">$49/mo</span>
+            </span>
+          </label>
+          <label>
+            <input type="radio" name="interest_tier" value="growth" />
+            <span class="tier-info">
+              <span class="tier-name">Growth</span>
+              <span class="tier-price">$149/mo</span>
+            </span>
+          </label>
+          <label>
+            <input type="radio" name="interest_tier" value="business" />
+            <span class="tier-info">
+              <span class="tier-name">Business</span>
+              <span class="tier-price">$299/mo</span>
+            </span>
+          </label>
+          <label>
+            <input type="radio" name="interest_tier" value="enterprise" />
+            <span class="tier-info">
+              <span class="tier-name">Enterprise</span>
+              <span class="tier-price">$499/mo</span>
+            </span>
+          </label>
+        </div>
+
+        <label>What&#39;s your biggest pain point right now?</label>
+        <textarea name="biggest_pain" placeholder="e.g., We're paying for 6 different tools that don't talk to each other, our team wastes hours switching between apps..."></textarea>
+
+        <button type="submit" class="labos-submit">Get Early Access &#x2192;</button>
+      </form>
+      <div class="labos-error" id="labosError"></div>
+    </div>
+
+    <div class="labos-success" id="labosSuccess">
+      <div style="font-size: 48px; margin-bottom: 16px;">&#x1F389;</div>
+      <h3>YOU'RE ON THE LIST</h3>
+      <p>We'll reach out with early access details and locked-in pricing before anyone else. Welcome to the future of business operations.</p>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div>
@@ -3235,6 +3580,99 @@
       btn.disabled = false;
       btn.textContent = 'GET MY AFFILIATE CODE';
     }
+
+    // —— LABOS MODAL LOGIC ——
+    function openLabosModal() {
+      document.getElementById('labosModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLabosModal() {
+      document.getElementById('labosModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('labosModal').addEventListener('click', function(e) {
+      if (e.target === this) closeLabosModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('labosModal').classList.contains('active')) closeLabosModal();
+    });
+
+    document.getElementById('labosSignupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const errEl = document.getElementById('labosError');
+      const btn = form.querySelector('.labos-submit');
+      errEl.style.display = 'none';
+      errEl.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const fd = new FormData(form);
+
+      // Gather checked departments
+      const depts = [];
+      form.querySelectorAll('input[name="departments"]:checked').forEach(function(cb) {
+        depts.push(cb.value);
+      });
+
+      const data = {
+        full_name: fd.get('full_name'),
+        email: fd.get('email'),
+        phone: fd.get('phone') || null,
+        company_name: fd.get('company_name') || null,
+        company_size: fd.get('company_size') || null,
+        current_tools: fd.get('current_tools') || null,
+        departments_needed: depts.length > 0 ? depts : null,
+        interest_tier: fd.get('interest_tier') || null,
+        biggest_pain: fd.get('biggest_pain') || null,
+        referral_code: REF_CODE || null,
+        status: 'new'
+      };
+
+      try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/labos_signups', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) {
+          if (res.status === 409) {
+            // Already signed up — show success
+            document.getElementById('labosFormContainer').style.display = 'none';
+            document.getElementById('labosSuccess').classList.add('show');
+            return;
+          }
+          const errData = await res.json().catch(function() { return {}; });
+          throw new Error(errData.message || 'Signup failed. Please try again.');
+        }
+
+        // Notify admin team (non-blocking)
+        fetch(SUPABASE_URL + '/functions/v1/waitlist-notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            full_name: data.full_name || '',
+            email: data.email || '',
+            build_idea: 'LABOS signup - ' + (data.company_name || 'Unknown company') + ' (' + (data.company_size || '?') + ' people) - Tier: ' + (data.interest_tier || 'undecided'),
+            referral_code: REF_CODE || ''
+          })
+        }).catch(function() {});
+
+        document.getElementById('labosFormContainer').style.display = 'none';
+        document.getElementById('labosSuccess').classList.add('show');
+      } catch (err) {
+        errEl.textContent = err.message || 'Something went wrong. Please try again.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Get Early Access \u2192';
+      }
+    });
 </script>
 
 
