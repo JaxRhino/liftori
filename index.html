@@ -376,6 +376,12 @@
   }
   .labos-modal .labos-success p { color: #7DD3FC; font-size: 0.95rem; line-height: 1.6; }
 
+  /* Builds section 2-col → 1-col on mobile */
+  .builds-grid { gap: 40px; }
+  @media (max-width: 900px) {
+    .builds-grid { grid-template-columns: 1fr !important; }
+  }
+
   @media (max-width: 768px) {
     .labos-banner { font-size: 12px; padding: 8px 40px 8px 20px; }
     body.has-banner nav { top: 36px; }
@@ -2013,186 +2019,106 @@
 <nav>
   <a href="#" class="nav-logo">LIFTORI</a>
   <ul class="nav-links">
-    <li class="nav-dropdown-wrapper"><a href="/services/" class="nav-dropdown-trigger">Services <span class="nav-arrow">&#9662;</span></a>
-      <div class="nav-dropdown">
-        <div class="nav-dropdown-inner">
-          <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Apps & Platforms</div>
-            <a href="/services/saas-platform.html">SaaS Platform</a>
-            <a href="/services/online-store.html">Online Store</a>
-            <a href="/services/digital-products.html">Digital Product Store</a>
-          </div>
-          <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Business Tools</div>
-            <a href="/services/booking.html">Booking & Scheduling</a>
-            <a href="/services/restaurant.html">Restaurant & Ordering</a>
-            <a href="/services/ai-chatbot.html">AI Chatbot & Assistant</a>
-          </div>
-          <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Web & Creative</div>
-            <a href="/services/business-website.html">Business Website</a>
-            <a href="/services/portfolio.html">Portfolio & Creator Site</a>
-            <a href="/services/online-course.html">Online Course & Membership</a>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#solutions">Solutions</a></li>
     <li><a href="#labos" style="color: #00d4aa; font-weight: 600;">Business OS</a></li>
+    <li><a href="#builds">Custom Builds</a></li>
+    <li><a href="#consulting">Consulting</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="#" class="nav-login" onclick="loginOpen();return false;">Login</a></li>
-    <li><a href="#pricing" class="nav-cta">Get Started</a></li>
+    <li><a href="#" class="nav-cta" onclick="openTriageModal();return false;">Get Started</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — Router Pattern -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
     <div class="hero-video-col">
       <div class="hero-video-wrapper" id="heroVideoBox">
-            <iframe width="100%" height="100%" src="https://app.heygen.com/embeds/bf675e59617c487b930e90812c1fc8ba" title="HeyGen video player" frameborder="0" allow="encrypted-media; fullscreen;" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 16px;"></iframe>
-          </div>
+        <iframe width="100%" height="100%" src="https://app.heygen.com/embeds/bf675e59617c487b930e90812c1fc8ba" title="HeyGen video player" frameborder="0" allow="encrypted-media; fullscreen;" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 16px;"></iframe>
+      </div>
     </div>
     <div class="hero-content-col">
-    <div class="hero-badge">
-      <span></span>
-      AI-Powered App & Platform Builder
-    </div>
-    <h1 class="hero-title">
-      <span class="line1">LIFT YOUR</span>
-      <span class="line2">IDEA</span>
-    </h1>
-    <p class="hero-sub">
-      You have the vision. We have the engine.<br/>
-      <strong>Tell us what you want to build.</strong> We design it, build it, launch it — and keep it running. No tech skills needed. No excuses.
-    </p>
-    <div class="hero-actions">
-      <a href="#pricing" class="btn-primary"><span>Start Building Now</span></a>
-      <a href="#how" class="btn-secondary">See How It Works</a>
-
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">48HR</div>
-        <div class="stat-label">Avg. Kickoff Time</div>
+      <div class="hero-badge">
+        <span></span>
+        AI-Powered Business Solutions
       </div>
-      <div class="stat">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">AI-Assisted Build</div>
+      <h1 class="hero-title">
+        <span class="line1">YOUR BUSINESS.</span>
+        <span class="line2">ELEVATED.</span>
+      </h1>
+      <p class="hero-sub">
+        Run your entire company on AI. Build custom digital products. Get expert consulting to scale.<br/>
+        <strong>Three paths. One platform. Zero limits.</strong>
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" onclick="openTriageModal();return false;"><span>Get Started</span></a>
+        <a href="#solutions" class="btn-secondary">Explore Solutions</a>
       </div>
-      <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Service Tiers</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Ideas Possible</div>
-      </div>
-    </div>
-      </div>
-  </div>
-</section>
-
-    <!-- WHAT IS LIFTORI -->
-<section class="what-is" id="what-is">
-  <div class="what-is-header reveal">
-    <div class="section-label">More Than a Builder</div>
-    <div class="section-title">YOUR VISION.<br/>OUR SYSTEM.</div>
-    <p class="section-desc">Liftori isn't just a build platform — it's a complete launch system. From the spark of an idea to a live, revenue-ready product, we guide you through every step. Whether you know exactly what you want or need help figuring it out, we meet you where you are.</p>
-  </div>
-
-  <div class="what-is-grid">
-    <div class="what-is-card reveal">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4 12.7V17H8v-2.3A7 7 0 0 1 12 2z"/></svg></span>
-      <h3>Nurture Your Vision</h3>
-      <p>Not sure where to start? Our system helps you shape raw ideas into clear, buildable plans. We'll walk you through business planning, audience targeting, and feature mapping so your vision has a solid foundation.</p>
-    </div>
-    <div class="what-is-card reveal" style="transition-delay:0.1s">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
-      <h3>Guided Project Wizard</h3>
-      <p>Our AI-powered wizard walks you through creating your project step by step. Answer simple questions about what you want to build, and we'll handle the technical complexity behind the scenes.</p>
-    </div>
-    <div class="what-is-card reveal" style="transition-delay:0.15s">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v1"/></svg></span>
-      <h3>Business Formation</h3>
-      <p>Need to form a legal business first? Our system walks you through LLC or corporation formation with ZenBusiness — right inside the platform. Some builds may require an EIN or bank account to accept customer payments.</p>
-    </div>
-    <div class="what-is-card reveal" style="transition-delay:0.2s">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
-      <h3>Fast or Full-Scale</h3>
-      <p>Simple builds like landing pages and booking sites can launch in days. More complex platforms — SaaS, marketplaces, AI tools — may take weeks or months. Your timeline, your complexity, your call.</p>
-    </div>
-    <div class="what-is-card reveal" style="transition-delay:0.25s">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></span>
-      <h3>Your Dashboard, Your Projects</h3>
-      <p>Track every milestone from your personal dashboard. Launch one project or ten — manage them all from a single place. Real-time updates, previews, and direct communication with your build team.</p>
-    </div>
-    <div class="what-is-card reveal" style="transition-delay:0.3s">
-      <span class="what-is-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-      <h3>Teams &amp; Collaboration</h3>
-      <p>Have a team? Invite them to collaborate on projects together. Flying solo right now? No problem — we help individuals build and grow at their own pace.</p>
-    </div>
-  </div>
-
-  <div class="what-is-highlight reveal">
-    <p><strong>Business Coaching &amp; Mentorship</strong> — Even if it's just you right now, we help you grow into the powerhouse you want to be. Liftori offers coaching and mentorship programs to guide you beyond the build.<br/><br/><strong>Payment plans available</strong> — so your budget never holds your vision back. Get started today and pay as you grow.</p>
-  </div>
-</section>
-
-    <!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="how-header reveal">
-    <div class="section-label">The Process</div>
-    <div class="section-title">FROM IDEA TO LIVE<br/>IN 8 STEPS</div>
-    <p class="section-desc">No meetings. No jargon. No waiting months to see anything. Just a guided, AI-powered process that turns your vision into a real, working product.</p>
-  </div>
-  <div class="steps">
-    <div class="step reveal">
-      <div class="step-num">01</div>
-      <div class="step-title">Create a Free Account</div>
-      <div class="step-desc">Sign up in seconds — no credit card required. Your account gives you access to your personal dashboard and project tools.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.1s">
-      <div class="step-num">02</div>
-      <div class="step-title">Start a Project</div>
-      <div class="step-desc">Launch a new project from your dashboard. Choose the type of app, platform, or website you want to build.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.15s">
-      <div class="step-num">03</div>
-      <div class="step-title">Describe Your Vision</div>
-      <div class="step-desc">Tell us what you're building, who it's for, and how it should work. No tech knowledge required — just your idea.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.2s">
-      <div class="step-num">04</div>
-      <div class="step-title">Liftori Guides You</div>
-      <div class="step-desc">Our AI walks you through any additional steps needed to shape your build — features, audience, design preferences, and more.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.25s">
-      <div class="step-num">05</div>
-      <div class="step-title">Review Mockups</div>
-      <div class="step-desc">Liftori generates visual mockups of your project so you can see exactly what it will look like before anything is built.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.3s">
-      <div class="step-num">06</div>
-      <div class="step-title">Approve & Pay</div>
-      <div class="step-desc">Review your design and project plan, choose a payment option, and give the green light. No surprises — you see the full build estimate upfront.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.35s">
-      <div class="step-num">07</div>
-      <div class="step-title">We Build Your Vision</div>
-      <div class="step-desc">Our team and AI agents get to work building your project. Real code, real infrastructure, fully custom to your specifications.</div>
-    </div>
-    <div class="step reveal" style="transition-delay:0.4s">
-      <div class="step-num">08</div>
-      <div class="step-title">Track Progress</div>
-      <div class="step-desc">Follow every milestone on your dashboard — live updates, previews, and direct communication with your build team all the way to launch.</div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services" id="services">
+<!-- ═══ THREE PATHS — Solution Selector ═══ -->
+<section id="solutions" style="padding: 80px 20px 40px; background: linear-gradient(180deg, #060B18 0%, #0A1628 50%, #060B18 100%); position: relative;">
+  <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+    <div class="section-label reveal">Three Ways to Grow</div>
+    <div class="section-title reveal" style="margin-bottom: 16px;">CHOOSE YOUR PATH</div>
+    <p class="section-desc reveal" style="max-width: 640px; margin: 0 auto 48px;">Every business is different. Whether you need an all-in-one operating system, a custom digital product, or expert guidance to scale — Liftori meets you where you are.</p>
+
+    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1050px; margin: 0 auto;">
+
+      <!-- Path 1: LABOS -->
+      <a href="#labos" style="text-decoration: none; display: block; background: linear-gradient(180deg, rgba(0,212,170,0.08) 0%, rgba(0,212,170,0.02) 100%); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; padding: 40px 28px 32px; text-align: center; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,212,170,0.5)';this.style.boxShadow='0 12px 40px rgba(0,212,170,0.15)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(0,212,170,0.2)';this.style.boxShadow=''">
+        <div style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #00d4aa, #0EA5E9); color: #060B18; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 1px;">MOST POPULAR</div>
+        <div style="font-size: 40px; margin-bottom: 16px;">&#129302;</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #00d4aa; margin-bottom: 8px;">AI BUSINESS OS</h3>
+        <p style="color: #7DD3FC; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">Replace 10+ tools with one AI-powered platform. CRM, chat, video, marketing, HR, finance — everything your business needs.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px;">
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">CRM</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Team Chat</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Video</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">AI Agents</span>
+        </div>
+        <span style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #00d4aa, #0EA5E9); color: #060B18; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">From $49/mo &rarr;</span>
+      </a>
+
+      <!-- Path 2: Custom Builds -->
+      <a href="#builds" style="text-decoration: none; display: block; background: linear-gradient(180deg, rgba(14,165,233,0.08) 0%, rgba(14,165,233,0.02) 100%); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; padding: 40px 28px 32px; text-align: center; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(14,165,233,0.5)';this.style.boxShadow='0 12px 40px rgba(14,165,233,0.15)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(14,165,233,0.2)';this.style.boxShadow=''">
+        <div style="font-size: 40px; margin-bottom: 16px;">&#128640;</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #0EA5E9; margin-bottom: 8px;">CUSTOM BUILDS</h3>
+        <p style="color: #7DD3FC; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">Have an idea for an app, platform, or website? We design, build, and launch it — powered by AI. No tech skills needed.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px;">
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">Web Apps</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">E-Commerce</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">SaaS</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">Mobile</span>
+        </div>
+        <span style="display: inline-block; padding: 12px 28px; border: 1px solid rgba(14,165,233,0.4); color: #7DD3FC; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">Starting at $497 &rarr;</span>
+      </a>
+
+      <!-- Path 3: Business Consulting -->
+      <a href="#consulting" style="text-decoration: none; display: block; background: linear-gradient(180deg, rgba(168,85,247,0.08) 0%, rgba(168,85,247,0.02) 100%); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; padding: 40px 28px 32px; text-align: center; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(168,85,247,0.5)';this.style.boxShadow='0 12px 40px rgba(168,85,247,0.15)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(168,85,247,0.2)';this.style.boxShadow=''">
+        <div style="font-size: 40px; margin-bottom: 16px;">&#128200;</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #A855F7; margin-bottom: 8px;">CONSULTING</h3>
+        <p style="color: #7DD3FC; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">Expert guidance to grow and scale your business. AI strategy, digital transformation, operations, and hands-on coaching.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px;">
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; color: #C084FC;">AI Strategy</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; color: #C084FC;">Growth</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; color: #C084FC;">EOS</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; color: #C084FC;">Coaching</span>
+        </div>
+        <span style="display: inline-block; padding: 12px 28px; border: 1px solid rgba(168,85,247,0.4); color: #C084FC; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">Book a Call &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- intentionally removed: How It Works steps moved to individual service pages -->
+
+<!-- OLD SERVICES — REPLACED BY SERVICE LANES BELOW -->
+<div style="display:none;">
+<section class="services-old" id="services-old">
   <div class="services-inner">
     <div class="reveal">
       <div class="section-label">What We Build</div>
@@ -2682,9 +2608,169 @@
       </div>
 
     </div>
-  
-      
+
+
     </div>
+</section>
+</div>
+<!-- END OLD HIDDEN SECTIONS -->
+
+<!-- ═══ LANE 2: CUSTOM BUILDS ═══ -->
+<section id="builds" style="padding: 80px 20px; background: linear-gradient(180deg, #060B18 0%, #0B1428 50%, #060B18 100%); position: relative; overflow: hidden;">
+  <div style="position: absolute; top: 30%; left: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 70%); pointer-events: none;"></div>
+  <div style="max-width: 1100px; margin: 0 auto; position: relative; z-index: 2;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;" class="builds-grid">
+
+      <!-- Left: Content -->
+      <div class="reveal">
+        <div style="display: inline-block; padding: 6px 16px; border: 1px solid rgba(14,165,233,0.3); border-radius: 50px; font-size: 12px; color: #0EA5E9; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Custom Digital Products</div>
+        <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 56px); letter-spacing: 2px; line-height: 1; margin-bottom: 16px;">
+          <span style="color: #E0F7FF;">YOUR IDEA.</span><br/>
+          <span style="color: #0EA5E9;">WE BUILD IT.</span>
+        </h2>
+        <p style="color: #7DD3FC; font-size: 1rem; line-height: 1.7; margin-bottom: 24px; opacity: 0.9;">
+          From a single landing page to a full SaaS platform — tell us what you want, and our AI-powered build pipeline handles the rest. Web apps, e-commerce, booking systems, mobile apps, and more.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.12); border-radius: 10px;">
+            <span style="color: #0EA5E9; font-size: 18px;">&#9889;</span>
+            <span style="color: #E0F7FF; font-size: 0.85rem;">AI-Powered Pipeline</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.12); border-radius: 10px;">
+            <span style="color: #0EA5E9; font-size: 18px;">&#128187;</span>
+            <span style="color: #E0F7FF; font-size: 0.85rem;">Real Code, Not Templates</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.12); border-radius: 10px;">
+            <span style="color: #0EA5E9; font-size: 18px;">&#127912;</span>
+            <span style="color: #E0F7FF; font-size: 0.85rem;">Custom Design</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.12); border-radius: 10px;">
+            <span style="color: #0EA5E9; font-size: 18px;">&#128640;</span>
+            <span style="color: #E0F7FF; font-size: 0.85rem;">Launch in Days</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="https://admin.liftori.ai/onboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #0EA5E9, #1240C4); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 25px rgba(14,165,233,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Start Your Build &rarr;</a>
+          <a href="#pricing" onclick="document.getElementById('buildsExpand').style.display=document.getElementById('buildsExpand').style.display==='none'?'block':'none';return false;" style="display: inline-block; padding: 14px 32px; border: 1px solid rgba(14,165,233,0.3); color: #7DD3FC; text-decoration: none; border-radius: 10px; font-weight: 500; font-size: 0.95rem; transition: border-color 0.2s;" onmouseover="this.style.borderColor='rgba(14,165,233,0.6)'" onmouseout="this.style.borderColor='rgba(14,165,233,0.3)'">See Pricing &darr;</a>
+        </div>
+      </div>
+
+      <!-- Right: Client Showcases -->
+      <div class="reveal" style="transition-delay: 0.15s;">
+        <!-- VJ Showcase -->
+        <div style="background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.15); border-radius: 20px; padding: 32px 28px; position: relative; margin-bottom: 16px;">
+          <div style="position: absolute; top: -12px; left: 24px; background: linear-gradient(135deg, #0EA5E9, #1240C4); padding: 6px 16px; border-radius: 20px;">
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 1px; color: white;">CLIENT BUILD</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 6px;">VJ THRIFT FINDS</h3>
+            <p style="color: #7DD3FC; font-size: 0.82rem; line-height: 1.5; margin-bottom: 12px;">Full e-commerce store + admin dashboard. Built and deployed in under 1 hour.</p>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(14,165,233,0.15); border-radius: 20px; color: #7DD3FC;">E-Commerce</span>
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(14,165,233,0.15); border-radius: 20px; color: #7DD3FC;">Admin Panel</span>
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(16,185,129,0.15); border-radius: 20px; color: #10B981;">FREE Build</span>
+            </div>
+            <a href="/vj/index.html" target="_blank" style="color: #0EA5E9; font-size: 0.82rem; text-decoration: underline;">View live store &rarr;</a>
+          </div>
+        </div>
+        <!-- Rippin With Steven Showcase -->
+        <div style="background: rgba(0,212,170,0.04); border: 1px solid rgba(0,212,170,0.15); border-radius: 20px; padding: 32px 28px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 24px; background: linear-gradient(135deg, #00d4aa, #059669); padding: 6px 16px; border-radius: 20px;">
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #060B18;">CLIENT BUILD</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 6px;">RIPPIN WITH STEVEN</h3>
+            <p style="color: #7DD3FC; font-size: 0.82rem; line-height: 1.5; margin-bottom: 12px;">Affiliate-referred client build. Custom branded site with admin management.</p>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(0,212,170,0.15); border-radius: 20px; color: #00d4aa;">Business Site</span>
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(0,212,170,0.15); border-radius: 20px; color: #00d4aa;">Admin Panel</span>
+              <span style="font-size: 10px; padding: 3px 8px; background: rgba(0,212,170,0.15); border-radius: 20px; color: #00d4aa;">Affiliate Referral</span>
+            </div>
+            <span style="color: rgba(255,255,255,0.4); font-size: 0.82rem;">Live site coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expandable Pricing -->
+    <div id="buildsExpand" style="display: none; margin-top: 48px;">
+      <div style="text-align: center; margin-bottom: 32px;">
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; color: #E0F7FF;">BUILD PRICING</h3>
+        <p style="color: #7DD3FC; font-size: 0.9rem;">Transparent pricing. No surprises. Payment plans available.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto;">
+        <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">QUICKSTART</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$497</div>
+          <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Landing pages, simple sites</p>
+        </div>
+        <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">PRO</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$1,497</div>
+          <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Web apps, e-commerce, dashboards</p>
+        </div>
+        <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">STARTER</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$4,997</div>
+          <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Full platforms, multi-page apps</p>
+        </div>
+        <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">GROWTH+</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$9,997+</div>
+          <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Enterprise, SaaS, marketplaces</p>
+        </div>
+      </div>
+      <p style="text-align: center; color: rgba(125,211,252,0.5); font-size: 0.8rem; margin-top: 16px;">All tiers include hosting, support, and your own admin dashboard. Financing available.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LANE 3: BUSINESS CONSULTING ═══ -->
+<section id="consulting" style="padding: 80px 20px; background: linear-gradient(180deg, #060B18 0%, #0D0F24 50%, #060B18 100%); position: relative; overflow: hidden;">
+  <div style="position: absolute; top: 40%; right: 15%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%); pointer-events: none;"></div>
+  <div style="max-width: 1100px; margin: 0 auto; text-align: center; position: relative; z-index: 2;">
+
+    <div class="reveal">
+      <div style="display: inline-block; padding: 6px 16px; border: 1px solid rgba(168,85,247,0.3); border-radius: 50px; font-size: 12px; color: #A855F7; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Business Consulting</div>
+      <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 56px); letter-spacing: 2px; line-height: 1; margin-bottom: 16px;">
+        <span style="color: #E0F7FF;">GROW SMARTER.</span><br/>
+        <span style="color: #A855F7;">SCALE FASTER.</span>
+      </h2>
+      <p style="color: #7DD3FC; font-size: 1rem; line-height: 1.7; max-width: 640px; margin: 0 auto 48px; opacity: 0.9;">
+        Not every business needs a new product built — some need the right strategy, the right systems, and the right guidance. Our consulting team brings AI expertise, EOS methodology, and real operational experience.
+      </p>
+    </div>
+
+    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 960px; margin: 0 auto 48px;">
+      <div style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(168,85,247,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#129302;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px;">AI Strategy</h3>
+        <p style="color: #C084FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Integrate AI into your operations, sales, and customer experience</p>
+      </div>
+      <div style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(168,85,247,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128200;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px;">Growth Planning</h3>
+        <p style="color: #C084FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Market positioning, revenue strategy, and scaling roadmaps</p>
+      </div>
+      <div style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(168,85,247,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128202;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px;">EOS Implementation</h3>
+        <p style="color: #C084FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Vision, traction, scorecards, L10s, rocks — full EOS rollout</p>
+      </div>
+      <div style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(168,85,247,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#127891;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px;">1-on-1 Coaching</h3>
+        <p style="color: #C084FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Personalized mentorship for founders and business leaders</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <a href="#" onclick="openTriageModal();return false;" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #A855F7, #7C3AED); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 25px rgba(168,85,247,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Book a Consultation &rarr;</a>
+      <p style="color: rgba(192,132,252,0.5); font-size: 0.8rem; margin-top: 14px;">Free 30-minute discovery call. No obligation.</p>
+    </div>
+  </div>
 </section>
 
 <!-- LABOS — Liftori AI Business Operating System -->
@@ -2797,84 +2883,46 @@
   </div>
 </section>
 
-<!-- VJ SHOWCASE - Real Customer Build -->
-<section class="vj-showcase" id="showcase" style="padding: 80px 20px; background: linear-gradient(180deg, #060B18 0%, #0A1628 50%, #060B18 100%); position: relative; overflow: hidden;">
-  <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
-    <div class="section-label reveal" style="margin-bottom: 12px;">REAL RESULTS</div>
-    <h2 class="section-title reveal" style="margin-bottom: 16px;">Built in Under 1 Hour. For Free.</h2>
-    <p class="section-desc reveal" style="max-width: 700px; margin: 0 auto 40px;">
-      One of our earliest waitlist members received a complete, branded e-commerce storefront and admin dashboard &mdash; fully functional, mobile-ready, and deployed live &mdash; at zero cost.
-    </p>
-
-    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
-
-      <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
-        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Full E-Commerce Store</h3>
-        <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">Product catalog, shopping cart, customer reviews, FAQ page, contact forms &mdash; the complete package, branded and live.</p>
+<!-- ═══ SOCIAL PROOF STRIP ═══ -->
+<section style="padding: 60px 20px; background: linear-gradient(180deg, #060B18 0%, #0A1628 50%, #060B18 100%); position: relative;">
+  <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 40px;">
+      <div>
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #00d4aa; letter-spacing: 1px;">AI-First</div>
+        <div style="color: #7DD3FC; font-size: 0.85rem;">Every feature powered by AI</div>
       </div>
-
-      <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Admin Dashboard</h3>
-        <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">Product management, order tracking, customer messages, review moderation, subscriber lists, and store settings &mdash; all in one panel.</p>
+      <div>
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #0EA5E9; letter-spacing: 1px;">3 Paths</div>
+        <div style="color: #7DD3FC; font-size: 0.85rem;">OS, Builds, or Consulting</div>
       </div>
-
-      <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 16px; padding: 32px 24px; text-align: left;">
-        <div style="margin-bottom: 12px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 8px;">Delivered in &lt; 1 Hour</h3>
-        <p style="color: #7DD3FC; font-size: 0.95rem; line-height: 1.6;">From idea to live deployment. 8 custom pages, Supabase backend, Vercel hosting, and a branded admin panel &mdash; all built and shipped in a single session.</p>
+      <div>
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #A855F7; letter-spacing: 1px;">$0 Start</div>
+        <div style="color: #7DD3FC; font-size: 0.85rem;">Free accounts. Pay when ready.</div>
       </div>
-
+      <div>
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #E0F7FF; letter-spacing: 1px;">48hr</div>
+        <div style="color: #7DD3FC; font-size: 0.85rem;">Average project kickoff</div>
+      </div>
     </div>
-
-    <div class="reveal" style="background: rgba(14, 165, 233, 0.04); border: 1px solid rgba(14, 165, 233, 0.12); border-radius: 20px; padding: 40px 32px; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
-      <p style="color: #E0F7FF; font-size: 1.15rem; line-height: 1.7; margin-bottom: 24px;">
-        <em>&ldquo;I signed up on the waitlist and within an hour had a fully branded online store with an admin panel I can manage myself. I didn&rsquo;t write a single line of code.&rdquo;</em>
-      </p>
-      <p style="color: #0EA5E9; font-weight: 600; font-size: 0.95rem;">&#8212; V.J. Thrift Finds, Early Waitlist Member</p>
-      <a href="/vj/index.html" target="_blank" style="display: inline-block; margin-top: 16px; color: #7DD3FC; font-size: 0.85rem; text-decoration: underline; opacity: 0.8;">View the live store &rarr;</a>
-    </div>
-
-    <div class="reveal" style="margin-top: 8px;">
-      <p style="color: #7DD3FC; font-size: 1.1rem; margin-bottom: 20px; font-weight: 500;">We&rsquo;re still giving away free builds to early waitlist members.</p>
-      <button class="btn-primary" onclick="openModal()" style="font-size: 1.1rem; padding: 16px 40px; cursor: pointer;">
-        Reserve My Free Build &rarr;
-      </button>
-      <p style="color: rgba(125, 211, 252, 0.5); font-size: 0.8rem; margin-top: 12px;">Limited spots remaining. No credit card required.</p>
+    <div class="reveal" style="max-width: 600px; margin: 0 auto; padding: 24px; background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.12); border-radius: 16px;">
+      <p style="color: #E0F7FF; font-size: 1rem; font-style: italic; line-height: 1.6; margin-bottom: 8px;">&ldquo;I didn&rsquo;t write a single line of code — and I have a fully branded online store with an admin panel.&rdquo;</p>
+      <p style="color: #0EA5E9; font-size: 0.85rem; font-weight: 600;">&mdash; V.J. Thrift Finds, Early Client</p>
     </div>
   </div>
 </section>
 
-<!-- PROOF -->
-<section class="proof">
-  <div class="proof-quote reveal">
-    "STOP SITTING ON YOUR IDEA. THE ONLY THING BETWEEN YOU AND A LIVE PRODUCT IS THIS PAGE."</div>
-  <div class="proof-items">
-    <div class="proof-item reveal">
-      <div class="proof-num">10 MIN</div>
-      <div class="proof-label">To complete the onboarding wizard</div>
-    </div>
-    <div class="proof-item reveal" style="transition-delay:0.15s">
-      <div class="proof-num">AI-FIRST</div>
-      <div class="proof-label">Build pipeline powered by cutting-edge AI</div>
-    </div>
-    <div class="proof-item reveal" style="transition-delay:0.3s">
-      <div class="proof-num">0</div>
-      <div class="proof-label">Tech skills required to get started</div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
+<!-- ═══ SMART CTA — TRIAGE ═══ -->
 <section class="final-cta">
   <div class="final-cta-inner">
     <div class="section-label reveal">Ready?</div>
-    <div class="final-title reveal">YOUR IDEA<br/>STARTS HERE</div>
-    <p class="final-sub reveal">Join the waitlist. Be first in line when we open the doors. No spam — just your launch notification.</p>
-    <div class="email-form reveal">
+    <div class="final-title reveal">LET'S BUILD<br/>SOMETHING</div>
+    <p class="final-sub reveal">Whether you need a full business OS, a custom product, or expert consulting — we'll get you started in minutes.</p>
+    <div class="reveal" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+      <a href="#" onclick="openTriageModal();return false;" class="btn-primary" style="font-size: 1.1rem; padding: 16px 40px; cursor: pointer;">Get Started &rarr;</a>
+    </div>
+    <div class="email-form reveal" style="margin-top: 32px;">
       <input type="email" placeholder="your@email.com"/>
-      <button type="submit">Lift Off</button>
+      <button type="submit">Join Waitlist</button>
     </div>
   </div>
 </section>
@@ -3097,6 +3145,51 @@
       </div>
       <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.4), transparent);"></div>
     </div>
+<!-- ═══ TRIAGE / GET STARTED MODAL ═══ -->
+<div class="labos-modal-overlay" id="triageModal">
+  <div class="labos-modal" style="max-width: 580px; padding: 48px 36px;">
+    <button class="modal-close" onclick="closeTriageModal()">&times;</button>
+    <h2 style="font-size: 1.8rem; margin-bottom: 8px;">WHAT ARE YOU LOOKING FOR?</h2>
+    <p class="modal-sub" style="margin-bottom: 28px;">Pick the path that fits your needs. We'll take it from there.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+
+      <!-- Option 1: LABOS -->
+      <a href="#" onclick="closeTriageModal();openLabosModal();return false;" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.2); border-radius: 14px; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(0,212,170,0.5)';this.style.background='rgba(0,212,170,0.1)'" onmouseout="this.style.borderColor='rgba(0,212,170,0.2)';this.style.background='rgba(0,212,170,0.06)'">
+        <div style="font-size: 32px; flex-shrink: 0;">&#129302;</div>
+        <div>
+          <div style="color: #00d4aa; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">AI BUSINESS OPERATING SYSTEM</div>
+          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">CRM, team chat, video, marketing, HR, finance — all-in-one platform. From $49/mo.</div>
+        </div>
+        <div style="color: #00d4aa; font-size: 20px; flex-shrink: 0;">&rarr;</div>
+      </a>
+
+      <!-- Option 2: Custom Builds -->
+      <a href="https://admin.liftori.ai/onboard" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.2); border-radius: 14px; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(14,165,233,0.5)';this.style.background='rgba(14,165,233,0.1)'" onmouseout="this.style.borderColor='rgba(14,165,233,0.2)';this.style.background='rgba(14,165,233,0.06)'">
+        <div style="font-size: 32px; flex-shrink: 0;">&#128640;</div>
+        <div>
+          <div style="color: #0EA5E9; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">BUILD A CUSTOM PRODUCT</div>
+          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Web app, e-commerce, SaaS, mobile — describe your idea and we build it. Starting at $497.</div>
+        </div>
+        <div style="color: #0EA5E9; font-size: 20px; flex-shrink: 0;">&rarr;</div>
+      </a>
+
+      <!-- Option 3: Consulting -->
+      <a href="#" onclick="closeTriageModal();document.getElementById('consulting').scrollIntoView({behavior:'smooth'});return false;" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.2); border-radius: 14px; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(168,85,247,0.5)';this.style.background='rgba(168,85,247,0.1)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.2)';this.style.background='rgba(168,85,247,0.06)'">
+        <div style="font-size: 32px; flex-shrink: 0;">&#128200;</div>
+        <div>
+          <div style="color: #A855F7; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">BUSINESS CONSULTING</div>
+          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">AI strategy, growth planning, EOS implementation, 1-on-1 coaching. Free discovery call.</div>
+        </div>
+        <div style="color: #A855F7; font-size: 20px; flex-shrink: 0;">&rarr;</div>
+      </a>
+
+    </div>
+
+    <p style="text-align: center; color: rgba(125,211,252,0.4); font-size: 0.75rem; margin-top: 20px;">Not sure? Pick any path — we'll help you figure it out.</p>
+  </div>
+</div>
+
 <!-- LABOS SIGNUP MODAL -->
 <div class="labos-modal-overlay" id="labosModal">
   <div class="labos-modal">
@@ -3295,13 +3388,8 @@
     if (e.key === 'Escape') closeModal();
   });
 
-  // Wire ALL CTA buttons to the onboarding wizard
-  document.querySelectorAll('.nav-cta, .btn-primary, .price-cta').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = 'https://admin.liftori.ai/onboard';
-    });
-  });
+  // CTA routing now handled per-button via onclick attributes
+  // (triage modal, LABOS modal, onboarding wizard, etc.)
 
   // —— MODAL FORM SUBMIT ——
   
@@ -3580,6 +3668,19 @@
       btn.disabled = false;
       btn.textContent = 'GET MY AFFILIATE CODE';
     }
+
+    // —— TRIAGE MODAL LOGIC ——
+    function openTriageModal() {
+      document.getElementById('triageModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeTriageModal() {
+      document.getElementById('triageModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('triageModal').addEventListener('click', function(e) {
+      if (e.target === this) closeTriageModal();
+    });
 
     // —— LABOS MODAL LOGIC ——
     function openLabosModal() {
