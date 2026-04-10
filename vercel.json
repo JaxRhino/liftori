@@ -12,6 +12,8 @@
     },
     { "src": "/blog", "dest": "/blog.html" },
     { "src": "/careers", "dest": "/careers.html" },
+    { "src": "/book", "dest": "/book.html" },
+    { "src": "/call/(.*)", "dest": "/call.html" },
     { "handle": "filesystem" }
   ]
 }

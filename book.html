@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Consultation | Liftori</title>
+  <meta name="description" content="Book a free 30-minute discovery call with a Liftori consultant. AI strategy, growth planning, EOS implementation, and executive coaching.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #060B18;
+      --navy-light: #0a1628;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --purple: #A855F7;
+      --purple-light: #C084FC;
+      --purple-dark: #7C3AED;
+      --green: #00d4aa;
+      --white: #FFFFFF;
+      --gray: #6B7280;
+      --gray-dark: #374151;
+      --gray-light: #9CA3AF;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMATED BACKGROUND ===== */
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bg-glow::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+      animation: float1 12s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%);
+      animation: float2 15s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(80px, 60px); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-60px, -40px); }
+    }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(6,11,24,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-back {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* ===== MAIN LAYOUT ===== */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      min-height: 100vh;
+      align-items: start;
+    }
+
+    /* ===== LEFT SIDE — VALUE PROP ===== */
+    .value-side {
+      padding-top: 40px;
+      position: sticky;
+      top: 120px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--purple-light);
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .badge svg { width: 14px; height: 14px; }
+    .value-side h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.4rem;
+      line-height: 1.05;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .value-side h1 .highlight {
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .value-side .subtitle {
+      font-size: 1.15rem;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .value-side .subtitle strong { color: var(--white); font-weight: 600; }
+
+    /* What You Get */
+    .what-you-get {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .get-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .get-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .get-icon.purple { background: rgba(168,85,247,0.15); }
+    .get-icon.blue { background: rgba(14,165,233,0.15); }
+    .get-icon.green { background: rgba(0,212,170,0.15); }
+    .get-icon svg { width: 20px; height: 20px; }
+    .get-item h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .get-item p {
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      line-height: 1.5;
+    }
+
+    /* Trust strip */
+    .trust-strip {
+      display: flex;
+      gap: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .trust-item {
+      text-align: center;
+    }
+    .trust-item .num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--purple-light);
+    }
+    .trust-item .label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== RIGHT SIDE — BOOKING FORM ===== */
+    .form-side {
+      padding-top: 20px;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 36px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--blue), var(--green));
+    }
+
+    /* Steps indicator */
+    .steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .step-dot {
+      flex: 1;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      transition: background 0.4s;
+    }
+    .step-dot.active { background: var(--purple); }
+    .step-dot.done { background: var(--green); }
+
+    .form-step-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .form-step-subtitle {
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      margin-bottom: 24px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-light);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168,85,247,0.15);
+    }
+    .form-group select option {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Interest Cards */
+    .interest-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .interest-card {
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .interest-card:hover {
+      border-color: rgba(168,85,247,0.3);
+      background: rgba(168,85,247,0.06);
+    }
+    .interest-card.selected {
+      border-color: var(--purple);
+      background: rgba(168,85,247,0.12);
+      box-shadow: 0 0 0 2px rgba(168,85,247,0.2);
+    }
+    .interest-card svg {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 6px;
+    }
+    .interest-card .ic-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .interest-card .ic-desc {
+      font-size: 0.7rem;
+      color: var(--gray-light);
+      margin-top: 2px;
+    }
+
+    /* Calendar picker */
+    .calendar-wrapper {
+      margin-bottom: 18px;
+    }
+    .calendar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .calendar-nav button {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--white);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .calendar-nav button:hover { background: rgba(255,255,255,0.1); }
+    .calendar-nav button:disabled { opacity: 0.3; cursor: default; }
+    .calendar-month {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-header {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--gray);
+      padding: 6px 0;
+      text-transform: uppercase;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: default;
+      color: rgba(255,255,255,0.2);
+      transition: all 0.15s;
+    }
+    .cal-day.empty { visibility: hidden; }
+    .cal-day.past { color: rgba(255,255,255,0.1); }
+    .cal-day.available {
+      cursor: pointer;
+      color: var(--white);
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.15);
+    }
+    .cal-day.available:hover {
+      background: rgba(168,85,247,0.2);
+      border-color: var(--purple);
+    }
+    .cal-day.selected {
+      background: var(--purple) !important;
+      color: var(--white) !important;
+      font-weight: 600;
+      border-color: var(--purple) !important;
+      box-shadow: 0 0 12px rgba(168,85,247,0.4);
+    }
+    .cal-day.today {
+      border: 1px solid var(--blue);
+    }
+
+    /* Time slots */
+    .time-slots-section { margin-bottom: 18px; }
+    .time-slots-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .time-slots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .time-slot {
+      padding: 10px 8px;
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .time-slot:hover {
+      border-color: rgba(168,85,247,0.3);
+      background: rgba(168,85,247,0.06);
+    }
+    .time-slot.selected {
+      background: rgba(168,85,247,0.15);
+      border-color: var(--purple);
+      color: var(--purple-light);
+      font-weight: 600;
+    }
+    .no-slots {
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.85rem;
+      padding: 20px;
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .btn-back {
+      flex: 0 0 auto;
+      padding: 14px 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--gray-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.08); color: var(--white); }
+    .btn-next {
+      flex: 1;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      border: none;
+      border-radius: 12px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .btn-next:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(168,85,247,0.35);
+    }
+    .btn-next:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Form step visibility */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    /* ===== SUCCESS STATE ===== */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-state.active { display: block; }
+    .success-check {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(0,212,170,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: popIn 0.4s ease;
+    }
+    .success-check svg { width: 36px; height: 36px; stroke: var(--green); }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .success-state h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .success-state .success-subtitle {
+      color: var(--gray-light);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .success-detail {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .success-detail .sd-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.9rem;
+    }
+    .success-detail .sd-row:last-child { border: none; }
+    .success-detail .sd-label { color: var(--gray-light); }
+    .success-detail .sd-value { font-weight: 600; color: var(--white); }
+    .success-cta {
+      display: inline-block;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      border-radius: 10px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .success-cta:hover { box-shadow: 0 6px 20px rgba(168,85,247,0.3); }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-top: 80px;
+      }
+      .value-side {
+        position: static;
+        padding-top: 0;
+      }
+      .value-side h1 { font-size: 2.4rem; }
+      .trust-strip { flex-wrap: wrap; gap: 24px; }
+      .form-card { padding: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .interest-grid { grid-template-columns: 1fr 1fr; }
+      .time-slots-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav { padding: 12px 16px; }
+    }
+    @media (max-width: 480px) {
+      .value-side h1 { font-size: 2rem; }
+      .interest-grid { grid-template-columns: 1fr; }
+      .time-slots-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIFT<span>ORI</span></a>
+  <a href="/#consulting" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to site
+  </a>
+</nav>
+
+<!-- Main Layout -->
+<div class="page-wrapper">
+
+  <!-- LEFT: Value Proposition -->
+  <div class="value-side">
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      FREE 30-MINUTE DISCOVERY CALL
+    </div>
+
+    <h1>LET'S BUILD YOUR<br><span class="highlight">GROWTH STRATEGY</span></h1>
+
+    <p class="subtitle">
+      Get on a call with a Liftori consultant and walk away with <strong>a clear roadmap</strong> for scaling your business with AI, operational systems, and proven growth frameworks. <strong>No sales pitch. Just value.</strong>
+    </p>
+
+    <div class="what-you-get">
+      <div class="get-item">
+        <div class="get-icon purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div>
+          <h4>Personalized AI Assessment</h4>
+          <p>We'll audit your current operations and identify where AI can save you time and money immediately.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div>
+          <h4>Growth Roadmap</h4>
+          <p>Walk away with a prioritized action plan — what to tackle first, what to automate, and what to scale.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h4>Zero Obligation</h4>
+          <p>This isn't a sales call. If we're a fit, great. If not, you still leave with real, actionable insights.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item">
+        <div class="num">50+</div>
+        <div class="label">Businesses Helped</div>
+      </div>
+      <div class="trust-item">
+        <div class="num">12+</div>
+        <div class="label">AI Departments</div>
+      </div>
+      <div class="trust-item">
+        <div class="num">100%</div>
+        <div class="label">Free Consult</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Booking Form -->
+  <div class="form-side">
+    <div class="form-card" id="formCard">
+
+      <!-- Step indicators -->
+      <div class="steps">
+        <div class="step-dot active" id="stepDot1"></div>
+        <div class="step-dot" id="stepDot2"></div>
+        <div class="step-dot" id="stepDot3"></div>
+      </div>
+
+      <!-- STEP 1: What are you looking for? -->
+      <div class="form-step active" id="step1">
+        <div class="form-step-title">WHAT DO YOU NEED HELP WITH?</div>
+        <div class="form-step-subtitle">Select the area that best fits your situation</div>
+
+        <div class="interest-grid" id="interestGrid">
+          <div class="interest-card" data-value="ai_strategy" onclick="selectInterest(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg>
+            <div class="ic-label">AI Strategy</div>
+            <div class="ic-desc">Integrate AI into your ops</div>
+          </div>
+          <div class="interest-card" data-value="growth_planning" onclick="selectInterest(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <div class="ic-label">Growth Planning</div>
+            <div class="ic-desc">Revenue & scaling strategy</div>
+          </div>
+          <div class="interest-card" data-value="eos_implementation" onclick="selectInterest(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <div class="ic-label">EOS Implementation</div>
+            <div class="ic-desc">Vision, traction, L10s</div>
+          </div>
+          <div class="interest-card" data-value="coaching" onclick="selectInterest(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="ic-label">1-on-1 Coaching</div>
+            <div class="ic-desc">Founder mentorship</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-next" id="btnStep1" disabled onclick="goToStep(2)">
+            Choose Your Time
+            <svg style="display:inline;vertical-align:middle;margin-left:6px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Pick a date & time -->
+      <div class="form-step" id="step2">
+        <div class="form-step-title">PICK YOUR DATE & TIME</div>
+        <div class="form-step-subtitle">All times shown in Eastern (ET). Free 30-minute call.</div>
+
+        <div class="calendar-wrapper">
+          <div class="calendar-nav">
+            <button id="calPrev" onclick="changeMonth(-1)">&larr;</button>
+            <div class="calendar-month" id="calMonth"></div>
+            <button id="calNext" onclick="changeMonth(1)">&rarr;</button>
+          </div>
+          <div class="calendar-grid" id="calGrid"></div>
+        </div>
+
+        <div class="time-slots-section" id="timeSlotsSection" style="display:none;">
+          <div class="time-slots-label" id="timeSlotsLabel">Available times</div>
+          <div class="time-slots-grid" id="timeSlotsGrid"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-back" onclick="goToStep(1)">&larr; Back</button>
+          <button class="btn-next" id="btnStep2" disabled onclick="goToStep(3)">
+            Your Details
+            <svg style="display:inline;vertical-align:middle;margin-left:6px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Contact info & submit -->
+      <div class="form-step" id="step3">
+        <div class="form-step-title">TELL US ABOUT YOU</div>
+        <div class="form-step-subtitle">So we can prepare for your call and make it count</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="leadName" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="leadEmail" placeholder="jane@company.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="leadPhone" placeholder="(555) 123-4567">
+          </div>
+          <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" id="leadCompany" placeholder="Acme Corp">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company Size</label>
+            <select id="leadSize">
+              <option value="">Select...</option>
+              <option value="solo">Just me</option>
+              <option value="2-10">2-10 employees</option>
+              <option value="11-50">11-50 employees</option>
+              <option value="51-200">51-200 employees</option>
+              <option value="200+">200+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Industry</label>
+            <input type="text" id="leadIndustry" placeholder="e.g. Real estate, SaaS, Retail">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>What's your biggest challenge right now?</label>
+          <textarea id="leadChallenge" placeholder="Tell us what you're struggling with — the more detail, the better prepared we'll be for your call..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>How did you hear about us?</label>
+          <select id="leadHowHeard">
+            <option value="">Select...</option>
+            <option value="google">Google Search</option>
+            <option value="social">Social Media</option>
+            <option value="referral">Referral</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-back" onclick="goToStep(2)">&larr; Back</button>
+          <button class="btn-next" id="btnSubmit" onclick="submitBooking()">
+            Book My Free Call
+            <svg style="display:inline;vertical-align:middle;margin-left:6px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-state" id="successState">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>YOU'RE ALL SET!</h2>
+        <p class="success-subtitle">
+          Check your email for a confirmation with your video call link.<br>
+          We're looking forward to helping you grow.
+        </p>
+        <div class="success-detail" id="successDetails"></div>
+        <a href="/" class="success-cta">&larr; Back to Liftori</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ===== CONFIG =====
+  var SUPA_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+  var CONSULTING_LEAD_CHANNEL = '2eac196a-bb06-4164-bcdd-4738af7cf2c9';
+
+  // ===== STATE =====
+  var currentStep = 1;
+  var selectedInterest = null;
+  var selectedDate = null;
+  var selectedSlot = null;
+  var currentMonth = new Date();
+  var availableSlots = [];
+
+  // ===== INTEREST SELECTION =====
+  window.selectInterest = function(card) {
+    document.querySelectorAll('.interest-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+    selectedInterest = card.getAttribute('data-value');
+    document.getElementById('btnStep1').disabled = false;
+  };
+
+  // ===== STEP NAVIGATION =====
+  window.goToStep = function(step) {
+    // Validate before advancing
+    if (step === 2 && !selectedInterest) return;
+    if (step === 3 && (!selectedDate || !selectedSlot)) return;
+
+    currentStep = step;
+    document.querySelectorAll('.form-step').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('step' + step).classList.add('active');
+
+    // Update step dots
+    for (var i = 1; i <= 3; i++) {
+      var dot = document.getElementById('stepDot' + i);
+      dot.className = 'step-dot';
+      if (i < step) dot.classList.add('done');
+      if (i === step) dot.classList.add('active');
+    }
+
+    // Load calendar when entering step 2
+    if (step === 2) {
+      renderCalendar();
+      loadAvailableSlots();
+    }
+  };
+
+  // ===== CALENDAR =====
+  window.changeMonth = function(delta) {
+    currentMonth.setMonth(currentMonth.getMonth() + delta);
+    renderCalendar();
+    loadAvailableSlots();
+    // Clear date/time selection on month change
+    selectedDate = null;
+    selectedSlot = null;
+    document.getElementById('timeSlotsSection').style.display = 'none';
+    document.getElementById('btnStep2').disabled = true;
+  };
+
+  function renderCalendar() {
+    var now = new Date();
+    var year = currentMonth.getFullYear();
+    var month = currentMonth.getMonth();
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+
+    // Disable prev if current month
+    document.getElementById('calPrev').disabled = (month <= now.getMonth() && year <= now.getFullYear());
+
+    // Month label
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calMonth').textContent = months[month] + ' ' + year;
+
+    var grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    // Day headers
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d) {
+      var h = document.createElement('div');
+      h.className = 'cal-header';
+      h.textContent = d;
+      grid.appendChild(h);
+    });
+
+    // Empty cells before first day
+    for (var e = 0; e < firstDay; e++) {
+      var empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      grid.appendChild(empty);
+    }
+
+    // Day cells
+    for (var d = 1; d <= daysInMonth; d++) {
+      var cell = document.createElement('div');
+      cell.className = 'cal-day';
+      cell.textContent = d;
+
+      var dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      cell.setAttribute('data-date', dateStr);
+
+      if (dateStr === todayStr) cell.classList.add('today');
+
+      // Past dates
+      var cellDate = new Date(year, month, d);
+      if (cellDate < new Date(now.getFullYear(), now.getMonth(), now.getDate())) {
+        cell.classList.add('past');
+      }
+
+      // Weekend? Still show but mark as unavailable unless slots exist
+      // We'll mark available dates after loading slots
+
+      if (selectedDate === dateStr) cell.classList.add('selected');
+
+      grid.appendChild(cell);
+    }
+  }
+
+  function markAvailableDates() {
+    var availDates = {};
+    availableSlots.forEach(function(s) {
+      availDates[s.date] = true;
+    });
+
+    document.querySelectorAll('.cal-day[data-date]').forEach(function(cell) {
+      var d = cell.getAttribute('data-date');
+      if (availDates[d] && !cell.classList.contains('past')) {
+        cell.classList.add('available');
+        cell.onclick = function() { selectDate(d); };
+      }
+    });
+  }
+
+  function selectDate(dateStr) {
+    selectedDate = dateStr;
+    selectedSlot = null;
+    document.getElementById('btnStep2').disabled = true;
+
+    // Highlight selected date
+    document.querySelectorAll('.cal-day').forEach(function(c) { c.classList.remove('selected'); });
+    var sel = document.querySelector('.cal-day[data-date="' + dateStr + '"]');
+    if (sel) sel.classList.add('selected');
+
+    // Show time slots for this date
+    showTimeSlotsForDate(dateStr);
+  }
+
+  function showTimeSlotsForDate(dateStr) {
+    var section = document.getElementById('timeSlotsSection');
+    var grid = document.getElementById('timeSlotsGrid');
+    var label = document.getElementById('timeSlotsLabel');
+
+    var slots = availableSlots.filter(function(s) { return s.date === dateStr; });
+
+    if (slots.length === 0) {
+      section.style.display = 'block';
+      grid.innerHTML = '<div class="no-slots">No available times on this date</div>';
+      return;
+    }
+
+    // Format date for label
+    var dt = new Date(dateStr + 'T12:00:00');
+    var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    label.textContent = dayNames[dt.getDay()] + ', ' + (dt.getMonth()+1) + '/' + dt.getDate();
+
+    grid.innerHTML = '';
+    slots.forEach(function(slot) {
+      var el = document.createElement('div');
+      el.className = 'time-slot';
+      el.textContent = formatTime(slot.start_time);
+      el.onclick = function() { selectSlot(slot, el); };
+      grid.appendChild(el);
+    });
+
+    section.style.display = 'block';
+  }
+
+  function selectSlot(slot, el) {
+    selectedSlot = slot;
+    document.querySelectorAll('.time-slot').forEach(function(t) { t.classList.remove('selected'); });
+    el.classList.add('selected');
+    document.getElementById('btnStep2').disabled = false;
+  }
+
+  function formatTime(timeStr) {
+    var parts = timeStr.split(':');
+    var h = parseInt(parts[0]);
+    var m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    return h + ':' + m + ' ' + ampm;
+  }
+
+  // ===== LOAD AVAILABLE SLOTS =====
+  async function loadAvailableSlots() {
+    var year = currentMonth.getFullYear();
+    var month = currentMonth.getMonth();
+    var startDate = year + '-' + String(month+1).padStart(2,'0') + '-01';
+    var endDate = year + '-' + String(month+1).padStart(2,'0') + '-' + String(new Date(year, month+1, 0).getDate()).padStart(2,'0');
+
+    try {
+      var res = await fetch(SUPA_URL + '/rest/v1/consulting_slots?date=gte.' + startDate + '&date=lte.' + endDate + '&is_booked=eq.false&order=date.asc,start_time.asc', {
+        headers: {
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY
+        }
+      });
+      if (res.ok) {
+        availableSlots = await res.json();
+      } else {
+        availableSlots = [];
+      }
+    } catch(e) {
+      console.error('Failed to load slots:', e);
+      availableSlots = [];
+    }
+
+    markAvailableDates();
+  }
+
+  // ===== GENERATE ROOM ID =====
+  function generateRoomId() {
+    var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var parts = [];
+    for (var p = 0; p < 3; p++) {
+      var seg = '';
+      for (var i = 0; i < 4; i++) {
+        seg += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      parts.push(seg);
+    }
+    return parts.join('-');
+  }
+
+  // ===== SUBMIT BOOKING =====
+  window.submitBooking = async function() {
+    var name = document.getElementById('leadName').value.trim();
+    var email = document.getElementById('leadEmail').value.trim();
+
+    if (!name || !email) {
+      alert('Please fill in your name and email.');
+      return;
+    }
+
+    var btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Booking...';
+
+    var roomId = generateRoomId();
+
+    var payload = {
+      slot_id: selectedSlot.id,
+      consultant_id: selectedSlot.consultant_id,
+      lead_name: name,
+      lead_email: email,
+      lead_phone: document.getElementById('leadPhone').value.trim() || null,
+      company_name: document.getElementById('leadCompany').value.trim() || null,
+      company_size: document.getElementById('leadSize').value || null,
+      industry: document.getElementById('leadIndustry').value.trim() || null,
+      primary_interest: selectedInterest,
+      biggest_challenge: document.getElementById('leadChallenge').value.trim() || null,
+      how_heard: document.getElementById('leadHowHeard').value || null,
+      appointment_date: selectedSlot.date,
+      appointment_start: selectedSlot.start_time,
+      appointment_end: selectedSlot.end_time,
+      room_id: roomId,
+      status: 'scheduled'
+    };
+
+    try {
+      // 1. Create the appointment
+      var res = await fetch(SUPA_URL + '/rest/v1/consulting_appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        var errData = await res.json();
+        throw new Error(errData.message || 'Booking failed');
+      }
+
+      var appointment = (await res.json())[0];
+
+      // 2. Post to Consulting Lead channel
+      var interestLabels = {
+        ai_strategy: 'AI Strategy',
+        growth_planning: 'Growth Planning',
+        eos_implementation: 'EOS Implementation',
+        coaching: '1-on-1 Coaching',
+        general: 'General Consulting'
+      };
+
+      var channelMsg = '**NEW CONSULTING LEAD BOOKED**\n\n' +
+        'Name: ' + name + '\n' +
+        'Company: ' + (payload.company_name || 'Not provided') + '\n' +
+        'Interest: ' + (interestLabels[selectedInterest] || selectedInterest) + '\n' +
+        'Date: ' + formatDateNice(selectedSlot.date) + ' at ' + formatTime(selectedSlot.start_time) + ' ET\n' +
+        'Challenge: ' + (payload.biggest_challenge ? '"' + payload.biggest_challenge.substring(0, 150) + '"' : 'Not provided') + '\n\n' +
+        'Call Room: https://admin.liftori.ai/admin/sales-call/' + roomId + '\n' +
+        'Lead Join: https://liftori.ai/call/' + roomId;
+
+      await fetch(SUPA_URL + '/rest/v1/chat_messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY
+        },
+        body: JSON.stringify({
+          channel_id: CONSULTING_LEAD_CHANNEL,
+          sender_name: 'Sage',
+          content: channelMsg
+        })
+      });
+
+      // 3. Fire confirmation email edge function
+      try {
+        await fetch(SUPA_URL + '/functions/v1/booking-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            date: formatDateNice(selectedSlot.date),
+            time: formatTime(selectedSlot.start_time),
+            interest: interestLabels[selectedInterest] || selectedInterest,
+            join_url: 'https://liftori.ai/call/' + roomId,
+            room_id: roomId
+          })
+        });
+      } catch(emailErr) {
+        console.warn('Confirmation email failed:', emailErr);
+        // Don't block the booking if email fails
+      }
+
+      // 4. Show success
+      showSuccess(appointment, roomId);
+
+    } catch(err) {
+      console.error('Booking error:', err);
+      alert('Something went wrong: ' + err.message + '. Please try again.');
+      btn.disabled = false;
+      btn.innerHTML = 'Book My Free Call <svg style="display:inline;vertical-align:middle;margin-left:6px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    }
+  };
+
+  function formatDateNice(dateStr) {
+    var dt = new Date(dateStr + 'T12:00:00');
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    return days[dt.getDay()] + ', ' + months[dt.getMonth()] + ' ' + dt.getDate() + ', ' + dt.getFullYear();
+  }
+
+  function showSuccess(appointment, roomId) {
+    // Hide form steps
+    document.querySelectorAll('.form-step').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelector('.steps').style.display = 'none';
+
+    // Build success details
+    var details = document.getElementById('successDetails');
+    details.innerHTML =
+      '<div class="sd-row"><span class="sd-label">Date</span><span class="sd-value">' + formatDateNice(selectedSlot.date) + '</span></div>' +
+      '<div class="sd-row"><span class="sd-label">Time</span><span class="sd-value">' + formatTime(selectedSlot.start_time) + ' ET (30 min)</span></div>' +
+      '<div class="sd-row"><span class="sd-label">Topic</span><span class="sd-value">' + (selectedInterest || '').replace(/_/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); }) + '</span></div>' +
+      '<div class="sd-row"><span class="sd-label">Video Call</span><span class="sd-value"><a href="https://liftori.ai/call/' + roomId + '" style="color: var(--purple-light); text-decoration: underline;">Join Link</a></span></div>';
+
+    document.getElementById('successState').classList.add('active');
+  }
+
+  // ===== URL PARAM: PRE-SELECT INTEREST =====
+  var urlParams = new URLSearchParams(window.location.search);
+  var preInterest = urlParams.get('interest');
+  if (preInterest) {
+    var card = document.querySelector('.interest-card[data-value="' + preInterest + '"]');
+    if (card) {
+      selectInterest(card);
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>
