@@ -398,6 +398,11 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(0,212,170,0); }
+  }
+
   /* —— SECTION BASE —— */
   section { position: relative; z-index: 1; }
 
@@ -1785,6 +1790,7 @@
       </div>
     </li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#labos" style="color: #00d4aa; font-weight: 600;">Business OS</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="#" class="nav-login" onclick="loginOpen();return false;">Login</a></li>
     <li><a href="#pricing" class="nav-cta">Get Started</a></li>
@@ -2431,6 +2437,116 @@
   
       
     </div>
+</section>
+
+<!-- LABOS — Liftori AI Business Operating System -->
+<section id="labos" style="padding: 100px 20px; background: linear-gradient(180deg, #060B18 0%, #081225 30%, #0A1A35 50%, #081225 70%, #060B18 100%); position: relative; overflow: hidden;">
+  <!-- Animated background glow -->
+  <div style="position: absolute; top: 50%; left: 50%; width: 800px; height: 800px; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%); pointer-events: none;"></div>
+  <div style="position: absolute; top: 20%; right: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,212,170,0.05) 0%, transparent 70%); pointer-events: none;"></div>
+
+  <div style="max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 2;">
+
+    <!-- Announcement Badge -->
+    <div class="reveal" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(0,212,170,0.1)); border: 1px solid rgba(14,165,233,0.3); border-radius: 40px; padding: 8px 24px; margin-bottom: 32px;">
+      <span style="display: inline-block; width: 8px; height: 8px; background: #00d4aa; border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite;"></span>
+      <span style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #7DD3FC;">Coming Soon</span>
+    </div>
+
+    <!-- Main Title -->
+    <h2 class="reveal" style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 7vw, 88px); letter-spacing: 4px; line-height: 0.95; margin-bottom: 8px;">
+      <span style="background: linear-gradient(180deg, #E0F7FF 0%, #7DD3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LIFTORI AI</span><br/>
+      <span style="background: linear-gradient(180deg, #00d4aa 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">BUSINESS OPERATING SYSTEM</span>
+    </h2>
+
+    <!-- Subtitle -->
+    <p class="reveal" style="font-family: 'DM Sans', sans-serif; color: #7DD3FC; font-size: clamp(16px, 2vw, 20px); line-height: 1.7; max-width: 720px; margin: 24px auto 48px; opacity: 0.9;">
+      One platform. Every department. Powered by AI.<br/>
+      <span style="color: #E0F7FF; font-weight: 600;">CRM, communications, video, marketing, HR, finance, operations, and more &mdash; all in one place.</span>
+    </p>
+
+    <!-- Feature Grid -->
+    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 56px; max-width: 1000px; margin-left: auto; margin-right: auto;">
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#127919;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Sales CRM</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Full pipeline, lead scoring, follow-ups, deal tracking</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128172;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Team Chat</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Channels, DMs, announcements, real-time messaging</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128249;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Video Calls</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">HD video meetings with AI note-taking built in</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128226;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Marketing</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Campaigns, email blasts, analytics, automations</p>
+      </div>
+
+      <div style="background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,170,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(0,212,170,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#129302;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">AI Departments</h3>
+        <p style="color: #00d4aa; font-size: 0.8rem; line-height: 1.5; opacity: 0.9;">HR, Legal, Finance, Ops &mdash; AI agents that run entire departments</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128202;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">EOS Tools</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Vision, Traction, Scorecards, L10 Meetings, Rocks</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128222;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Call Center</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Built-in VoIP, call routing, recording, analytics</p>
+      </div>
+
+      <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 28px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(14,165,233,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(14,165,233,0.15)'">
+        <div style="font-size: 28px; margin-bottom: 8px;">&#128176;</div>
+        <h3 style="color: #E0F7FF; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; margin-bottom: 4px;">Finance Hub</h3>
+        <p style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; opacity: 0.8;">Invoicing, expenses, reporting, revenue tracking</p>
+      </div>
+    </div>
+
+    <!-- Value Proposition Banner -->
+    <div class="reveal" style="background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(14,165,233,0.08)); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; padding: 40px 32px; max-width: 900px; margin: 0 auto 48px; position: relative;">
+      <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #00d4aa, #0EA5E9); padding: 6px 20px; border-radius: 0 0 12px 12px;">
+        <span style="font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #060B18;">Why Switch?</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-top: 12px;">
+        <div style="text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #00d4aa; letter-spacing: 1px;">10+ Tools</div>
+          <div style="color: #7DD3FC; font-size: 0.85rem;">Replaced by one platform</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #00d4aa; letter-spacing: 1px;">$500+/mo</div>
+          <div style="color: #7DD3FC; font-size: 0.85rem;">Saved vs. separate tools</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #00d4aa; letter-spacing: 1px;">AI-First</div>
+          <div style="color: #7DD3FC; font-size: 0.85rem;">Every feature powered by AI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="reveal" style="margin-top: 16px;">
+      <p style="color: #E0F7FF; font-size: 1.15rem; margin-bottom: 24px; font-weight: 500;">Be first to access the most complete business operating system ever built.</p>
+      <button class="btn-primary" onclick="openModal()" style="font-size: 1.15rem; padding: 18px 48px; cursor: pointer; background: linear-gradient(135deg, #00d4aa, #0EA5E9); border: none; border-radius: 12px; color: #060B18; font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 0 30px rgba(0,212,170,0.3);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 50px rgba(0,212,170,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 30px rgba(0,212,170,0.3)'">
+        Get Early Access &rarr;
+      </button>
+      <p style="color: rgba(125,211,252,0.5); font-size: 0.8rem; margin-top: 14px;">Launching soon. Early access members get priority onboarding + locked-in pricing.</p>
+    </div>
+  </div>
 </section>
 
 <!-- VJ SHOWCASE - Real Customer Build -->
