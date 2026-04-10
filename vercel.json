@@ -11,6 +11,7 @@
       "dest": "/vj/$1"
     },
     { "src": "/blog", "dest": "/blog.html" },
+    { "src": "/careers", "dest": "/careers.html" },
     { "handle": "filesystem" }
   ]
 }
