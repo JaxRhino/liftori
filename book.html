@@ -1046,7 +1046,10 @@
     slots.forEach(function(slot) {
       var el = document.createElement('div');
       el.className = 'time-slot';
-      el.textContent = formatTime(slot.start_time);
+      var label = formatTime(slot.start_time);
+      if (slot.end_time) label += ' - ' + formatTime(slot.end_time);
+      if (slot.duration && slot.duration !== 60) label += ' (' + slot.duration + 'min)';
+      el.textContent = label;
       el.onclick = function() { selectSlot(slot, el); };
       grid.appendChild(el);
     });
@@ -1071,31 +1074,130 @@
     return h + ':' + m + ' ' + ampm;
   }
 
-  // ===== LOAD AVAILABLE SLOTS =====
+  // ===== LOAD AVAILABLE SLOTS (from team_availability + time_off + appointments) =====
+  var teamSchedules = [];
+  var teamTimeOff = [];
+  var bookedAppointments = [];
+
   async function loadAvailableSlots() {
     var year = currentMonth.getFullYear();
     var month = currentMonth.getMonth();
     var startDate = year + '-' + String(month+1).padStart(2,'0') + '-01';
     var endDate = year + '-' + String(month+1).padStart(2,'0') + '-' + String(new Date(year, month+1, 0).getDate()).padStart(2,'0');
+    var headers = { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
 
     try {
-      var res = await fetch(SUPA_URL + '/rest/v1/consulting_slots?date=gte.' + startDate + '&date=lte.' + endDate + '&is_booked=eq.false&order=date.asc,start_time.asc', {
-        headers: {
-          'apikey': SUPA_KEY,
-          'Authorization': 'Bearer ' + SUPA_KEY
-        }
+      // Fetch all three data sources in parallel
+      var results = await Promise.all([
+        fetch(SUPA_URL + '/rest/v1/team_availability?is_active=eq.true&order=day_of_week.asc,start_time.asc', { headers: headers }).then(function(r) { return r.ok ? r.json() : []; }),
+        fetch(SUPA_URL + '/rest/v1/team_time_off?date=gte.' + startDate + '&date=lte.' + endDate + '&order=date.asc', { headers: headers }).then(function(r) { return r.ok ? r.json() : []; }),
+        fetch(SUPA_URL + '/rest/v1/consulting_appointments?appointment_date=gte.' + startDate + '&appointment_date=lte.' + endDate + '&status=neq.cancelled&order=appointment_date.asc', { headers: headers }).then(function(r) { return r.ok ? r.json() : []; }),
+        // Also try legacy consulting_slots as fallback
+        fetch(SUPA_URL + '/rest/v1/consulting_slots?date=gte.' + startDate + '&date=lte.' + endDate + '&is_booked=eq.false&order=date.asc,start_time.asc', { headers: headers }).then(function(r) { return r.ok ? r.json() : []; })
+      ]);
+
+      teamSchedules = results[0] || [];
+      teamTimeOff = results[1] || [];
+      bookedAppointments = results[2] || [];
+      var legacySlots = results[3] || [];
+
+      // Compute available slots from recurring schedules
+      availableSlots = computeAvailableSlots(startDate, endDate);
+
+      // Merge in any legacy consulting_slots that don't overlap
+      legacySlots.forEach(function(ls) {
+        var exists = availableSlots.some(function(as) {
+          return as.date === ls.date && as.start_time === ls.start_time;
+        });
+        if (!exists) availableSlots.push(ls);
       });
-      if (res.ok) {
-        availableSlots = await res.json();
-      } else {
-        availableSlots = [];
-      }
+
+      // Sort by date then time
+      availableSlots.sort(function(a, b) {
+        return a.date === b.date ? a.start_time.localeCompare(b.start_time) : a.date.localeCompare(b.date);
+      });
+
     } catch(e) {
-      console.error('Failed to load slots:', e);
+      console.error('Failed to load availability:', e);
       availableSlots = [];
     }
 
     markAvailableDates();
+  }
+
+  // Compute available time slots from recurring team schedules
+  function computeAvailableSlots(startDate, endDate) {
+    var slots = [];
+    var start = new Date(startDate + 'T12:00:00');
+    var end = new Date(endDate + 'T12:00:00');
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // For each date in the range
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      if (d < today) continue; // skip past dates
+
+      var dayOfWeek = d.getDay();
+      var dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
+      // Find team members available on this day
+      var daySchedules = teamSchedules.filter(function(s) { return s.day_of_week === dayOfWeek; });
+
+      daySchedules.forEach(function(schedule) {
+        // Check if team member has time off on this date
+        var hasFullDayOff = teamTimeOff.some(function(t) {
+          return t.user_id === schedule.user_id && t.date === dateStr && !t.start_time;
+        });
+        if (hasFullDayOff) return;
+
+        var partialOff = teamTimeOff.filter(function(t) {
+          return t.user_id === schedule.user_id && t.date === dateStr && t.start_time;
+        });
+
+        // Generate time slots from start_time to end_time using slot_duration_minutes
+        var duration = schedule.slot_duration_minutes || 60;
+        var startParts = schedule.start_time.split(':');
+        var endParts = schedule.end_time.split(':');
+        var startMin = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+        var endMin = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+
+        for (var m = startMin; m + duration <= endMin; m += duration) {
+          var slotStartH = String(Math.floor(m / 60)).padStart(2, '0');
+          var slotStartM = String(m % 60).padStart(2, '0');
+          var slotEndTotal = m + duration;
+          var slotEndH = String(Math.floor(slotEndTotal / 60)).padStart(2, '0');
+          var slotEndM = String(slotEndTotal % 60).padStart(2, '0');
+          var slotStart = slotStartH + ':' + slotStartM;
+          var slotEnd = slotEndH + ':' + slotEndM;
+
+          // Check if blocked by partial time off
+          var isBlocked = partialOff.some(function(t) {
+            return slotStart < t.end_time && slotEnd > t.start_time;
+          });
+          if (isBlocked) continue;
+
+          // Check if already booked
+          var isBooked = bookedAppointments.some(function(a) {
+            return a.appointment_date === dateStr &&
+                   a.consultant_id === schedule.user_id &&
+                   a.appointment_start === slotStart + ':00';
+          });
+          if (isBooked) continue;
+
+          slots.push({
+            date: dateStr,
+            start_time: slotStart,
+            end_time: slotEnd,
+            consultant_id: schedule.user_id,
+            slot_type: schedule.slot_type,
+            duration: duration,
+            _schedule_id: schedule.id
+          });
+        }
+      });
+    }
+
+    return slots;
   }
 
   // ===== GENERATE ROOM ID =====
@@ -1129,8 +1231,8 @@
     var roomId = generateRoomId();
 
     var payload = {
-      slot_id: selectedSlot.id,
-      consultant_id: selectedSlot.consultant_id,
+      slot_id: selectedSlot.id || null,
+      consultant_id: selectedSlot.consultant_id || null,
       lead_name: name,
       lead_email: email,
       lead_phone: document.getElementById('leadPhone').value.trim() || null,
