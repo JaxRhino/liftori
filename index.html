@@ -180,7 +180,7 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, transform 0.3s ease;
   }
   .labos-banner:hover { opacity: 0.92; }
   .labos-banner .banner-close {
@@ -2014,6 +2014,22 @@
       document.body.classList.remove('has-banner');
     });
   }
+
+  // Auto-hide banner on scroll down, show on scroll up
+  let lastScrollY = 0;
+  const bannerEl = document.getElementById('labosBanner');
+  window.addEventListener('scroll', function() {
+    if (!bannerEl || bannerEl.style.display === 'none') return;
+    const currentY = window.scrollY;
+    if (currentY > 200 && currentY > lastScrollY) {
+      bannerEl.style.transform = 'translateY(-100%)';
+      document.body.classList.remove('has-banner');
+    } else if (currentY < lastScrollY) {
+      bannerEl.style.transform = 'translateY(0)';
+      if (currentY < 100) document.body.classList.add('has-banner');
+    }
+    lastScrollY = currentY;
+  }, { passive: true });
 </script>
 
 <nav>
@@ -2488,7 +2504,7 @@
           <li>– Ongoing support</li>
           <li>– Hosting included</li>
         </ul>
-        <a href="#" class="price-cta">Get Started</a>
+        <a href="#" class="price-cta" onclick="openTriageModal();return false;">Get Started</a>
       </div>
 
       <!-- NEW: Pro Tier (on sale) -->
@@ -2512,7 +2528,7 @@
           <li>– Hosting & maintenance</li>
           <li>– Ongoing support</li>
         </ul>
-        <a href="#" class="price-cta cta-primary">Get Started</a>
+        <a href="#" class="price-cta cta-primary" onclick="openTriageModal();return false;">Get Started</a>
       </div>
 
       <!-- Starter (renumbered Tier 03) -->
@@ -2535,7 +2551,7 @@
           <li>– Ongoing support</li>
           <li>– AI feature integration</li>
         </ul>
-        <a href="#" class="price-cta">Get Started</a>
+        <a href="#" class="price-cta" onclick="openTriageModal();return false;">Get Started</a>
       </div>
 
       <!-- Growth (renumbered Tier 04) -->
@@ -2558,7 +2574,7 @@
           <li>– Dedicated account manager</li>
           <li>– Priority build queue</li>
         </ul>
-        <a href="#" class="price-cta">Get Started</a>
+        <a href="#" class="price-cta" onclick="openTriageModal();return false;">Get Started</a>
       </div>
 
       <!-- Scale (renumbered Tier 05) -->
@@ -2581,12 +2597,12 @@
           <li>✓ Quarterly strategy sessions</li>
           <li>✓ White-label option available</li>
         </ul>
-        <a href="#" class="price-cta">Get Started</a>
+        <a href="#" class="price-cta" onclick="openTriageModal();return false;">Get Started</a>
       </div>
 
       <!-- FINANCING CTA (fills empty grid space) -->
       <div class="price-card financing-card reveal">
-        <div class="financing-icon">ð°</div>
+        <div class="financing-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <div class="financing-title">Money Tight?<br>We Can Help!</div>
         <div class="financing-desc">Get signed up and once we get to the numbers portion of your estimate, we may be able to extend your payments into <strong>6 or 12 monthly installments</strong>.</div>
         <div class="financing-examples">
@@ -3359,8 +3375,15 @@
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.05, rootMargin: '50px 0px -30px 0px' });
   reveals.forEach(el => observer.observe(el));
+
+  // Fallback: force all .reveal elements visible after 3s in case observer fails
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      el.classList.add('visible');
+    });
+  }, 3000);
 
   // —— MODAL LOGIC ——
   const modal = document.getElementById('waitlistModal');
