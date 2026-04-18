@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invest in Liftori | The OS for Service Businesses</title>
+  <meta name="description" content="Liftori is building the operating system for service businesses. Learn about our seed round and book a discovery call with the founders.">
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0a1628;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --purple: #A855F7;
+      --purple-light: #C084FC;
+      --purple-dark: #7C3AED;
+      --green: #00d4aa;
+      --amber: #F59E0B;
+      --white: #FFFFFF;
+      --gray: #6B7280;
+      --gray-dark: #374151;
+      --gray-light: #9CA3AF;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-glow { position: fixed; top:0;left:0;right:0;bottom:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .bg-glow::before {
+      content:''; position:absolute; top:-20%; left:-10%; width:600px; height:600px;
+      background: radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%);
+      animation: float1 12s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content:''; position:absolute; bottom:-15%; right:-10%; width:500px; height:500px;
+      background: radial-gradient(circle, rgba(14,165,233,0.14) 0%, transparent 70%);
+      animation: float2 15s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(80px,60px);} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-60px,-40px);} }
+
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      padding: 14px 24px; display:flex; align-items:center; justify-content:space-between;
+      background: rgba(6,11,24,0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo-wrap { display:flex; align-items:center; gap:10px; }
+    .logo-wrap svg { width:30px; height:30px; }
+    .logo-text { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--white); }
+    .nav-tag { font-family:'DM Mono',monospace; font-size:11px; color:var(--light-blue); letter-spacing:1.5px; text-transform:uppercase; }
+
+    .page { position:relative; z-index:1; max-width: 680px; margin:0 auto; padding: 96px 20px 120px; }
+
+    .intro-rep {
+      display:flex; align-items:center; gap:14px;
+      padding: 14px 16px; border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 28px;
+    }
+    .rep-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:18px; color:#fff; flex-shrink:0;
+      border: 2px solid rgba(255,255,255,0.12);
+      overflow:hidden;
+    }
+    .rep-avatar img { width:100%; height:100%; object-fit:cover; }
+    .rep-text { flex:1; min-width:0; }
+    .rep-kicker { font-family:'DM Mono',monospace; font-size:10px; color:var(--gray-light); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
+    .rep-name { font-weight:600; font-size:15px; color:var(--white); }
+
+    h1 {
+      font-family:'Bebas Neue',sans-serif;
+      font-size: clamp(42px, 7vw, 64px);
+      line-height: 1.02; letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    h1 .accent {
+      background: linear-gradient(135deg, var(--purple-light) 0%, var(--light-blue) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sub {
+      font-size: 17px; line-height: 1.55; color: var(--gray-light);
+      margin-bottom: 36px;
+    }
+
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      margin-bottom: 36px;
+    }
+    .stat {
+      padding: 14px 12px; border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align:center;
+    }
+    .stat-value { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--white); letter-spacing:1px; line-height:1; }
+    .stat-label { font-family:'DM Mono',monospace; font-size:10px; color:var(--gray-light); letter-spacing:1.2px; text-transform:uppercase; margin-top:6px; }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing:1px;
+      color: var(--white); margin-bottom: 14px;
+    }
+    .card p { color: var(--gray-light); font-size: 14.5px; line-height: 1.6; }
+    .card p + p { margin-top: 10px; }
+
+    .bullets { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .bullets li { display:flex; gap:10px; align-items:flex-start; color: var(--white-ice); font-size:14.5px; line-height:1.5; }
+    .bullets li::before { content:''; margin-top:7px; width:6px; height:6px; border-radius:50%; background: var(--purple-light); flex-shrink:0; }
+
+    .team-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    .team-card {
+      padding: 14px; border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .team-name { font-weight:700; color: var(--white); font-size: 15px; }
+    .team-role { color: var(--gray-light); font-size: 12px; margin-top: 2px; font-family:'DM Mono',monospace; letter-spacing:0.8px; text-transform:uppercase; }
+    .team-bio { color: var(--white-ice); font-size: 13px; line-height: 1.5; margin-top: 8px; }
+
+    label { display:block; font-family:'DM Mono',monospace; font-size:11px; color:var(--light-blue); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; }
+    input[type=text], input[type=email], input[type=tel], textarea {
+      width:100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 13px 14px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--purple-light);
+      background: rgba(168,85,247,0.08);
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .field + .field { margin-top: 16px; }
+
+    .chip-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip {
+      padding: 10px 14px; border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white-ice);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer; user-select: none;
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: rgba(168,85,247,0.5); }
+    .chip.active {
+      background: rgba(168,85,247,0.18);
+      border-color: var(--purple-light);
+      color: var(--white);
+    }
+
+    .founder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .founder-card {
+      padding: 12px; border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .founder-card:hover { border-color: rgba(168,85,247,0.5); }
+    .founder-card.active { background: rgba(168,85,247,0.18); border-color: var(--purple-light); }
+    .founder-avatar { width:48px; height:48px; border-radius:50%; margin: 0 auto 8px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; color:#fff; font-size:16px;
+      overflow: hidden;
+    }
+    .founder-avatar img { width:100%; height:100%; object-fit:cover; }
+    .founder-name { font-weight:700; color: var(--white); font-size: 14px; }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.25);
+      transition: transform 0.1s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(168,85,247,0.35); }
+    .btn:active { transform: translateY(0); }
+    .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      box-shadow: none;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.04); box-shadow: none; }
+
+    .toggle-book {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 14px 16px; border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+    }
+    .toggle-book.on { border-color: var(--purple-light); background: rgba(168,85,247,0.12); }
+    .toggle-book-label { font-weight: 600; font-size: 15px; }
+    .toggle-sub { font-size: 12.5px; color: var(--gray-light); margin-top: 2px; }
+    .toggle-indicator {
+      width: 40px; height: 24px; border-radius: 999px;
+      background: rgba(255,255,255,0.14); position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle-indicator::after {
+      content:''; position:absolute; top:3px; left:3px;
+      width:18px; height:18px; border-radius:50%;
+      background: var(--white); transition: left 0.2s;
+    }
+    .toggle-book.on .toggle-indicator { background: var(--purple); }
+    .toggle-book.on .toggle-indicator::after { left: 19px; }
+
+    .error-msg {
+      background: rgba(244,63,94,0.12);
+      border: 1px solid rgba(244,63,94,0.4);
+      color: #fecaca;
+      font-size: 13.5px; line-height: 1.5;
+      padding: 12px 14px; border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    .success {
+      text-align: center; padding: 30px 20px;
+    }
+    .success-emoji { font-size: 52px; margin-bottom: 14px; filter: saturate(1.1); }
+    .success h2 { font-family:'Bebas Neue',sans-serif; font-size: 34px; letter-spacing:1px; margin-bottom: 10px; }
+    .success p { color: var(--gray-light); line-height: 1.6; font-size: 15px; }
+
+    .hidden { display: none !important; }
+
+    .confidential {
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 5px 10px; border-radius: 999px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.35);
+      font-family:'DM Mono',monospace;
+      font-size: 10px; color: var(--amber);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 540px) {
+      .team-row { grid-template-columns: 1fr; }
+      .stat-row { gap: 8px; }
+      .stat-value { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <nav class="nav">
+    <div class="logo-wrap">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#A855F7"/><stop offset="100%" stop-color="#0EA5E9"/>
+          </linearGradient>
+        </defs>
+        <path d="M25 75 L25 25 L40 25 L40 60 L70 25 L88 25 L60 55 L88 75 L70 75 L50 55 L40 66 L40 75 Z" fill="url(#nlg)"/>
+      </svg>
+      <div class="logo-text">LIFTORI</div>
+    </div>
+    <div class="nav-tag">Investor Room</div>
+  </nav>
+
+  <main class="page">
+    <div id="app-loading">
+      <div style="opacity:0.6; font-family:'DM Mono',monospace; font-size:13px; letter-spacing:1px; text-align:center; padding: 40px 0;">LOADING…</div>
+    </div>
+
+    <div id="app" class="hidden">
+      <div id="rep-intro" class="intro-rep hidden">
+        <div class="rep-avatar" id="rep-avatar"><span id="rep-initials">L</span></div>
+        <div class="rep-text">
+          <div class="rep-kicker">Introduced by</div>
+          <div class="rep-name" id="rep-name">A member of the Liftori team</div>
+        </div>
+      </div>
+
+      <div class="confidential">Confidential — Investor Only</div>
+      <h1>Invest in the <span class="accent">operating system</span> for service businesses.</h1>
+      <p class="sub">Liftori is building the platform that turns an idea into a live, deployed product — and then runs the business that ships it. We're raising a seed round to accelerate toward our first $1M in ARR.</p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-value">$150K</div>
+          <div class="stat-label">Seed Ask</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">18 mo</div>
+          <div class="stat-label">Runway</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">$10B+</div>
+          <div class="stat-label">Market</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>What We're Building</h2>
+        <ul class="bullets">
+          <li>AI-powered platform: idea → brief → design → live, deployed product</li>
+          <li>Business Launchpad: LLC, branding, domain, infrastructure in one flow</li>
+          <li>LABOS: the AI operating system that runs service businesses</li>
+          <li>Margin path to 80%+ as AI agents replace manual build labor</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Why Now</h2>
+        <p>Small service businesses spend tens of thousands assembling fragmented tools — CRM, scheduling, ops, marketing, finance — from five different vendors who don't talk to each other. We consolidate the whole stack into one AI-native platform, then license the delivery engine.</p>
+        <p>We're pre-revenue, post-platform. Real code, real first client shipped, a clear pricing model, and a pipeline already forming.</p>
+      </div>
+
+      <div class="card">
+        <h2>The Founders</h2>
+        <div class="team-row">
+          <div class="team-card">
+            <div class="team-name">Ryan March</div>
+            <div class="team-role">Founder &amp; CEO</div>
+            <div class="team-bio">Former Business Operations Manager at RhinoShield of Florida. Builder-operator. Designed and shipped the full Liftori platform.</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Mike Lydon</div>
+            <div class="team-role">Co-Founder &amp; Sales</div>
+            <div class="team-bio">Revenue-focused partner. Leads customer acquisition, partnerships, and commercial strategy.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Let's Talk</h2>
+        <p style="margin-bottom: 18px;">Tell us a bit about yourself and we'll follow up within 24 hours. Optionally pick a founder to book a direct 20-minute discovery call.</p>
+
+        <div id="error" class="error-msg hidden"></div>
+
+        <form id="lead-form">
+          <div class="field">
+            <label for="f-name">Your Name *</label>
+            <input id="f-name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email *</label>
+            <input id="f-email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone (optional)</label>
+            <input id="f-phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="f-company">Firm / Fund (optional)</label>
+            <input id="f-company" type="text" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label>Investment Range *</label>
+            <div class="chip-row" id="range-chips">
+              <div class="chip" data-range="under_25k">Under $25K</div>
+              <div class="chip" data-range="25k_100k">$25K – $100K</div>
+              <div class="chip" data-range="100k_250k">$100K – $250K</div>
+              <div class="chip" data-range="250k_plus">$250K+</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Accredited Investor *</label>
+            <div class="chip-row" id="acc-chips">
+              <div class="chip" data-acc="yes">Yes</div>
+              <div class="chip" data-acc="no">No</div>
+              <div class="chip" data-acc="unsure">Not Sure</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Timeline *</label>
+            <div class="chip-row" id="tl-chips">
+              <div class="chip" data-tl="now">Ready Now</div>
+              <div class="chip" data-tl="30d">Next 30 Days</div>
+              <div class="chip" data-tl="90d">Next 90 Days</div>
+              <div class="chip" data-tl="exploring">Just Exploring</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-msg">Anything else we should know? (optional)</label>
+            <textarea id="f-msg" placeholder="Thesis fit, referrals, questions, etc."></textarea>
+          </div>
+
+          <div class="field">
+            <div class="toggle-book" id="book-toggle">
+              <div>
+                <div class="toggle-book-label">Book a discovery call</div>
+                <div class="toggle-sub">Optional — 20 minutes with one of the founders</div>
+              </div>
+              <div class="toggle-indicator"></div>
+            </div>
+          </div>
+
+          <div id="book-panel" class="field hidden">
+            <label>Pick a Founder</label>
+            <div class="founder-grid" id="founder-grid"></div>
+            <div style="margin-top: 12px; font-size: 13px; color: var(--gray-light); line-height: 1.5;">
+              They'll reach out by email within 24 hours with a calendar link.
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 24px;">
+            <button type="submit" id="submit-btn" class="btn">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="success" class="card success hidden">
+        <div class="success-emoji">🎯</div>
+        <h2 id="success-title">Got it — thank you.</h2>
+        <p id="success-body">We've received your note and one of the founders will follow up within 24 hours.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function () {
+      var SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+      var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+      var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+      // ─── URL parsing ────────────────────────────────────────────
+      function getHandle() {
+        try {
+          var path = window.location.pathname || '';
+          var qs = new URLSearchParams(window.location.search);
+          var qr = qs.get('r') || qs.get('handle') || qs.get('rep');
+          if (qr) return qr.trim();
+          var m = path.match(/^\/invest\/([^\/?#]+)/i);
+          if (m && m[1]) return decodeURIComponent(m[1]).trim();
+          return null;
+        } catch (e) { return null; }
+      }
+
+      // ─── State ──────────────────────────────────────────────────
+      var state = {
+        handle: getHandle(),
+        rep: null,                   // resolved rep profile (optional)
+        range: null,                 // under_25k | 25k_100k | 100k_250k | 250k_plus
+        accredited: null,            // yes | no | unsure
+        timeline: null,              // now | 30d | 90d | exploring
+        book: false,
+        founders: [],                // [{id, full_name, avatar_url, email}]
+        founder_id: null,
+        submitting: false
+      };
+
+      // ─── Helpers ────────────────────────────────────────────────
+      function initials(name) {
+        if (!name) return 'L';
+        var parts = String(name).trim().split(/\s+/);
+        return ((parts[0] || '')[0] || '') + ((parts[1] || '')[0] || '');
+      }
+
+      function showError(msg) {
+        var el = document.getElementById('error');
+        el.textContent = msg;
+        el.classList.remove('hidden');
+        window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+      }
+      function clearError() {
+        document.getElementById('error').classList.add('hidden');
+      }
+
+      // ─── Boot ───────────────────────────────────────────────────
+      async function boot() {
+        // 1. Resolve rep (optional — page works without)
+        if (state.handle) {
+          try {
+            var resp = await sb.rpc('resolve_rep_handle', { p_handle: state.handle });
+            if (!resp.error && resp.data && resp.data.length) {
+              state.rep = resp.data[0];
+            }
+          } catch (e) { /* non-fatal */ }
+        }
+
+        // 2. Log scan (fire-and-forget)
+        if (state.rep || state.handle) {
+          try {
+            sb.from('investor_qr_scans').insert({
+              rep_id: state.rep ? state.rep.id : null,
+              rep_handle: state.rep ? state.rep.rep_handle : (state.handle || 'unknown'),
+              referrer: document.referrer || null,
+              user_agent: navigator.userAgent || null
+            }).then(function(){}, function(){});
+          } catch (e) { /* non-fatal */ }
+        }
+
+        // 3. Fetch founders
+        try {
+          var fresp = await sb.rpc('list_investor_founders');
+          if (!fresp.error && Array.isArray(fresp.data)) {
+            state.founders = fresp.data;
+          }
+        } catch (e) { /* non-fatal */ }
+
+        // 4. Render
+        renderRepIntro();
+        renderFounders();
+        wireChips();
+        wireBookToggle();
+        wireForm();
+
+        document.getElementById('app-loading').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+      }
+
+      function renderRepIntro() {
+        if (!state.rep) return;
+        var wrap = document.getElementById('rep-intro');
+        wrap.classList.remove('hidden');
+        document.getElementById('rep-name').textContent = state.rep.full_name || 'A Liftori team member';
+        document.getElementById('rep-initials').textContent = initials(state.rep.full_name || state.rep.rep_handle || 'L').toUpperCase();
+        if (state.rep.avatar_url) {
+          var av = document.getElementById('rep-avatar');
+          av.innerHTML = '';
+          var img = document.createElement('img');
+          img.src = state.rep.avatar_url;
+          img.alt = state.rep.full_name || '';
+          av.appendChild(img);
+        }
+      }
+
+      function renderFounders() {
+        var grid = document.getElementById('founder-grid');
+        grid.innerHTML = '';
+        state.founders.forEach(function (f) {
+          var card = document.createElement('div');
+          card.className = 'founder-card';
+          card.setAttribute('data-id', f.id);
+          var av = document.createElement('div');
+          av.className = 'founder-avatar';
+          if (f.avatar_url) {
+            var img = document.createElement('img');
+            img.src = f.avatar_url;
+            img.alt = f.full_name || '';
+            av.appendChild(img);
+          } else {
+            av.textContent = initials(f.full_name).toUpperCase();
+          }
+          var nm = document.createElement('div');
+          nm.className = 'founder-name';
+          nm.textContent = (f.full_name || '').split(' ')[0] || f.full_name || 'Founder';
+          card.appendChild(av);
+          card.appendChild(nm);
+          card.addEventListener('click', function () {
+            state.founder_id = f.id;
+            Array.from(grid.children).forEach(function (c) { c.classList.remove('active'); });
+            card.classList.add('active');
+          });
+          grid.appendChild(card);
+        });
+      }
+
+      function wireChips() {
+        function wire(container, key) {
+          var els = container.querySelectorAll('.chip');
+          els.forEach(function (el) {
+            el.addEventListener('click', function () {
+              els.forEach(function (o) { o.classList.remove('active'); });
+              el.classList.add('active');
+              state[key] = el.getAttribute('data-' + (
+                key === 'range' ? 'range' :
+                key === 'accredited' ? 'acc' :
+                'tl'
+              ));
+            });
+          });
+        }
+        wire(document.getElementById('range-chips'), 'range');
+        wire(document.getElementById('acc-chips'), 'accredited');
+        wire(document.getElementById('tl-chips'), 'timeline');
+      }
+
+      function wireBookToggle() {
+        var t = document.getElementById('book-toggle');
+        var panel = document.getElementById('book-panel');
+        t.addEventListener('click', function () {
+          state.book = !state.book;
+          t.classList.toggle('on', state.book);
+          panel.classList.toggle('hidden', !state.book);
+          if (state.book && !state.founder_id && state.founders[0]) {
+            state.founder_id = state.founders[0].id;
+            var first = document.querySelector('#founder-grid .founder-card');
+            if (first) first.classList.add('active');
+          }
+          if (!state.book) {
+            state.founder_id = null;
+            document.querySelectorAll('#founder-grid .founder-card').forEach(function (c) { c.classList.remove('active'); });
+          }
+        });
+      }
+
+      function wireForm() {
+        document.getElementById('lead-form').addEventListener('submit', onSubmit);
+      }
+
+      async function onSubmit(e) {
+        e.preventDefault();
+        if (state.submitting) return;
+        clearError();
+
+        var name = document.getElementById('f-name').value.trim();
+        var email = document.getElementById('f-email').value.trim();
+        var phone = document.getElementById('f-phone').value.trim();
+        var company = document.getElementById('f-company').value.trim();
+        var message = document.getElementById('f-msg').value.trim();
+
+        if (!name) return showError('Please enter your name.');
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Please enter a valid email.');
+        if (!state.range) return showError('Please pick an investment range.');
+        if (!state.accredited) return showError('Please indicate accreditation status.');
+        if (!state.timeline) return showError('Please pick a timeline.');
+
+        var book_ts = null;
+        var book_founder = null;
+        if (state.book) {
+          if (!state.founder_id) return showError('Please pick a founder for your call.');
+          book_founder = state.founder_id;
+          // Placeholder booking: tomorrow 3pm rep timezone. The founder will follow up
+          // with a real calendar link within 24h — this flag is enough to mark
+          // the lead as "meeting_scheduled" and prioritize it internally.
+          var d = new Date();
+          d.setDate(d.getDate() + 1);
+          d.setHours(15, 0, 0, 0);
+          book_ts = d.toISOString();
+        }
+
+        var tz = null;
+        try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+
+        state.submitting = true;
+        var btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        try {
+          var res = await sb.rpc('submit_investor_lead', {
+            p_rep_handle: state.handle || (state.rep ? state.rep.rep_handle : null),
+            p_name: name,
+            p_email: email,
+            p_phone: phone,
+            p_company: company,
+            p_investment_range: state.range,
+            p_accredited: state.accredited,
+            p_timeline: state.timeline,
+            p_message: message,
+            p_book_ts: book_ts,
+            p_book_founder_id: book_founder,
+            p_timezone: tz
+          });
+          if (res.error) throw res.error;
+
+          document.getElementById('lead-form').classList.add('hidden');
+          document.getElementById('book-toggle').classList.add('hidden');
+          var successEl = document.getElementById('success');
+          successEl.classList.remove('hidden');
+          if (state.book) {
+            document.getElementById('success-title').textContent = 'We got you.';
+            document.getElementById('success-body').textContent = 'One of the founders will follow up within 24 hours with a calendar link to lock in your call.';
+          }
+          window.scrollTo({ top: successEl.offsetTop - 80, behavior: 'smooth' });
+        } catch (err) {
+          console.error(err);
+          showError('Something went wrong. Please try again in a moment.');
+        } finally {
+          state.submitting = false;
+          btn.disabled = false;
+          btn.textContent = 'Submit';
+        }
+      }
+
+      // kick off
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -15,6 +15,10 @@
     { "src": "/book", "dest": "/book.html" },
     { "src": "/app", "dest": "/app.html" },
     { "src": "/call/(.*)", "dest": "/call.html" },
+    { "src": "/meet", "dest": "/meet.html" },
+    { "src": "/meet/([^/]+)", "dest": "/meet.html?r=$1" },
+    { "src": "/invest", "dest": "/invest.html" },
+    { "src": "/invest/([^/]+)", "dest": "/invest.html?r=$1" },
     { "handle": "filesystem" }
   ]
 }
