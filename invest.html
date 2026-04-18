@@ -271,6 +271,137 @@
       margin-bottom: 14px;
     }
 
+    /* ─── Three Paths ──────────────────────────────────────────── */
+    .paths-intro {
+      text-align:center; margin: 8px 0 18px;
+    }
+    .paths-kicker {
+      font-family:'DM Mono',monospace; font-size:11px; color:var(--light-blue);
+      letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;
+    }
+    .paths-title {
+      font-family:'Bebas Neue',sans-serif; font-size: 32px;
+      letter-spacing:1px; color:var(--white); line-height:1.05;
+    }
+    .paths-sub {
+      color: var(--gray-light); font-size: 14.5px; line-height: 1.55;
+      margin-top: 8px;
+    }
+
+    .paths-grid {
+      display: grid; grid-template-columns: 1fr; gap: 14px;
+      margin-bottom: 24px;
+    }
+    .path-card {
+      position: relative;
+      padding: 22px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: transform .15s, border-color .15s, background .15s;
+    }
+    .path-card:hover { transform: translateY(-2px); }
+    .path-card.flywheel { border-color: rgba(168,85,247,0.45); background: linear-gradient(180deg, rgba(168,85,247,0.08) 0%, rgba(168,85,247,0.02) 100%); }
+    .path-card.compound { border-color: rgba(14,165,233,0.45); background: linear-gradient(180deg, rgba(14,165,233,0.08) 0%, rgba(14,165,233,0.02) 100%); }
+    .path-card.founders { border-color: rgba(245,158,11,0.4); background: linear-gradient(180deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.02) 100%); }
+
+    .path-card.selected { outline: 2px solid var(--white); outline-offset: 2px; }
+
+    .path-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-radius: 999px;
+      font-family:'DM Mono',monospace; font-size: 10px;
+      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .path-card.flywheel .path-badge { background: rgba(168,85,247,0.18); color: var(--purple-light); }
+    .path-card.compound .path-badge { background: rgba(14,165,233,0.18); color: var(--light-blue); }
+    .path-card.founders .path-badge { background: rgba(245,158,11,0.14); color: var(--amber); }
+
+    .path-name {
+      font-family:'Bebas Neue',sans-serif; font-size: 26px;
+      letter-spacing: 1px; color: var(--white); line-height: 1.05;
+      margin-bottom: 4px;
+    }
+    .path-pitch {
+      font-style: italic; color: var(--white-ice); font-size: 14px;
+      line-height: 1.5; margin-bottom: 14px;
+    }
+
+    .path-min-row {
+      display:flex; align-items:baseline; gap: 8px;
+      margin: 14px 0 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .path-min {
+      font-family:'Bebas Neue',sans-serif;
+      font-size: 32px; letter-spacing: 0.5px;
+      color: var(--white); line-height: 1;
+    }
+    .path-cadence {
+      font-family:'DM Mono',monospace; font-size: 11px;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--gray-light);
+    }
+
+    .path-benefits { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom: 16px; }
+    .path-benefits li { display:flex; gap:8px; align-items:flex-start; color: var(--white-ice); font-size: 13.5px; line-height: 1.45; }
+    .path-benefits li::before { content:''; margin-top:6px; width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+    .path-card.flywheel .path-benefits li::before { background: var(--purple-light); }
+    .path-card.compound .path-benefits li::before { background: var(--light-blue); }
+    .path-card.founders .path-benefits li::before { background: var(--amber); }
+
+    .path-bestfor {
+      font-family:'DM Mono',monospace; font-size: 10.5px;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--gray-light); margin-bottom: 12px;
+    }
+    .path-bestfor strong { color: var(--white); font-weight: 600; }
+
+    .path-cta {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14.5px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.15s;
+    }
+    .path-card.flywheel .path-cta { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%); box-shadow: 0 8px 20px rgba(168,85,247,0.25); }
+    .path-card.compound .path-cta { background: linear-gradient(135deg, var(--blue) 0%, #0284c7 100%); box-shadow: 0 8px 20px rgba(14,165,233,0.25); }
+    .path-card.founders .path-cta { background: linear-gradient(135deg, var(--amber) 0%, #d97706 100%); box-shadow: 0 8px 20px rgba(245,158,11,0.25); }
+    .path-cta:hover { transform: translateY(-1px); }
+
+    .path-chips-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .path-chip {
+      padding: 10px 14px; border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white-ice);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer; user-select: none;
+      transition: all 0.15s;
+    }
+    .path-chip:hover { border-color: rgba(168,85,247,0.5); }
+    .path-chip.active[data-path=flywheel] { background: rgba(168,85,247,0.2); border-color: var(--purple-light); color: var(--white); }
+    .path-chip.active[data-path=compound] { background: rgba(14,165,233,0.2); border-color: var(--light-blue); color: var(--white); }
+    .path-chip.active[data-path=founders] { background: rgba(245,158,11,0.16); border-color: var(--amber); color: var(--white); }
+    .path-chip.active[data-path=undecided] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+    @media (min-width: 720px) {
+      .paths-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .path-card { padding: 20px 16px; }
+      .path-name { font-size: 22px; }
+      .path-min { font-size: 26px; }
+    }
+
     @media (max-width: 540px) {
       .team-row { grid-template-columns: 1fr; }
       .stat-row { gap: 8px; }
@@ -345,18 +476,83 @@
         <p>We're pre-revenue, post-platform. Real code, real first client shipped, a clear pricing model, and a pipeline already forming.</p>
       </div>
 
+      <div class="paths-intro">
+        <div class="paths-kicker">Three Ways In</div>
+        <div class="paths-title">Pick the path that fits you.</div>
+        <div class="paths-sub">Most people don't have $25K lying around. That's why we built three ways to back Liftori — from a <strong style="color:var(--white)">$100/month subscription</strong> to a traditional accredited SAFE. You in? We made sure there's a door.</div>
+      </div>
+
+      <div class="paths-grid">
+        <!-- FLYWHEEL FUND -->
+        <div class="path-card flywheel" data-path="flywheel">
+          <div class="path-badge">Revenue Share</div>
+          <div class="path-name">Flywheel Fund</div>
+          <div class="path-pitch">"Don't buy stock. Own a piece of every customer transaction that flows through our platform."</div>
+          <div class="path-min-row">
+            <div class="path-min">$500</div>
+            <div class="path-cadence">minimum, one-time</div>
+          </div>
+          <ul class="path-benefits">
+            <li>Monthly cash distributions tied to client GMV processed</li>
+            <li>Track your share on a live dashboard — see every dollar</li>
+            <li>First check arrives in 60 days, grows every month</li>
+            <li>Secondary-tradeable as a security token after 12 months</li>
+          </ul>
+          <div class="path-bestfor"><strong>Best for:</strong> Investors who want cash flow, not a 7-year exit</div>
+          <button type="button" class="path-cta" data-select-path="flywheel">Choose Flywheel Fund</button>
+        </div>
+
+        <!-- COMPOUND PATH -->
+        <div class="path-card compound" data-path="compound">
+          <div class="path-badge">Monthly Drip</div>
+          <div class="path-name">The Compound Path</div>
+          <div class="path-pitch">"Invest in a startup the same way you invest in your 401k — monthly, automatic, compounding."</div>
+          <div class="path-min-row">
+            <div class="path-min">$100</div>
+            <div class="path-cadence">per month</div>
+          </div>
+          <ul class="path-benefits">
+            <li>One SAFE signed today, valuation cap locked for 12 months</li>
+            <li>Monthly ACH auto-debit builds your equity painlessly</li>
+            <li>Tiers from $100/mo (Starter) to $2,500/mo (Champion)</li>
+            <li>Cancel anytime — but most people never do</li>
+          </ul>
+          <div class="path-bestfor"><strong>Best for:</strong> Believers who said "I don't have the money" — until now</div>
+          <button type="button" class="path-cta" data-select-path="compound">Choose Compound Path</button>
+        </div>
+
+        <!-- FOUNDERS' CIRCLE -->
+        <div class="path-card founders" data-path="founders">
+          <div class="path-badge">Accredited SAFE</div>
+          <div class="path-name">Founders' Circle</div>
+          <div class="path-pitch">"The traditional path — one check, one SAFE, inside access to the build."</div>
+          <div class="path-min-row">
+            <div class="path-min">$25K</div>
+            <div class="path-cadence">minimum, one-time</div>
+          </div>
+          <ul class="path-benefits">
+            <li>Classic SAFE at $8M cap, 20% discount to next round</li>
+            <li>Quarterly investor updates + data room access</li>
+            <li>Founder dinners and first right of refusal on future rounds</li>
+            <li>Accredited investors only (Reg D 506(c))</li>
+          </ul>
+          <div class="path-bestfor"><strong>Best for:</strong> Angels, family offices, operators who've done this before</div>
+          <button type="button" class="path-cta" data-select-path="founders">Choose Founders' Circle</button>
+        </div>
+      </div>
+
       <div class="card">
         <h2>The Founders</h2>
         <div class="team-row">
           <div class="team-card">
-            <div class="team-name">Ryan March</div>
-            <div class="team-role">Founder &amp; CEO</div>
-            <div class="team-bio">Former Business Operations Manager at RhinoShield of Florida. Builder-operator. Designed and shipped the full Liftori platform.</div>
+            <div class="team-name">Mike Lydon</div>
+            <div class="team-role">Co-Founder &amp; CEO</div>
+            <div class="team-bio">Revenue-focused operator leading commercial strategy, partnerships, and customer acquisition. Owns the P&amp;L and the go-to-market engine.</div>
           </div>
           <div class="team-card">
-            <div class="team-name">Mike Lydon</div>
-            <div class="team-role">Co-Founder &amp; Sales</div>
-            <div class="team-bio">Revenue-focused partner. Leads customer acquisition, partnerships, and commercial strategy.</div>
+            <div class="team-name">Ryan March</div>
+            <div class="team-role">Co-Founder &amp; Chief Developer</div>
+            <div class="team-bio">Former Business Operations Manager at RhinoShield of Florida. Builder-operator. Designed and shipped the full Liftori platform and runs all product + engineering.</div>
           </div>
         </div>
       </div>
@@ -383,6 +579,16 @@
           <div class="field">
             <label for="f-company">Firm / Fund (optional)</label>
             <input id="f-company" type="text" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label>Path *</label>
+            <div class="path-chips-row" id="path-chips">
+              <div class="path-chip" data-path="flywheel">Flywheel Fund</div>
+              <div class="path-chip" data-path="compound">Compound Path</div>
+              <div class="path-chip" data-path="founders">Founders' Circle</div>
+              <div class="path-chip" data-path="undecided">Still Deciding</div>
+            </div>
           </div>
 
           <div class="field">
@@ -475,6 +681,7 @@
       var state = {
         handle: getHandle(),
         rep: null,                   // resolved rep profile (optional)
+        path: null,                  // flywheel | compound | founders | undecided
         range: null,                 // under_25k | 25k_100k | 100k_250k | 250k_plus
         accredited: null,            // yes | no | unsure
         timeline: null,              // now | 30d | 90d | exploring
@@ -482,6 +689,21 @@
         founders: [],                // [{id, full_name, avatar_url, email}]
         founder_id: null,
         submitting: false
+      };
+
+      // Map path → default investment range
+      var PATH_DEFAULT_RANGE = {
+        compound:  'under_25k',
+        flywheel:  'under_25k',
+        founders:  '25k_100k',
+        undecided: null
+      };
+      // Human-readable labels for message prefix
+      var PATH_LABEL = {
+        flywheel:  'Flywheel Fund',
+        compound:  'Compound Path',
+        founders:  "Founders' Circle",
+        undecided: 'Still Deciding'
       };
 
       // ─── Helpers ────────────────────────────────────────────────
@@ -537,6 +759,8 @@
         renderRepIntro();
         renderFounders();
         wireChips();
+        wirePathChips();
+        wirePathCards();
         wireBookToggle();
         wireForm();
 
@@ -611,6 +835,52 @@
         wire(document.getElementById('tl-chips'), 'timeline');
       }
 
+      function setPath(p) {
+        state.path = p;
+        // Sync path chips
+        document.querySelectorAll('#path-chips .path-chip').forEach(function (c) {
+          c.classList.toggle('active', c.getAttribute('data-path') === p);
+        });
+        // Sync visual "selected" outline on the big path cards
+        document.querySelectorAll('.path-card').forEach(function (c) {
+          c.classList.toggle('selected', c.getAttribute('data-path') === p);
+        });
+        // Auto-fill range if none selected yet
+        var def = PATH_DEFAULT_RANGE[p];
+        if (def && !state.range) {
+          state.range = def;
+          var el = document.querySelector('#range-chips .chip[data-range="' + def + '"]');
+          if (el) {
+            document.querySelectorAll('#range-chips .chip').forEach(function (o) { o.classList.remove('active'); });
+            el.classList.add('active');
+          }
+        }
+      }
+
+      function wirePathChips() {
+        var chips = document.querySelectorAll('#path-chips .path-chip');
+        chips.forEach(function (el) {
+          el.addEventListener('click', function () {
+            setPath(el.getAttribute('data-path'));
+          });
+        });
+      }
+
+      function wirePathCards() {
+        document.querySelectorAll('[data-select-path]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var p = btn.getAttribute('data-select-path');
+            setPath(p);
+            // Scroll to form
+            var formCard = document.getElementById('lead-form');
+            if (formCard) {
+              var y = formCard.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+          });
+        });
+      }
+
       function wireBookToggle() {
         var t = document.getElementById('book-toggle');
         var panel = document.getElementById('book-panel');
@@ -647,9 +917,14 @@
 
         if (!name) return showError('Please enter your name.');
         if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Please enter a valid email.');
+        if (!state.path) return showError('Please pick an investment path.');
         if (!state.range) return showError('Please pick an investment range.');
         if (!state.accredited) return showError('Please indicate accreditation status.');
         if (!state.timeline) return showError('Please pick a timeline.');
+
+        // Prepend the chosen path to the message so it's captured on the lead.
+        var pathLabel = PATH_LABEL[state.path] || state.path;
+        var messageWithPath = '[Path: ' + pathLabel + ']' + (message ? ('\n\n' + message) : '');
 
         var book_ts = null;
         var book_founder = null;
@@ -683,7 +958,7 @@
             p_investment_range: state.range,
             p_accredited: state.accredited,
             p_timeline: state.timeline,
-            p_message: message,
+            p_message: messageWithPath,
             p_book_ts: book_ts,
             p_book_founder_id: book_founder,
             p_timezone: tz

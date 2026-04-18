@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flywheel Fund — Live Investor Dashboard | Liftori</title>
+  <meta name="description" content="Mock preview of the Liftori Flywheel Fund investor dashboard — watch client GMV flow through the platform in real time.">
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #060B18;
+      --navy-light: #0a1628;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --purple: #A855F7;
+      --purple-light: #C084FC;
+      --purple-dark: #7C3AED;
+      --green: #00d4aa;
+      --amber: #F59E0B;
+      --white: #FFFFFF;
+      --gray: #6B7280;
+      --gray-dark: #374151;
+      --gray-light: #9CA3AF;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .bg-glow::before {
+      content: ''; position: absolute; top: -20%; left: -10%; width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(168,85,247,0.16) 0%, transparent 70%);
+      animation: float1 14s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: ''; position: absolute; bottom: -15%; right: -10%; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%);
+      animation: float2 18s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(80px,60px);} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-60px,-40px);} }
+
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      padding: 14px 24px; display:flex; align-items:center; justify-content:space-between;
+      background: rgba(6,11,24,0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo-wrap { display:flex; align-items:center; gap:10px; }
+    .logo-wrap svg { width:30px; height:30px; }
+    .logo-text { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--white); }
+    .nav-tag { font-family:'DM Mono',monospace; font-size:11px; color:var(--purple-light); letter-spacing:1.5px; text-transform:uppercase; }
+
+    .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 96px 20px 80px; }
+
+    .preview-banner {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 10px 16px; border-radius: 999px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.4);
+      color: var(--amber);
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      width: fit-content; margin: 0 auto 20px;
+    }
+    .preview-banner::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--amber);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 54px);
+      line-height: 1.02; letter-spacing: 1px;
+      text-align: center; margin-bottom: 10px;
+    }
+    h1 .accent {
+      background: linear-gradient(135deg, var(--purple-light) 0%, var(--light-blue) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-sub {
+      text-align: center; font-size: 16px; color: var(--gray-light);
+      max-width: 680px; margin: 0 auto 40px; line-height: 1.55;
+    }
+
+    /* ─── Investor Header Card ───────────────────────────────── */
+    .investor-header {
+      background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(14,165,233,0.05) 100%);
+      border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 20px;
+    }
+    .investor-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: 20px;
+      flex-shrink: 0;
+    }
+    .investor-info { flex: 1; min-width: 0; }
+    .investor-kicker { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-light); letter-spacing: 1.5px; text-transform: uppercase; }
+    .investor-name { font-weight: 700; font-size: 18px; color: var(--white); margin-top: 2px; }
+    .investor-pool { color: var(--gray-light); font-size: 13px; margin-top: 2px; }
+
+    .investor-live {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-radius: 999px;
+      background: rgba(0,212,170,0.12);
+      border: 1px solid rgba(0,212,170,0.35);
+      color: var(--green);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase;
+    }
+    .investor-live::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    /* ─── Stats Grid ─────────────────────────────────────────── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--gray-light);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px; letter-spacing: 1px; color: var(--white); line-height: 1;
+    }
+    .stat-value.green { color: var(--green); }
+    .stat-value.purple { color: var(--purple-light); }
+    .stat-value.blue { color: var(--light-blue); }
+    .stat-delta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--green); margin-top: 8px;
+      letter-spacing: 0.8px;
+    }
+    .stat-delta.neg { color: #f87171; }
+
+    @media (min-width: 720px) {
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ─── Main Grid ──────────────────────────────────────────── */
+    .main-grid {
+      display: grid; grid-template-columns: 1fr; gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 900px) {
+      .main-grid { grid-template-columns: 2fr 1fr; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .card h2 {
+      font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+      letter-spacing: 1px; color: var(--white); margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card h2 .sub {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--gray-light); letter-spacing: 1.2px; text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    /* ─── Chart ──────────────────────────────────────────────── */
+    .chart-wrap { position: relative; width: 100%; height: 220px; margin-top: 8px; }
+    .chart-svg { width: 100%; height: 100%; overflow: visible; }
+    .chart-label {
+      font-family: 'DM Mono', monospace; font-size: 9px;
+      fill: var(--gray-light); letter-spacing: 0.8px;
+    }
+    .chart-tick { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+
+    /* ─── Activity Feed ──────────────────────────────────────── */
+    .feed { display: flex; flex-direction: column; gap: 10px; }
+    .feed-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .feed-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      font-family: 'Bebas Neue', sans-serif; font-size: 14px; color: #fff;
+    }
+    .feed-body { flex: 1; min-width: 0; }
+    .feed-client { font-weight: 600; font-size: 14px; color: var(--white); }
+    .feed-meta { font-size: 12px; color: var(--gray-light); margin-top: 2px; font-family: 'DM Mono', monospace; letter-spacing: 0.4px; }
+    .feed-amount { text-align: right; flex-shrink: 0; }
+    .feed-gmv { font-weight: 700; color: var(--white); font-size: 14px; }
+    .feed-fee { color: var(--green); font-size: 12px; margin-top: 2px; font-family: 'DM Mono', monospace; }
+
+    /* ─── Position Summary ──────────────────────────────────── */
+    .position-summary {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+    }
+    .position-row {
+      padding: 14px; border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .position-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--gray-light); letter-spacing: 1.2px; text-transform: uppercase;
+    }
+    .position-value {
+      font-family: 'Bebas Neue', sans-serif; font-size: 24px;
+      color: var(--white); margin-top: 6px; letter-spacing: 0.5px;
+    }
+
+    /* ─── CTA ──────────────────────────────────────────────── */
+    .cta-card {
+      margin-top: 24px;
+      padding: 32px 28px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.18) 0%, rgba(14,165,233,0.12) 100%);
+      border: 1px solid rgba(168,85,247,0.35);
+      text-align: center;
+    }
+    .cta-card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 34px; letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .cta-card p {
+      color: var(--white-ice); font-size: 15px; line-height: 1.55;
+      max-width: 560px; margin: 0 auto 20px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(168,85,247,0.45); }
+
+    .disclaimer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 11px; color: var(--gray-light);
+      font-family: 'DM Mono', monospace; letter-spacing: 0.8px;
+      line-height: 1.6;
+      max-width: 720px; margin-left: auto; margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <nav class="nav">
+    <div class="logo-wrap">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#A855F7"/><stop offset="100%" stop-color="#0EA5E9"/>
+          </linearGradient>
+        </defs>
+        <path d="M25 75 L25 25 L40 25 L40 60 L70 25 L88 25 L60 55 L88 75 L70 75 L50 55 L40 66 L40 75 Z" fill="url(#nlg)"/>
+      </svg>
+      <div class="logo-text">LIFTORI</div>
+    </div>
+    <div class="nav-tag">Flywheel Fund</div>
+  </nav>
+
+  <main class="page">
+    <div class="preview-banner">Preview Mock — Sample Data</div>
+
+    <h1>Watch your money <span class="accent">work in real time.</span></h1>
+    <p class="hero-sub">The Flywheel Fund dashboard — live below — shows exactly what every investor sees once they're in. Today's client GMV, your share of the pool, monthly distribution, cumulative earnings. Transparent. Tracked. Paid monthly.</p>
+
+    <!-- Investor Header -->
+    <div class="investor-header">
+      <div class="investor-avatar">JS</div>
+      <div class="investor-info">
+        <div class="investor-kicker">Signed in as</div>
+        <div class="investor-name">Jordan Sullivan</div>
+        <div class="investor-pool">Flywheel Fund · Pool Share: <strong style="color:var(--purple-light)">0.82%</strong> · Position: $8,200</div>
+      </div>
+      <div class="investor-live">LIVE</div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Today's Client GMV</div>
+        <div class="stat-value">$47,832</div>
+        <div class="stat-delta">▲ 12.4% vs yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Today's Platform Fees</div>
+        <div class="stat-value green">$718</div>
+        <div class="stat-delta">at 1.5% platform rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Your Share Today</div>
+        <div class="stat-value purple">$5.89</div>
+        <div class="stat-delta">▲ 0.82% of pool</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Cumulative Earned</div>
+        <div class="stat-value blue">$842</div>
+        <div class="stat-delta">since 2026-01-01</div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Chart -->
+      <div class="card">
+        <h2>
+          30-Day GMV Flow
+          <span class="sub">Platform fees collected</span>
+        </h2>
+        <div class="chart-wrap">
+          <svg class="chart-svg" viewBox="0 0 600 220" preserveAspectRatio="none">
+            <!-- Gridlines -->
+            <line class="chart-tick" x1="0" y1="40" x2="600" y2="40"/>
+            <line class="chart-tick" x1="0" y1="90" x2="600" y2="90"/>
+            <line class="chart-tick" x1="0" y1="140" x2="600" y2="140"/>
+            <line class="chart-tick" x1="0" y1="190" x2="600" y2="190"/>
+
+            <!-- Y-axis labels -->
+            <text class="chart-label" x="4" y="36">$1,000</text>
+            <text class="chart-label" x="4" y="86">$750</text>
+            <text class="chart-label" x="4" y="136">$500</text>
+            <text class="chart-label" x="4" y="186">$250</text>
+
+            <!-- Gradient fill area -->
+            <defs>
+              <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#A855F7"/>
+                <stop offset="100%" stop-color="#0EA5E9"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Area under line -->
+            <path d="M 20 180 L 40 172 L 60 168 L 80 160 L 100 165 L 120 150 L 140 145 L 160 148 L 180 130 L 200 135 L 220 120 L 240 115 L 260 118 L 280 100 L 300 105 L 320 92 L 340 85 L 360 90 L 380 75 L 400 80 L 420 68 L 440 60 L 460 65 L 480 52 L 500 45 L 520 48 L 540 38 L 560 32 L 580 28 L 580 210 L 20 210 Z" fill="url(#areaGrad)"/>
+
+            <!-- Trend line -->
+            <path d="M 20 180 L 40 172 L 60 168 L 80 160 L 100 165 L 120 150 L 140 145 L 160 148 L 180 130 L 200 135 L 220 120 L 240 115 L 260 118 L 280 100 L 300 105 L 320 92 L 340 85 L 360 90 L 380 75 L 400 80 L 420 68 L 440 60 L 460 65 L 480 52 L 500 45 L 520 48 L 540 38 L 560 32 L 580 28" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+            <!-- Latest point -->
+            <circle cx="580" cy="28" r="5" fill="#0EA5E9" stroke="#fff" stroke-width="2"/>
+            <text class="chart-label" x="520" y="20" style="font-size: 11px; fill: var(--light-blue);">$718 today</text>
+
+            <!-- X-axis labels -->
+            <text class="chart-label" x="20" y="210">Mar 19</text>
+            <text class="chart-label" x="200" y="210">Mar 29</text>
+            <text class="chart-label" x="380" y="210">Apr 8</text>
+            <text class="chart-label" x="540" y="210">Apr 18</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Position Summary -->
+      <div class="card">
+        <h2>Your Position<span class="sub">Fund units</span></h2>
+        <div class="position-summary">
+          <div class="position-row">
+            <div class="position-label">Invested</div>
+            <div class="position-value">$8,200</div>
+          </div>
+          <div class="position-row">
+            <div class="position-label">Units Held</div>
+            <div class="position-value">82.00</div>
+          </div>
+          <div class="position-row">
+            <div class="position-label">Pool Share</div>
+            <div class="position-value">0.82%</div>
+          </div>
+          <div class="position-row">
+            <div class="position-label">Avg / Month</div>
+            <div class="position-value" style="color: var(--green);">$211</div>
+          </div>
+        </div>
+        <div style="margin-top: 14px; padding: 12px; border-radius: 10px; background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.2); font-size: 12.5px; color: var(--white-ice); line-height: 1.5;">
+          <strong style="color: var(--green);">Projected at current run rate:</strong> $2,530 / year. Breakeven vs. invested in <strong style="color: var(--green);">3.2 years</strong> — then it's all upside, forever.
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Activity Feed -->
+    <div class="card">
+      <h2>
+        Live Client Activity
+        <span class="sub">Last 6 transactions</span>
+      </h2>
+      <div class="feed">
+        <div class="feed-row">
+          <div class="feed-icon">VJ</div>
+          <div class="feed-body">
+            <div class="feed-client">VJ Thrift Finds</div>
+            <div class="feed-meta">Order #2847 · Jacksonville, FL · 2 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$184.00</div>
+            <div class="feed-fee">+$2.76 fee</div>
+          </div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-icon">LB</div>
+          <div class="feed-body">
+            <div class="feed-client">Luma Boutique</div>
+            <div class="feed-meta">Subscription · Miami, FL · 8 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$89.00</div>
+            <div class="feed-fee">+$1.34 fee</div>
+          </div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-icon">RS</div>
+          <div class="feed-body">
+            <div class="feed-client">RestoSpark</div>
+            <div class="feed-meta">Invoice #0492 · Orlando, FL · 14 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$2,400.00</div>
+            <div class="feed-fee">+$36.00 fee</div>
+          </div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-icon">HP</div>
+          <div class="feed-body">
+            <div class="feed-client">Harbor Paint Co.</div>
+            <div class="feed-meta">Deposit · Tampa, FL · 23 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$5,500.00</div>
+            <div class="feed-fee">+$82.50 fee</div>
+          </div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-icon">VJ</div>
+          <div class="feed-body">
+            <div class="feed-client">VJ Thrift Finds</div>
+            <div class="feed-meta">Order #2846 · Atlanta, GA · 31 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$67.50</div>
+            <div class="feed-fee">+$1.01 fee</div>
+          </div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-icon">KF</div>
+          <div class="feed-body">
+            <div class="feed-client">Kismet Fitness</div>
+            <div class="feed-meta">Membership · Savannah, GA · 47 min ago</div>
+          </div>
+          <div class="feed-amount">
+            <div class="feed-gmv">$149.00</div>
+            <div class="feed-fee">+$2.24 fee</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-card">
+      <h2>This is what every Flywheel Fund investor sees.</h2>
+      <p>No black box. No quarterly surprise. Every transaction, every fee, every distribution — visible, tracked, and paid out monthly to your bank account. Start at $500. Watch the flywheel spin.</p>
+      <a href="/invest" class="cta-btn">Choose Flywheel Fund →</a>
+    </div>
+
+    <div class="disclaimer">
+      This is a preview mockup using sample data. Actual investor dashboards may differ in final implementation. Investing in private securities carries significant risk, including the risk of total loss. No offer of securities is made by this page. Any offer will be made only through official offering documents after investor verification.
+    </div>
+  </main>
+</body>
+</html>

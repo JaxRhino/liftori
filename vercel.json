@@ -19,6 +19,8 @@
     { "src": "/meet/([^/]+)", "dest": "/meet.html?r=$1" },
     { "src": "/invest", "dest": "/invest.html" },
     { "src": "/invest/([^/]+)", "dest": "/invest.html?r=$1" },
+    { "src": "/apply", "dest": "/apply.html" },
+    { "src": "/apply/([^/]+)", "dest": "/apply.html?r=$1" },
     { "handle": "filesystem" }
   ]
 }

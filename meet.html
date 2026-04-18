@@ -794,7 +794,7 @@
 
     document.getElementById('repName').textContent = rep.full_name || rep.rep_handle;
     var roleEl = document.getElementById('repRole');
-    roleEl.textContent = formatRole(rep.role);
+    roleEl.textContent = formatRole(rep.role, rep.title);
 
     var avEl = document.getElementById('repAvatar');
     if (rep.avatar_url) {
@@ -808,9 +808,11 @@
     }
   }
 
-  function formatRole(r) {
+  function formatRole(r, title) {
+    // Prefer the explicit profile title ("Co-Founder & CEO", "Chief Developer", etc.)
+    if (title && typeof title === 'string' && title.trim()) return title.trim() + ', Liftori';
     if (!r) return 'Liftori team';
-    if (r === 'super_admin') return 'Founder & CEO, Liftori';
+    if (r === 'super_admin') return 'Co-Founder, Liftori';
     if (r === 'admin') return 'Liftori team';
     if (r === 'tester') return 'Liftori tester';
     return 'Liftori team';
