@@ -353,18 +353,26 @@
         <span class="badge">Coming Soon</span>
       </div>
 
-      <div class="install">
+      <div class="install available">
         <div class="store-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E0F7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
             <line x1="12" y1="18" x2="12.01" y2="18"/>
           </svg>
         </div>
         <div class="body">
-          <div class="name">Expo Go Preview</div>
-          <div class="sub">For the Liftori team — scan the dev QR in our channel.</div>
+          <div class="name">Open in Expo Go</div>
+          <div class="sub">Install <a href="https://expo.dev/client" target="_blank" rel="noopener" style="color:var(--light-blue);text-decoration:underline;">Expo Go</a> first, then tap below (mobile) or scan the QR (desktop).</div>
         </div>
-        <span class="badge">Team Only</span>
+        <a class="cta" href="exp://u.expo.dev/b6c52b3d-9864-4839-b480-49cb95d5e354?channel-name=preview&runtime-version=0.1.0">Open →</a>
+      </div>
+    </div>
+
+    <div id="expo-qr-wrap" style="display:none;margin:0 0 40px;padding:24px;background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(14,165,233,0.04));border:1px solid rgba(0,212,170,0.25);border-radius:16px;text-align:center;">
+      <div class="section-label" style="margin-bottom:12px;">On desktop? Scan with Expo Go</div>
+      <div id="expo-qr" style="display:inline-block;background:#fff;padding:16px;border-radius:12px;line-height:0;"></div>
+      <div style="margin-top:14px;font-size:12px;color:var(--gray-light);">
+        Open <strong style="color:var(--white);">Expo Go</strong> on your phone &rarr; tap <strong style="color:var(--white);">Scan QR code</strong>.
       </div>
     </div>
 
@@ -385,6 +393,42 @@
       This URL is stable. What's behind it evolves.
     </div>
   </footer>
+
+  <!-- qrcode-generator for rendering the Expo Go scan-QR on desktop -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script>
+    (function () {
+      // Show the scan-QR on non-touch (desktop) viewports. On mobile the
+      // user just taps the "Open" button and the exp:// deep link handles it.
+      var isDesktop = !('ontouchstart' in window) && window.matchMedia('(min-width: 640px)').matches;
+      if (!isDesktop || typeof qrcode === 'undefined') return;
+
+      var wrap = document.getElementById('expo-qr-wrap');
+      var target = document.getElementById('expo-qr');
+      if (!wrap || !target) return;
+
+      var url = 'exp://u.expo.dev/b6c52b3d-9864-4839-b480-49cb95d5e354?channel-name=preview&runtime-version=0.1.0';
+      var q = qrcode(0, 'M');
+      q.addData(url);
+      q.make();
+      var n = q.getModuleCount();
+      var size = 200;
+      var margin = 1;
+      var total = n + margin * 2;
+      var d = '';
+      for (var r = 0; r < n; r++) {
+        for (var c = 0; c < n; c++) {
+          if (q.isDark(r, c)) d += 'M' + (c + margin) + ' ' + (r + margin) + 'h1v1h-1z';
+        }
+      }
+      target.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + ' ' + total +
+        '" width="' + size + '" height="' + size + '" shape-rendering="crispEdges">' +
+        '<rect width="' + total + '" height="' + total + '" fill="#ffffff"/>' +
+        '<path d="' + d + '" fill="#060B18"/></svg>';
+      wrap.style.display = 'block';
+    })();
+  </script>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
