@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get the Liftori App | Liftori</title>
+  <meta name="description" content="Install the Liftori mobile app — your entire AI business operating system in your pocket.">
+  <meta property="og:title" content="Get the Liftori App">
+  <meta property="og:description" content="Install the Liftori mobile app — your entire AI business operating system in your pocket.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://liftori.ai/app">
+  <link rel="icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #060B18;
+      --navy-light: #0a1628;
+      --blue: #0EA5E9;
+      --light-blue: #7DD3FC;
+      --white-ice: #E0F7FF;
+      --purple: #A855F7;
+      --purple-light: #C084FC;
+      --purple-dark: #7C3AED;
+      --green: #00d4aa;
+      --amber: #F59E0B;
+      --white: #FFFFFF;
+      --gray: #6B7280;
+      --gray-dark: #374151;
+      --gray-light: #9CA3AF;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== ANIMATED BACKGROUND ===== */
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bg-glow::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%);
+      animation: float1 12s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(14,165,233,0.14) 0%, transparent 70%);
+      animation: float2 15s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(80px,60px); } }
+    @keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-60px,-40px); } }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 16px 32px;
+      background: rgba(6,11,24,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 0.04em;
+      color: var(--white); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .nav .logo .dot { width: 10px; height: 10px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 0 18px rgba(14,165,233,0.6);
+    }
+    .nav a.home {
+      color: var(--gray-light); text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px; transition: all 160ms ease;
+    }
+    .nav a.home:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+
+    /* ===== MAIN ===== */
+    main {
+      position: relative; z-index: 1;
+      max-width: 720px; margin: 0 auto;
+      padding: 120px 24px 64px;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.3);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--purple-light);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .pill .blink {
+      width: 6px; height: 6px; border-radius: 999px;
+      background: var(--purple-light);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 8vw, 72px);
+      line-height: 0.95; letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lead {
+      font-size: 18px; line-height: 1.55;
+      color: var(--gray-light);
+      margin-bottom: 40px;
+      max-width: 560px;
+    }
+
+    .features {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-bottom: 48px;
+    }
+    .feature {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 18px 16px;
+    }
+    .feature .icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(14,165,233,0.2), rgba(168,85,247,0.2));
+      border: 1px solid rgba(14,165,233,0.3);
+      display: grid; place-items: center;
+      margin-bottom: 10px;
+    }
+    .feature .icon svg { width: 18px; height: 18px; }
+    .feature h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600; color: var(--white);
+      margin-bottom: 4px;
+    }
+    .feature p { font-size: 12px; color: var(--gray-light); line-height: 1.45; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--gray-light);
+      text-transform: uppercase; letter-spacing: 0.14em;
+      margin-bottom: 16px;
+    }
+
+    .install-list { display: grid; gap: 12px; margin-bottom: 40px; }
+    .install {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex; align-items: center; gap: 16px;
+      transition: all 180ms ease;
+    }
+    .install.available {
+      border-color: rgba(0,212,170,0.35);
+      background: linear-gradient(135deg, rgba(0,212,170,0.06), rgba(14,165,233,0.04));
+    }
+    .install.available:hover { transform: translateY(-2px); border-color: rgba(0,212,170,0.6); }
+    .install .store-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .install.available .store-icon {
+      background: linear-gradient(135deg, rgba(0,212,170,0.25), rgba(14,165,233,0.25));
+    }
+    .install .store-icon svg { width: 26px; height: 26px; }
+    .install .body { flex: 1; min-width: 0; }
+    .install .name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .install .sub { font-size: 13px; color: var(--gray-light); }
+    .install .cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 16px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: var(--white); text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+    }
+    .install .cta:hover { filter: brightness(1.1); }
+    .install .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; font-weight: 500;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.35);
+      color: var(--amber);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .waitlist {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .waitlist h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 0.02em;
+      margin-bottom: 6px;
+    }
+    .waitlist p { font-size: 14px; color: var(--gray-light); margin-bottom: 18px; }
+    .waitlist form { display: flex; gap: 10px; flex-wrap: wrap; }
+    .waitlist input[type=email] {
+      flex: 1; min-width: 220px;
+      padding: 12px 14px;
+      background: rgba(6,11,24,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      outline: none;
+    }
+    .waitlist input[type=email]:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(14,165,233,0.18); }
+    .waitlist button {
+      padding: 12px 20px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+      transition: filter 160ms ease;
+    }
+    .waitlist button:hover { filter: brightness(1.1); }
+    .waitlist button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .waitlist .msg { margin-top: 12px; font-size: 13px; color: var(--green); display: none; }
+    .waitlist .msg.err { color: #fca5a5; }
+    .waitlist .msg.show { display: block; }
+
+    footer {
+      position: relative; z-index: 1;
+      max-width: 720px; margin: 0 auto;
+      padding: 24px 24px 48px;
+      text-align: center;
+      color: var(--gray);
+      font-size: 13px;
+    }
+    footer a { color: var(--gray-light); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    @media (max-width: 560px) {
+      .features { grid-template-columns: 1fr; }
+      .install { flex-wrap: wrap; }
+      .install .body { flex: 1 0 100%; order: 2; }
+      .install .store-icon { order: 1; }
+      .install .cta, .install .badge { order: 3; margin-left: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <nav class="nav">
+    <a class="logo" href="/"><span class="dot"></span>LIFTORI</a>
+    <a class="home" href="/">← Back to liftori.ai</a>
+  </nav>
+
+  <main>
+    <span class="pill"><span class="blink"></span>Private Preview</span>
+    <h1>Liftori <span class="grad">Mobile</span></h1>
+    <p class="lead">
+      The entire Liftori operating system — your pipeline, your projects, your team — in your pocket.
+      Built for founders and operators who move fast and work everywhere.
+    </p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Full Platform</h3>
+        <p>Every hub, every tool — LABOS, Pipeline, Projects, Customers, Ops.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h3>Real-Time</h3>
+        <p>Live DMs, lead pings, and team activity — pushed straight to your phone.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <h3>Quick Capture</h3>
+        <p>Log a lead in seconds — voice, photo, or one-tap templates.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Install</div>
+    <div class="install-list">
+      <div class="install">
+        <div class="store-icon">
+          <svg viewBox="0 0 24 24" fill="#E0F7FF">
+            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="name">App Store (iOS)</div>
+          <div class="sub">TestFlight link for internal testers — public launch soon.</div>
+        </div>
+        <span class="badge">Coming Soon</span>
+      </div>
+
+      <div class="install">
+        <div class="store-icon">
+          <svg viewBox="0 0 24 24" fill="#E0F7FF">
+            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="name">Google Play (Android)</div>
+          <div class="sub">Internal distribution via EAS Build — public launch soon.</div>
+        </div>
+        <span class="badge">Coming Soon</span>
+      </div>
+
+      <div class="install">
+        <div class="store-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="name">Expo Go Preview</div>
+          <div class="sub">For the Liftori team — scan the dev QR in our channel.</div>
+        </div>
+        <span class="badge">Team Only</span>
+      </div>
+    </div>
+
+    <div class="waitlist">
+      <h2>Get the Install Link</h2>
+      <p>Drop your email and we'll send you the install link the moment it's live.</p>
+      <form id="wl-form">
+        <input id="wl-email" type="email" required placeholder="you@company.com" autocomplete="email">
+        <button type="submit" id="wl-btn">Notify Me</button>
+      </form>
+      <div class="msg" id="wl-msg"></div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">liftori.ai</a> &middot; <a href="/book">Book a call</a> &middot; <a href="mailto:hello@liftori.ai">hello@liftori.ai</a>
+    <div style="margin-top:8px;font-size:11px;opacity:0.6;">
+      This URL is stable. What's behind it evolves.
+    </div>
+  </footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const form = document.getElementById('wl-form');
+    const emailEl = document.getElementById('wl-email');
+    const btn = document.getElementById('wl-btn');
+    const msg = document.getElementById('wl-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailEl.value.trim();
+      if (!email) return;
+      btn.disabled = true; btn.textContent = 'Adding…';
+      msg.className = 'msg'; msg.textContent = '';
+
+      const { error } = await supabase
+        .from('waitlist_signups')
+        .insert({ email, build_idea: 'Mobile app install link request (from /app)' });
+
+      if (error && !String(error.message || '').toLowerCase().includes('duplicate')) {
+        msg.className = 'msg err show';
+        msg.textContent = 'Something went wrong — try again in a sec.';
+        btn.disabled = false; btn.textContent = 'Notify Me';
+        return;
+      }
+
+      msg.className = 'msg show';
+      msg.textContent = "You're on the list. We'll send the install link the moment it's live.";
+      btn.textContent = 'Added ✓';
+      emailEl.value = '';
+    });
+  </script>
+
+  <script>
+    (async function logPageView() {
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        const sb = createClient(
+          'https://qlerfkdyslndjbaltkwo.supabase.co',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk'
+        );
+        await sb.from('page_views').insert({
+          page: '/app',
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent
+        });
+      } catch (e) { /* silent */ }
+    })();
+  </script>
+</body>
+</html>
