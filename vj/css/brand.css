@@ -258,160 +258,32 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
    letters + lanterns + books + tagline floating on the copper.
    ============================================================ */
 .hero {
-  /* POLISHED VINTAGE COPPER — a zoomed-in timeless treasure.
-     Still distressed (organic patina, scratches, verdigris veins),
-     but brightened and lifted so it reads as a cherished heirloom
-     catching light rather than forgotten metal. A warm specular
-     sheen runs diagonally across the plate; a gold glow highlights
-     the upper-center. Tarnish layers softened so they add character
-     without muddying the metal. */
+  /* REAL COPPER PHOTO — VJ's preferred reference image used directly
+     as the hero texture. CSS-generated copper stack (16 layers)
+     replaced with the real photograph + a soft edge vignette for
+     framing. The existing .hero::before also contributes edge
+     darkening for content contrast. */
   background-color: #3d2208 !important;
   background-image:
-    /* LAYER 1 — fine metal tooth (subtle grain, soft-light blend) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08   0 0 0 0 0.04   0 0 0 0 0.015   0 0 0 0.32 0'/></filter><rect width='300' height='300' filter='url(%23g)'/></svg>"),
-    /* LAYER 2 — FINE PEEN DINGS (feDiffuseLighting on high-frequency
-       noise, lit with MID-GRAY so the flat surface outputs ~mid-gray
-       and stays neutral under soft-light blend. Only the slopes of
-       the dings create lighter/darker pixels, so we see relief, not
-       a bright wash.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='p1' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.14' numOctaves='2' seed='41' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%23808080' surfaceScale='2.2' diffuseConstant='0.95'><feDistantLight azimuth='135' elevation='55'/></feDiffuseLighting></filter><rect width='520' height='520' filter='url(%23p1)'/></svg>"),
-    /* LAYER 3 — MEDIUM HAMMER DENTS (larger divots, mid-gray lighting
-       so they read as actual dings without brightening the copper.
-       Slightly warm tint on the light so highlight edges pick up a
-       hint of gold, not chalk-white.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='760' height='760'><filter id='p2' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.038' numOctaves='2' seed='67' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%238a7a60' surfaceScale='4.2' diffuseConstant='1.05'><feDistantLight azimuth='120' elevation='48'/></feDiffuseLighting></filter><rect width='760' height='760' filter='url(%23p2)'/></svg>"),
-    /* LAYER 4 — ANISOTROPIC POLISH STREAKS (horizontal brush marks
-       from directional fractal noise, warm-amber color instead of
-       cream — matches the subtle polished zones in the reference
-       copper plate rather than adding white sheen.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><filter id='ps'><feTurbulence type='fractalNoise' baseFrequency='1.8 0.045' numOctaves='1' seed='77' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.88   0 0 0 0 0.72   0 0 0 0 0.50   0.55 0.55 0.55 0 -0.95'/></filter><rect width='800' height='400' filter='url(%23ps)'/></svg>"),
-    /* LAYER 5 — MICRO SPARKLES (tighter threshold + warm-beige color
-       instead of near-white — the reference shows sparkle only as
-       tiny catchpoints, never as a frosty dusting). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95   0 0 0 0 0.85   0 0 0 0 0.68   1.6 1.6 1.6 0 -3.8'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
-    /* LAYER 6 — scratches & wear lines (the subtle lines you see
-       running through well-handled copper). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.22)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.16)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
-    /* LAYER 7 — verdigris veins (tighter threshold so patches are
-       smaller/rarer; color warmed toward bronze-teal). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.1 1.1 1.1 0 -2.05'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
-    /* LAYER 8 — UPPER-LEFT DARK PATINA PATCH (large organic oxidized
-       zone in the upper-left corner — matches the heavy aged patch in
-       the reference. Multiply blend deepens the copper beneath it
-       rather than darkening uniformly, preserving the warm tone.) */
-    radial-gradient(ellipse 52% 44% at 8% 12%,
-      rgba(24, 11, 4, 0.68) 0%,
-      rgba(42, 20, 8, 0.44) 22%,
-      rgba(62, 30, 12, 0.22) 46%,
-      rgba(82, 42, 18, 0.08) 68%,
-      transparent 85%),
-    /* LAYER 9 — LOWER-LEFT DARK PATINA PATCH (second aged zone on
-       the left side, offset — gives the plate the hand-aged asymmetry
-       you see in the reference rather than symmetrical vignetting.) */
-    radial-gradient(ellipse 44% 38% at 6% 82%,
-      rgba(22, 10, 4, 0.62) 0%,
-      rgba(38, 18, 8, 0.40) 24%,
-      rgba(58, 28, 11, 0.18) 50%,
-      transparent 78%),
-    /* LAYER 10 — UPPER-RIGHT DARK PATINA PATCH (softer dark zone on
-       the right side so the aging reads as lived-in, not one-sided.
-       Smaller + less dense than the left patches.) */
-    radial-gradient(ellipse 38% 30% at 94% 24%,
-      rgba(26, 12, 5, 0.48) 0%,
-      rgba(44, 22, 9, 0.28) 28%,
-      rgba(65, 32, 13, 0.12) 55%,
-      transparent 80%),
-    /* LAYER 11 — LOWER-RIGHT DARK PATINA PATCH (final aged pocket at
-       the bottom-right — rounds out the organic darkening to match
-       the reference's hand-aged character.) */
-    radial-gradient(ellipse 40% 32% at 92% 90%,
-      rgba(20, 10, 4, 0.58) 0%,
-      rgba(36, 18, 8, 0.36) 26%,
-      rgba(55, 28, 11, 0.14) 54%,
-      transparent 82%),
-    /* LAYER 12 — POLISH SHEEN (warm amber diagonal bloom — reduced
-       intensity and shifted to amber from the previous cream/gold,
-       matches the reference's subtle tonal shift across the plate
-       without adding cream highlights). */
-    linear-gradient(155deg,
-      rgba(228, 175, 118, 0.22) 0%,
-      rgba(215, 158, 100, 0.10) 16%,
-      rgba(198, 142, 88, 0.04) 32%,
-      transparent 50%,
-      transparent 72%,
-      rgba(40, 20, 8, 0.18) 100%),
-    /* LAYER 13 — medium mottling (boosted — more visible dark organic
-       stains like the reference shows scattered across the plate). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' seed='19' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10   0 0 0 0 0.050   0 0 0 0 0.018   0.95 0.95 0.95 0 -1.10'/></filter><rect width='700' height='700' filter='url(%23m)'/></svg>"),
-    /* LAYER 14 — large tarnish blooms (boosted — bigger, more visible
-       aged patches matching the dark organic clouds in the reference). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.055   0 0 0 0 0.028   0 0 0 0 0.012   1.00 1.00 1.00 0 -1.18'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
-    /* LAYER 15 — edge vignette (kept soft so the patina patches
-       carry the corner darkening rather than a smooth vignette). */
-    radial-gradient(ellipse 120% 112% at 50% 40%,
+    /* EDGE VIGNETTE — soft dark frame so the copper plate reads as
+       a lit centerpiece instead of flat-filled edge-to-edge. */
+    radial-gradient(ellipse 115% 105% at 50% 45%,
       transparent 0%,
-      transparent 58%,
-      rgba(30, 16, 6, 0.14) 82%,
-      rgba(18, 9, 3, 0.30) 100%),
-    /* BASE — AMBER copper radial (not gold). Reference plate is warm
-       amber-orange with rich earth undertones, not buttery yellow.
-       Peak amber at center, falling off into deep burnt sienna. */
-    radial-gradient(ellipse 135% 120% at 50% 38%,
-      #d08a52 0%,
-      #b67238 14%,
-      #8a4e1e 30%,
-      #5c3210 52%,
-      #321908 80%,
-      #1a0a04 100%) !important;
+      transparent 55%,
+      rgba(22, 11, 4, 0.30) 82%,
+      rgba(12, 6, 2, 0.58) 100%),
+    /* REAL COPPER TEXTURE — VJ's reference photo, scaled to cover. */
+    url("../img/brand/copper-texture.png") !important;
   background-size:
-    300px 300px,
-    520px 520px,
-    760px 760px,
-    800px 400px,
-    420px 420px,
-    520px 520px,
-    900px 900px,
     100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    700px 700px,
-    1100px 1100px,
-    100% 100%,
-    100% 100% !important;
+    cover !important;
   background-repeat:
-    repeat,
-    repeat,
-    repeat,
-    repeat,
-    repeat,
-    repeat,
-    repeat,
-    no-repeat,
-    no-repeat,
-    no-repeat,
-    no-repeat,
-    no-repeat,
-    repeat,
-    repeat,
     no-repeat,
     no-repeat !important;
+  background-position:
+    center,
+    center !important;
   background-blend-mode:
-    soft-light,
-    soft-light,
-    soft-light,
-    screen,
-    screen,
-    normal,
-    multiply,
-    multiply,
-    multiply,
-    multiply,
-    multiply,
-    overlay,
-    multiply,
-    multiply,
     normal,
     normal !important;
   position: relative !important;
