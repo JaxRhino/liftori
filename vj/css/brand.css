@@ -135,32 +135,26 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
    Keeps the antique theme, fixes the "dark + unreadable" complaint.
    ============================================================ */
 .nav {
-  /* Warm translucent glass — not near-black. Lets some page color
-     bleed through so the nav feels integrated, not pasted on. */
-  background: linear-gradient(
-    180deg,
-    rgba(30, 22, 15, 0.78) 0%,
-    rgba(20, 14, 10, 0.72) 100%
-  ) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
-  backdrop-filter: blur(18px) saturate(135%);
-  border-bottom: 1px solid rgba(198, 154, 62, 0.38) !important;
+  /* Match the wordmark.jpg ambient field — warm near-black chocolate
+     with damask texture (handled on .hero/top-section). Nav stays
+     semi-transparent so it reads as part of the same plate as the
+     hero behind it. When scrolled past the hero we deepen slightly. */
+  background: rgba(10, 8, 6, 0.82) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  backdrop-filter: blur(14px) saturate(115%);
+  border-bottom: 1px solid rgba(198, 154, 62, 0.28) !important;
   box-shadow:
-    inset 0 1px 0 rgba(236, 201, 122, 0.10),   /* top edge highlight — brass lip */
-    0 1px 0 rgba(198, 154, 62, 0.18),           /* hairline under the border */
-    0 8px 28px rgba(0, 0, 0, 0.45) !important;  /* clean drop, no amber bloom */
+    inset 0 1px 0 rgba(236, 201, 122, 0.08),
+    0 1px 0 rgba(198, 154, 62, 0.14),
+    0 6px 22px rgba(0, 0, 0, 0.5) !important;
   overflow: visible !important;
 }
 .nav.scrolled {
-  background: linear-gradient(
-    180deg,
-    rgba(24, 17, 12, 0.92) 0%,
-    rgba(15, 10, 7, 0.88) 100%
-  ) !important;
+  background: rgba(8, 6, 5, 0.94) !important;
   box-shadow:
-    inset 0 1px 0 rgba(236, 201, 122, 0.14),
-    0 1px 0 rgba(198, 154, 62, 0.22),
-    0 10px 36px rgba(0, 0, 0, 0.60) !important;
+    inset 0 1px 0 rgba(236, 201, 122, 0.12),
+    0 1px 0 rgba(198, 154, 62, 0.20),
+    0 10px 36px rgba(0, 0, 0, 0.65) !important;
 }
 
 /* Nav links — the readability fix.
@@ -256,15 +250,61 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* ============================================================
-   HERO — gilded wordmark + ornate ribbon, candlelit aura
+   HERO — let the body's warm chocolate damask flow through so the
+   wordmark image (which has the same baked-in vignette + texture)
+   blends seamlessly from nav → wordmark → "New Finds" section.
+   Edges are darkened with a radial vignette so the top section has
+   the same "lit center, dark corners" falloff as the wordmark image.
    ============================================================ */
 .hero {
+  background: transparent !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Edge vignette — darkens corners and fades outward from the center,
+   mirroring the baked-in vignette inside wordmark.jpg so the image
+   edges dissolve into the page instead of showing a seam. */
+.hero::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 40%,
-      rgba(198, 154, 62, 0.22) 0%,
-      rgba(166, 112, 47, 0.08) 40%,
-      transparent 75%),
-    transparent !important;
+    radial-gradient(ellipse 85% 80% at 50% 50%,
+      transparent 0%,
+      transparent 35%,
+      rgba(3, 3, 3, 0.35) 65%,
+      rgba(2, 2, 2, 0.78) 92%,
+      rgba(0, 0, 0, 0.92) 100%) !important;
+  z-index: 0 !important;
+}
+
+/* Bottom edge kiss — a subtle deepening where the hero meets "New Finds"
+   so the transition into the warm chocolate featured section reads as
+   intentional rather than a hard cut. */
+.hero::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  height: 120px !important;
+  pointer-events: none !important;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(4, 3, 3, 0.55) 70%,
+    rgba(4, 3, 3, 0.85) 100%) !important;
+  z-index: 0 !important;
+}
+
+/* Make sure the wordmark + hero content sit ABOVE the vignette layers */
+.hero-content {
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .hero-vj {
