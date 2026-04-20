@@ -176,19 +176,25 @@ a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:ho
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
-const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+// VJ tenant Supabase
+const SUPABASE_URL='https://zymgttmngwxkobmdgdia.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bWd0dG1uZ3d4a29ibWRnZGlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzcxMDMsImV4cCI6MjA5MjI1MzEwM30.rhfz_Io8k1-LzwVIOWjw119G919yqpJLFnLcF7sid9I';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 let currentProduct=null;
+const WISHLIST_KEY='vj_wishlist_v1';
+function getWishlist(){try{return JSON.parse(localStorage.getItem(WISHLIST_KEY)||'[]')}catch(_){return[]}}
+function setWishlist(ids){localStorage.setItem(WISHLIST_KEY,JSON.stringify(ids))}
 
 function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3000)}
+
+function condLabel(c){return{new:'New with tags',like_new:'Like new',good:'Good',fair:'Fair',used:'Used'}[c]||c||''}
 
 async function loadProduct(){
   const slug=new URLSearchParams(window.location.search).get('slug');
   if(!slug){window.location.href='shop.html';return}
 
-  const{data,error}=await sb.from('products').select('*,categories(name,slug),product_images(id,image_url,sort_order)').eq('slug',slug).single();
-  if(error||!data){document.getElementById('pTitle').textContent='Product not found';return}
+  const{data,error}=await sb.from('products').select('*,categories(name,slug),product_images(id,image_url,sort_order,alt_text)').eq('slug',slug).maybeSingle();
+  if(error||!data){document.getElementById('pTitle').textContent='Product not found';document.getElementById('pCategory').textContent='';return}
   currentProduct=data;
 
   document.title=data.title+' — V.J. Thrift Finds';
@@ -197,51 +203,51 @@ async function loadProduct(){
   document.getElementById('pTitle').textContent=data.title;
   document.getElementById('pPrice').innerHTML='$'+Number(data.price).toFixed(2)+(data.compare_at_price?'<span class="compare">$'+Number(data.compare_at_price).toFixed(2)+'</span>':'');
 
-  if(data.condition_rating){document.getElementById('pCondition').textContent='Condition: '+data.condition_rating}
+  const cl=condLabel(data.condition);
+  if(cl){document.getElementById('pCondition').textContent='Condition: '+cl}
   else{document.getElementById('pCondition').style.display='none'}
 
-  document.getElementById('pDescription').innerHTML=data.description||'No description available.';
+  document.getElementById('pDescription').innerHTML=(data.description||'No description available.').replace(/\n/g,'<br>');
 
-  if(data.item_story){
-    const s=document.getElementById('pStory');
-    s.textContent=data.item_story;s.style.display='block';
-  }
-
-  // Details
+  // Details — SKU + tags, since the schema is lean today
   let details='';
-  if(data.brand_maker)details+='<dt>Brand / Maker</dt><dd>'+data.brand_maker+'</dd>';
-  if(data.material)details+='<dt>Material</dt><dd>'+data.material+'</dd>';
-  if(data.color)details+='<dt>Color</dt><dd>'+data.color+'</dd>';
-  if(data.dimensions)details+='<dt>Dimensions</dt><dd>'+data.dimensions+'</dd>';
-  if(data.style_era)details+='<dt>Style / Era</dt><dd>'+data.style_era+'</dd>';
-  if(data.condition_details)details+='<dt>Condition Notes</dt><dd>'+data.condition_details+'</dd>';
+  if(data.sku)details+='<dt>SKU</dt><dd>'+data.sku+'</dd>';
+  if(data.weight_oz)details+='<dt>Weight</dt><dd>'+Number(data.weight_oz).toFixed(1)+' oz</dd>';
+  if(Array.isArray(data.tags)&&data.tags.length)details+='<dt>Tags</dt><dd>'+data.tags.join(', ')+'</dd>';
   document.getElementById('pDetails').innerHTML=details;
 
   // Images
   const mainImg=document.getElementById('mainImage');
   if(data.main_image_url){mainImg.src=data.main_image_url;mainImg.alt=data.title}
 
-  const images=data.product_images||[];
-  images.sort((a,b)=>a.sort_order-b.sort_order);
-  if(images.length>0){
-    const allImgs=[data.main_image_url,...images.map(i=>i.image_url)].filter(Boolean);
-    const unique=[...new Set(allImgs)];
+  const gallery=(data.product_images||[]).slice().sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+  const allImgs=[data.main_image_url,...gallery.map(i=>i.image_url)].filter(Boolean);
+  const unique=[...new Set(allImgs)];
+  if(unique.length>1){
     document.getElementById('thumbs').innerHTML=unique.map((url,i)=>
-      `<img class="product-thumb ${i===0?'active':''}" src="${url}" onclick="document.getElementById('mainImage').src='${url}';document.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')">`
+      `<img class="product-thumb ${i===0?'active':''}" src="${url}" alt="" onclick="document.getElementById('mainImage').src='${url}';document.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')">`
     ).join('');
   }
 
+  // Saved state (localStorage wishlist)
+  if(getWishlist().includes(data.id)){
+    const sb_btn=document.getElementById('saveBtn');
+    if(sb_btn){sb_btn.innerHTML=sb_btn.innerHTML.replace('Save to Wishlist','Saved ♥');sb_btn.dataset.saved='1'}
+  }
+
   // Status
-  if(data.status==='sold'||data.quantity<1){
+  if(data.status==='sold'||(typeof data.stock_quantity==='number'&&data.stock_quantity<1)){
     document.getElementById('buyBtn').textContent='Sold';
     document.getElementById('buyBtn').disabled=true;
   }
 
   // OG tags
   const metaOG=document.createElement('meta');
-  metaOG.property='og:title';metaOG.content=data.title;document.head.appendChild(metaOG);
-  const metaImg=document.createElement('meta');
-  metaImg.property='og:image';metaImg.content=data.main_image_url||'';document.head.appendChild(metaImg);
+  metaOG.setAttribute('property','og:title');metaOG.content=data.title;document.head.appendChild(metaOG);
+  if(data.main_image_url){
+    const metaImg=document.createElement('meta');
+    metaImg.setAttribute('property','og:image');metaImg.content=data.main_image_url;document.head.appendChild(metaImg);
+  }
 
   loadRelated(data.category_id,data.id);
 }
@@ -252,7 +258,7 @@ async function loadRelated(catId,excludeId){
   if(!data||data.length===0)return;
   document.getElementById('relatedSection').style.display='block';
   document.getElementById('relatedGrid').innerHTML=data.map(p=>`
-    <a href="product.html?slug=${p.slug}" class="related-card" style="text-decoration:none;color:inherit">
+    <a href="product.html?slug=${encodeURIComponent(p.slug)}" class="related-card" style="text-decoration:none;color:inherit">
       <img src="${p.main_image_url||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/></svg>'}" alt="${p.title}" loading="lazy">
       <div class="related-card-body">
         <div class="related-card-title">${p.title}</div>
@@ -263,16 +269,17 @@ async function loadRelated(catId,excludeId){
 
 function handleBuy(){
   if(!currentProduct)return;
-  // TODO: Stripe Checkout integration
-  showToast('Checkout coming soon! Contact VJ@VJthrifts.com to purchase.','success');
+  // TODO: Stripe Checkout integration (Wave F). For now, email capture.
+  window.location.href='contact.html?item='+encodeURIComponent(currentProduct.title);
 }
 
-async function handleSave(){
+function handleSave(){
   if(!currentProduct)return;
-  let sid=localStorage.getItem('vj_session');
-  if(!sid){sid='sess_'+Math.random().toString(36).substr(2,12);localStorage.setItem('vj_session',sid)}
-  await sb.from('wishlist_items').insert({product_id:currentProduct.id,session_id:sid});
-  showToast('Saved to your wishlist! ♥','success');
+  const list=getWishlist();
+  const btn=document.getElementById('saveBtn');
+  const idx=list.indexOf(currentProduct.id);
+  if(idx>=0){list.splice(idx,1);setWishlist(list);btn.dataset.saved='';showToast('Removed from saved');}
+  else{list.push(currentProduct.id);setWishlist(list);btn.dataset.saved='1';showToast('Saved to your wishlist! ♥','success');}
 }
 
 function openQuestionModal(){document.getElementById('questionModal').classList.add('open')}
@@ -283,8 +290,8 @@ async function submitQuestion(){
   const email=document.getElementById('qEmail').value.trim();
   const question=document.getElementById('qText').value.trim();
   if(!email||!question){showToast('Please fill in email and question','error');return}
-  const{error}=await sb.from('product_questions').insert({product_id:currentProduct.id,customer_email:email,customer_name:name,question});
-  if(error){showToast('Something went wrong','error');return}
+  const{error}=await sb.from('product_questions').insert({product_id:currentProduct.id,asker_email:email,asker_name:name,question});
+  if(error){console.error(error);showToast('Something went wrong','error');return}
   showToast('Question sent! Vanessa will get back to you.','success');
   closeQuestionModal();
   document.getElementById('qName').value='';document.getElementById('qEmail').value='';document.getElementById('qText').value='';

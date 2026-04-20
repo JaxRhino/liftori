@@ -146,17 +146,21 @@ select.filter-select:focus{outline:none;border-color:var(--gold)}
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
-const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+// VJ tenant Supabase (not Liftori master) — LABOS routes each storefront to its own DB
+const SUPABASE_URL='https://zymgttmngwxkobmdgdia.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bWd0dG1uZ3d4a29ibWRnZGlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzcxMDMsImV4cCI6MjA5MjI1MzEwM30.rhfz_Io8k1-LzwVIOWjw119G919yqpJLFnLcF7sid9I';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
 let currentCategory='all';
+const WISHLIST_KEY='vj_wishlist_v1';
+function getWishlist(){try{return JSON.parse(localStorage.getItem(WISHLIST_KEY)||'[]')}catch(_){return[]}}
+function setWishlist(ids){localStorage.setItem(WISHLIST_KEY,JSON.stringify(ids))}
 
 function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3000)}
 
 async function loadCategories(){
-  const{data}=await sb.from('categories').select('name,slug').eq('is_active',true).order('sort_order');
-  if(data){
+  const{data}=await sb.from('categories').select('name,slug').order('sort_order');
+  if(data&&data.length){
     document.getElementById('categoryFilters').innerHTML=data.map(c=>
       `<button class="filter-btn" onclick="filterCategory('${c.slug}',this)">${c.name}</button>`
     ).join('');
@@ -172,54 +176,55 @@ function filterCategory(slug,el){
 
 async function loadProducts(){
   const sort=document.getElementById('sortSelect').value;
-  let query=sb.from('products').select('id,title,slug,price,compare_at_price,main_image_url,condition_rating,categories(name,slug),is_featured,created_at').eq('status','published');
-
-  if(currentCategory!=='all'){
-    query=query.eq('categories.slug',currentCategory);
-  }
+  let query=sb.from('products').select('id,title,slug,price,compare_at_price,main_image_url,condition,featured,created_at,category_id,categories(name,slug)').eq('status','published');
 
   if(sort==='price-low')query=query.order('price',{ascending:true});
   else if(sort==='price-high')query=query.order('price',{ascending:false});
-  else if(sort==='featured')query=query.order('is_featured',{ascending:false}).order('created_at',{ascending:false});
+  else if(sort==='featured')query=query.order('featured',{ascending:false}).order('created_at',{ascending:false});
   else query=query.order('created_at',{ascending:false});
 
   const{data,error}=await query;
   const grid=document.getElementById('productsGrid');
-  const filtered=currentCategory==='all'?data:(data||[]).filter(p=>p.categories&&p.categories.slug===currentCategory);
+  const filtered=currentCategory==='all'?(data||[]):(data||[]).filter(p=>p.categories&&p.categories.slug===currentCategory);
+  const wishlist=getWishlist();
 
   document.getElementById('resultCount').textContent=filtered&&filtered.length?filtered.length+' item'+(filtered.length!==1?'s':''):'';
 
-  if(error||!filtered||filtered.length===0){
-    grid.innerHTML='<div class="empty-state"><h3>No items found</h3><p>New treasures are added regularly. Check back soon!</p></div>';
+  if(error){
+    console.error('Load products error',error);
+    grid.innerHTML='<div class="empty-state"><h3>Having trouble loading items</h3><p>Please refresh the page in a moment.</p></div>';
     return;
   }
 
-  grid.innerHTML=filtered.map(p=>`
-    <a href="product.html?slug=${p.slug}" class="product-card">
-      ${p.is_featured?'<div class="product-badge badge-new">Featured</div>':''}
-      <div class="product-card-save" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
+  if(!filtered||filtered.length===0){
+    grid.innerHTML='<div class="empty-state"><h3>New treasures on the way</h3><p>Vanessa is curating her next round of finds. Check back soon &mdash; or follow along on our socials for first dibs.</p></div>';
+    return;
+  }
+
+  grid.innerHTML=filtered.map(p=>{
+    const saved=wishlist.includes(p.id);
+    const condLabel={new:'New w/ tags',like_new:'Like new',good:'Good',fair:'Fair',used:'Used'}[p.condition]||p.condition||'';
+    return `
+    <a href="product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
+      ${p.featured?'<div class="product-badge badge-new">Featured</div>':''}
+      <div class="product-card-save ${saved?'saved':''}" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
       </div>
       <img class="product-card-img" src="${p.main_image_url||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%236b5c36%22 font-size=%2216%22>No Image</text></svg>'}" alt="${p.title}" loading="lazy">
       <div class="product-card-body">
         <div class="product-card-category">${p.categories?p.categories.name:'Vintage Find'}</div>
         <div class="product-card-title">${p.title}</div>
-        ${p.condition_rating?'<div class="product-card-condition">Condition: '+p.condition_rating+'</div>':''}
+        ${condLabel?'<div class="product-card-condition">Condition: '+condLabel+'</div>':''}
         <div class="product-card-price">$${Number(p.price).toFixed(2)}${p.compare_at_price?'<span class="compare">$'+Number(p.compare_at_price).toFixed(2)+'</span>':''}</div>
       </div>
-    </a>`).join('');
+    </a>`}).join('');
 }
 
-async function toggleSave(pid,el){
-  let sid=localStorage.getItem('vj_session');
-  if(!sid){sid='sess_'+Math.random().toString(36).substr(2,12);localStorage.setItem('vj_session',sid)}
-  if(el.classList.contains('saved')){
-    await sb.from('wishlist_items').delete().eq('product_id',pid).eq('session_id',sid);
-    el.classList.remove('saved');showToast('Removed from saved');
-  }else{
-    await sb.from('wishlist_items').insert({product_id:pid,session_id:sid});
-    el.classList.add('saved');showToast('Saved! ♥','success');
-  }
+function toggleSave(pid,el){
+  const list=getWishlist();
+  const idx=list.indexOf(pid);
+  if(idx>=0){list.splice(idx,1);setWishlist(list);el.classList.remove('saved');showToast('Removed from saved');}
+  else{list.push(pid);setWishlist(list);el.classList.add('saved');showToast('Saved! ♥','success');}
 }
 
 // Check URL params
