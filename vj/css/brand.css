@@ -250,21 +250,37 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* ============================================================
-   HERO — let the body's warm chocolate damask flow through so the
-   wordmark image (which has the same baked-in vignette + texture)
-   blends seamlessly from nav → wordmark → "New Finds" section.
-   Edges are darkened with a radial vignette so the top section has
-   the same "lit center, dark corners" falloff as the wordmark image.
+   HERO — wordmark.jpg IS the background of the entire top section.
+   The image (gilt wordmark + lamps + books + tagline + damask +
+   vignette) fills nav-to-"New Finds". Welcome text, CTA, and the
+   Florida-Based line overlay the lower portion of that bg.
+   The standalone <img class="hero-wordmark"> is hidden — the
+   wordmark is already in the background.
    ============================================================ */
 .hero {
-  background: transparent !important;
+  background:
+    url('../img/brand/wordmark.jpg') center center / cover no-repeat,
+    #050403 !important;
   position: relative !important;
   overflow: hidden !important;
+  min-height: 92vh !important;
+  padding: 110px 20px 70px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  text-align: center !important;
 }
 
-/* Edge vignette — darkens corners and fades outward from the center,
-   mirroring the baked-in vignette inside wordmark.jpg so the image
-   edges dissolve into the page instead of showing a seam. */
+/* Hide the standalone wordmark image — it's now baked into the hero bg */
+.hero-wordmark,
+.hero .hero-flourish {
+  display: none !important;
+}
+
+/* Edge-to-page vignette — on wide viewports where background-size:cover
+   crops the image's baked-in vignette, this replicates the dark-edge
+   falloff so there's no visible seam between image and surrounding page. */
 .hero::before {
   content: '' !important;
   display: block !important;
@@ -272,18 +288,16 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
   inset: 0 !important;
   pointer-events: none !important;
   background:
-    radial-gradient(ellipse 85% 80% at 50% 50%,
+    radial-gradient(ellipse 95% 90% at 50% 50%,
       transparent 0%,
-      transparent 35%,
-      rgba(3, 3, 3, 0.35) 65%,
-      rgba(2, 2, 2, 0.78) 92%,
-      rgba(0, 0, 0, 0.92) 100%) !important;
+      transparent 55%,
+      rgba(3, 3, 3, 0.28) 80%,
+      rgba(2, 2, 2, 0.6) 100%) !important;
   z-index: 0 !important;
 }
 
-/* Bottom edge kiss — a subtle deepening where the hero meets "New Finds"
-   so the transition into the warm chocolate featured section reads as
-   intentional rather than a hard cut. */
+/* Subtle bottom-edge deepening where the hero meets "New Finds" so the
+   cut into the warm chocolate featured section reads intentional. */
 .hero::after {
   content: '' !important;
   display: block !important;
@@ -292,19 +306,44 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
   right: 0 !important;
   bottom: 0 !important;
   top: auto !important;
-  height: 120px !important;
+  height: 140px !important;
   pointer-events: none !important;
   background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(4, 3, 3, 0.55) 70%,
+    rgba(4, 3, 3, 0.45) 60%,
     rgba(4, 3, 3, 0.85) 100%) !important;
   z-index: 0 !important;
 }
 
-/* Make sure the wordmark + hero content sit ABOVE the vignette layers */
+/* Welcome + CTA + location sit ABOVE the bg, in the lower portion of
+   the hero so they don't collide with the gilt wordmark in the image. */
 .hero-content {
   position: relative !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  max-width: 720px !important;
+}
+.hero-content .hero-desc {
+  color: var(--cream) !important;
+  font-size: 1.1rem !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85), 0 1px 4px rgba(0, 0, 0, 0.9) !important;
+  margin-bottom: 24px !important;
+}
+.hero-content .hero-cta {
+  filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6)) !important;
+}
+.hero-content .hero-location {
+  margin-top: 20px !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Mobile — tighten heights so the image stays legible on small screens */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 78vh !important;
+    padding: 96px 16px 50px !important;
+    background-position: center 30% !important;
+  }
 }
 
 .hero-vj {
