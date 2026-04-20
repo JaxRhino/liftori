@@ -279,14 +279,38 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
        so they read as actual dings without brightening the copper.
        Slightly warm tint on the light so highlight edges pick up a
        hint of gold, not chalk-white.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='760' height='760'><filter id='p2' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.038' numOctaves='2' seed='67' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%238a7a60' surfaceScale='3.5' diffuseConstant='1.0'><feDistantLight azimuth='120' elevation='48'/></feDiffuseLighting></filter><rect width='760' height='760' filter='url(%23p2)'/></svg>"),
-    /* LAYER 5 — scratches & wear lines (softened so they whisper
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='760' height='760'><filter id='p2' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.038' numOctaves='2' seed='67' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%238a7a60' surfaceScale='4.2' diffuseConstant='1.05'><feDistantLight azimuth='120' elevation='48'/></feDiffuseLighting></filter><rect width='760' height='760' filter='url(%23p2)'/></svg>"),
+    /* LAYER 4 — ANISOTROPIC POLISH STREAKS (the horizontal brush marks
+       you see on real polished copper — made with directional fractal
+       noise (high-X, low-Y base frequency) thresholded so only the
+       brighter streaks show. Screen blend so they add warm sheen
+       without ever darkening the copper.) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><filter id='ps'><feTurbulence type='fractalNoise' baseFrequency='1.8 0.045' numOctaves='1' seed='77' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.92   0 0 0 0 0.78   0.75 0.75 0.75 0 -1.25'/></filter><rect width='800' height='400' filter='url(%23ps)'/></svg>"),
+    /* LAYER 5 — MICRO SPARKLES (tiny bright specks where the metal's
+       microfacets catch light perfectly — the single biggest tell
+       that something is real polished metal. High-frequency noise,
+       very tight threshold so only the brightest ~15%% of points
+       become visible. Warm-white color, screen blend.) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.96   0 0 0 0 0.82   2.5 2.5 2.5 0 -5.8'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
+    /* LAYER 6 — scratches & wear lines (softened so they whisper
        rather than shout) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.22)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.16)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
     /* LAYER 6 — verdigris veins (tighter threshold so patches are
        smaller/rarer; color warmed slightly toward bronze-teal) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.2 1.2 1.2 0 -2.25'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
-    /* LAYER 7 — SPECULAR HIGHLIGHT (boosted — brighter, wider gold
+    /* LAYER 8 — REFLECTION BAND (broad horizontal warm glow across
+       the upper third — reads as sky/ambient light being reflected
+       by the polished metal. Sits above the wordmark so body text
+       is untouched. Screen blend = brighten only.) */
+    linear-gradient(180deg,
+      transparent 0%,
+      transparent 16%,
+      rgba(255, 228, 180, 0.22) 24%,
+      rgba(252, 216, 160, 0.30) 30%,
+      rgba(255, 228, 180, 0.22) 36%,
+      transparent 46%,
+      transparent 100%),
+    /* LAYER 9 — SPECULAR HIGHLIGHT (boosted — brighter, wider gold
        glow at top-center. Sits ABOVE the wordmark so the main text
        area isn't brightened.) */
     radial-gradient(ellipse 78% 58% at 50% 14%,
@@ -341,8 +365,11 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     300px 300px,
     520px 520px,
     760px 760px,
+    800px 400px,
+    420px 420px,
     520px 520px,
     900px 900px,
+    100% 100%,
     100% 100%,
     100% 100%,
     100% 100%,
@@ -356,6 +383,9 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     repeat,
     repeat,
     repeat,
+    repeat,
+    repeat,
+    no-repeat,
     no-repeat,
     no-repeat,
     no-repeat,
@@ -367,8 +397,11 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     soft-light,
     soft-light,
     soft-light,
+    screen,
+    screen,
     normal,
     normal,
+    screen,
     screen,
     screen,
     overlay,
