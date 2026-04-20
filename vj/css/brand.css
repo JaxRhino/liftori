@@ -130,77 +130,122 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* ============================================================
-   NAVIGATION — deeper warm tint, gold divider, candle backlight
+   NAVIGATION — Illuminated Brass Plate
+   Modern warm glass. Thin gold hairline. Bright brass typography.
+   Keeps the antique theme, fixes the "dark + unreadable" complaint.
    ============================================================ */
 .nav {
-  background: rgba(15, 11, 8, 0.92) !important;
-  border-bottom: 1px solid var(--border-gold) !important;
-  /* Ambient backlight — warm halo around the nav frame so it reads as
-     "lit from behind" rather than floating on black. Multi-layer soft
-     glow: tight inner rim + wider bloom + downward cast. */
+  /* Warm translucent glass — not near-black. Lets some page color
+     bleed through so the nav feels integrated, not pasted on. */
+  background: linear-gradient(
+    180deg,
+    rgba(30, 22, 15, 0.78) 0%,
+    rgba(20, 14, 10, 0.72) 100%
+  ) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
+  border-bottom: 1px solid rgba(198, 154, 62, 0.38) !important;
   box-shadow:
-    0 0 1px rgba(236, 201, 122, 0.18),
-    0 8px 32px rgba(198, 154, 62, 0.14),
-    0 16px 60px rgba(198, 154, 62, 0.10),
-    0 2px 30px rgba(0, 0, 0, 0.55) !important;
+    inset 0 1px 0 rgba(236, 201, 122, 0.10),   /* top edge highlight — brass lip */
+    0 1px 0 rgba(198, 154, 62, 0.18),           /* hairline under the border */
+    0 8px 28px rgba(0, 0, 0, 0.45) !important;  /* clean drop, no amber bloom */
   overflow: visible !important;
 }
 .nav.scrolled {
-  background: rgba(10, 7, 6, 0.97) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(24, 17, 12, 0.92) 0%,
+    rgba(15, 10, 7, 0.88) 100%
+  ) !important;
   box-shadow:
-    0 0 1px rgba(236, 201, 122, 0.22),
-    0 10px 40px rgba(198, 154, 62, 0.18),
-    0 20px 70px rgba(198, 154, 62, 0.12),
-    0 2px 30px rgba(0, 0, 0, 0.75) !important;
+    inset 0 1px 0 rgba(236, 201, 122, 0.14),
+    0 1px 0 rgba(198, 154, 62, 0.22),
+    0 10px 36px rgba(0, 0, 0, 0.60) !important;
 }
 
-/* Warm light spilling DOWNWARD from behind the nav — simulates a lamp
-   placed behind the header, pouring its glow onto the page below.
-   Pseudo-element extends past the nav's bottom edge so the bleed is visible. */
-.nav::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 160px;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 100% at 50% 0%,
-      rgba(236, 201, 122, 0.22) 0%,
-      rgba(198, 154, 62, 0.12) 22%,
-      rgba(166, 112, 47, 0.05) 48%,
-      transparent 78%),
-    radial-gradient(ellipse 90% 60% at 50% 0%,
-      rgba(198, 154, 62, 0.06) 0%,
-      transparent 70%);
-  filter: blur(1px);
-  opacity: 0.95;
-  transition: opacity 0.4s ease;
+/* Nav links — the readability fix.
+   Was #b09a74 (bronze-ish, ~3.1:1 contrast — below AA). Now bright gold
+   at ~8.4:1. Tighter tracking (0.5px vs 1.5px) reads as modern rather
+   than vintage signage, without losing the Cinzel-era character. */
+.nav-links,
+.nav ul,
+.nav nav {
+  gap: 2px;
 }
-.nav.scrolled::after { opacity: 0.75; }
+.nav a,
+.nav-links a,
+.nav-link {
+  color: var(--gold-bright) !important;       /* #ecc97a */
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.6px !important;
+  text-transform: uppercase;
+  font-size: 0.82rem !important;
+  padding: 10px 14px !important;
+  position: relative;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+}
+/* Exempt the brand/logo anchor from the link color cascade */
+.nav-brand,
+.nav-brand:hover,
+.logo,
+.logo:hover {
+  color: inherit !important;
+  text-shadow: none;
+}
 
-/* Subtle upward halo — fainter glow bleeding above the nav, like light
-   wrapping around the top edge of a backlit panel. */
-.nav::before {
+/* Shimmer underline — slides in on hover like a polished brass rail */
+.nav a:not(.nav-brand):not(.logo)::after,
+.nav-links a::after,
+.nav-link::after {
   content: '';
   position: absolute;
-  bottom: 100%;
-  left: 8%;
-  right: 8%;
-  height: 36px;
+  left: 14px;
+  right: 14px;
+  bottom: 4px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(236, 201, 122, 0.9) 50%,
+    transparent 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
-  background: radial-gradient(ellipse 60% 100% at 50% 100%,
-    rgba(236, 201, 122, 0.16) 0%,
-    rgba(198, 154, 62, 0.06) 45%,
-    transparent 80%);
-  filter: blur(1.5px);
 }
+.nav a:not(.nav-brand):not(.logo):hover,
+.nav-links a:hover,
+.nav-link:hover {
+  color: var(--cream) !important;              /* #ede0bf — brighter on hover */
+  text-shadow: 0 0 18px rgba(236, 201, 122, 0.35);
+}
+.nav a:not(.nav-brand):not(.logo):hover::after,
+.nav-links a:hover::after,
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Active / current page indicator */
+.nav a.active,
+.nav-link.active {
+  color: var(--cream) !important;
+}
+.nav a.active::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(236, 201, 122, 1) 50%,
+    transparent 100%);
+}
+
 .nav-brand {
   font-family: var(--font-decorative) !important;
   font-weight: 700;
-  letter-spacing: 1.5px !important;
+  letter-spacing: 1.2px !important;
   text-transform: uppercase;
+  color: var(--gold-bright) !important;
 }
 .nav-brand span {
   font-family: var(--font-body) !important;
@@ -452,32 +497,35 @@ a:hover { color: var(--gold-bright) !important; }
   text-decoration: none;
 }
 .nav-brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   display: block;
   flex-shrink: 0;
   box-shadow:
-    0 0 0 1px rgba(198, 154, 62, 0.4),
-    0 0 20px rgba(198, 154, 62, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.5);
+    0 0 0 1px rgba(236, 201, 122, 0.55),
+    0 0 0 3px rgba(198, 154, 62, 0.14),
+    0 0 24px rgba(236, 201, 122, 0.22),
+    0 2px 10px rgba(0, 0, 0, 0.55);
   transition: all 0.3s ease;
 }
 .nav-brand:hover .nav-brand-mark,
 .logo:hover .nav-brand-mark {
   box-shadow:
-    0 0 0 1px rgba(236, 201, 122, 0.6),
-    0 0 28px rgba(236, 201, 122, 0.35),
-    0 2px 8px rgba(0, 0, 0, 0.5);
-  transform: rotate(-6deg);
+    0 0 0 1px rgba(236, 201, 122, 0.85),
+    0 0 0 3px rgba(236, 201, 122, 0.22),
+    0 0 34px rgba(236, 201, 122, 0.45),
+    0 2px 10px rgba(0, 0, 0, 0.55);
+  transform: rotate(-6deg) scale(1.02);
 }
 .nav-brand-wordmark {
   display: inline-flex;
   flex-direction: column;
   line-height: 1.1;
   font-family: var(--font-decorative);
-  color: var(--gold-light);
+  color: var(--gold-bright);
   letter-spacing: 1px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
 }
 .nav-brand-wordmark > span {
   font-family: var(--font-body) !important;
