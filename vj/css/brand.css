@@ -280,91 +280,89 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
        Slightly warm tint on the light so highlight edges pick up a
        hint of gold, not chalk-white.) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='760' height='760'><filter id='p2' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.038' numOctaves='2' seed='67' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%238a7a60' surfaceScale='4.2' diffuseConstant='1.05'><feDistantLight azimuth='120' elevation='48'/></feDiffuseLighting></filter><rect width='760' height='760' filter='url(%23p2)'/></svg>"),
-    /* LAYER 4 — ANISOTROPIC POLISH STREAKS (the horizontal brush marks
-       you see on real polished copper — made with directional fractal
-       noise (high-X, low-Y base frequency) thresholded so only the
-       brighter streaks show. Screen blend so they add warm sheen
-       without ever darkening the copper.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><filter id='ps'><feTurbulence type='fractalNoise' baseFrequency='1.8 0.045' numOctaves='1' seed='77' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.92   0 0 0 0 0.78   0.75 0.75 0.75 0 -1.25'/></filter><rect width='800' height='400' filter='url(%23ps)'/></svg>"),
-    /* LAYER 5 — MICRO SPARKLES (denser + brighter now — threshold
-       loosened so ~25%% of microfacets catch light, pushing the
-       "real metal" read harder). */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.97   0 0 0 0 0.84   2.8 2.8 2.8 0 -5.3'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
-    /* LAYER 6 — scratches & wear lines (softened so they whisper
-       rather than shout) */
+    /* LAYER 4 — ANISOTROPIC POLISH STREAKS (horizontal brush marks
+       from directional fractal noise, warm-amber color instead of
+       cream — matches the subtle polished zones in the reference
+       copper plate rather than adding white sheen.) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><filter id='ps'><feTurbulence type='fractalNoise' baseFrequency='1.8 0.045' numOctaves='1' seed='77' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.88   0 0 0 0 0.72   0 0 0 0 0.50   0.55 0.55 0.55 0 -0.95'/></filter><rect width='800' height='400' filter='url(%23ps)'/></svg>"),
+    /* LAYER 5 — MICRO SPARKLES (tighter threshold + warm-beige color
+       instead of near-white — the reference shows sparkle only as
+       tiny catchpoints, never as a frosty dusting). */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95   0 0 0 0 0.85   0 0 0 0 0.68   1.6 1.6 1.6 0 -3.8'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
+    /* LAYER 6 — scratches & wear lines (the subtle lines you see
+       running through well-handled copper). */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.22)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.16)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
-    /* LAYER 6 — verdigris veins (tighter threshold so patches are
-       smaller/rarer; color warmed slightly toward bronze-teal) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.2 1.2 1.2 0 -2.25'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
-    /* LAYER 8 — TOP-LEFT CORNER GLEAM (asymmetric corner shine —
-       replaces the old centered peak gleam. Shine now comes from
-       the upper-left corner, keeping the center column dark behind
-       the wordmark.) */
-    radial-gradient(ellipse 34% 24% at 14% 12%,
-      rgba(255, 232, 178, 0.48) 0%,
-      rgba(250, 208, 148, 0.22) 40%,
-      rgba(220, 170, 100, 0.08) 70%,
-      transparent 90%),
-    /* LAYER 9 — TOP-RIGHT CORNER GLEAM (asymmetric — second corner
-       shine source so the plate feels lit from two angles without
-       flooding the center.) */
-    radial-gradient(ellipse 30% 22% at 86% 16%,
-      rgba(255, 226, 172, 0.38) 0%,
-      rgba(248, 200, 142, 0.18) 40%,
-      rgba(215, 165, 95, 0.06) 70%,
-      transparent 90%),
-    /* LAYER 10 — SPECULAR HIGHLIGHT (tightened — now a thin bright
-       sliver at the very top edge only, well clear of the wordmark.
-       Keeps the top-edge glow without bleeding into the name area.) */
-    radial-gradient(ellipse 70% 14% at 50% 0%,
-      rgba(255, 230, 180, 0.52) 0%,
-      rgba(250, 210, 150, 0.24) 35%,
-      rgba(220, 170, 105, 0.08) 65%,
-      transparent 88%),
-    /* LAYER 11 — RIM LIGHT (stronger warm screen-blend shine on the
-       left and right edges only — reads as polished copper catching
-       light on its curved rim. Transparent through 12%–88% so the
-       text column is never touched.) */
-    linear-gradient(90deg,
-      rgba(255, 224, 170, 0.46) 0%,
-      rgba(255, 214, 152, 0.24) 5%,
-      transparent 13%,
-      transparent 87%,
-      rgba(255, 214, 152, 0.24) 95%,
-      rgba(255, 224, 170, 0.46) 100%),
-    /* LAYER 12 — POLISH SHEEN (diagonal warm bloom — sweeps from the
-       upper-left corner toward center-right. Asymmetric so the shine
-       suggests curved reflective surface without spotlighting text.) */
+    /* LAYER 7 — verdigris veins (tighter threshold so patches are
+       smaller/rarer; color warmed toward bronze-teal). */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.1 1.1 1.1 0 -2.05'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
+    /* LAYER 8 — UPPER-LEFT DARK PATINA PATCH (large organic oxidized
+       zone in the upper-left corner — matches the heavy aged patch in
+       the reference. Multiply blend deepens the copper beneath it
+       rather than darkening uniformly, preserving the warm tone.) */
+    radial-gradient(ellipse 52% 44% at 8% 12%,
+      rgba(24, 11, 4, 0.68) 0%,
+      rgba(42, 20, 8, 0.44) 22%,
+      rgba(62, 30, 12, 0.22) 46%,
+      rgba(82, 42, 18, 0.08) 68%,
+      transparent 85%),
+    /* LAYER 9 — LOWER-LEFT DARK PATINA PATCH (second aged zone on
+       the left side, offset — gives the plate the hand-aged asymmetry
+       you see in the reference rather than symmetrical vignetting.) */
+    radial-gradient(ellipse 44% 38% at 6% 82%,
+      rgba(22, 10, 4, 0.62) 0%,
+      rgba(38, 18, 8, 0.40) 24%,
+      rgba(58, 28, 11, 0.18) 50%,
+      transparent 78%),
+    /* LAYER 10 — UPPER-RIGHT DARK PATINA PATCH (softer dark zone on
+       the right side so the aging reads as lived-in, not one-sided.
+       Smaller + less dense than the left patches.) */
+    radial-gradient(ellipse 38% 30% at 94% 24%,
+      rgba(26, 12, 5, 0.48) 0%,
+      rgba(44, 22, 9, 0.28) 28%,
+      rgba(65, 32, 13, 0.12) 55%,
+      transparent 80%),
+    /* LAYER 11 — LOWER-RIGHT DARK PATINA PATCH (final aged pocket at
+       the bottom-right — rounds out the organic darkening to match
+       the reference's hand-aged character.) */
+    radial-gradient(ellipse 40% 32% at 92% 90%,
+      rgba(20, 10, 4, 0.58) 0%,
+      rgba(36, 18, 8, 0.36) 26%,
+      rgba(55, 28, 11, 0.14) 54%,
+      transparent 82%),
+    /* LAYER 12 — POLISH SHEEN (warm amber diagonal bloom — reduced
+       intensity and shifted to amber from the previous cream/gold,
+       matches the reference's subtle tonal shift across the plate
+       without adding cream highlights). */
     linear-gradient(155deg,
-      rgba(255, 225, 168, 0.36) 0%,
-      rgba(250, 202, 135, 0.18) 14%,
-      rgba(232, 178, 115, 0.06) 32%,
-      transparent 52%,
+      rgba(228, 175, 118, 0.22) 0%,
+      rgba(215, 158, 100, 0.10) 16%,
+      rgba(198, 142, 88, 0.04) 32%,
+      transparent 50%,
       transparent 72%,
-      rgba(70, 35, 12, 0.14) 100%),
-    /* LAYER 9 — medium mottling (softened so the metal glows through) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' seed='19' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.14   0 0 0 0 0.065   0 0 0 0 0.02   0.80 0.80 0.80 0 -1.25'/></filter><rect width='700' height='700' filter='url(%23m)'/></svg>"),
-    /* LAYER 10 — large tarnish blooms (softened — character without
-       muddying the overall tone) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.045   0 0 0 0 0.025   0 0 0 0 0.01   0.82 0.82 0.82 0 -1.4'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
-    /* LAYER 15 — edge vignette (softened further so the rim lights
-       on the left/right edges can actually show through instead of
-       being swallowed by dark corners). */
+      rgba(40, 20, 8, 0.18) 100%),
+    /* LAYER 13 — medium mottling (boosted — more visible dark organic
+       stains like the reference shows scattered across the plate). */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' seed='19' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10   0 0 0 0 0.050   0 0 0 0 0.018   0.95 0.95 0.95 0 -1.10'/></filter><rect width='700' height='700' filter='url(%23m)'/></svg>"),
+    /* LAYER 14 — large tarnish blooms (boosted — bigger, more visible
+       aged patches matching the dark organic clouds in the reference). */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.055   0 0 0 0 0.028   0 0 0 0 0.012   1.00 1.00 1.00 0 -1.18'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
+    /* LAYER 15 — edge vignette (kept soft so the patina patches
+       carry the corner darkening rather than a smooth vignette). */
     radial-gradient(ellipse 120% 112% at 50% 40%,
       transparent 0%,
-      transparent 52%,
-      rgba(30, 16, 6, 0.18) 80%,
-      rgba(18, 9, 3, 0.38) 100%),
-    /* BASE — brighter warm copper radial with gold highlight core.
-       Lifted top stops further so the center glows hotter, reads as
-       polished copper just caught in direct light. */
-    radial-gradient(ellipse 135% 120% at 50% 32%,
-      #e8a560 0%,
-      #c48642 10%,
-      #9a5f24 24%,
-      #72421a 46%,
-      #422509 76%,
-      #1e0e06 100%) !important;
+      transparent 58%,
+      rgba(30, 16, 6, 0.14) 82%,
+      rgba(18, 9, 3, 0.30) 100%),
+    /* BASE — AMBER copper radial (not gold). Reference plate is warm
+       amber-orange with rich earth undertones, not buttery yellow.
+       Peak amber at center, falling off into deep burnt sienna. */
+    radial-gradient(ellipse 135% 120% at 50% 38%,
+      #d08a52 0%,
+      #b67238 14%,
+      #8a4e1e 30%,
+      #5c3210 52%,
+      #321908 80%,
+      #1a0a04 100%) !important;
   background-size:
     300px 300px,
     520px 520px,
@@ -406,14 +404,14 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     screen,
     screen,
     normal,
-    normal,
-    screen,
-    screen,
-    screen,
-    screen,
+    multiply,
+    multiply,
+    multiply,
+    multiply,
+    multiply,
     overlay,
-    normal,
-    normal,
+    multiply,
+    multiply,
     normal,
     normal !important;
   position: relative !important;
