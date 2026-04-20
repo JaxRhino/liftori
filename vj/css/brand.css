@@ -424,12 +424,25 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* Welcome + CTA + location sit ABOVE the bg, in the lower portion of
-   the hero so they don't collide with the gilt wordmark in the image. */
+   the hero so they don't collide with the gilt wordmark in the image.
+   Wrapper is WIDE so the lantern wordmark can claim the full plate;
+   the text elements below are capped individually to stay as a
+   narrow readable column centered on the plate. */
 .hero-content {
   position: relative !important;
   z-index: 2 !important;
   width: 100% !important;
+  max-width: 1600px !important;
+}
+/* Keep the text column narrow + centered so only the wordmark uses
+   the full width. */
+.hero-content .hero-flourish,
+.hero-content .hero-desc,
+.hero-content .hero-cta,
+.hero-content .hero-location {
   max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 /* CONTENT SPOTLIGHT — soft dark radial halo BEHIND the hero content so
    the gold wordmark + cream copy read bright against the busy copper
@@ -483,11 +496,13 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     drop-shadow(0 6px 18px rgba(0, 0, 0, 0.55)) !important;
 }
 
-/* Mobile — tighten heights so the image stays legible on small screens */
+/* Mobile — keep heights tall enough that the wordmark, lanterns, and
+   CTA all breathe without stacking on top of each other. Background
+   stays anchored so the copper shows through. */
 @media (max-width: 768px) {
   .hero {
-    min-height: 78vh !important;
-    padding: 96px 16px 50px !important;
+    min-height: 92vh !important;
+    padding: 120px 16px 80px !important;
     background-position: center 30% !important;
   }
 }
