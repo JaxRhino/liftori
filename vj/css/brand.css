@@ -267,37 +267,47 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
      without muddying the metal. */
   background-color: #3d2208 !important;
   background-image:
-    /* LAYER 1 — fine metal tooth (subtle, soft-light blend) */
+    /* LAYER 1 — fine metal tooth (subtle grain, soft-light blend) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08   0 0 0 0 0.04   0 0 0 0 0.015   0 0 0 0.32 0'/></filter><rect width='300' height='300' filter='url(%23g)'/></svg>"),
-    /* LAYER 2 — scratches & wear lines (softened so they whisper
+    /* LAYER 2 — FINE PEEN DINGS (feDiffuseLighting on high-frequency
+       noise — each ding gets a real highlight/shadow pair because the
+       light is computed from the surface normals. Reads as densely
+       hammered metal at close range.) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='p1' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.14' numOctaves='2' seed='41' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%23ffffff' surfaceScale='2.2' diffuseConstant='1.15'><feDistantLight azimuth='135' elevation='48'/></feDiffuseLighting></filter><rect width='520' height='520' filter='url(%23p1)'/></svg>"),
+    /* LAYER 3 — MEDIUM HAMMER DENTS (larger divots, stronger relief —
+       these are the visible dings that say "this piece has a history".
+       Lower base-frequency makes the dents big enough to see at a
+       glance, higher surfaceScale deepens them.) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='760' height='760'><filter id='p2' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.038' numOctaves='2' seed='67' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%23fff2d6' surfaceScale='5.5' diffuseConstant='1.25'><feDistantLight azimuth='120' elevation='42'/></feDiffuseLighting></filter><rect width='760' height='760' filter='url(%23p2)'/></svg>"),
+    /* LAYER 4 — DEEP GOUGES (sparse, big — the occasional character
+       dent you'd expect on a well-loved antique copper piece) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='1200'><filter id='p3' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='89' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%23ffe8c2' surfaceScale='8' diffuseConstant='1.3'><feDistantLight azimuth='145' elevation='38'/></feDiffuseLighting></filter><rect width='1200' height='1200' filter='url(%23p3)'/></svg>"),
+    /* LAYER 5 — scratches & wear lines (softened so they whisper
        rather than shout) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.22)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.16)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
-    /* LAYER 3 — verdigris veins (tighter threshold so patches are
+    /* LAYER 6 — verdigris veins (tighter threshold so patches are
        smaller/rarer; color warmed slightly toward bronze-teal) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.2 1.2 1.2 0 -2.25'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
-    /* LAYER 4 — SPECULAR HIGHLIGHT (warm gold glow at upper-center,
-       like light catching the plate from above — this is what reads
-       as "shiny heirloom" rather than "dead metal") */
+    /* LAYER 7 — SPECULAR HIGHLIGHT (warm gold glow at upper-center,
+       like light catching the plate from above) */
     radial-gradient(ellipse 58% 42% at 50% 22%,
       rgba(255, 218, 150, 0.28) 0%,
       rgba(240, 185, 110, 0.14) 30%,
       rgba(200, 140, 75, 0.05) 55%,
       transparent 75%),
-    /* LAYER 5 — POLISH SHEEN (soft diagonal warm bloom — reads as
-       waxed/polished surface catching directional light) */
+    /* LAYER 8 — POLISH SHEEN (soft diagonal warm bloom) */
     linear-gradient(165deg,
       rgba(255, 210, 140, 0.14) 0%,
       rgba(240, 180, 110, 0.06) 22%,
       transparent 48%,
       transparent 72%,
       rgba(60, 30, 10, 0.12) 100%),
-    /* LAYER 6 — medium mottling (softened so the metal glows through) */
+    /* LAYER 9 — medium mottling (softened so the metal glows through) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' seed='19' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.14   0 0 0 0 0.065   0 0 0 0 0.02   0.80 0.80 0.80 0 -1.25'/></filter><rect width='700' height='700' filter='url(%23m)'/></svg>"),
-    /* LAYER 7 — large tarnish blooms (softened — character without
+    /* LAYER 10 — large tarnish blooms (softened — character without
        muddying the overall tone) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.045   0 0 0 0 0.025   0 0 0 0 0.01   0.82 0.82 0.82 0 -1.4'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
-    /* LAYER 8 — edge vignette (softer than before, lifts the frame
-       but doesn't crush the corners) */
+    /* LAYER 11 — edge vignette (softer — frames without crushing) */
     radial-gradient(ellipse 115% 105% at 50% 40%,
       transparent 0%,
       transparent 45%,
@@ -316,6 +326,9 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
   background-size:
     300px 300px,
     520px 520px,
+    760px 760px,
+    1200px 1200px,
+    520px 520px,
     900px 900px,
     100% 100%,
     100% 100%,
@@ -327,6 +340,9 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     repeat,
     repeat,
     repeat,
+    repeat,
+    repeat,
+    repeat,
     no-repeat,
     no-repeat,
     repeat,
@@ -335,6 +351,9 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     no-repeat !important;
   background-blend-mode:
     soft-light,
+    overlay,
+    overlay,
+    overlay,
     normal,
     normal,
     screen,
