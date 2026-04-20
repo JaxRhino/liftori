@@ -797,16 +797,27 @@ a:hover { color: var(--gold-bright) !important; }
 }
 .vj-lantern {
   flex-shrink: 0;
-  width: clamp(72px, 11vw, 132px);
+  /* Slightly larger now that it's a real photograph (bigger reads
+     better than smaller for photographic detail) */
+  width: clamp(110px, 15vw, 190px);
   height: auto;
   display: block;
+  /* Real-object lighting — the brass body casts a soft warm halo
+     on the copper like a lantern sitting in ambient light, and a
+     heavy grounded cast shadow below so it reads as placed on the
+     plate rather than floating. */
   filter:
-    drop-shadow(0 0 22px rgba(255, 208, 128, 0.28))
-    drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
-  animation: lanternFlicker 3.6s ease-in-out infinite;
+    drop-shadow(0 0 32px rgba(255, 196, 112, 0.28))
+    drop-shadow(0 18px 24px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  animation: lanternFlicker 5.2s ease-in-out infinite;
 }
+/* Mirror the right lantern so the two lanterns face each other
+   (hinge side in, flame key toggle on the outer edge) — gives the
+   composition natural symmetry instead of two identical photos. */
 .vj-lantern-right {
-  animation-delay: -1.8s;
+  transform: scaleX(-1);
+  animation-delay: -2.6s;
 }
 .vj-wordmark-center {
   display: flex;
@@ -894,23 +905,25 @@ a:hover { color: var(--gold-bright) !important; }
 @keyframes lanternFlicker {
   0%, 100% {
     filter:
-      drop-shadow(0 0 22px rgba(255, 208, 128, 0.28))
-      drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+      drop-shadow(0 0 32px rgba(255, 196, 112, 0.28))
+      drop-shadow(0 18px 24px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
   }
   50% {
     filter:
-      drop-shadow(0 0 28px rgba(255, 208, 128, 0.40))
-      drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+      drop-shadow(0 0 42px rgba(255, 196, 112, 0.42))
+      drop-shadow(0 18px 24px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
   }
 }
 @media (max-width: 720px) {
   .vj-wordmark { gap: 10px; }
-  .vj-lantern { width: 60px; }
+  .vj-lantern { width: 88px; }
   .vj-tagline { letter-spacing: 0.28em; }
 }
 @media (max-width: 480px) {
   .vj-wordmark { gap: 4px; }
-  .vj-lantern { width: 46px; }
+  .vj-lantern { width: 68px; }
   .vj-tagline { letter-spacing: 0.2em; font-size: 0.58rem; }
   .vj-tagrule { gap: 8px; }
 }
