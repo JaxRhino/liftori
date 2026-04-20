@@ -286,57 +286,62 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
        brighter streaks show. Screen blend so they add warm sheen
        without ever darkening the copper.) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><filter id='ps'><feTurbulence type='fractalNoise' baseFrequency='1.8 0.045' numOctaves='1' seed='77' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.92   0 0 0 0 0.78   0.75 0.75 0.75 0 -1.25'/></filter><rect width='800' height='400' filter='url(%23ps)'/></svg>"),
-    /* LAYER 5 — MICRO SPARKLES (tiny bright specks where the metal's
-       microfacets catch light perfectly — the single biggest tell
-       that something is real polished metal. High-frequency noise,
-       very tight threshold so only the brightest ~15%% of points
-       become visible. Warm-white color, screen blend.) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.96   0 0 0 0 0.82   2.5 2.5 2.5 0 -5.8'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
+    /* LAYER 5 — MICRO SPARKLES (denser + brighter now — threshold
+       loosened so ~25%% of microfacets catch light, pushing the
+       "real metal" read harder). */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='sp'><feTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' seed='211' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 0.97   0 0 0 0 0.84   2.8 2.8 2.8 0 -5.3'/></filter><rect width='420' height='420' filter='url(%23sp)'/></svg>"),
     /* LAYER 6 — scratches & wear lines (softened so they whisper
        rather than shout) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.22)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.16)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
     /* LAYER 6 — verdigris veins (tighter threshold so patches are
        smaller/rarer; color warmed slightly toward bronze-teal) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25   0 0 0 0 0.40   0 0 0 0 0.30   1.2 1.2 1.2 0 -2.25'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
-    /* LAYER 8 — REFLECTION BAND (broad horizontal warm glow across
-       the upper third — reads as sky/ambient light being reflected
-       by the polished metal. Sits above the wordmark so body text
-       is untouched. Screen blend = brighten only.) */
+    /* LAYER 8 — PEAK GLEAM (concentrated hot spot at the very top —
+       the pinpoint kiss of light where a curved copper piece catches
+       the brightest reflection. Tight radial, near-white warm core.) */
+    radial-gradient(ellipse 22% 14% at 50% 8%,
+      rgba(255, 248, 222, 0.68) 0%,
+      rgba(255, 232, 185, 0.38) 32%,
+      rgba(250, 210, 150, 0.14) 62%,
+      transparent 85%),
+    /* LAYER 9 — REFLECTION BAND (wider + brighter — broad horizontal
+       warm glow across the upper third, reads as sky/ambient light
+       being reflected by the polished metal. Stops by 46%% vertical
+       so body text zone is untouched.) */
     linear-gradient(180deg,
       transparent 0%,
-      transparent 16%,
-      rgba(255, 228, 180, 0.22) 24%,
-      rgba(252, 216, 160, 0.30) 30%,
-      rgba(255, 228, 180, 0.22) 36%,
-      transparent 46%,
+      transparent 14%,
+      rgba(255, 230, 186, 0.32) 22%,
+      rgba(252, 216, 160, 0.44) 30%,
+      rgba(255, 230, 186, 0.32) 38%,
+      transparent 48%,
       transparent 100%),
-    /* LAYER 9 — SPECULAR HIGHLIGHT (boosted — brighter, wider gold
-       glow at top-center. Sits ABOVE the wordmark so the main text
-       area isn't brightened.) */
-    radial-gradient(ellipse 78% 58% at 50% 14%,
-      rgba(255, 232, 178, 0.48) 0%,
-      rgba(250, 210, 145, 0.26) 22%,
-      rgba(220, 170, 100, 0.12) 45%,
-      rgba(180, 125, 65, 0.04) 65%,
+    /* LAYER 10 — SPECULAR HIGHLIGHT (brighter, wider gold glow at
+       top-center. Sits ABOVE the wordmark so text isn't touched.) */
+    radial-gradient(ellipse 82% 62% at 50% 14%,
+      rgba(255, 234, 182, 0.62) 0%,
+      rgba(252, 214, 150, 0.36) 22%,
+      rgba(225, 175, 105, 0.18) 45%,
+      rgba(185, 130, 70, 0.06) 65%,
       transparent 82%),
-    /* LAYER 8 — RIM LIGHT (warm screen-blend shine on the left and
-       right edges only — reads as polished copper catching light on
-       its curved rim. Transparent through 12%–88% so text column is
-       never touched.) */
+    /* LAYER 11 — RIM LIGHT (stronger warm screen-blend shine on the
+       left and right edges only — reads as polished copper catching
+       light on its curved rim. Transparent through 12%–88% so the
+       text column is never touched.) */
     linear-gradient(90deg,
-      rgba(255, 222, 162, 0.32) 0%,
-      rgba(255, 212, 148, 0.16) 5%,
+      rgba(255, 224, 170, 0.46) 0%,
+      rgba(255, 214, 152, 0.24) 5%,
       transparent 13%,
       transparent 87%,
-      rgba(255, 212, 148, 0.16) 95%,
-      rgba(255, 222, 162, 0.32) 100%),
-    /* LAYER 9 — POLISH SHEEN (punchier diagonal warm bloom — sweeps
+      rgba(255, 214, 152, 0.24) 95%,
+      rgba(255, 224, 170, 0.46) 100%),
+    /* LAYER 12 — POLISH SHEEN (punchier diagonal warm bloom — sweeps
        upper-left to lower-right like reflected light on waxed copper.
        Strongest at top-left corner, away from the text column.) */
     linear-gradient(155deg,
-      rgba(255, 222, 160, 0.24) 0%,
-      rgba(248, 198, 130, 0.12) 14%,
-      rgba(230, 175, 110, 0.04) 32%,
+      rgba(255, 225, 168, 0.36) 0%,
+      rgba(250, 202, 135, 0.18) 14%,
+      rgba(232, 178, 115, 0.06) 32%,
       transparent 52%,
       transparent 72%,
       rgba(70, 35, 12, 0.14) 100%),
@@ -345,21 +350,23 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     /* LAYER 10 — large tarnish blooms (softened — character without
        muddying the overall tone) */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.045   0 0 0 0 0.025   0 0 0 0 0.01   0.82 0.82 0.82 0 -1.4'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
-    /* LAYER 11 — edge vignette (softer — frames without crushing) */
-    radial-gradient(ellipse 115% 105% at 50% 40%,
+    /* LAYER 15 — edge vignette (softened further so the rim lights
+       on the left/right edges can actually show through instead of
+       being swallowed by dark corners). */
+    radial-gradient(ellipse 120% 112% at 50% 40%,
       transparent 0%,
-      transparent 45%,
-      rgba(20, 10, 4, 0.32) 82%,
-      rgba(10, 5, 2, 0.60) 100%),
+      transparent 52%,
+      rgba(30, 16, 6, 0.18) 80%,
+      rgba(18, 9, 3, 0.38) 100%),
     /* BASE — brighter warm copper radial with gold highlight core.
-       Reads as polished vintage bronze catching light, NOT as dull
-       tarnished metal. More stops for a smoother luminosity falloff. */
-    radial-gradient(ellipse 135% 120% at 50% 34%,
-      #d69552 0%,
-      #b87532 12%,
-      #8a511d 28%,
-      #663c14 50%,
-      #3e2209 78%,
+       Lifted top stops further so the center glows hotter, reads as
+       polished copper just caught in direct light. */
+    radial-gradient(ellipse 135% 120% at 50% 32%,
+      #e8a560 0%,
+      #c48642 10%,
+      #9a5f24 24%,
+      #72421a 46%,
+      #422509 76%,
       #1e0e06 100%) !important;
   background-size:
     300px 300px,
@@ -369,6 +376,7 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     420px 420px,
     520px 520px,
     900px 900px,
+    100% 100%,
     100% 100%,
     100% 100%,
     100% 100%,
@@ -389,6 +397,7 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     no-repeat,
     no-repeat,
     no-repeat,
+    no-repeat,
     repeat,
     repeat,
     no-repeat,
@@ -401,6 +410,7 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     screen,
     normal,
     normal,
+    screen,
     screen,
     screen,
     screen,
@@ -429,12 +439,12 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
   inset: 0 !important;
   pointer-events: none !important;
   background:
-    radial-gradient(ellipse 100% 90% at 50% 45%,
+    radial-gradient(ellipse 110% 100% at 50% 45%,
       transparent 0%,
-      transparent 40%,
-      rgba(30, 16, 6, 0.35) 72%,
-      rgba(12, 6, 2, 0.75) 95%,
-      rgba(0, 0, 0, 0.92) 100%) !important;
+      transparent 52%,
+      rgba(30, 16, 6, 0.18) 80%,
+      rgba(12, 6, 2, 0.38) 96%,
+      rgba(0, 0, 0, 0.52) 100%) !important;
   z-index: 0 !important;
 }
 
