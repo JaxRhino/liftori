@@ -130,15 +130,71 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* ============================================================
-   NAVIGATION — deeper warm tint, gold divider
+   NAVIGATION — deeper warm tint, gold divider, candle backlight
    ============================================================ */
 .nav {
   background: rgba(15, 11, 8, 0.92) !important;
   border-bottom: 1px solid var(--border-gold) !important;
+  /* Ambient backlight — warm halo around the nav frame so it reads as
+     "lit from behind" rather than floating on black. Multi-layer soft
+     glow: tight inner rim + wider bloom + downward cast. */
+  box-shadow:
+    0 0 1px rgba(236, 201, 122, 0.18),
+    0 8px 32px rgba(198, 154, 62, 0.14),
+    0 16px 60px rgba(198, 154, 62, 0.10),
+    0 2px 30px rgba(0, 0, 0, 0.55) !important;
+  overflow: visible !important;
 }
 .nav.scrolled {
   background: rgba(10, 7, 6, 0.97) !important;
-  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.75) !important;
+  box-shadow:
+    0 0 1px rgba(236, 201, 122, 0.22),
+    0 10px 40px rgba(198, 154, 62, 0.18),
+    0 20px 70px rgba(198, 154, 62, 0.12),
+    0 2px 30px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Warm light spilling DOWNWARD from behind the nav — simulates a lamp
+   placed behind the header, pouring its glow onto the page below.
+   Pseudo-element extends past the nav's bottom edge so the bleed is visible. */
+.nav::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 160px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 100% at 50% 0%,
+      rgba(236, 201, 122, 0.22) 0%,
+      rgba(198, 154, 62, 0.12) 22%,
+      rgba(166, 112, 47, 0.05) 48%,
+      transparent 78%),
+    radial-gradient(ellipse 90% 60% at 50% 0%,
+      rgba(198, 154, 62, 0.06) 0%,
+      transparent 70%);
+  filter: blur(1px);
+  opacity: 0.95;
+  transition: opacity 0.4s ease;
+}
+.nav.scrolled::after { opacity: 0.75; }
+
+/* Subtle upward halo — fainter glow bleeding above the nav, like light
+   wrapping around the top edge of a backlit panel. */
+.nav::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 8%;
+  right: 8%;
+  height: 36px;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 100% at 50% 100%,
+    rgba(236, 201, 122, 0.16) 0%,
+    rgba(198, 154, 62, 0.06) 45%,
+    transparent 80%);
+  filter: blur(1.5px);
 }
 .nav-brand {
   font-family: var(--font-decorative) !important;
