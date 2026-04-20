@@ -258,57 +258,66 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
    letters + lanterns + books + tagline floating on the copper.
    ============================================================ */
 .hero {
-  /* DISTRESSED COPPER PLATE — no smooth directional gradient (that read
-     as "glass of beer"). Instead: mottled radial base + dense tiled
-     peen dimples + blotchy patina noise + fine grain + verdigris
-     oxidation patches + dark tarnish edges. The metal reads as aged,
-     hand-worked, uneven. */
-  background-color: #5e3a16 !important;
+  /* VINTAGE DISTRESSED COPPER — aged, hand-worked, uneven.
+     No tiled dimple pattern (that read as polka-dots). The surface
+     texture is built from LAYERED fractalNoise at different scales
+     (fine grain + medium mottling + large tarnish blooms) so every
+     patch is organic and non-repeating. Wear scratches + verdigris
+     veins + edge tarnish read this as a 100-year-old copper plate
+     that's been sitting on a wall, not a geometric pattern. */
+  background-color: #2d1808 !important;
   background-image:
-    /* LAYER 1 — fine metal grain (tight turbulence) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05   0 0 0 0 0.025   0 0 0 0 0.008   0 0 0 0.65 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>"),
-    /* LAYER 2 — dense hammer peens (tiled pattern, ~20 dimples per
-       200×200 tile, mix of highlights and shadows so each strike reads
-       as a physical dimple) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><radialGradient id='h' cx='50%25' cy='50%25' r='50%25'><stop offset='0%25' stop-color='%23ffd68a' stop-opacity='0.55'/><stop offset='100%25' stop-color='%23ffd68a' stop-opacity='0'/></radialGradient><radialGradient id='l' cx='50%25' cy='50%25' r='50%25'><stop offset='0%25' stop-color='%23000' stop-opacity='0.58'/><stop offset='100%25' stop-color='%23000' stop-opacity='0'/></radialGradient></defs><circle cx='20' cy='30' r='7' fill='url(%23h)'/><circle cx='55' cy='15' r='9' fill='url(%23l)'/><circle cx='90' cy='42' r='6' fill='url(%23h)'/><circle cx='130' cy='22' r='10' fill='url(%23l)'/><circle cx='170' cy='36' r='7' fill='url(%23h)'/><circle cx='25' cy='78' r='9' fill='url(%23l)'/><circle cx='65' cy='62' r='7' fill='url(%23h)'/><circle cx='108' cy='82' r='10' fill='url(%23l)'/><circle cx='155' cy='65' r='7' fill='url(%23h)'/><circle cx='185' cy='95' r='8' fill='url(%23l)'/><circle cx='15' cy='120' r='7' fill='url(%23h)'/><circle cx='50' cy='108' r='9' fill='url(%23l)'/><circle cx='85' cy='138' r='6' fill='url(%23h)'/><circle cx='125' cy='115' r='9' fill='url(%23l)'/><circle cx='160' cy='142' r='7' fill='url(%23h)'/><circle cx='30' cy='166' r='8' fill='url(%23h)'/><circle cx='75' cy='182' r='7' fill='url(%23l)'/><circle cx='118' cy='160' r='9' fill='url(%23h)'/><circle cx='158' cy='188' r='7' fill='url(%23l)'/><circle cx='190' cy='172' r='6' fill='url(%23h)'/></svg>"),
-    /* LAYER 3 — blotchy patina mottling (low-freq turbulence so color
-       unevenness looks like real age, not a gradient) */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.022' numOctaves='4' seed='21' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.21   0 0 0 0 0.09   0 0 0 0 0.02   0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>"),
-    /* LAYER 4 — verdigris oxidation patches (subtle teal-green patina
-       so copper reads aged, not freshly polished) */
-    radial-gradient(ellipse 40% 28% at 18% 22%, rgba(63, 107, 94, 0.22) 0%, transparent 62%),
-    radial-gradient(ellipse 30% 22% at 78% 32%, rgba(90, 128, 114, 0.18) 0%, transparent 62%),
-    radial-gradient(ellipse 35% 24% at 55% 82%, rgba(45, 74, 64, 0.22) 0%, transparent 62%),
-    radial-gradient(ellipse 25% 20% at 92% 88%, rgba(63, 107, 94, 0.16) 0%, transparent 62%),
-    /* LAYER 5 — dark tarnish streaks at plate edges (deep shadow on
-       left + right so the plate reads as a centered lit piece) */
-    linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, transparent 10%, transparent 90%, rgba(0, 0, 0, 0.55) 100%),
-    /* BASE — mottled radial copper (NOT a directional linear — center-lit
-       so it reads as an illuminated aged plate rather than a liquid pour) */
-    radial-gradient(ellipse 120% 100% at 50% 42%,
-      #8a5722 0%,
-      #6e4419 30%,
-      #4d2c0f 65%,
-      #28150a 100%) !important;
+    /* LAYER 1 — fine metal tooth (high-freq turbulence, very subtle) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06   0 0 0 0 0.03   0 0 0 0 0.01   0 0 0 0.38 0'/></filter><rect width='300' height='300' filter='url(%23g)'/></svg>"),
+    /* LAYER 2 — scratches & wear lines (faint diagonal streaks, some
+       dark some light, like something has been dragged across it) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><g stroke-linecap='round' fill='none'><g stroke='rgba(0,0,0,0.28)' stroke-width='0.5'><path d='M30 120 L 220 55'/><path d='M150 260 L 490 170'/><path d='M330 80 L 510 28'/><path d='M40 390 L 230 320'/><path d='M250 450 L 505 360'/><path d='M60 485 L 330 440'/><path d='M120 180 L 440 90'/></g><g stroke='rgba(255,225,170,0.12)' stroke-width='0.4'><path d='M40 155 L 240 88'/><path d='M170 280 L 420 205'/><path d='M80 350 L 280 285'/><path d='M290 495 L 500 445'/><path d='M20 70 L 180 25'/></g></g></svg>"),
+    /* LAYER 3 — verdigris veins (teal-green oxidation where moisture
+       pooled). feColorMatrix alpha row clamps so only the brightest
+       noise areas become patches — produces irregular green blooms) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22   0 0 0 0 0.38   0 0 0 0 0.32   1.15 1.15 1.15 0 -2.05'/></filter><rect width='900' height='900' filter='url(%23v)'/></svg>"),
+    /* LAYER 4 — medium mottling (dark-brown patina variation, the
+       hammered unevenness reads here — NOT as dots but as organic
+       color shifts like a weathered roof) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' seed='19' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.11   0 0 0 0 0.05   0 0 0 0 0.015   0.88 0.88 0.88 0 -1.1'/></filter><rect width='700' height='700' filter='url(%23m)'/></svg>"),
+    /* LAYER 5 — large tarnish blooms (low-freq dark patches, the
+       heavy oxidation where the copper has truly aged) */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.035   0 0 0 0 0.02   0 0 0 0 0.008   0.92 0.92 0.92 0 -1.25'/></filter><rect width='1100' height='1100' filter='url(%23b)'/></svg>"),
+    /* LAYER 6 — edge vignette (dark frame so the plate reads as lit) */
+    radial-gradient(ellipse 110% 100% at 50% 42%,
+      transparent 0%,
+      transparent 35%,
+      rgba(0, 0, 0, 0.45) 80%,
+      rgba(0, 0, 0, 0.78) 100%),
+    /* BASE — desaturated vintage copper radial (warm core, near-black
+       edges — reads as 100-year-old bronze, not shiny new copper) */
+    radial-gradient(ellipse 130% 115% at 50% 40%,
+      #7a4a1c 0%,
+      #5a3414 28%,
+      #3d2208 60%,
+      #1a0d05 100%) !important;
   background-size:
-    240px 240px,
-    200px 200px,
-    500px 500px,
-    100% 100%, 100% 100%, 100% 100%, 100% 100%,
+    300px 300px,
+    520px 520px,
+    900px 900px,
+    700px 700px,
+    1100px 1100px,
     100% 100%,
     100% 100% !important;
   background-repeat:
     repeat,
     repeat,
     repeat,
-    no-repeat, no-repeat, no-repeat, no-repeat,
+    repeat,
+    repeat,
     no-repeat,
     no-repeat !important;
   background-blend-mode:
     overlay,
     normal,
-    overlay,
-    normal, normal, normal, normal,
+    normal,
+    normal,
+    normal,
     normal,
     normal !important;
   position: relative !important;
