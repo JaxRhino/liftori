@@ -250,45 +250,115 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 }
 
 /* ============================================================
-   HERO — wordmark.jpg IS the background of the entire top section.
-   The image (gilt wordmark + lamps + books + tagline + damask +
-   vignette) fills nav-to-"New Finds". Welcome text, CTA, and the
-   Florida-Based line overlay the lower portion of that bg.
-   The standalone <img class="hero-wordmark"> is hidden — the
-   wordmark is already in the background.
+   HERO — damask field extends edge-to-edge across the whole top
+   section, with the wordmark rendered as a centered banner on top.
+   The bg is the same gold-filigree damask pattern used on the body,
+   turned up + edge-vignetted to match the wordmark's baked-in look.
+   Welcome text + CTA + Florida-Based sit BELOW the image on the
+   continuing damask — one unified field, no letterbox bars.
    ============================================================ */
 .hero {
-  /* `contain` so the whole wordmark (lamps + books + gilt text + tagline)
-     stays visible, no cropping. Base color matches the image's vignette
-     edges so any gap on wide screens reads seamless. */
-  background-color: #050403 !important;
-  background-image: url('../img/brand/wordmark.jpg') !important;
-  background-repeat: no-repeat !important;
-  background-position: center 38% !important;   /* nudge image up so content has breathing room below */
-  background-size: contain !important;
+  background-color: #0d0906 !important;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><g fill='none' stroke='%23c69a3e' stroke-width='1' opacity='0.28'><path d='M100 18 C 118 36, 134 54, 100 72 C 66 54, 82 36, 100 18 Z'/><path d='M100 72 L100 132'/><path d='M100 132 C 118 150, 134 168, 100 186 C 66 168, 82 150, 100 132 Z'/><circle cx='100' cy='100' r='4'/><path d='M52 100 C 68 84, 84 92, 100 100 C 116 108, 132 116, 148 100'/><path d='M52 100 C 68 116, 84 108, 100 100 C 116 92, 132 84, 148 100'/><circle cx='18' cy='18' r='3'/><circle cx='182' cy='18' r='3'/><circle cx='18' cy='182' r='3'/><circle cx='182' cy='182' r='3'/><path d='M18 18 Q 50 10, 100 18 M100 18 Q 150 10, 182 18'/><path d='M18 182 Q 50 190, 100 182 M100 182 Q 150 190, 182 182'/></g></svg>") !important;
+  background-repeat: repeat !important;
+  background-size: 200px 200px !important;
   position: relative !important;
   overflow: hidden !important;
-  min-height: 86vh !important;
-  padding: 100px 20px 60px !important;
+  min-height: 90vh !important;
+  padding: 90px 20px 70px !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: flex-end !important;
+  justify-content: center !important;
   align-items: center !important;
   text-align: center !important;
 }
 
-/* Hide the standalone wordmark image — it's now baked into the hero bg */
-.hero-wordmark,
-.hero .hero-flourish {
-  display: none !important;
+/* Edge vignette — darkens corners so the damask field fades to
+   near-black at the edges, matching the wordmark image's own falloff. */
+.hero::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(ellipse 95% 90% at 50% 50%,
+      transparent 0%,
+      transparent 38%,
+      rgba(4, 3, 2, 0.45) 72%,
+      rgba(2, 2, 2, 0.82) 95%,
+      rgba(0, 0, 0, 0.95) 100%) !important;
+  z-index: 0 !important;
 }
 
-/* No synthetic vignette — wordmark.jpg already has its own baked-in
-   vignette, and the #050403 base color matches its edge fade. Killing
-   the ::before so the image's own tones come through undamaged. */
-.hero::before {
-  content: none !important;
-  display: none !important;
+/* Bottom fade into "New Finds" */
+.hero::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  height: 120px !important;
+  pointer-events: none !important;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(4, 3, 3, 0.45) 60%,
+    rgba(4, 3, 3, 0.85) 100%) !important;
+  z-index: 1 !important;
+}
+
+/* Show the wordmark image as a centered hero banner — ON the damask,
+   not as the damask. Capped width so it reads as a focal element with
+   space around it, natural aspect preserved. */
+.hero-wordmark {
+  display: block !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  height: auto !important;
+  margin: 0 auto 28px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  filter:
+    drop-shadow(0 10px 48px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 4px 18px rgba(198, 154, 62, 0.18)) !important;
+}
+
+/* Welcome text + CTA + Florida line all sit on the continuing damask
+   BELOW the image. */
+.hero-content {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  max-width: 760px !important;
+}
+.hero-content .hero-desc {
+  color: var(--cream) !important;
+  font-size: 1.1rem !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8) !important;
+  margin-bottom: 22px !important;
+}
+.hero-content .hero-cta {
+  filter: drop-shadow(0 6px 22px rgba(0, 0, 0, 0.55)) !important;
+}
+.hero-content .hero-location {
+  margin-top: 18px !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Mobile tuning */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 82vh !important;
+    padding: 90px 16px 50px !important;
+    background-size: 160px 160px !important;
+  }
+  .hero-wordmark {
+    max-width: 94% !important;
+    margin-bottom: 22px !important;
+  }
 }
 
 /* Subtle bottom-edge deepening where the hero meets "New Finds" so the
