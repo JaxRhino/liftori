@@ -429,18 +429,56 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
   width: 100% !important;
   max-width: 720px !important;
 }
+/* CONTENT SPOTLIGHT — soft dark radial halo BEHIND the hero content so
+   the gold wordmark + cream copy read bright against the busy copper
+   texture. Sized to the content column, feathered hard so copper
+   still shows at the edges of the hero (the plate doesn't get
+   swallowed). */
+.hero-content::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -8% !important;
+  left: -12% !important;
+  right: -12% !important;
+  bottom: -8% !important;
+  background:
+    radial-gradient(ellipse 70% 65% at 50% 50%,
+      rgba(8, 4, 2, 0.72) 0%,
+      rgba(10, 5, 2, 0.55) 28%,
+      rgba(14, 7, 3, 0.32) 52%,
+      rgba(18, 9, 4, 0.14) 74%,
+      transparent 92%) !important;
+  filter: blur(14px) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
 .hero-content .hero-desc {
   color: var(--cream) !important;
-  font-size: 1.1rem !important;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85), 0 1px 4px rgba(0, 0, 0, 0.9) !important;
-  margin-bottom: 24px !important;
+  font-size: 1.15rem !important;
+  text-shadow:
+    0 0 24px rgba(0, 0, 0, 0.95),
+    0 2px 6px rgba(0, 0, 0, 0.98),
+    0 1px 2px rgba(0, 0, 0, 1) !important;
+  margin-bottom: 26px !important;
 }
 .hero-content .hero-cta {
-  filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6)) !important;
+  filter:
+    drop-shadow(0 8px 28px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 0 22px rgba(228, 185, 100, 0.45)) !important;
 }
 .hero-content .hero-location {
-  margin-top: 20px !important;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85) !important;
+  margin-top: 22px !important;
+  text-shadow:
+    0 0 18px rgba(0, 0, 0, 0.95),
+    0 2px 6px rgba(0, 0, 0, 0.98) !important;
+}
+/* Lift the wordmark off the copper with a warm gold glow + deep
+   shadow so the lanterns, "V.J.", and script read cleanly against
+   the photographic texture. */
+.hero-content .vj-wordmark {
+  filter:
+    drop-shadow(0 0 28px rgba(236, 201, 122, 0.35))
+    drop-shadow(0 6px 18px rgba(0, 0, 0, 0.55)) !important;
 }
 
 /* Mobile — tighten heights so the image stays legible on small screens */
