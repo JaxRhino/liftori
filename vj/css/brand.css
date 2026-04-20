@@ -287,8 +287,11 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
     normal !important;
   position: relative !important;
   overflow: hidden !important;
-  min-height: 92vh !important;
-  padding: 90px 20px 70px !important;
+  /* Open the plate up vertically — taller min-height + heavier top/
+     bottom padding so the lanterns + wordmark + CTA have real room
+     to breathe instead of stacking in a cramped column. */
+  min-height: 104vh !important;
+  padding: 140px 20px 120px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -355,8 +358,8 @@ nav, .nav, main, section, footer, .hero, .featured, .container,
 /* Mobile tuning */
 @media (max-width: 768px) {
   .hero {
-    min-height: 82vh !important;
-    padding: 90px 16px 50px !important;
+    min-height: 92vh !important;
+    padding: 120px 16px 80px !important;
   }
   .hero-wordmark {
     max-width: 96% !important;
@@ -787,20 +790,25 @@ a:hover { color: var(--gold-bright) !important; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(32px, 7vw, 120px);
+  /* Push the lanterns hard to the outer edges of the plate so the
+     wordmark sits in a generous open middle. Wide gap + wide max so
+     the pair reads as bookends, not shoulder-to-shoulder with the
+     letters. */
+  gap: clamp(56px, 12vw, 240px);
   width: 100%;
-  max-width: 1140px;
-  margin: 0 auto 28px;
-  padding: 0 clamp(8px, 2vw, 24px);
+  max-width: 1480px;
+  margin: 0 auto 32px;
+  padding: 0 clamp(16px, 4vw, 64px);
   position: relative;
   z-index: 2;
   animation: wordmarkEntrance 1.2s ease-out;
 }
 .vj-lantern {
   flex-shrink: 0;
-  /* Slightly larger now that it's a real photograph (bigger reads
-     better than smaller for photographic detail) */
-  width: clamp(110px, 15vw, 190px);
+  /* Real photograph — sized big enough to carry the copper plate as
+     confident bookends. Scales up on wider viewports so the hero
+     doesn't collapse into a small cluster in the middle. */
+  width: clamp(128px, 16vw, 216px);
   height: auto;
   display: block;
   /* Real-object lighting — the brass body casts a soft warm halo
@@ -826,8 +834,11 @@ a:hover { color: var(--gold-bright) !important; }
   align-items: center;
   text-align: center;
   min-width: 0;
-  flex: 0 1 auto;
-  padding: 0 clamp(8px, 2.5vw, 32px);
+  /* Claim the full middle space so the wordmark + tagline have room
+     to breathe and the gold tagline rules don't collide with the
+     lantern art. */
+  flex: 1 1 auto;
+  padding: 0 clamp(12px, 3vw, 40px);
 }
 .vj-vj {
   font-family: var(--font-decorative);
@@ -870,7 +881,7 @@ a:hover { color: var(--gold-bright) !important; }
   align-items: center;
   gap: 14px;
   width: 100%;
-  max-width: 460px;
+  max-width: 420px;
   margin-top: 4px;
 }
 .vj-tagrule::before,
