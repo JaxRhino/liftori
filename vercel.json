@@ -2,25 +2,80 @@
   "routes": [
     {
       "src": "/",
-      "has": [{ "type": "header", "key": "host", "value": "www.vjthriftfinds.com" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "www.vjthriftfinds.com"
+        }
+      ],
       "dest": "/vj/index.html"
     },
     {
       "src": "/(.*)",
-      "has": [{ "type": "header", "key": "host", "value": "www.vjthriftfinds.com" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "www.vjthriftfinds.com"
+        }
+      ],
       "dest": "/vj/$1"
     },
-    { "src": "/blog", "dest": "/blog.html" },
-    { "src": "/careers", "dest": "/careers.html" },
-    { "src": "/book", "dest": "/book.html" },
-    { "src": "/app", "dest": "/app.html" },
-    { "src": "/call/(.*)", "dest": "/call.html" },
-    { "src": "/meet", "dest": "/meet.html" },
-    { "src": "/meet/([^/]+)", "dest": "/meet.html?r=$1" },
-    { "src": "/invest", "dest": "/invest.html" },
-    { "src": "/invest/([^/]+)", "dest": "/invest.html?r=$1" },
-    { "src": "/apply", "dest": "/apply.html" },
-    { "src": "/apply/([^/]+)", "dest": "/apply.html?r=$1" },
-    { "handle": "filesystem" }
+    {
+      "src": "/blog",
+      "dest": "/blog.html"
+    },
+    {
+      "src": "/careers",
+      "dest": "/careers.html"
+    },
+    {
+      "src": "/book",
+      "dest": "/book.html"
+    },
+    {
+      "src": "/app",
+      "dest": "/app.html"
+    },
+    {
+      "src": "/call/(.*)",
+      "dest": "/call.html"
+    },
+    {
+      "src": "/meet",
+      "dest": "/meet.html"
+    },
+    {
+      "src": "/meet/([^/]+)",
+      "dest": "/meet.html?r=$1"
+    },
+    {
+      "src": "/invest",
+      "dest": "/invest.html"
+    },
+    {
+      "src": "/invest/([^/]+)",
+      "dest": "/invest.html?r=$1"
+    },
+    {
+      "src": "/apply",
+      "dest": "/apply.html"
+    },
+    {
+      "src": "/apply/([^/]+)",
+      "dest": "/apply.html?r=$1"
+    },
+    {
+      "src": "/bolo-go",
+      "dest": "/bolo-go.html"
+    },
+    {
+      "src": "/crm",
+      "dest": "/crm.html"
+    },
+    {
+      "handle": "filesystem"
+    }
   ]
 }
