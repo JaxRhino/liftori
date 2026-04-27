@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Liftori CRM — Close the lead while you're still on site</title>
+<meta name="description" content="An AI-powered CRM built for service businesses. Quote from a job site photo, auto-flag leads going cold, ship the estimate before the customer leaves the driveway." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #060B18;
+    --navy-2: #0B1428;
+    --navy-3: #11203D;
+    --blue: #0EA5E9;
+    --blue-deep: #1240C4;
+    --blue-light: #7DD3FC;
+    --white-ice: #E0F7FF;
+    --text: #C8DFF0;
+    --muted: #4A6A8A;
+    --border: rgba(30, 80, 160, 0.25);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* —— HEADER —— */
+  header { padding: 24px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(6,11,24,0.92); backdrop-filter: blur(8px); z-index: 50; }
+  .header-row { display: flex; align-items: center; justify-content: space-between; }
+  .wordmark { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--white-ice); letter-spacing: 0.5px; }
+  .wordmark .ori { color: var(--blue); }
+  .wordmark .product { color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .nav-back { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  .nav-back:hover { color: var(--white-ice); }
+
+  /* —— HERO —— */
+  .hero { padding: 96px 0 80px; position: relative; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(14,165,233,0.18), transparent 60%); pointer-events: none; }
+  .hero-inner { position: relative; max-width: 880px; margin: 0 auto; text-align: center; }
+  .eyebrow { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(--blue); margin-bottom: 28px; padding: 8px 14px; border: 1px solid var(--blue); border-radius: 999px; }
+  h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(40px, 6.5vw, 80px); line-height: 1.05; letter-spacing: -2px; color: var(--white-ice); margin-bottom: 24px; font-weight: 700; }
+  h1 .accent { color: var(--blue); }
+  .hero-sub { font-size: clamp(17px, 2vw, 21px); color: var(--text); max-width: 720px; margin: 0 auto 40px; line-height: 1.5; }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: none; cursor: pointer; transition: transform 0.15s ease, background 0.15s ease; border-radius: 6px; letter-spacing: 0.3px; }
+  .btn-primary { background: var(--blue); color: var(--navy); font-weight: 700; }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--white-ice); border: 1px solid var(--blue); }
+  .btn-ghost:hover { background: rgba(14,165,233,0.1); }
+
+  /* —— PAIN —— */
+  .pain { padding: 80px 0; background: var(--navy-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-title { font-family: 'DM Sans', sans-serif; font-size: clamp(32px, 4.5vw, 48px); letter-spacing: -1px; line-height: 1.1; text-align: center; margin-bottom: 16px; color: var(--white-ice); font-weight: 700; }
+  .section-sub { text-align: center; color: var(--muted); font-size: 16px; max-width: 640px; margin: 0 auto 48px; }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .pain-card { padding: 24px; background: var(--navy-3); border: 1px solid var(--border); border-radius: 10px; }
+  .pain-card .x { color: #FF4D6D; font-family: 'DM Mono', monospace; font-size: 22px; margin-bottom: 12px; display: block; }
+  .pain-card h4 { font-size: 17px; color: var(--white-ice); margin-bottom: 8px; font-weight: 500; }
+  .pain-card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+  /* —— SOLUTION —— */
+  .solution { padding: 96px 0; }
+  .solution-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .feature-card { padding: 28px; background: var(--navy-2); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.2s ease; }
+  .feature-card:hover { border-color: var(--blue); }
+  .feature-card .check { color: var(--blue); font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; margin-bottom: 12px; display: block; letter-spacing: 1px; }
+  .feature-card h4 { font-size: 19px; color: var(--white-ice); margin-bottom: 10px; font-weight: 500; }
+  .feature-card p { font-size: 14px; color: var(--text); line-height: 1.55; }
+
+  /* —— INDUSTRIES —— */
+  .industries { padding: 80px 0; background: var(--navy-2); }
+  .industry-pills { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 880px; margin: 32px auto 0; }
+  .industry-pill { font-family: 'DM Mono', monospace; font-size: 13px; padding: 10px 20px; background: var(--navy-3); border: 1px solid var(--border); color: var(--white-ice); border-radius: 999px; letter-spacing: 0.5px; }
+
+  /* —— WAITLIST —— */
+  .waitlist { padding: 96px 0; }
+  .form-card { max-width: 540px; margin: 0 auto; padding: 40px; background: var(--navy-2); border: 1px solid var(--border); border-radius: 14px; }
+  .form-card h2 { font-family: 'DM Sans', sans-serif; font-size: clamp(28px, 3.6vw, 36px); margin-bottom: 8px; line-height: 1.1; text-align: center; color: var(--white-ice); font-weight: 700; letter-spacing: -1px; }
+  .form-card .form-sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--blue-light); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .field input, .field select { width: 100%; padding: 14px 16px; border: 1px solid var(--border); background: var(--navy-3); color: var(--white-ice); font-family: inherit; font-size: 15px; border-radius: 6px; transition: border-color 0.15s ease; }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--blue); }
+  .submit-btn { width: 100%; padding: 17px; background: var(--blue); color: var(--navy); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; margin-top: 8px; transition: background 0.15s ease; letter-spacing: 0.3px; }
+  .submit-btn:hover { background: var(--blue-light); }
+  .submit-btn:disabled { background: var(--muted); cursor: not-allowed; color: var(--navy); }
+  .form-msg { padding: 14px; border-radius: 6px; margin-top: 16px; text-align: center; font-size: 14px; font-weight: 500; display: none; }
+  .form-msg.success { background: rgba(14, 165, 233, 0.12); color: var(--blue-light); border: 1px solid rgba(14, 165, 233, 0.3); display: block; }
+  .form-msg.error { background: rgba(255, 77, 109, 0.12); color: #FFB4C2; border: 1px solid rgba(255, 77, 109, 0.3); display: block; }
+
+  /* —— FOOTER —— */
+  footer { padding: 48px 0 32px; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--white-ice); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 64px 0 56px; }
+    .form-card { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container header-row">
+      <a href="https://liftori.ai" class="wordmark">LIFT<span class="ori">ORI</span><span class="product">/ CRM</span></a>
+      <a href="https://liftori.ai" class="nav-back">← liftori.ai</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Coming soon · Limited beta</span>
+      <h1>Close the lead while you're still <span class="accent">on site.</span></h1>
+      <p class="hero-sub">An AI-powered CRM built for service businesses. Quote from a site photo. Auto-flag leads going cold. Ship the estimate before the customer leaves the driveway.</p>
+      <div class="cta-row">
+        <a href="#waitlist" class="btn btn-primary">Reserve early access</a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pain" id="how">
+    <div class="container">
+      <h2 class="section-title">If you run a service business, you know.</h2>
+      <p class="section-sub">Your "CRM" is a spreadsheet, a clipboard, and a prayer.</p>
+      <div class="pain-grid">
+        <div class="pain-card"><span class="x">✕</span><h4>Lead lands at 9am.</h4><p>Quote gets typed up at 4pm. Customer already called your competitor.</p></div>
+        <div class="pain-card"><span class="x">✕</span><h4>Three quotes pending.</h4><p>You can't remember which lead is hottest. Pipeline is a sticky-note pile on the dash.</p></div>
+        <div class="pain-card"><span class="x">✕</span><h4>Site photos rot in your camera roll.</h4><p>You measure square footage by hand for the same job 4 different times.</p></div>
+        <div class="pain-card"><span class="x">✕</span><h4>Follow-up never happens.</h4><p>The lead that needed a 2-day nudge gets a 2-week nudge. Or none at all.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="solution">
+    <div class="container">
+      <h2 class="section-title">Built for the trades that run on speed-to-quote.</h2>
+      <p class="section-sub">An AI-powered CRM that does the boring work so your crew can do the real work.</p>
+      <div class="solution-grid">
+        <div class="feature-card">
+          <span class="check">[01] AI INTAKE</span>
+          <h4>Lead in. Logged out.</h4>
+          <p>AI takes the inbound call (or text, or web form), captures the details, scores the lead, and drops it in your pipeline before you've put down your coffee.</p>
+        </div>
+        <div class="feature-card">
+          <span class="check">[02] PHOTO TO QUOTE</span>
+          <h4>Snap it. Quote it.</h4>
+          <p>Site photo → AI measures, identifies materials, flags scope risks, and builds the estimate. You review and adjust. Quote ships in minutes.</p>
+        </div>
+        <div class="feature-card">
+          <span class="check">[03] PIPELINE INTELLIGENCE</span>
+          <h4>Cold-lead alerts before they're cold.</h4>
+          <p>Auto-flags leads that haven't been touched in 48 hours. Suggests next-best action. Auto-texts the customer if you're slammed.</p>
+        </div>
+        <div class="feature-card">
+          <span class="check">[04] DRIVEWAY DELIVERY</span>
+          <h4>Quote in their inbox before they leave.</h4>
+          <p>From walk-around to PDF in 10 minutes. Customer has the number while they're standing on the property — when they're most likely to say yes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="industries">
+    <div class="container">
+      <h2 class="section-title">Built for the trades.</h2>
+      <p class="section-sub">By people who actually run a crew.</p>
+      <div class="industry-pills">
+        <span class="industry-pill">HVAC</span>
+        <span class="industry-pill">Plumbing</span>
+        <span class="industry-pill">Electrical</span>
+        <span class="industry-pill">Roofing</span>
+        <span class="industry-pill">Exterior coatings</span>
+        <span class="industry-pill">Lawn care</span>
+        <span class="industry-pill">Landscaping</span>
+        <span class="industry-pill">Cleaning services</span>
+        <span class="industry-pill">Pest control</span>
+        <span class="industry-pill">Window services</span>
+        <span class="industry-pill">Junk removal</span>
+        <span class="industry-pill">Pool services</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="waitlist" id="waitlist">
+    <div class="container">
+      <div class="form-card">
+        <h2>Reserve a beta seat.</h2>
+        <p class="form-sub">Limited spots — built and tuned for the first 50 service businesses on the list.</p>
+        <form id="crm-waitlist-form" novalidate>
+          <div class="field">
+            <label for="full_name">Your name</label>
+            <input id="full_name" name="full_name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="business_type">Business type</label>
+            <select id="business_type" name="business_type" required>
+              <option value="">Pick your trade...</option>
+              <option value="hvac">HVAC</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="roofing">Roofing</option>
+              <option value="exterior">Exterior coatings / paint</option>
+              <option value="lawn">Lawn / landscaping</option>
+              <option value="cleaning">Cleaning services</option>
+              <option value="pest">Pest control</option>
+              <option value="window">Window services</option>
+              <option value="junk">Junk removal</option>
+              <option value="pool">Pool services</option>
+              <option value="other">Other service business</option>
+            </select>
+          </div>
+          <button type="submit" class="submit-btn" id="crm-submit">Reserve my seat</button>
+          <div class="form-msg" id="crm-msg"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Liftori, LLC · <a href="https://liftori.ai">liftori.ai</a> · <a href="mailto:hello@liftori.ai">hello@liftori.ai</a></p>
+    </div>
+  </footer>
+
+<script>
+  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
+
+  const params = new URLSearchParams(window.location.search);
+  const REF_CODE = params.get('ref') || null;
+
+  document.getElementById('crm-waitlist-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fullName = document.getElementById('full_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const businessType = document.getElementById('business_type').value;
+    const submitBtn = document.getElementById('crm-submit');
+    const msgEl = document.getElementById('crm-msg');
+    msgEl.className = 'form-msg';
+    msgEl.textContent = '';
+
+    if (!email || !fullName || !businessType) {
+      msgEl.classList.add('error');
+      msgEl.textContent = 'Please fill out all fields.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Reserving...';
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/waitlist_signups', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          full_name: fullName,
+          email: email,
+          app_type: businessType,
+          product_interest: 'crm',
+          referral_code: REF_CODE
+        })
+      });
+
+      if (!res.ok) {
+        if (res.status === 409) {
+          msgEl.classList.add('success');
+          msgEl.textContent = "You're already on the list. We'll be in touch.";
+          return;
+        }
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || 'Something went wrong.');
+      }
+
+      msgEl.classList.add('success');
+      msgEl.textContent = "You're in. We'll email you when beta seats open.";
+      e.target.reset();
+    } catch (err) {
+      msgEl.classList.add('error');
+      msgEl.textContent = err.message || 'Something went wrong. Try again?';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Reserve my seat';
+    }
+  });
+</script>
+</body>
+</html>
