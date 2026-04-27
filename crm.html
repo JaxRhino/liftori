@@ -235,6 +235,12 @@
 
   const params = new URLSearchParams(window.location.search);
   const REF_CODE = params.get('ref') || null;
+  const UTM_PARAMS = {
+    utm_source:   params.get('utm_source')   || null,
+    utm_medium:   params.get('utm_medium')   || null,
+    utm_campaign: params.get('utm_campaign') || null,
+    utm_content:  params.get('utm_content')  || null,
+  };
 
   document.getElementById('crm-waitlist-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -269,7 +275,11 @@
           email: email,
           app_type: businessType,
           product_interest: 'crm',
-          referral_code: REF_CODE
+          referral_code: REF_CODE,
+          utm_source: UTM_PARAMS.utm_source,
+          utm_medium: UTM_PARAMS.utm_medium,
+          utm_campaign: UTM_PARAMS.utm_campaign,
+          utm_content: UTM_PARAMS.utm_content
         })
       });
 
