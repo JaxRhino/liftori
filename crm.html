@@ -535,7 +535,9 @@
     btn.innerHTML = '<span class="spinner"></span>Setting up...';
     try {
       const ind = selIndustry();
+      const signupId = crypto.randomUUID();
       const payload = {
+        id: signupId,
         business_name: document.getElementById('bizName').value.trim(),
         contact_name: document.getElementById('contactName').value.trim(),
         email: document.getElementById('contactEmail').value.trim(),
@@ -549,15 +551,14 @@
       };
       const ins = await fetch(`${SB_URL}/rest/v1/crm_signups`, {
         method: 'POST',
-        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
         body: JSON.stringify(payload),
       });
       if (!ins.ok) throw new Error('insert failed');
-      const row = (await ins.json())[0];
       const ck = await fetch(`${SB_URL}/functions/v1/crm-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ signup_id: row.id }),
+        body: JSON.stringify({ signup_id: signupId }),
       });
       const out = await ck.json();
       if (!ck.ok || !out.url) throw new Error(out.error || 'checkout failed');
