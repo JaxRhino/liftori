@@ -316,7 +316,7 @@
   .labos-modal .dept-grid input[type="checkbox"] { width: auto; margin-bottom: 0; accent-color: #00d4aa; }
   .labos-modal .tier-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-bottom: 16px;
   }
@@ -1993,9 +1993,9 @@
 
 <!-- NAV -->
 <!-- LABOS TOP BANNER -->
-<div class="labos-banner" id="labosBanner" onclick="document.getElementById('labos').scrollIntoView({behavior:'smooth'})">
+<div class="labos-banner" id="labosBanner" onclick="window.location.href='/crm.html'">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#060B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
-  <span><strong>NEW:</strong> Liftori AI Business Operating System &mdash; One platform for every department. AI-powered.</span>
+  <span><strong>NEW:</strong> <strong>Liftori CRM</strong> is live &mdash; the AI-powered CRM for service businesses. Starter plans open.</span>
   <span style="text-decoration: underline; margin-left: 4px;">Learn More &rarr;</span>
   <button class="banner-close" onclick="event.stopPropagation();closeBanner()" aria-label="Close">&times;</button>
 </div>
@@ -2036,7 +2036,7 @@
   <a href="#" class="nav-logo">LIFTORI</a>
   <ul class="nav-links">
     <li><a href="#solutions">Solutions</a></li>
-    <li><a href="#labos" style="color: #00d4aa; font-weight: 600;">Business OS</a></li>
+    <li><a href="/crm.html" style="color: #00d4aa; font-weight: 600;">CRM</a></li>
     <li><a href="#builds">Custom Builds</a></li>
     <li><a href="#consulting">Consulting</a></li>
     <li><a href="/blog">Blog</a></li>
@@ -2080,23 +2080,23 @@
   <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
     <div class="section-label reveal">Three Ways to Grow</div>
     <div class="section-title reveal" style="margin-bottom: 16px;">CHOOSE YOUR PATH</div>
-    <p class="section-desc reveal" style="max-width: 640px; margin: 0 auto 48px;">Every business is different. Whether you need an all-in-one operating system, a custom digital product, or expert guidance to scale — Liftori meets you where you are.</p>
+    <p class="section-desc reveal" style="max-width: 640px; margin: 0 auto 48px;">Every business is different. Whether you need an AI-powered CRM, a custom digital product, or expert guidance to scale — Liftori meets you where you are.</p>
 
     <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1050px; margin: 0 auto;">
 
       <!-- Path 1: LABOS -->
-      <a href="#labos" style="text-decoration: none; display: block; background: linear-gradient(180deg, rgba(0,212,170,0.08) 0%, rgba(0,212,170,0.02) 100%); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; padding: 40px 28px 32px; text-align: center; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,212,170,0.5)';this.style.boxShadow='0 12px 40px rgba(0,212,170,0.15)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(0,212,170,0.2)';this.style.boxShadow=''">
+      <a href="/crm.html" style="text-decoration: none; display: block; background: linear-gradient(180deg, rgba(0,212,170,0.08) 0%, rgba(0,212,170,0.02) 100%); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; padding: 40px 28px 32px; text-align: center; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,212,170,0.5)';this.style.boxShadow='0 12px 40px rgba(0,212,170,0.15)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(0,212,170,0.2)';this.style.boxShadow=''">
         <div style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #00d4aa, #0EA5E9); color: #060B18; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 1px;">MOST POPULAR</div>
         <div style="margin-bottom: 16px;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M12 2a4 4 0 0 0-4 4v5h8V6a4 4 0 0 0-4-4z"/><circle cx="9" cy="16" r="1" fill="#00d4aa"/><circle cx="15" cy="16" r="1" fill="#00d4aa"/><path d="M9 20h6"/></svg></div>
-        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #00d4aa; margin-bottom: 8px;">AI BUSINESS OS</h3>
-        <p style="color: #7DD3FC; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">Replace 10+ tools with one AI-powered platform. CRM, chat, video, marketing, HR, finance — everything your business needs.</p>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #00d4aa; margin-bottom: 8px;">LIFTORI CRM</h3>
+        <p style="color: #7DD3FC; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">The AI-powered CRM built for service businesses — sales, operations, finance, marketing, and EOS tools in one platform.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px;">
           <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">CRM</span>
-          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Team Chat</span>
-          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Video</span>
-          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">AI Agents</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Operations</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">Finance</span>
+          <span style="font-size: 11px; padding: 4px 10px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2); border-radius: 20px; color: #00d4aa;">EOS</span>
         </div>
-        <span style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #00d4aa, #0EA5E9); color: #060B18; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">From $49/mo &rarr;</span>
+        <span style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #00d4aa, #0EA5E9); color: #060B18; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">From $149/mo &rarr;</span>
       </a>
 
       <!-- Path 2: Custom Builds -->
@@ -2110,7 +2110,7 @@
           <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">SaaS</span>
           <span style="font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 20px; color: #7DD3FC;">Mobile</span>
         </div>
-        <span style="display: inline-block; padding: 12px 28px; border: 1px solid rgba(14,165,233,0.4); color: #7DD3FC; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">Starting at $497 &rarr;</span>
+        <span style="display: inline-block; padding: 12px 28px; border: 1px solid rgba(14,165,233,0.4); color: #7DD3FC; font-weight: 700; border-radius: 8px; font-size: 0.9rem;">Starting at $499 &rarr;</span>
       </a>
 
       <!-- Path 3: Business Consulting -->
@@ -2491,7 +2491,7 @@
         <div class="price-tagline">Simple idea? Let's make it real.</div>
         <div class="price-amount">
           <div class="price-from">Project fee from</div>
-          <div class="price-num">$399</div>
+          <div class="price-num">$499</div>
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
@@ -2514,8 +2514,8 @@
         <div class="price-name">PRO</div>
         <div class="price-tagline">Full build at a founder-friendly price.</div>
         <div class="price-amount">
-          <div class="price-from"><s>$2,500</s>&nbsp; Limited offer</div>
-          <div class="price-num">$1,299</div>
+          <div class="price-from"><s>$3,500</s>&nbsp; Limited offer</div>
+          <div class="price-num">$1,999</div>
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
@@ -2538,7 +2538,7 @@
         <div class="price-tagline">Build it. Own it. Run with it.</div>
         <div class="price-amount">
           <div class="price-from">Project fee from</div>
-          <div class="price-num">$2,500</div>
+          <div class="price-num">$4,999</div>
           <div class="price-note">One-time · No monthly fee</div>
         </div>
         <ul class="price-features">
@@ -2561,8 +2561,8 @@
         <div class="price-tagline">Build it. Launch it. Keep it growing.</div>
         <div class="price-amount">
           <div class="price-from">Project fee from</div>
-          <div class="price-num">$5,000</div>
-          <div class="price-note">+ $500–$2,000 / month</div>
+          <div class="price-num">$9,999</div>
+          <div class="price-note">+ $750–$2,000 / month</div>
         </div>
         <ul class="price-features">
           <li>✓ Everything in Starter</li>
@@ -2584,8 +2584,8 @@
         <div class="price-tagline">Your full tech team. One monthly fee.</div>
         <div class="price-amount">
           <div class="price-from">Project fee from</div>
-          <div class="price-num">$10,000</div>
-          <div class="price-note">+ $2,000–$5,000 / month</div>
+          <div class="price-num">$25,000+</div>
+          <div class="price-note">+ $2,500–$5,000 / month</div>
         </div>
         <ul class="price-features">
           <li>✓ Everything in Growth</li>
@@ -2607,16 +2607,16 @@
         <div class="financing-desc">Get signed up and once we get to the numbers portion of your estimate, we may be able to extend your payments into <strong>6 or 12 monthly installments</strong>.</div>
         <div class="financing-examples">
           <div class="fin-example">
-            <span class="fin-plan">$399 Quickstart</span>
-            <span class="fin-monthly">~$70/mo <small>× 6</small></span>
+            <span class="fin-plan">$499 Quickstart</span>
+            <span class="fin-monthly">~$90/mo <small>× 6</small></span>
           </div>
           <div class="fin-example">
-            <span class="fin-plan">$1,299 Pro</span>
-            <span class="fin-monthly">~$115/mo <small>× 12</small></span>
+            <span class="fin-plan">$1,999 Pro</span>
+            <span class="fin-monthly">~$180/mo <small>× 12</small></span>
           </div>
           <div class="fin-example">
-            <span class="fin-plan">$2,500 Starter</span>
-            <span class="fin-monthly">~$220/mo <small>× 12</small></span>
+            <span class="fin-plan">$4,999 Starter</span>
+            <span class="fin-monthly">~$450/mo <small>× 12</small></span>
           </div>
         </div>
         <div class="financing-note">*Payment plans include interest. Terms discussed during your estimate.</div>
@@ -2719,22 +2719,22 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto;">
         <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
           <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">QUICKSTART</div>
-          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$497</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$499</div>
           <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Landing pages, simple sites</p>
         </div>
         <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
           <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">PRO</div>
-          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$1,497</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$1,999</div>
           <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Web apps, e-commerce, dashboards</p>
         </div>
         <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
           <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">STARTER</div>
-          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$4,997</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$4,999</div>
           <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Full platforms, multi-page apps</p>
         </div>
         <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15); border-radius: 14px; padding: 24px; text-align: center;">
           <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #7DD3FC; letter-spacing: 1px; margin-bottom: 4px;">GROWTH+</div>
-          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$9,997+</div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #E0F7FF;">$9,999+</div>
           <p style="color: #7DD3FC; font-size: 0.75rem; margin-top: 8px;">Enterprise, SaaS, marketplaces</p>
         </div>
       </div>
@@ -2789,7 +2789,7 @@
   </div>
 </section>
 
-<!-- LABOS — Liftori AI Business Operating System -->
+<!-- LIFTORI CRM — AI-powered CRM for service businesses -->
 <section id="labos" style="padding: 100px 20px; background: linear-gradient(180deg, #060B18 0%, #081225 30%, #0A1A35 50%, #081225 70%, #060B18 100%); position: relative; overflow: hidden;">
   <!-- Animated background glow -->
   <div style="position: absolute; top: 50%; left: 50%; width: 800px; height: 800px; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%); pointer-events: none;"></div>
@@ -2800,19 +2800,19 @@
     <!-- Announcement Badge -->
     <div class="reveal" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(0,212,170,0.1)); border: 1px solid rgba(14,165,233,0.3); border-radius: 40px; padding: 8px 24px; margin-bottom: 32px;">
       <span style="display: inline-block; width: 8px; height: 8px; background: #00d4aa; border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite;"></span>
-      <span style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #7DD3FC;">Coming Soon</span>
+      <span style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #7DD3FC;">Early Access &mdash; Now Open</span>
     </div>
 
     <!-- Main Title -->
     <h2 class="reveal" style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 7vw, 88px); letter-spacing: 4px; line-height: 0.95; margin-bottom: 8px;">
-      <span style="background: linear-gradient(180deg, #E0F7FF 0%, #7DD3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LIFTORI AI</span><br/>
-      <span style="background: linear-gradient(180deg, #00d4aa 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">BUSINESS OPERATING SYSTEM</span>
+      <span style="background: linear-gradient(180deg, #E0F7FF 0%, #7DD3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LIFTORI</span><br/>
+      <span style="background: linear-gradient(180deg, #00d4aa 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CRM</span>
     </h2>
 
     <!-- Subtitle -->
     <p class="reveal" style="font-family: 'DM Sans', sans-serif; color: #7DD3FC; font-size: clamp(16px, 2vw, 20px); line-height: 1.7; max-width: 720px; margin: 24px auto 48px; opacity: 0.9;">
-      One platform. Every department. Powered by AI.<br/>
-      <span style="color: #E0F7FF; font-weight: 600;">CRM, communications, video, marketing, HR, finance, operations, and more &mdash; all in one place.</span>
+      The AI-powered CRM built for service businesses.<br/>
+      <span style="color: #E0F7FF; font-weight: 600;">Sales, operations, finance, marketing, and EOS tools &mdash; all in one place.</span>
     </p>
 
     <!-- Feature Grid -->
@@ -2890,11 +2890,11 @@
 
     <!-- CTA -->
     <div class="reveal" style="margin-top: 16px;">
-      <p style="color: #E0F7FF; font-size: 1.15rem; margin-bottom: 24px; font-weight: 500;">Be first to access the most complete business operating system ever built.</p>
-      <button class="btn-primary" onclick="openLabosModal()" style="font-size: 1.15rem; padding: 18px 48px; cursor: pointer; background: linear-gradient(135deg, #00d4aa, #0EA5E9); border: none; border-radius: 12px; color: #060B18; font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 0 30px rgba(0,212,170,0.3);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 50px rgba(0,212,170,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 30px rgba(0,212,170,0.3)'">
-        Get Early Access &rarr;
-      </button>
-      <p style="color: rgba(125,211,252,0.5); font-size: 0.8rem; margin-top: 14px;">Launching soon. Early access members get priority onboarding + locked-in pricing.</p>
+      <p style="color: #E0F7FF; font-size: 1.15rem; margin-bottom: 24px; font-weight: 500;">Be among the first to run your service business on Liftori CRM.</p>
+      <a href="/crm.html" class="btn-primary" style="display: inline-block; text-decoration: none; font-size: 1.15rem; padding: 18px 48px; cursor: pointer; background: linear-gradient(135deg, #00d4aa, #0EA5E9); border: none; border-radius: 12px; color: #060B18; font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 0 30px rgba(0,212,170,0.3);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 50px rgba(0,212,170,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 30px rgba(0,212,170,0.3)'">
+        Explore Liftori CRM &rarr;
+      </a>
+      <p style="color: rgba(125,211,252,0.5); font-size: 0.8rem; margin-top: 14px;">Starter plans are open now. Pro &amp; Scale are launching soon &mdash; join the waitlist on the CRM page.</p>
     </div>
   </div>
 </section>
@@ -3171,11 +3171,11 @@
     <div style="display: flex; flex-direction: column; gap: 12px;">
 
       <!-- Option 1: LABOS -->
-      <a href="#" onclick="closeTriageModal();openLabosModal();return false;" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.2); border-radius: 14px; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(0,212,170,0.5)';this.style.background='rgba(0,212,170,0.1)'" onmouseout="this.style.borderColor='rgba(0,212,170,0.2)';this.style.background='rgba(0,212,170,0.06)'">
+      <a href="/crm.html" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.2); border-radius: 14px; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(0,212,170,0.5)';this.style.background='rgba(0,212,170,0.1)'" onmouseout="this.style.borderColor='rgba(0,212,170,0.2)';this.style.background='rgba(0,212,170,0.06)'">
         <div style="flex-shrink: 0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M12 2a4 4 0 0 0-4 4v5h8V6a4 4 0 0 0-4-4z"/><circle cx="9" cy="16" r="1" fill="#00d4aa"/><circle cx="15" cy="16" r="1" fill="#00d4aa"/><path d="M9 20h6"/></svg></div>
         <div>
-          <div style="color: #00d4aa; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">AI BUSINESS OPERATING SYSTEM</div>
-          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">CRM, team chat, video, marketing, HR, finance — all-in-one platform. From $49/mo.</div>
+          <div style="color: #00d4aa; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">LIFTORI CRM</div>
+          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">The AI-powered CRM for service businesses. Starter from $149/mo.</div>
         </div>
         <div style="color: #00d4aa; font-size: 20px; flex-shrink: 0;">&rarr;</div>
       </a>
@@ -3185,7 +3185,7 @@
         <div style="flex-shrink: 0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
         <div>
           <div style="color: #0EA5E9; font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px;">BUILD A CUSTOM PRODUCT</div>
-          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Web app, e-commerce, SaaS, mobile — describe your idea and we build it. Starting at $497.</div>
+          <div style="color: #7DD3FC; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Web app, e-commerce, SaaS, mobile — describe your idea and we build it. Starting at $499.</div>
         </div>
         <div style="color: #0EA5E9; font-size: 20px; flex-shrink: 0;">&rarr;</div>
       </a>
@@ -3212,8 +3212,8 @@
     <button class="modal-close" onclick="closeLabosModal()">&times;</button>
 
     <div id="labosFormContainer">
-      <h2>LABOS EARLY ACCESS</h2>
-      <p class="modal-sub">Join the waitlist for the most complete AI business operating system ever built. Tell us about your business so we can tailor your experience.</p>
+      <h2>LIFTORI CRM EARLY ACCESS</h2>
+      <p class="modal-sub">Join the waitlist for Liftori CRM &mdash; the AI-powered CRM for service businesses. Tell us about your business so we can tailor your experience.</p>
 
       <form id="labosSignupForm">
         <label>Full Name *</label>
@@ -3261,27 +3261,20 @@
             <input type="radio" name="interest_tier" value="starter" />
             <span class="tier-info">
               <span class="tier-name">Starter</span>
-              <span class="tier-price">$49/mo</span>
-            </span>
-          </label>
-          <label>
-            <input type="radio" name="interest_tier" value="growth" />
-            <span class="tier-info">
-              <span class="tier-name">Growth</span>
               <span class="tier-price">$149/mo</span>
             </span>
           </label>
           <label>
-            <input type="radio" name="interest_tier" value="business" />
+            <input type="radio" name="interest_tier" value="pro" />
             <span class="tier-info">
-              <span class="tier-name">Business</span>
-              <span class="tier-price">$299/mo</span>
+              <span class="tier-name">Pro</span>
+              <span class="tier-price">$249/mo</span>
             </span>
           </label>
           <label>
-            <input type="radio" name="interest_tier" value="enterprise" />
+            <input type="radio" name="interest_tier" value="scale" />
             <span class="tier-info">
-              <span class="tier-name">Enterprise</span>
+              <span class="tier-name">Scale</span>
               <span class="tier-price">$499/mo</span>
             </span>
           </label>
