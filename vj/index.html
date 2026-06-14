@@ -708,6 +708,8 @@ section { padding: 80px 0; }
 const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+// Storefront catalog lives in the VJ CRM tenant project (single source of truth)
+const sbStore = window.supabase.createClient('https://xtvqiiycpnxhckpcguhl.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0dnFpaXljcG54aGNrcGNndWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMDM0MTgsImV4cCI6MjA5Njg3OTQxOH0.45Vl5ZT-CFgQ5nWL8O2NWefjO6eaF5ZoOE05px0tX6w');
 
 // Nav scroll effect
 window.addEventListener('scroll', () => {
@@ -744,10 +746,11 @@ async function handleNewsletterSubmit(e) {
 
 // Load featured products
 async function loadFeaturedProducts() {
-  const { data, error } = await sb
-    .from('products')
+  const { data, error } = await sbStore
+    .from('listings')
     .select('id, title, slug, price, compare_at_price, main_image_url, categories(name), is_featured, created_at')
-    .eq('status', 'published')
+    .eq('status', 'active')
+    .eq('published_to_website', true)
     .order('created_at', { ascending: false })
     .limit(8);
 

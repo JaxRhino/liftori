@@ -147,8 +147,8 @@ select.filter-select:focus{outline:none;border-color:var(--gold)}
 
 <script>
 // VJ tenant Supabase (not Liftori master) — LABOS routes each storefront to its own DB
-const SUPABASE_URL='https://zymgttmngwxkobmdgdia.supabase.co';
-const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bWd0dG1uZ3d4a29ibWRnZGlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzcxMDMsImV4cCI6MjA5MjI1MzEwM30.rhfz_Io8k1-LzwVIOWjw119G919yqpJLFnLcF7sid9I';
+const SUPABASE_URL='https://xtvqiiycpnxhckpcguhl.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0dnFpaXljcG54aGNrcGNndWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMDM0MTgsImV4cCI6MjA5Njg3OTQxOH0.45Vl5ZT-CFgQ5nWL8O2NWefjO6eaF5ZoOE05px0tX6w';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
 let currentCategory='all';
@@ -176,11 +176,11 @@ function filterCategory(slug,el){
 
 async function loadProducts(){
   const sort=document.getElementById('sortSelect').value;
-  let query=sb.from('products').select('id,title,slug,price,compare_at_price,main_image_url,condition,featured,created_at,category_id,categories(name,slug)').eq('status','published');
+  let query=sb.from('listings').select('id,title,slug,price,compare_at_price,main_image_url,condition_rating,is_featured,created_at,category_id,categories(name,slug)').eq('status','active').eq('published_to_website',true);
 
   if(sort==='price-low')query=query.order('price',{ascending:true});
   else if(sort==='price-high')query=query.order('price',{ascending:false});
-  else if(sort==='featured')query=query.order('featured',{ascending:false}).order('created_at',{ascending:false});
+  else if(sort==='featured')query=query.order('is_featured',{ascending:false}).order('created_at',{ascending:false});
   else query=query.order('created_at',{ascending:false});
 
   const{data,error}=await query;
@@ -203,10 +203,10 @@ async function loadProducts(){
 
   grid.innerHTML=filtered.map(p=>{
     const saved=wishlist.includes(p.id);
-    const condLabel={new:'New w/ tags',like_new:'Like new',good:'Good',fair:'Fair',used:'Used'}[p.condition]||p.condition||'';
+    const condLabel={new_with_tags:'New w/ tags',like_new:'Like new',excellent:'Excellent',very_good:'Very good',good:'Good',fair:'Fair',for_parts:'For parts',A:'Excellent',B:'Good',C:'Fair',D:'Poor'}[p.condition_rating]||'';
     return `
     <a href="product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
-      ${p.featured?'<div class="product-badge badge-new">Featured</div>':''}
+      ${p.is_featured?'<div class="product-badge badge-new">Featured</div>':''}
       <div class="product-card-save ${saved?'saved':''}" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
       </div>
