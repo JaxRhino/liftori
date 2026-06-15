@@ -52,6 +52,8 @@ a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:ho
 .btn-buy:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px var(--shadow-gold)}
 .btn-buy:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-save{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 32px;background:transparent;color:var(--gold);font-weight:500;font-size:0.85rem;text-transform:uppercase;letter-spacing:2px;border:1px solid var(--border-gold);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);margin-top:8px}
+.btn-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 32px;background:transparent;color:var(--gold);font-weight:500;font-size:0.85rem;text-transform:uppercase;letter-spacing:2px;border:1px solid var(--border-gold);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);margin-top:8px}
+.btn-share:hover{background:var(--gold);color:var(--bg-deep)}
 .btn-save:hover{background:rgba(197,165,90,0.08)}
 
 .btn-question{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:0.85rem;color:var(--text-secondary);cursor:pointer;transition:color var(--transition)}
@@ -137,6 +139,10 @@ a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:ho
       <button class="btn-save" id="saveBtn" onclick="handleSave()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         Save to Wishlist
+      </button>
+      <button class="btn-share" id="shareBtn" onclick="handleShare()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Share to Facebook
       </button>
       <div class="btn-question" onclick="openQuestionModal()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -271,6 +277,18 @@ function handleBuy(){
   if(!currentProduct)return;
   // TODO: Stripe Checkout integration (Wave F). For now, email capture.
   window.location.href='contact.html?item='+encodeURIComponent(currentProduct.title);
+}
+
+function handleShare(){
+  if(!currentProduct)return;
+  const p=currentProduct;
+  const price=p.price?'$'+Number(p.price).toFixed(2):'';
+  const url=location.href;
+  const desc=(p.description||'').trim().replace(/\s+/g,' ').slice(0,220);
+  const tags=(p.tags||[]).slice(0,6).map(t=>'#'+String(t).replace(/[^a-z0-9]/gi,'')).filter(x=>x.length>2).join(' ');
+  const caption=[p.title+(price?' - '+price:''),desc,'Shop it here: '+url,('#vjthriftfinds #thrifted #vintage '+tags).trim()].filter(Boolean).join('\n\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(caption).then(function(){showToast('Caption copied - paste it into your Facebook post','success')}).catch(function(){});}
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank','noopener');
 }
 
 function handleSave(){
