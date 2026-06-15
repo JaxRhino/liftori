@@ -746,11 +746,12 @@ async function handleNewsletterSubmit(e) {
 
 // Load featured products
 async function loadFeaturedProducts() {
-  const { data, error } = await sbStore
-    .from('listings')
+  const { data, error } = await sb
+    .from('products')
     .select('id, title, slug, price, compare_at_price, main_image_url, categories(name), is_featured, created_at')
-    .eq('status', 'active')
+    .eq('status', 'published')
     .eq('published_to_website', true)
+    .eq('storefront_id', '9c8a18bd-03c9-458d-b3a9-3f7b27db88dd')
     .order('created_at', { ascending: false })
     .limit(8);
 

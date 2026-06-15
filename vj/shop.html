@@ -147,8 +147,8 @@ select.filter-select:focus{outline:none;border-color:var(--gold)}
 
 <script>
 // VJ tenant Supabase (not Liftori master) — LABOS routes each storefront to its own DB
-const SUPABASE_URL='https://xtvqiiycpnxhckpcguhl.supabase.co';
-const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0dnFpaXljcG54aGNrcGNndWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMDM0MTgsImV4cCI6MjA5Njg3OTQxOH0.45Vl5ZT-CFgQ5nWL8O2NWefjO6eaF5ZoOE05px0tX6w';
+const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
 let currentCategory='all';
@@ -176,7 +176,7 @@ function filterCategory(slug,el){
 
 async function loadProducts(){
   const sort=document.getElementById('sortSelect').value;
-  let query=sb.from('listings').select('id,title,slug,price,compare_at_price,main_image_url,condition_rating,is_featured,created_at,category_id,categories(name,slug)').eq('status','active').eq('published_to_website',true);
+  let query=sb.from('products').select('id,title,slug,price,compare_at_price,main_image_url,condition_rating,is_featured,created_at,category_id,categories(name,slug)').eq('status','published').eq('published_to_website',true).eq('storefront_id','9c8a18bd-03c9-458d-b3a9-3f7b27db88dd');
 
   if(sort==='price-low')query=query.order('price',{ascending:true});
   else if(sort==='price-high')query=query.order('price',{ascending:false});

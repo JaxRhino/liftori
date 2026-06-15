@@ -183,8 +183,8 @@ a{color:var(--gold);text-decoration:none;transition:color var(--transition)}a:ho
 
 <script>
 // VJ tenant Supabase
-const SUPABASE_URL='https://xtvqiiycpnxhckpcguhl.supabase.co';
-const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0dnFpaXljcG54aGNrcGNndWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMDM0MTgsImV4cCI6MjA5Njg3OTQxOH0.45Vl5ZT-CFgQ5nWL8O2NWefjO6eaF5ZoOE05px0tX6w';
+const SUPABASE_URL='https://qlerfkdyslndjbaltkwo.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 let currentProduct=null;
 const WISHLIST_KEY='vj_wishlist_v1';
@@ -199,7 +199,7 @@ async function loadProduct(){
   const slug=new URLSearchParams(window.location.search).get('slug');
   if(!slug){window.location.href='shop.html';return}
 
-  const{data,error}=await sb.from('listings').select('*,categories(name,slug),listing_images(id,image_url,sort_order,alt_text)').eq('slug',slug).eq('published_to_website',true).in('status',['active','sold']).maybeSingle();
+  const{data,error}=await sb.from('products').select('*,categories(name,slug),product_images(id,image_url,sort_order,alt_text)').eq('slug',slug).eq('storefront_id','9c8a18bd-03c9-458d-b3a9-3f7b27db88dd').in('status',['published','sold']).maybeSingle();
   if(error||!data){document.getElementById('pTitle').textContent='Product not found';document.getElementById('pCategory').textContent='';return}
   currentProduct=data;
 
@@ -226,7 +226,7 @@ async function loadProduct(){
   const mainImg=document.getElementById('mainImage');
   if(data.main_image_url){mainImg.src=data.main_image_url;mainImg.alt=data.title}
 
-  const gallery=(data.listing_images||[]).slice().sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+  const gallery=(data.product_images||[]).slice().sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
   const allImgs=[data.main_image_url,...gallery.map(i=>i.image_url)].filter(Boolean);
   const unique=[...new Set(allImgs)];
   if(unique.length>1){
@@ -260,7 +260,7 @@ async function loadProduct(){
 
 async function loadRelated(catId,excludeId){
   if(!catId)return;
-  const{data}=await sb.from('listings').select('id,title,slug,price,main_image_url').eq('status','active').eq('published_to_website',true).eq('category_id',catId).neq('id',excludeId).limit(4);
+  const{data}=await sb.from('products').select('id,title,slug,price,main_image_url').eq('status','published').eq('published_to_website',true).eq('storefront_id','9c8a18bd-03c9-458d-b3a9-3f7b27db88dd').eq('category_id',catId).neq('id',excludeId).limit(4);
   if(!data||data.length===0)return;
   document.getElementById('relatedSection').style.display='block';
   document.getElementById('relatedGrid').innerHTML=data.map(p=>`
@@ -308,7 +308,7 @@ async function submitQuestion(){
   const email=document.getElementById('qEmail').value.trim();
   const question=document.getElementById('qText').value.trim();
   if(!email||!question){showToast('Please fill in email and question','error');return}
-  const{error}=await sb.from('listing_questions').insert({listing_id:currentProduct.id,asker_email:email,asker_name:name,question});
+  const{error}=await sb.from('product_questions').insert({product_id:currentProduct.id,customer_email:email,customer_name:name,question});
   if(error){console.error(error);showToast('Something went wrong','error');return}
   showToast('Question sent! Vanessa will get back to you.','success');
   closeQuestionModal();
