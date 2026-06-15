@@ -273,10 +273,20 @@ async function loadRelated(catId,excludeId){
     </a>`).join('');
 }
 
-function handleBuy(){
+async function handleBuy(){
   if(!currentProduct)return;
-  // TODO: Stripe Checkout integration (Wave F). For now, email capture.
-  window.location.href='contact.html?item='+encodeURIComponent(currentProduct.title);
+  const btn=document.getElementById('buyBtn');
+  if(btn.disabled)return;
+  const orig=btn.textContent;btn.disabled=true;btn.textContent='Starting checkout…';
+  try{
+    const{data,error}=await sb.functions.invoke('buy-product',{body:{product_id:currentProduct.id,origin:location.origin}});
+    if(error||!data||!data.url){throw new Error((data&&data.error)||'checkout_failed');}
+    window.location.href=data.url;
+  }catch(e){
+    console.error('buy failed',e);
+    showToast('Could not start checkout — please try again','error');
+    btn.disabled=false;btn.textContent=orig;
+  }
 }
 
 function handleShare(){

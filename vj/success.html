@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Order Confirmed — VJ Thrift Finds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg-deep:#0a0907;--bg-card:#1a1714;--gold:#c5a55a;--gold-light:#d4b96a;--cream:#f5e6c8;--text-primary:#e8dcc8;--text-secondary:#a89a80;--border-gold:rgba(197,165,90,0.3);--radius:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:'Inter',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.6}
+.card{max-width:520px;width:100%;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);padding:48px 36px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.check{width:72px;height:72px;border-radius:50%;background:rgba(197,165,90,0.12);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:1.9rem;color:var(--cream);margin-bottom:12px}
+p{color:var(--text-secondary);margin-bottom:14px;font-size:1rem}
+.ordernum{display:inline-block;margin:6px 0 22px;padding:8px 16px;background:rgba(197,165,90,0.1);border:1px solid var(--border-gold);border-radius:6px;color:var(--gold-light);font-weight:600;letter-spacing:1px}
+.btn{display:inline-block;margin-top:8px;padding:14px 32px;background:var(--gold);color:var(--bg-deep);font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:0.85rem;text-decoration:none;border-radius:var(--radius);transition:.2s}
+.btn:hover{background:var(--gold-light);transform:translateY(-2px)}
+.muted{font-size:0.85rem;color:var(--text-secondary);margin-top:24px}
+.muted a{color:var(--gold-light)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="check">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#c5a55a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <h1>Thank you for your order!</h1>
+  <p>Your payment went through and your order is confirmed.</p>
+  <div class="ordernum" id="ordernum">Order confirmed</div>
+  <p>Vanessa will carefully pack and ship your item within 7 days, and you'll get a confirmation email with tracking. Keep an eye on your inbox!</p>
+  <a class="btn" href="/shop.html">Keep Shopping</a>
+  <div class="muted">Questions? Reach out any time at <a href="/contact.html">our contact page</a>.</div>
+</div>
+<script>
+var sid=new URLSearchParams(location.search).get('session_id');
+if(sid){var el=document.getElementById('ordernum');el.textContent='Order Ref: VJ-'+sid.slice(-8).toUpperCase();}
+</script>
+</body>
+</html>
