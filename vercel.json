@@ -71,6 +71,10 @@
       "dest": "/bolo-go.html"
     },
     {
+      "src": "/get-bolo",
+      "dest": "/get-bolo.html"
+    },
+    {
       "src": "/crm",
       "dest": "/crm.html"
     },

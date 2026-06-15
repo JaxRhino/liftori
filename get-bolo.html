@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get BOLO Go — Find. Scan. Sell.</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--paper:#FAF7F0;--ink:#0f1b2d;--navy:#14233b;--sky:#0EA5E9;--sky-d:#0284c7;--muted:#5b6473;--line:#e7e1d4;--card:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:520px;margin:0 auto;padding:40px 22px 64px;text-align:center}
+.brand{font-weight:800;font-size:2rem;letter-spacing:-1px}
+.brand .go{color:var(--sky)}
+.score{display:inline-block;border:2px solid #e23b3b;color:#e23b3b;font-size:.62rem;font-weight:800;letter-spacing:1px;padding:2px 7px;border-radius:6px;transform:translateY(-6px);margin-left:6px}
+.tag{font-weight:700;letter-spacing:3px;font-size:.8rem;color:var(--muted);margin-top:2px}
+.lead{margin:22px auto 0;color:var(--muted);max-width:420px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 24px;margin-top:28px;box-shadow:0 12px 40px rgba(15,27,45,.06)}
+.os{display:inline-block;background:rgba(14,165,233,.1);color:var(--sky-d);font-weight:700;font-size:.72rem;letter-spacing:1px;padding:5px 12px;border-radius:999px;text-transform:uppercase}
+#qr{display:flex;justify-content:center;margin:22px 0 10px}
+#qr img,#qr canvas{border-radius:12px;border:1px solid var(--line);padding:10px;background:#fff}
+.qrhint{font-size:.82rem;color:var(--muted);margin-bottom:18px}
+.btn{display:block;width:100%;background:var(--sky);color:#fff;font-weight:800;font-size:1.05rem;text-decoration:none;padding:16px;border-radius:12px;border:none;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--sky-d);transform:translateY(-1px)}
+.btn[aria-disabled="true"]{background:#cdd5df;cursor:not-allowed;transform:none}
+.steps{text-align:left;margin:30px auto 0;max-width:420px}
+.steps h2{font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.step{display:flex;gap:14px;margin-bottom:16px}
+.num{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.step p{font-size:.95rem;color:var(--ink)}
+.step small{color:var(--muted)}
+.ios{margin-top:30px;font-size:.85rem;color:var(--muted);padding:14px;border:1px dashed var(--line);border-radius:12px}
+.foot{margin-top:34px;font-size:.78rem;color:var(--muted)}
+.foot a{color:var(--sky-d);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">BOLO<span class="go">-Go</span><span class="score">SCORE</span></div>
+  <div class="tag">FIND. SCAN. SELL.</div>
+  <p class="lead">Your AI reselling assistant in your pocket — scan an item, get an instant listing with price and condition, and manage your store on the go.</p>
+
+  <div class="card">
+    <span class="os">📱 Android</span>
+    <div id="qr"></div>
+    <p class="qrhint" id="qrhint">Scan this code with your phone's camera to download.</p>
+    <a class="btn" id="dlBtn" href="#">Download for Android</a>
+  </div>
+
+  <div class="steps">
+    <h2>Install in 3 steps</h2>
+    <div class="step"><div class="num">1</div><p>Tap <strong>Download for Android</strong> (or scan the code) to get the app file.</p></div>
+    <div class="step"><div class="num">2</div><p>Open the downloaded file. If Android asks, <strong>allow installs from this source</strong>.<br><small>Settings → Allow from this source → back, then Install. This is normal for apps outside the Play Store.</small></p></div>
+    <div class="step"><div class="num">3</div><p>Open <strong>BOLO Go</strong> and sign in with your Liftori email & password. You're in!</p></div>
+  </div>
+
+  <div class="ios">🍏 <strong>iPhone?</strong> An iOS version is coming soon — Android is available first. Want a heads-up when iPhone launches? Just let us know.</div>
+
+  <p class="foot">A <strong>Liftori</strong> platform · Trouble installing? Message Liftori support from your desktop admin at <a href="https://admin.liftori.ai">liftori.ai</a>.</p>
+</div>
+
+<script>
+// ===== Fill this with the EAS Android build's APK URL, then redeploy. =====
+const APK_URL = "https://expo.dev/accounts/rhinomarch/projects/liftop/builds/1f2e9c62-82fe-4104-9a15-39b9255eedf1";
+// =========================================================================
+(function(){
+  var btn=document.getElementById('dlBtn'), hint=document.getElementById('qrhint'), qr=document.getElementById('qr');
+  var target = APK_URL || location.href;
+  new QRCode(qr,{text:target,width:200,height:200,colorDark:"#14233b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  if(APK_URL){
+    btn.href=APK_URL; btn.setAttribute('download','');
+  } else {
+    btn.textContent='Download link coming soon';
+    btn.setAttribute('aria-disabled','true');
+    btn.addEventListener('click',function(e){e.preventDefault();});
+    hint.textContent='Your build is being prepared — this QR currently links to this page so you can share it.';
+  }
+})();
+</script>
+</body>
+</html>
