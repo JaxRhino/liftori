@@ -430,6 +430,35 @@ section { padding: 80px 0; }
   .product-card-body { padding: 12px; }
   .product-card-title { font-size: 0.95rem; }
 }
+/* === elevated vintage cards (home parity with shop) === */
+.products-grid{gap:26px}
+.product-card{position:relative;display:block;background:linear-gradient(180deg,#1d1813,#130f0a);border:1px solid var(--border-gold);border-radius:10px;padding:11px;overflow:visible;text-decoration:none;color:inherit;box-shadow:0 8px 22px rgba(0,0,0,0.5);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+.product-card:hover{transform:translateY(-7px);border-color:var(--gold);box-shadow:0 22px 44px rgba(0,0,0,0.6),0 0 26px rgba(197,165,90,0.16)}
+.product-frame{position:relative;border-radius:7px;overflow:hidden;aspect-ratio:1/1;background:#0b0703;border:1px solid rgba(197,165,90,0.5);box-shadow:inset 0 0 0 4px #15100a,inset 0 0 0 5px rgba(197,165,90,0.3)}
+.product-card-img{width:100%;height:100%;object-fit:cover;background:var(--bg-surface);transition:transform .6s ease,filter .6s ease;filter:saturate(.97) contrast(1.02)}
+.product-card:hover .product-card-img{transform:scale(1.06);filter:saturate(1.05) contrast(1.05)}
+.product-frame::after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 48px rgba(20,8,0,0.5)}
+.product-chip{position:absolute;top:9px;left:9px;z-index:3;font-family:var(--font-accent);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:rgba(10,7,3,0.8);border:1px solid var(--border-gold);color:var(--gold-light)}
+.product-stamp{position:absolute;top:8px;right:8px;z-index:3;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);border:2px solid rgba(169,97,47,0.7);color:rgba(232,200,116,0.92);font-family:var(--font-accent);font-weight:600;font-size:0.5rem;line-height:1.15;letter-spacing:.04em;text-transform:uppercase;background:radial-gradient(circle,rgba(60,28,10,0.5),rgba(20,9,3,0.15));opacity:.9}
+.product-badge{position:absolute;top:10px;left:10px;z-index:4;padding:4px 11px;font-family:var(--font-body);font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.badge-new{background:var(--gold);color:var(--bg-deep)}
+.badge-sold{background:#c44;color:#fff}
+.badge-sale{background:linear-gradient(180deg,#e0744d,#cf5b3a);color:#fff}
+.product-card-save{position:absolute;top:20px;right:20px;width:34px;height:34px;border-radius:50%;background:rgba(10,9,7,0.7);backdrop-filter:blur(4px);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition);z-index:5}
+.product-card-save:hover{background:rgba(197,165,90,0.2);border-color:var(--gold)}
+.product-card-save svg{width:15px;height:15px;stroke:var(--gold);fill:none;stroke-width:2}
+.product-card-save.saved svg{fill:var(--gold)}
+.product-card-body{padding:14px 6px 6px;position:relative}
+.product-card-category{font-family:var(--font-accent);font-size:0.74rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:2px;margin-bottom:5px}
+.product-card-title{font-family:var(--font-display);font-size:1.12rem;color:var(--cream);margin:0 64px 5px 0;font-weight:600;line-height:1.2}
+.product-card-condition{font-size:0.74rem;color:var(--text-muted);margin-bottom:7px;text-transform:capitalize}
+.product-card-story{font-family:var(--font-accent);font-style:italic;font-size:1rem;line-height:1.35;color:var(--cream-dim);margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;opacity:.92}
+.product-card-price{font-size:1.1rem;color:var(--gold);font-weight:600}
+.product-card-price.on-sale{color:#cf5b3a}
+.product-card-price .compare{font-size:0.85rem;color:var(--text-muted);text-decoration:line-through;margin-left:8px;font-weight:400}
+.product-tag{position:absolute;top:-13px;right:4px;z-index:4;background:linear-gradient(180deg,#e7d3a3,#cdb178);color:#3a2810;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:.01em;padding:8px 13px 8px 19px;border-radius:4px;transform:rotate(3deg);box-shadow:0 6px 14px rgba(0,0,0,0.5);clip-path:polygon(13px 0,100% 0,100% 100%,13px 100%,0 50%)}
+.product-tag::before{content:'';position:absolute;left:6px;top:50%;transform:translateY(-50%);width:4px;height:4px;border-radius:50%;background:#3a2810}
+.product-tag.sale{background:linear-gradient(180deg,#ef9a76,#cf5b3a);color:#fff}
 </style>
 <link rel="stylesheet" href="./css/brand.css">
 <link rel="icon" type="image/jpeg" href="./img/brand/seal.jpg">
@@ -688,7 +717,7 @@ section { padding: 80px 0; }
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 V.J. Thrift Finds. All rights reserved.</p>
+      <p>&copy; 2026 V.J. Thrift Finds. All rights reserved.</p>
       <div class="footer-liftori">
         Powered by <a href="https://liftori.ai" target="_blank">Liftori.ai</a>
         &nbsp;&bull;&nbsp;
@@ -746,42 +775,48 @@ async function handleNewsletterSubmit(e) {
 
 // Load featured products
 async function loadFeaturedProducts() {
-  const { data, error } = await sb
-    .from('products')
-    .select('id, title, slug, price, compare_at_price, main_image_url, categories(name), is_featured, created_at')
-    .eq('status', 'published')
-    .eq('published_to_website', true)
-    .eq('storefront_id', '9c8a18bd-03c9-458d-b3a9-3f7b27db88dd')
-    .order('created_at', { ascending: false })
-    .limit(8);
-
-  const grid = document.getElementById('featuredProducts');
-  if (error || !data || data.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
-        <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--cream);margin-bottom:8px;">Coming Soon</div>
-        <p style="color:var(--text-secondary);font-size:0.9rem;">New vintage treasures are being curated. Check back soon!</p>
-      </div>`;
-    return;
-  }
-
-  grid.innerHTML = data.map(p => `
-    <a href="product.html?slug=${p.slug}" class="product-card" style="text-decoration:none;color:inherit;">
-      ${p.is_featured ? '<div class="product-badge badge-new">Featured</div>' : ''}
-      <div class="product-card-save" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-      </div>
-      <img class="product-card-img" src="${p.main_image_url || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%236b5c36%22 font-size=%2216%22>No Image</text></svg>'}" alt="${p.title}" loading="lazy">
-      <div class="product-card-body">
-        <div class="product-card-category">${p.categories ? p.categories.name : 'Vintage Find'}</div>
-        <div class="product-card-title">${p.title}</div>
-        <div class="product-card-price">
-          $${Number(p.price).toFixed(2)}
-          ${p.compare_at_price ? '<span class="compare">$' + Number(p.compare_at_price).toFixed(2) + '</span>' : ''}
-        </div>
-      </div>
-    </a>
-  `).join('');
+const condMap={new_with_tags:'New w/ tags',like_new:'Like new',excellent:'Excellent',very_good:'Very good',good:'Good',fair:'Fair',for_parts:'For parts',A:'Excellent',B:'Good',C:'Fair',D:'Poor'};
+const onSale=p=>p.compare_at_price!=null&&Number(p.compare_at_price)>Number(p.price);
+const pctOff=p=>Math.round((1-Number(p.price)/Number(p.compare_at_price))*100);
+const { data, error } = await sb
+.from('products')
+.select('id, title, slug, price, compare_at_price, main_image_url, categories(name), is_featured, created_at, condition_rating, item_story, description')
+.eq('status', 'published')
+.eq('published_to_website', true)
+.eq('storefront_id', '9c8a18bd-03c9-458d-b3a9-3f7b27db88dd')
+.order('created_at', { ascending: false })
+.limit(8);
+const grid = document.getElementById('featuredProducts');
+if (error || !data || data.length === 0) {
+grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;"><div style="font-family:var(--font-display);font-size:1.5rem;color:var(--cream);margin-bottom:8px;">Coming Soon</div><p style="color:var(--text-secondary);font-size:0.9rem;">New vintage treasures are being curated. Check back soon!</p></div>`;
+return;
+}
+grid.innerHTML = data.map(p => {
+const sale = onSale(p);
+const off = sale ? pctOff(p) : 0;
+const condLabel = condMap[p.condition_rating] || '';
+const story = (p.item_story || p.description || '').trim();
+const badge = sale ? `<div class="product-badge badge-sale">Sale &middot; ${off}% off</div>` : (p.is_featured ? '<div class="product-badge badge-new">Featured</div>' : '');
+return `
+<a href="product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
+<div class="product-frame">
+${badge}
+${condLabel ? `<span class="product-chip">${condLabel}</span>` : ''}
+<span class="product-stamp">One of<br>a kind</span>
+<img class="product-card-img" src="${p.main_image_url || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1714%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%236b5c36%22 font-size=%2216%22>No Image</text></svg>'}" alt="${p.title}" loading="lazy">
+</div>
+<div class="product-card-save" onclick="event.preventDefault();event.stopPropagation();toggleSave('${p.id}',this)">
+<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+</div>
+<div class="product-card-body">
+<span class="product-tag ${sale ? 'sale' : ''}">$${Number(p.price).toFixed(0)}</span>
+<div class="product-card-category">${p.categories ? p.categories.name : 'Vintage Find'}</div>
+<div class="product-card-title">${p.title}</div>
+${story ? `<div class="product-card-story">${story.replace(/</g,'&lt;')}</div>` : (condLabel ? '<div class="product-card-condition">Condition: ' + condLabel + '</div>' : '')}
+<div class="product-card-price ${sale ? 'on-sale' : ''}">$${Number(p.price).toFixed(2)}${sale ? '<span class="compare">$' + Number(p.compare_at_price).toFixed(2) + '</span>' : ''}</div>
+</div>
+</a>`;
+}).join('');
 }
 
 // Toggle wishlist save
