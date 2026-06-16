@@ -279,8 +279,9 @@ async function loadHome(){
       <a class="btn" href="product.html?slug=${encodeURIComponent(feat.slug)}">View this find &rarr;</a>
     </div>`;
 
-  // Collection grid (skip the featured item, show up to 8, then a "dropping weekly" card)
-  const rest=data.filter(p=>p.id!==feat.id).slice(0,8);
+  // Collection grid -- show every listing (featured item appears here too),
+  // up to 8, then a "dropping weekly" card.
+  const rest=data.slice(0,8);
   const cards=rest.map(p=>{
     const sale=onSale(p);
     const cond=condMap[p.condition_rating]||'';
