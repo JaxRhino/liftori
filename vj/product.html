@@ -296,16 +296,22 @@ if(!confirm('Heads up: your order will be reviewed and completed within 24 hours
 }
 
 function handleShare(){
-  if(!currentProduct)return;
-  const p=currentProduct;
-  const price=p.price?'$'+Number(p.price).toFixed(2):'';
-  const url=location.href;
-  const desc=(p.description||'').trim().replace(/\s+/g,' ').slice(0,220);
-  const tags=(p.tags||[]).slice(0,6).map(t=>'#'+String(t).replace(/[^a-z0-9]/gi,'')).filter(x=>x.length>2).join(' ');
-  const caption=[p.title+(price?' - '+price:''),desc,'Shop it here: '+url,('#vjthriftfinds #thrifted #vintage '+tags).trim()].filter(Boolean).join('\n\n');
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(caption).then(function(){showToast('Caption copied - paste it into your Facebook post','success')}).catch(function(){});}
-  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank','noopener');
+if(!currentProduct)return;
+const p=currentProduct;
+const url=location.href;
+const cond={new_with_tags:'New with tags',like_new:'Like new',excellent:'Excellent',very_good:'Very good',good:'Good',fair:'Fair',for_parts:'For parts',A:'Excellent',B:'Good',C:'Fair',D:'Project piece'}[p.condition_rating]||'';
+const onSale=p.compare_at_price!=null&&Number(p.compare_at_price)>Number(p.price);
+const pct=onSale?Math.round((1-Number(p.price)/Number(p.compare_at_price))*100):0;
+const priceLine=onSale?('💰 $'+Number(p.price).toFixed(2)+' (was $'+Number(p.compare_at_price).toFixed(2)+' · '+pct+'% off!)'):('💰 $'+Number(p.price).toFixed(2));
+const story=(p.item_story||p.description||'').trim().replace(/\s+/g,' ').slice(0,240);
+const tags=(p.tags||[]).slice(0,6).map(function(t){return '#'+String(t).replace(/[^a-z0-9]/gi,'')}).filter(function(x){return x.length>2}).join(' ');
+const hashtags=('#VJThriftFinds #vintage #thrifted #vintagefinds #shopsmall '+tags).trim();
+const block=priceLine+(cond?('\n✨ Condition: '+cond):'')+'\n📦 V.J. Thrift Finds · Florida-based, ships nationwide';
+const caption=[p.title,story,block,'🛒 Shop it here 👉 '+url,hashtags,'———\n📲 Posted with BOLO Go Mobile'].filter(Boolean).join('\n\n');
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(caption).then(function(){showToast('Caption copied — paste it into your Facebook post','success')}).catch(function(){});}
+window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank','noopener');
 }
+
 
 function handleSave(){
   if(!currentProduct)return;
