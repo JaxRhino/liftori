@@ -15,8 +15,8 @@
       --blue: #0EA5E9;
       --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --purple: #A855F7;
-      --purple-light: #C084FC;
+      --purple: #0EA5E9;
+      --purple-light: #7DD3FC;
       --green: #00d4aa;
       --amber: #F59E0B;
       --white: #FFFFFF;
@@ -38,7 +38,7 @@
     }
     .bg-glow::after {
       content:''; position:absolute; bottom:-15%; right:-10%; width:500px; height:500px;
-      background: radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14, 165, 233,0.12) 0%, transparent 70%);
       animation: float2 15s ease-in-out infinite;
     }
     @keyframes float1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(80px,60px);} }
@@ -209,7 +209,7 @@
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#A855F7"/>
+            <stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#0EA5E9"/>
           </linearGradient>
         </defs>
         <path d="M25 75 L25 25 L40 25 L40 60 L70 25 L88 25 L60 55 L88 75 L70 75 L50 55 L40 66 L40 75 Z" fill="url(#nlg)"/>
