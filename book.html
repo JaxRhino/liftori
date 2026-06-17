@@ -15,9 +15,9 @@
       --blue: #0EA5E9;
       --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --purple: #A855F7;
-      --purple-light: #C084FC;
-      --purple-dark: #7C3AED;
+      --purple: #0EA5E9;
+      --purple-light: #7DD3FC;
+      --purple-dark: #0284C7;
       --green: #00d4aa;
       --white: #FFFFFF;
       --gray: #6B7280;
@@ -48,7 +48,7 @@
       left: -10%;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14, 165, 233,0.15) 0%, transparent 70%);
       animation: float1 12s ease-in-out infinite;
     }
     .bg-glow::after {
@@ -129,8 +129,8 @@
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
-      background: rgba(168,85,247,0.12);
-      border: 1px solid rgba(168,85,247,0.25);
+      background: rgba(14, 165, 233,0.12);
+      border: 1px solid rgba(14, 165, 233,0.25);
       border-radius: 100px;
       font-size: 0.8rem;
       font-weight: 600;
@@ -182,7 +182,7 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .get-icon.purple { background: rgba(168,85,247,0.15); }
+    .get-icon.purple { background: rgba(14, 165, 233,0.15); }
     .get-icon.blue { background: rgba(14,165,233,0.15); }
     .get-icon.green { background: rgba(0,212,170,0.15); }
     .get-icon svg { width: 20px; height: 20px; }
@@ -305,7 +305,7 @@
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.15);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,0.15);
     }
     .form-group select option {
       background: var(--navy);
@@ -338,13 +338,13 @@
       text-align: center;
     }
     .interest-card:hover {
-      border-color: rgba(168,85,247,0.3);
-      background: rgba(168,85,247,0.06);
+      border-color: rgba(14, 165, 233,0.3);
+      background: rgba(14, 165, 233,0.06);
     }
     .interest-card.selected {
       border-color: var(--purple);
-      background: rgba(168,85,247,0.12);
-      box-shadow: 0 0 0 2px rgba(168,85,247,0.2);
+      background: rgba(14, 165, 233,0.12);
+      box-shadow: 0 0 0 2px rgba(14, 165, 233,0.2);
     }
     .interest-card svg {
       width: 24px;
@@ -416,11 +416,11 @@
     .cal-day.available {
       cursor: pointer;
       color: var(--white);
-      background: rgba(168,85,247,0.08);
-      border: 1px solid rgba(168,85,247,0.15);
+      background: rgba(14, 165, 233,0.08);
+      border: 1px solid rgba(14, 165, 233,0.15);
     }
     .cal-day.available:hover {
-      background: rgba(168,85,247,0.2);
+      background: rgba(14, 165, 233,0.2);
       border-color: var(--purple);
     }
     .cal-day.selected {
@@ -428,7 +428,7 @@
       color: var(--white) !important;
       font-weight: 600;
       border-color: var(--purple) !important;
-      box-shadow: 0 0 12px rgba(168,85,247,0.4);
+      box-shadow: 0 0 12px rgba(14, 165, 233,0.4);
     }
     .cal-day.today {
       border: 1px solid var(--blue);
@@ -461,11 +461,11 @@
       transition: all 0.15s;
     }
     .time-slot:hover {
-      border-color: rgba(168,85,247,0.3);
-      background: rgba(168,85,247,0.06);
+      border-color: rgba(14, 165, 233,0.3);
+      background: rgba(14, 165, 233,0.06);
     }
     .time-slot.selected {
-      background: rgba(168,85,247,0.15);
+      background: rgba(14, 165, 233,0.15);
       border-color: var(--purple);
       color: var(--purple-light);
       font-weight: 600;
@@ -513,7 +513,7 @@
     }
     .btn-next:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 30px rgba(168,85,247,0.35);
+      box-shadow: 0 8px 30px rgba(14, 165, 233,0.35);
     }
     .btn-next:disabled {
       opacity: 0.4;
@@ -591,7 +591,7 @@
       font-size: 0.9rem;
       transition: all 0.2s;
     }
-    .success-cta:hover { box-shadow: 0 6px 20px rgba(168,85,247,0.3); }
+    .success-cta:hover { box-shadow: 0 6px 20px rgba(14, 165, 233,0.3); }
 
     /* ===== LOADING SPINNER ===== */
     .spinner {
@@ -665,7 +665,7 @@
     <div class="what-you-get">
       <div class="get-item">
         <div class="get-icon purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </div>
         <div>
           <h4>Personalized AI Assessment</h4>
@@ -726,7 +726,7 @@
 
         <div class="interest-grid" id="interestGrid">
           <div class="interest-card" data-value="ai_strategy" onclick="selectInterest(this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg>
             <div class="ic-label">AI Strategy</div>
             <div class="ic-desc">Integrate AI into your ops</div>
           </div>
@@ -741,7 +741,7 @@
             <div class="ic-desc">Vision, traction, L10s</div>
           </div>
           <div class="interest-card" data-value="coaching" onclick="selectInterest(this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             <div class="ic-label">1-on-1 Coaching</div>
             <div class="ic-desc">Founder mentorship</div>
           </div>
