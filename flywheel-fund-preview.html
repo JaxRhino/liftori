@@ -15,9 +15,9 @@
       --blue: #0EA5E9;
       --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --purple: #A855F7;
-      --purple-light: #C084FC;
-      --purple-dark: #7C3AED;
+      --purple: #0EA5E9;
+      --purple-light: #7DD3FC;
+      --purple-dark: #0284C7;
       --green: #00d4aa;
       --amber: #F59E0B;
       --white: #FFFFFF;
@@ -35,7 +35,7 @@
     .bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
     .bg-glow::before {
       content: ''; position: absolute; top: -20%; left: -10%; width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(168,85,247,0.16) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14, 165, 233,0.16) 0%, transparent 70%);
       animation: float1 14s ease-in-out infinite;
     }
     .bg-glow::after {
@@ -94,8 +94,8 @@
 
     /* ─── Investor Header Card ───────────────────────────────── */
     .investor-header {
-      background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(14,165,233,0.05) 100%);
-      border: 1px solid rgba(168,85,247,0.25);
+      background: linear-gradient(135deg, rgba(14, 165, 233,0.1) 0%, rgba(14,165,233,0.05) 100%);
+      border: 1px solid rgba(14, 165, 233,0.25);
       border-radius: 20px;
       padding: 20px 24px;
       display: flex; align-items: center; gap: 16px;
@@ -243,8 +243,8 @@
       margin-top: 24px;
       padding: 32px 28px;
       border-radius: 20px;
-      background: linear-gradient(135deg, rgba(168,85,247,0.18) 0%, rgba(14,165,233,0.12) 100%);
-      border: 1px solid rgba(168,85,247,0.35);
+      background: linear-gradient(135deg, rgba(14, 165, 233,0.18) 0%, rgba(14,165,233,0.12) 100%);
+      border: 1px solid rgba(14, 165, 233,0.35);
       text-align: center;
     }
     .cta-card h2 {
@@ -267,10 +267,10 @@
       font-size: 15px;
       letter-spacing: 0.5px;
       text-decoration: none;
-      box-shadow: 0 10px 30px rgba(168,85,247,0.3);
+      box-shadow: 0 10px 30px rgba(14, 165, 233,0.3);
       transition: transform 0.15s, box-shadow 0.15s;
     }
-    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(168,85,247,0.45); }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(14, 165, 233,0.45); }
 
     .disclaimer {
       margin-top: 30px;
@@ -290,7 +290,7 @@
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#A855F7"/><stop offset="100%" stop-color="#0EA5E9"/>
+            <stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#0EA5E9"/>
           </linearGradient>
         </defs>
         <path d="M25 75 L25 25 L40 25 L40 60 L70 25 L88 25 L60 55 L88 75 L70 75 L50 55 L40 66 L40 75 Z" fill="url(#nlg)"/>
@@ -366,11 +366,11 @@
             <!-- Gradient fill area -->
             <defs>
               <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.5"/>
-                <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
+                <stop offset="0%" stop-color="#0EA5E9" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#0EA5E9" stop-opacity="0"/>
               </linearGradient>
               <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#A855F7"/>
+                <stop offset="0%" stop-color="#0EA5E9"/>
                 <stop offset="100%" stop-color="#0EA5E9"/>
               </linearGradient>
             </defs>
