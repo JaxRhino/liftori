@@ -16,9 +16,9 @@
       --blue: #0EA5E9;
       --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --purple: #A855F7;
-      --purple-light: #C084FC;
-      --purple-dark: #7C3AED;
+      --purple: #0EA5E9;
+      --purple-light: #7DD3FC;
+      --purple-dark: #0284C7;
       --green: #00d4aa;
       --white: #FFFFFF;
       --gray: #6B7280;
@@ -49,7 +49,7 @@
       left: -10%;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14, 165, 233,0.15) 0%, transparent 70%);
       animation: float1 12s ease-in-out infinite;
     }
     .bg-glow::after {
@@ -252,7 +252,7 @@
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.15);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,0.15);
     }
     .form-group select option { background: var(--navy); color: var(--white); }
     .form-group textarea { resize: vertical; min-height: 70px; }
@@ -280,13 +280,13 @@
       user-select: none;
     }
     .chip:hover {
-      border-color: rgba(168,85,247,0.3);
-      background: rgba(168,85,247,0.06);
+      border-color: rgba(14, 165, 233,0.3);
+      background: rgba(14, 165, 233,0.06);
     }
     .chip.selected {
       border-color: var(--purple);
-      background: rgba(168,85,247,0.15);
-      box-shadow: 0 0 0 2px rgba(168,85,247,0.18);
+      background: rgba(14, 165, 233,0.15);
+      box-shadow: 0 0 0 2px rgba(14, 165, 233,0.18);
     }
     .chip .chip-label { font-size: 0.85rem; font-weight: 600; color: var(--white); }
     .chip .chip-desc { font-size: 0.7rem; color: var(--gray-light); margin-top: 2px; }
@@ -297,8 +297,8 @@
       align-items: center;
       gap: 10px;
       padding: 12px 14px;
-      background: rgba(168,85,247,0.06);
-      border: 1px solid rgba(168,85,247,0.18);
+      background: rgba(14, 165, 233,0.06);
+      border: 1px solid rgba(14, 165, 233,0.18);
       border-radius: 10px;
       margin-bottom: 14px;
       cursor: pointer;
@@ -358,11 +358,11 @@
     .cal-day.available {
       cursor: pointer;
       color: var(--white);
-      background: rgba(168,85,247,0.08);
-      border: 1px solid rgba(168,85,247,0.15);
+      background: rgba(14, 165, 233,0.08);
+      border: 1px solid rgba(14, 165, 233,0.15);
     }
     .cal-day.available:hover {
-      background: rgba(168,85,247,0.2);
+      background: rgba(14, 165, 233,0.2);
       border-color: var(--purple);
     }
     .cal-day.selected {
@@ -370,7 +370,7 @@
       color: var(--white) !important;
       font-weight: 600;
       border-color: var(--purple) !important;
-      box-shadow: 0 0 10px rgba(168,85,247,0.4);
+      box-shadow: 0 0 10px rgba(14, 165, 233,0.4);
     }
     .cal-day.today { border: 1px solid var(--blue); }
 
@@ -402,11 +402,11 @@
       transition: all 0.15s;
     }
     .time-slot:hover {
-      border-color: rgba(168,85,247,0.3);
-      background: rgba(168,85,247,0.06);
+      border-color: rgba(14, 165, 233,0.3);
+      background: rgba(14, 165, 233,0.06);
     }
     .time-slot.selected {
-      background: rgba(168,85,247,0.15);
+      background: rgba(14, 165, 233,0.15);
       border-color: var(--purple);
       color: var(--purple-light);
       font-weight: 600;
@@ -452,7 +452,7 @@
     }
     .btn-next:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(168,85,247,0.32);
+      box-shadow: 0 8px 24px rgba(14, 165, 233,0.32);
     }
     .btn-next:disabled {
       opacity: 0.4;
