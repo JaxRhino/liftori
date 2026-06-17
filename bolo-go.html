@@ -1,294 +1,195 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BOLO Go â€” Find. Scan. Sell. | A Liftori platform for resellers</title>
-<meta name="description" content="A reseller's dream â€” find the score, scan the price, list it in seconds. Storefronts, community, and real ratings for thrifters and flippers." />
+<title>BOLO Go — Find. Scan. Sell. | A Liftori app for resellers</title>
+<meta name="description" content="BOLO Go is the all-in-one app for resellers and the people who shop their finds. Scan an item, get an instant buy verdict, list it in seconds, and build a storefront and community. $29/mo + AI credits. Now in beta on Android." />
+<meta property="og:title" content="BOLO Go — Find. Scan. Sell." />
+<meta property="og:description" content="The all-in-one app for resellers. Scan, get a buy verdict, list in seconds. Now in Founder beta on Android." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --ink: #0B0B0B;
-    --paper: #FAF7F0;
-    --paper-2: #F0EBE0;
-    --signal: #FF2D2D;
-    --go: #16B957;
-    --muted: #5A5A5A;
-    --border: #1A1A1A;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 400; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  a { color: inherit; text-decoration: none; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-  /* â€”â€” HEADER â€”â€” */
-  header { padding: 24px 0; border-bottom: 1px solid rgba(11,11,11,0.08); position: sticky; top: 0; background: rgba(250,247,240,0.95); backdrop-filter: blur(8px); z-index: 50; }
-  .header-row { display: flex; align-items: center; justify-content: space-between; }
-  .wordmark { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: -1px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
-  .wordmark .dots { color: var(--signal); letter-spacing: 1px; }
-  .wordmark .go { color: var(--go); }
-  .wordmark .x { color: var(--signal); margin-left: 2px; }
-  .nav-back { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--muted); font-weight: 500; }
-  .nav-back:hover { color: var(--ink); }
-
-  /* â€”â€” HERO â€”â€” */
-  .hero { padding: 96px 0 80px; text-align: center; }
-  .eyebrow { display: inline-block; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--signal); margin-bottom: 24px; padding: 6px 12px; border: 1px solid var(--signal); border-radius: 999px; }
-  h1 { font-family: 'Anton', sans-serif; font-size: clamp(56px, 10vw, 128px); line-height: 0.95; letter-spacing: -3px; color: var(--ink); margin-bottom: 28px; }
-  h1 .signal { color: var(--signal); }
-  h1 .go { color: var(--go); }
-  .hero-sub { font-size: clamp(18px, 2.2vw, 22px); color: var(--ink); max-width: 680px; margin: 0 auto 40px; line-height: 1.5; font-weight: 400; }
-  .hero-sub strong { font-weight: 600; }
-  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; font-family: 'Anton', sans-serif; font-size: 18px; letter-spacing: 1px; border: none; cursor: pointer; transition: transform 0.15s ease, background 0.15s ease; border-radius: 4px; }
-  .btn-primary { background: var(--go); color: white; }
-  .btn-primary:hover { background: #11A24B; transform: translateY(-1px); }
-  .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
-  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
-
-  /* â€”â€” HOW IT WORKS (3 steps with traffic-light semantics) â€”â€” */
-  .how { padding: 80px 0; background: var(--paper-2); }
-  .section-title { font-family: 'Anton', sans-serif; font-size: clamp(40px, 5vw, 56px); letter-spacing: -1px; line-height: 1; text-align: center; margin-bottom: 16px; }
-  .section-sub { text-align: center; color: var(--muted); font-size: 16px; max-width: 600px; margin: 0 auto 56px; }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-  .step { background: var(--paper); padding: 32px; border: 1px solid rgba(11,11,11,0.1); border-radius: 8px; }
-  .step-num { font-family: 'Anton', sans-serif; font-size: 64px; line-height: 1; margin-bottom: 16px; }
-  .step:nth-child(1) .step-num { color: var(--ink); }
-  .step:nth-child(2) .step-num { color: var(--signal); }
-  .step:nth-child(3) .step-num { color: var(--go); }
-  .step h3 { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 0; margin-bottom: 12px; }
-  .step p { font-size: 15px; color: var(--muted); line-height: 1.55; }
-
-  /* â€”â€” COMMUNITY â€”â€” */
-  .community { padding: 96px 0; }
-  .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 48px; }
-  .feature-card { padding: 28px; border: 1px solid rgba(11,11,11,0.12); border-radius: 8px; }
-  .feature-card .pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--ink); color: var(--paper); margin-bottom: 16px; }
-  .feature-card h4 { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 0; margin-bottom: 8px; }
-  .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
-
-  /* â€”â€” PULL QUOTE â€”â€” */
-  .pull-quote { padding: 96px 0; background: var(--ink); color: var(--paper); text-align: center; }
-  .pull-quote q { font-family: 'Anton', sans-serif; font-size: clamp(36px, 5.5vw, 56px); line-height: 1.05; letter-spacing: -1px; display: block; max-width: 900px; margin: 0 auto; quotes: none; }
-  .pull-quote q::before, .pull-quote q::after { content: ''; }
-  .pull-quote .accent { color: var(--signal); }
-
-  /* â€”â€” WAITLIST â€”â€” */
-  .waitlist { padding: 96px 0; }
-  .form-card { max-width: 560px; margin: 0 auto; padding: 40px; background: var(--paper-2); border-radius: 12px; border: 1px solid rgba(11,11,11,0.1); }
-  .form-card h2 { font-family: 'Anton', sans-serif; font-size: 40px; letter-spacing: -1px; margin-bottom: 8px; line-height: 1; text-align: center; }
-  .form-card .form-sub { text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 32px; }
-  .field { margin-bottom: 16px; }
-  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
-  .field input, .field textarea { width: 100%; padding: 14px 16px; border: 1px solid rgba(11,11,11,0.2); background: var(--paper); color: var(--ink); font-family: inherit; font-size: 15px; border-radius: 6px; transition: border-color 0.15s ease; }
-  .field input:focus, .field textarea:focus { outline: none; border-color: var(--signal); }
-  .field textarea { resize: vertical; min-height: 80px; }
-  .submit-btn { width: 100%; padding: 18px; background: var(--go); color: white; font-family: 'Anton', sans-serif; font-size: 20px; letter-spacing: 1px; border: none; border-radius: 6px; cursor: pointer; margin-top: 8px; transition: background 0.15s ease; }
-  .submit-btn:hover { background: #11A24B; }
-  .submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
-  .form-msg { padding: 14px; border-radius: 6px; margin-top: 16px; text-align: center; font-size: 14px; font-weight: 500; display: none; }
-  .form-msg.success { background: rgba(22, 185, 87, 0.12); color: #0B6E36; display: block; }
-  .form-msg.error { background: rgba(255, 45, 45, 0.12); color: #B91C1C; display: block; }
-
-  /* â€”â€” FOOTER â€”â€” */
-  footer { padding: 48px 0 32px; border-top: 1px solid rgba(11,11,11,0.1); text-align: center; font-size: 13px; color: var(--muted); }
-  footer a { color: var(--ink); font-weight: 500; }
-
-  @media (max-width: 600px) {
-    .hero { padding: 64px 0 56px; }
-    .form-card { padding: 28px 20px; }
-  }
+:root{--navy:#060B18;--panel:#0a1322;--blue:#0EA5E9;--light:#7DD3FC;--ice:#E0F7FF;--muted:#9fc7da;--muted2:#7fa6b9;--green:#22C55E;--border:rgba(125,211,252,0.18);}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--ice);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:1px;line-height:0.98;}
+header{position:sticky;top:0;z-index:50;background:rgba(6,11,24,0.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+.hrow{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+.mark{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--ice);}
+.mark span{color:var(--blue);}
+.back{font-size:13px;color:var(--muted2);font-weight:500;}
+.back:hover{color:var(--ice);}
+.hero{padding:90px 0 70px;text-align:center;background:radial-gradient(circle at 20% 0%,rgba(14,165,233,0.16),transparent 45%),radial-gradient(circle at 90% 100%,rgba(125,211,252,0.10),transparent 45%);}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--blue);border:1px solid rgba(14,165,233,0.4);border-radius:999px;padding:5px 14px;margin-bottom:22px;}
+.hero h1{font-size:clamp(60px,12vw,140px);color:var(--ice);}
+.hero h1 .b{color:var(--blue);}
+.hero h1 .g{color:var(--green);}
+.hero p{font-size:clamp(17px,2.2vw,21px);color:var(--muted);max-width:640px;margin:24px auto 34px;}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;font-weight:700;padding:15px 30px;border-radius:10px;font-size:15px;cursor:pointer;border:none;}
+.btn-p{background:var(--blue);color:#031018;}
+.btn-g{background:transparent;color:var(--ice);border:1px solid rgba(125,211,252,0.5);}
+.note{margin-top:20px;font-size:13px;color:var(--muted2);}
+.note b{color:var(--light);}
+section.band{padding:80px 0;border-top:1px solid var(--border);}
+.kick{text-align:center;color:var(--blue);font-weight:700;letter-spacing:2px;font-size:12px;margin-bottom:10px;}
+.htitle{text-align:center;font-size:clamp(38px,5vw,56px);color:var(--ice);margin-bottom:14px;}
+.hsub{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 50px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;}
+.card .step{font-family:'Bebas Neue',sans-serif;font-size:54px;line-height:1;color:var(--blue);}
+.card.s2 .step{color:#FFB020;}
+.card.s3 .step{color:var(--green);}
+.card h3{font-size:26px;color:var(--ice);margin:8px 0 8px;}
+.card p{font-size:14px;color:var(--muted);}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(14,165,233,0.15);color:var(--light);margin-bottom:14px;}
+.quote{padding:90px 0;text-align:center;background:var(--panel);}
+.quote q{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,56px);color:var(--ice);quotes:none;}
+.quote .ac{color:var(--blue);}
+.price{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;align-items:stretch;}
+.price .card{flex:1 1 300px;max-width:380px;}
+.amt{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--ice);}
+.amt small{font-family:'DM Sans',sans-serif;font-size:15px;color:var(--muted2);font-weight:500;}
+.feat-list{list-style:none;margin-top:14px;}
+.feat-list li{padding:7px 0 7px 22px;position:relative;color:var(--muted);font-size:14px;}
+.feat-list li:before{content:'';position:absolute;left:0;top:14px;width:7px;height:7px;border-radius:50%;background:var(--blue);}
+.form-card{max-width:540px;margin:0 auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:36px;}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:0.5px;color:var(--light);margin:14px 0 6px;}
+input,select{width:100%;padding:13px 14px;border-radius:10px;border:1px solid rgba(125,211,252,0.25);background:#0c1626;color:#fff;font-size:15px;font-family:inherit;}
+input:focus,select:focus{outline:none;border-color:var(--blue);}
+.seg{display:flex;gap:10px;}
+.seg label{flex:1;margin:0;cursor:pointer;}
+.seg input{display:none;}
+.seg span{display:block;text-align:center;padding:13px 8px;border:1px solid rgba(125,211,252,0.25);border-radius:10px;background:#0c1626;font-weight:700;font-size:14px;color:#cfeafa;}
+.seg input:checked + span{background:var(--blue);color:#031018;border-color:var(--blue);}
+.submit{width:100%;margin-top:22px;padding:16px;border:0;border-radius:10px;background:var(--blue);color:#031018;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit;}
+.submit:disabled{opacity:.6;cursor:not-allowed;}
+.msg{margin-top:14px;font-size:13.5px;text-align:center;min-height:16px;}
+.msg.err{color:#fda4af;}
+.perk{background:rgba(14,165,233,0.10);border:1px solid rgba(14,165,233,0.3);border-radius:12px;padding:14px 16px;font-size:13px;color:#cfeafa;margin-bottom:20px;line-height:1.55;}
+.ok{text-align:center;}
+.ok .ck{width:64px;height:64px;border-radius:50%;background:var(--blue);color:#031018;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;margin:0 auto 16px;}
+footer{padding:46px 0 34px;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted2);}
+footer a{color:var(--light);font-weight:500;}
+@media(max-width:600px){.hero{padding:64px 0 54px;}.form-card{padding:26px 20px;}}
 </style>
 </head>
 <body>
-  <header>
-    <div class="container header-row">
-      <a href="#" class="wordmark">
-        BOLO<span class="dots">...........</span><span class="go">GO</span><span class="x">X</span>
-      </a>
-      <a href="https://liftori.ai" class="nav-back">â† Back to Liftori</a>
-    </div>
-  </header>
+<header><div class="wrap hrow">
+  <a href="/" class="mark">BOLO <span>GO</span></a>
+  <a href="https://www.liftori.ai" class="back">&larr; Back to Liftori</a>
+</div></header>
 
-  <section class="hero container">
-    <span class="eyebrow">A Liftori platform Â· Coming soon</span>
-    <h1>Find.<br /><span class="signal">Scan.</span><br /><span class="go">Sell.</span></h1>
-    <p class="hero-sub">A thrifter's dream come true. <strong>Find the banger</strong>, scan the price, list it in seconds â€” then build a storefront and a real reseller community around your finds.</p>
-    <div class="cta-row">
-      <a href="#waitlist" class="btn btn-primary">Reserve early access</a>
-      <a href="#how" class="btn btn-ghost">How it works</a>
-    </div>
-  </section>
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">A LIFTORI APP &middot; NOW IN FOUNDER BETA</span>
+  <h1>Find.<br/><span class="b">Scan.</span><br/><span class="g">Sell.</span></h1>
+  <p>The all-in-one app for resellers and the people who shop their finds. Find the score, scan for an instant buy verdict, and list it in seconds — then build a storefront and a real reseller community around your finds.</p>
+  <div class="btns">
+    <a href="#waitlist" class="btn btn-p">Get early access</a>
+    <a href="#how" class="btn btn-g">See how it works</a>
+  </div>
+  <div class="note">$29/mo + AI credits &middot; <b>Android live now</b> &middot; iPhone coming soon</div>
+</div></section>
 
-  <section class="how" id="how">
-    <div class="container">
-      <h2 class="section-title">The reseller rhythm.</h2>
-      <p class="section-sub">Three taps. From Goodwill bin to listed and live.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <h3>Find.</h3>
-          <p>You're three feet deep in a thrift bin. You spot it. The score. BOLO Go is already open â€” your watch-list is loaded, your sourcing notes are right there.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <h3>Scan.</h3>
-          <p>Snap the barcode or the item. Get a buy verdict in seconds â€” STEAL, GREAT BUY, FAIR, PASS â€” backed by live comp data. Know if it's worth flipping before you check out.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <h3>Sell.</h3>
-          <p>One tap to list across your storefronts. Auto-priced, auto-described, auto-tagged. Done before you've left the parking lot.</p>
-        </div>
+<section class="band" id="how"><div class="wrap">
+  <div class="kick">THE RESELLER RHYTHM</div>
+  <h2 class="htitle">From bin to listed in three taps.</h2>
+  <p class="hsub">BOLO Go turns sourcing into a fast, confident loop — so you buy smarter and list quicker.</p>
+  <div class="grid">
+    <div class="card s1"><div class="step">01</div><h3>Find</h3><p>You are three feet deep in a thrift bin and you spot it — the score. Your watch-list and sourcing notes are already open.</p></div>
+    <div class="card s2"><div class="step">02</div><h3>Scan</h3><p>Snap the item or barcode and get a buy verdict in seconds — STEAL, GREAT BUY, FAIR, or PASS — backed by live comp data. Know before you buy.</p></div>
+    <div class="card s3"><div class="step">03</div><h3>Sell</h3><p>One tap to list to your storefront. Auto-priced, auto-described, auto-tagged. Done before you have left the parking lot.</p></div>
+  </div>
+</div></section>
+
+<section class="quote"><div class="wrap"><q>Every reseller app is your <span class="ac">inventory.</span><br/>BOLO Go is your <span class="ac">community.</span></q></div></section>
+
+<section class="band"><div class="wrap">
+  <div class="kick">MORE THAN AN APP</div>
+  <h2 class="htitle">A full reseller platform.</h2>
+  <p class="hsub">Storefronts, a community feed, follows, and real buyer ratings — all in one place.</p>
+  <div class="grid">
+    <div class="card"><span class="pill">Storefronts</span><h3>Your shop, public.</h3><p>A personalized public storefront for your handle — bio, listings, ratings, and badges. Share one link.</p></div>
+    <div class="card"><span class="pill">Feed</span><h3>Show your scores.</h3><p>A scroll of posts from resellers you follow. Score brags and listing tags that turn into shoppable moments.</p></div>
+    <div class="card"><span class="pill">Trust</span><h3>Real ratings.</h3><p>Buyer ratings across item quality, shipping speed, and communication — aggregated from real sales.</p></div>
+    <div class="card"><span class="pill">Discover</span><h3>Find your people.</h3><p>Featured storefronts, trending posts, and resellers near you. Search by handle, niche, or category.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="kick">SIMPLE PRICING</div>
+  <h2 class="htitle">One plan. Pay for what you use.</h2>
+  <p class="hsub">BOLO Go is a flat monthly subscription plus AI credits for scans and listings — no bundles, no surprises.</p>
+  <div class="price">
+    <div class="card"><div class="amt">$29<small>/mo</small></div><div style="color:var(--muted2);font-size:13px;margin-top:4px;">+ AI credits as you use them</div>
+      <ul class="feat-list"><li>AI scanner and instant buy verdicts</li><li>One-tap AI listings (auto price, title, tags)</li><li>Your public storefront and community profile</li><li>Offers, messaging, and order tracking</li><li>Top up credits anytime</li></ul>
+    </div>
+    <div class="card" style="border-color:rgba(14,165,233,0.5);">
+      <span class="pill">Founder beta</span><div class="amt" style="font-size:40px;">Locked-in perks</div>
+      <div class="perk" style="margin-top:14px;">Sign up during the beta and keep <b>ongoing discounts on purchases and your subscription</b> — for as long as you are with us. Founder pricing is only offered now.</div>
+      <a href="#waitlist" class="btn btn-p" style="display:block;text-align:center;">Claim my Founder spot</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="waitlist"><div class="wrap">
+  <div class="form-card" id="card">
+    <div class="kick" style="text-align:left;">FOUNDER BETA</div>
+    <h2 style="font-size:38px;color:var(--ice);margin-bottom:8px;">Get early access.</h2>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:20px;">Tell us where to send your invite. Android is live now; iPhone users get on the early list.</p>
+    <div class="perk"><b>Founder perk:</b> lock in ongoing discounts on purchases and your subscription for as long as you are with us.</div>
+    <form id="f" novalidate>
+      <label for="name">Full name</label>
+      <input id="name" name="name" required autocomplete="name" placeholder="Jane Doe" />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@email.com" />
+      <label for="state">State</label>
+      <select id="state" name="state" required><option value="" disabled selected>Select your state</option></select>
+      <label>What phone do you have?</label>
+      <div class="seg">
+        <label><input type="radio" name="phone" value="Android" required/><span>Android</span></label>
+        <label><input type="radio" name="phone" value="iPhone"/><span>iPhone</span></label>
       </div>
-    </div>
-  </section>
+      <button type="submit" class="submit" id="btn">Claim my Founder spot</button>
+      <div class="msg err" id="err"></div>
+    </form>
+  </div>
+</div></section>
 
-  <section class="pull-quote">
-    <div class="container">
-      <q>Every reseller app is your <span class="accent">inventory.</span><br />BOLO Go is your <span class="accent">community.</span></q>
-    </div>
-  </section>
-
-  <section class="community">
-    <div class="container">
-      <h2 class="section-title">More than an app.</h2>
-      <p class="section-sub">A full reseller platform with storefronts, feed, follows, and real ratings.</p>
-      <div class="community-grid">
-        <div class="feature-card">
-          <span class="pill">Storefronts</span>
-          <h4>Your shop, public.</h4>
-          <p>A personalized public landing page at bolo.go/u/your-handle. Three templates. Bio. Listings. Ratings. Achievements.</p>
-        </div>
-        <div class="feature-card">
-          <span class="pill">Feed</span>
-          <h4>Show your scores.</h4>
-          <p>Vertical scroll of posts from resellers you follow. Score brags. Listing tags that turn into shoppable moments.</p>
-        </div>
-        <div class="feature-card">
-          <span class="pill">Trust</span>
-          <h4>Real ratings.</h4>
-          <p>Composite 1-5 scores across item quality, shipping speed, communication, overall â€” aggregated from real buyer feedback.</p>
-        </div>
-        <div class="feature-card">
-          <span class="pill">Discover</span>
-          <h4>Find your people.</h4>
-          <p>Featured storefronts, trending posts, new resellers nearby. Search by handle, niche, or category.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="waitlist" id="waitlist">
-    <div class="container">
-      <div class="form-card">
-        <h2>Reserve early access.</h2>
-        <p class="form-sub">First in line gets a free founder storefront badge that won't be issued again after launch.</p>
-        <form id="bolo-waitlist-form" novalidate>
-          <div class="field">
-            <label for="full_name">Your name</label>
-            <input id="full_name" name="full_name" type="text" required autocomplete="name" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required autocomplete="email" />
-          </div>
-          <div class="field">
-            <label for="niche">What do you flip? (optional)</label>
-            <input id="niche" name="niche" type="text" placeholder="vintage tees, sneakers, vinyl, electronics..." />
-          </div>
-          <button type="submit" class="submit-btn" id="bolo-submit">Get me in</button>
-          <div class="form-msg" id="bolo-msg"></div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container">
-      <p>Â© 2026 Liftori, LLC. <a href="https://liftori.ai">Built on Liftori.</a> Â· <a href="mailto:hello@liftori.ai">hello@liftori.ai</a></p>
-    </div>
-  </footer>
+<footer><div class="wrap"><p>&copy; 2026 Liftori, LLC &middot; <a href="https://www.liftori.ai">Built on Liftori</a> &middot; <a href="mailto:hello@liftori.ai">hello@liftori.ai</a></p></div></footer>
 
 <script>
-  const SUPABASE_URL = 'https://qlerfkdyslndjbaltkwo.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk';
-
-  const params = new URLSearchParams(window.location.search);
-  const REF_CODE = params.get('ref') || null;
-  const UTM_PARAMS = {
-    utm_source:   params.get('utm_source')   || null,
-    utm_medium:   params.get('utm_medium')   || null,
-    utm_campaign: params.get('utm_campaign') || null,
-    utm_content:  params.get('utm_content')  || null,
-  };
-
-  document.getElementById('bolo-waitlist-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fullName = document.getElementById('full_name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const niche = document.getElementById('niche').value.trim();
-    const submitBtn = document.getElementById('bolo-submit');
-    const msgEl = document.getElementById('bolo-msg');
-    msgEl.className = 'form-msg';
-    msgEl.textContent = '';
-
-    if (!email || !fullName) {
-      msgEl.classList.add('error');
-      msgEl.textContent = 'Please fill out your name and email.';
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Saving...';
-
-    try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/waitlist_signups', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({
-          full_name: fullName,
-          email: email,
-          build_idea: niche || null,
-          product_interest: 'bolo_go',
-          referral_code: REF_CODE,
-          utm_source: UTM_PARAMS.utm_source,
-          utm_medium: UTM_PARAMS.utm_medium,
-          utm_campaign: UTM_PARAMS.utm_campaign,
-          utm_content: UTM_PARAMS.utm_content
-        })
-      });
-
-      if (!res.ok) {
-        if (res.status === 409) {
-          msgEl.classList.add('success');
-          msgEl.textContent = "You're already on the list. We'll be in touch.";
-          return;
-        }
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Something went wrong.');
-      }
-
-      msgEl.classList.add('success');
-      fetch(SUPABASE_URL + '/functions/v1/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }, body: JSON.stringify({ name: fullName, email: email, product_interest: 'bolo_go' }) }).catch(function (err) { console.error('welcome-email send failed:', err) });
-      msgEl.textContent = "You're in. We'll email you when early access opens.";
-      e.target.reset();
-    } catch (err) {
-      msgEl.classList.add('error');
-      msgEl.textContent = err.message || 'Something went wrong. Try again?';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Get me in';
-    }
-  });
+var ENDPOINT='https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/bolo-beta-signup';
+var STATES=["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+var sel=document.getElementById('state');
+STATES.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
+var ref=new URLSearchParams(location.search).get('ref')||'';
+document.getElementById('f').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var btn=document.getElementById('btn'),err=document.getElementById('err');err.textContent='';
+  var phoneEl=document.querySelector('input[name=phone]:checked');
+  if(!phoneEl){err.textContent='Please tell us what phone you have.';return;}
+  btn.disabled=true;btn.textContent='Submitting...';
+  try{
+    var r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      name:document.getElementById('name').value.trim(),
+      email:document.getElementById('email').value.trim(),
+      state:document.getElementById('state').value,
+      phone:phoneEl.value,
+      ref_code:ref
+    })});
+    var j=await r.json().catch(function(){return {};});
+    if(!r.ok){throw new Error(j.error||'Something went wrong. Please try again.');}
+    var isI=phoneEl.value==='iPhone';
+    var nx=isI?'BOLO Go is launching on Android first — <b>iPhone is coming soon</b>. You are on the early list and we will email you the moment it is ready.':'We will email your Android download link and quick setup steps as soon as your invite is ready.';
+    document.getElementById('card').innerHTML='<div class="ok"><div class="ck">&#10003;</div><h2 style="font-size:38px;color:var(--ice);">You are in.</h2><p style="color:var(--muted);font-size:15px;margin:10px 0;">Welcome to the BOLO Go Founder beta. Check your email for confirmation. '+nx+'</p><div class="perk" style="text-align:left;"><b>Your Founder perks are locked in.</b> Ongoing discounts on purchases and subscription, for as long as you are with us.</div></div>';
+  }catch(ex){err.textContent=ex.message;btn.disabled=false;btn.textContent='Claim my Founder spot';}
+});
 </script>
 </body>
 </html>
