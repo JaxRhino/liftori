@@ -15,9 +15,9 @@
       --blue: #0EA5E9;
       --light-blue: #7DD3FC;
       --white-ice: #E0F7FF;
-      --purple: #A855F7;
-      --purple-light: #C084FC;
-      --purple-dark: #7C3AED;
+      --purple: #0EA5E9;
+      --purple-light: #7DD3FC;
+      --purple-dark: #0284C7;
       --green: #00d4aa;
       --amber: #F59E0B;
       --white: #FFFFFF;
@@ -35,7 +35,7 @@
     .bg-glow { position: fixed; top:0;left:0;right:0;bottom:0; z-index:0; pointer-events:none; overflow:hidden; }
     .bg-glow::before {
       content:''; position:absolute; top:-20%; left:-10%; width:600px; height:600px;
-      background: radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14, 165, 233,0.18) 0%, transparent 70%);
       animation: float1 12s ease-in-out infinite;
     }
     .bg-glow::after {
@@ -150,7 +150,7 @@
     }
     input:focus, textarea:focus {
       border-color: var(--purple-light);
-      background: rgba(168,85,247,0.08);
+      background: rgba(14, 165, 233,0.08);
     }
     textarea { min-height: 90px; resize: vertical; }
     .field + .field { margin-top: 16px; }
@@ -165,9 +165,9 @@
       cursor: pointer; user-select: none;
       transition: all 0.15s;
     }
-    .chip:hover { border-color: rgba(168,85,247,0.5); }
+    .chip:hover { border-color: rgba(14, 165, 233,0.5); }
     .chip.active {
-      background: rgba(168,85,247,0.18);
+      background: rgba(14, 165, 233,0.18);
       border-color: var(--purple-light);
       color: var(--white);
     }
@@ -181,8 +181,8 @@
       transition: all 0.15s;
       text-align: center;
     }
-    .founder-card:hover { border-color: rgba(168,85,247,0.5); }
-    .founder-card.active { background: rgba(168,85,247,0.18); border-color: var(--purple-light); }
+    .founder-card:hover { border-color: rgba(14, 165, 233,0.5); }
+    .founder-card.active { background: rgba(14, 165, 233,0.18); border-color: var(--purple-light); }
     .founder-avatar { width:48px; height:48px; border-radius:50%; margin: 0 auto 8px;
       background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
       display:flex; align-items:center; justify-content:center;
@@ -204,10 +204,10 @@
       font-size: 16px;
       letter-spacing: 0.3px;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(168,85,247,0.25);
+      box-shadow: 0 10px 30px rgba(14, 165, 233,0.25);
       transition: transform 0.1s, box-shadow 0.15s;
     }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(168,85,247,0.35); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(14, 165, 233,0.35); }
     .btn:active { transform: translateY(0); }
     .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
     .btn-ghost {
@@ -225,7 +225,7 @@
       border: 1px solid rgba(255,255,255,0.12);
       cursor: pointer;
     }
-    .toggle-book.on { border-color: var(--purple-light); background: rgba(168,85,247,0.12); }
+    .toggle-book.on { border-color: var(--purple-light); background: rgba(14, 165, 233,0.12); }
     .toggle-book-label { font-weight: 600; font-size: 15px; }
     .toggle-sub { font-size: 12.5px; color: var(--gray-light); margin-top: 2px; }
     .toggle-indicator {
@@ -301,7 +301,7 @@
       transition: transform .15s, border-color .15s, background .15s;
     }
     .path-card:hover { transform: translateY(-2px); }
-    .path-card.flywheel { border-color: rgba(168,85,247,0.45); background: linear-gradient(180deg, rgba(168,85,247,0.08) 0%, rgba(168,85,247,0.02) 100%); }
+    .path-card.flywheel { border-color: rgba(14, 165, 233,0.45); background: linear-gradient(180deg, rgba(14, 165, 233,0.08) 0%, rgba(14, 165, 233,0.02) 100%); }
     .path-card.compound { border-color: rgba(14,165,233,0.45); background: linear-gradient(180deg, rgba(14,165,233,0.08) 0%, rgba(14,165,233,0.02) 100%); }
     .path-card.founders { border-color: rgba(245,158,11,0.4); background: linear-gradient(180deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.02) 100%); }
 
@@ -314,7 +314,7 @@
       letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
       margin-bottom: 12px;
     }
-    .path-card.flywheel .path-badge { background: rgba(168,85,247,0.18); color: var(--purple-light); }
+    .path-card.flywheel .path-badge { background: rgba(14, 165, 233,0.18); color: var(--purple-light); }
     .path-card.compound .path-badge { background: rgba(14,165,233,0.18); color: var(--light-blue); }
     .path-card.founders .path-badge { background: rgba(245,158,11,0.14); color: var(--amber); }
 
@@ -374,7 +374,7 @@
       cursor: pointer;
       transition: transform 0.1s, box-shadow 0.15s;
     }
-    .path-card.flywheel .path-cta { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%); box-shadow: 0 8px 20px rgba(168,85,247,0.25); }
+    .path-card.flywheel .path-cta { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%); box-shadow: 0 8px 20px rgba(14, 165, 233,0.25); }
     .path-card.compound .path-cta { background: linear-gradient(135deg, var(--blue) 0%, #0284c7 100%); box-shadow: 0 8px 20px rgba(14,165,233,0.25); }
     .path-card.founders .path-cta { background: linear-gradient(135deg, var(--amber) 0%, #d97706 100%); box-shadow: 0 8px 20px rgba(245,158,11,0.25); }
     .path-cta:hover { transform: translateY(-1px); }
@@ -389,8 +389,8 @@
       cursor: pointer; user-select: none;
       transition: all 0.15s;
     }
-    .path-chip:hover { border-color: rgba(168,85,247,0.5); }
-    .path-chip.active[data-path=flywheel] { background: rgba(168,85,247,0.2); border-color: var(--purple-light); color: var(--white); }
+    .path-chip:hover { border-color: rgba(14, 165, 233,0.5); }
+    .path-chip.active[data-path=flywheel] { background: rgba(14, 165, 233,0.2); border-color: var(--purple-light); color: var(--white); }
     .path-chip.active[data-path=compound] { background: rgba(14,165,233,0.2); border-color: var(--light-blue); color: var(--white); }
     .path-chip.active[data-path=founders] { background: rgba(245,158,11,0.16); border-color: var(--amber); color: var(--white); }
     .path-chip.active[data-path=undecided] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: var(--white); }
@@ -417,7 +417,7 @@
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#A855F7"/><stop offset="100%" stop-color="#0EA5E9"/>
+            <stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#0EA5E9"/>
           </linearGradient>
         </defs>
         <path d="M25 75 L25 25 L40 25 L40 60 L70 25 L88 25 L60 55 L88 75 L70 75 L50 55 L40 66 L40 75 Z" fill="url(#nlg)"/>
