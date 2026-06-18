@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Liftori — Scope Your Custom Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #060B18;
+    --navy-2: #0A1124;
+    --panel: #0D1730;
+    --panel-2: #111E3D;
+    --line: #1C2A4A;
+    --line-soft: #16233F;
+    --blue: #0EA5E9;
+    --blue-hi: #38BDF8;
+    --blue-deep: #0284C7;
+    --lblue: #7DD3FC;
+    --ice: #E0F7FF;
+    --text: #DCE7F5;
+    --muted: #8AA0BE;
+    --muted-2: #5E7596;
+    --danger: #F87171;
+    --ok: #34D399;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --shadow: 0 22px 60px -28px rgba(0,0,0,0.85);
+    --glow: 0 0 0 1px rgba(14,165,233,0.45), 0 14px 40px -16px rgba(14,165,233,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(1100px 620px at 78% -8%, rgba(14,165,233,0.13), transparent 60%),
+      radial-gradient(900px 520px at -6% 8%, rgba(125,211,252,0.07), transparent 55%),
+      var(--navy);
+    color: var(--text);
+    font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .eyebrow {
+    font-family: "DM Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+    color: var(--lblue);
+  }
+  .display {
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 0.02em;
+    line-height: 0.96;
+    color: var(--ice);
+  }
+
+  /* ---- Shell ---- */
+  .shell { max-width: 880px; margin: 0 auto; padding: 26px 20px 90px; }
+
+  header.topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 22px; gap: 14px; flex-wrap: wrap;
+  }
+  .wordmark {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 34px; letter-spacing: 0.06em; color: var(--ice);
+    line-height: 1;
+  }
+  .wordmark .ori { color: var(--blue); }
+  .tagline {
+    font-family: "DM Mono", monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 4px;
+  }
+  .help-chip {
+    font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: 0.1em;
+    color: var(--muted); border: 1px solid var(--line);
+    padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.015);
+  }
+  .help-chip b { color: var(--lblue); font-weight: 500; }
+
+  /* ---- Stepper ---- */
+  .stepper { margin-bottom: 8px; }
+  .progress-track {
+    height: 5px; background: var(--line-soft); border-radius: 999px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 12.5%;
+    background: linear-gradient(90deg, var(--blue-deep), var(--blue) 55%, var(--lblue));
+    border-radius: 999px; transition: width 0.45s cubic-bezier(.4,.1,.2,1);
+  }
+  .steps-row {
+    display: flex; gap: 6px; margin-top: 14px;
+    overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+  }
+  .steps-row::-webkit-scrollbar { display: none; }
+  .step-pill {
+    display: flex; align-items: center; gap: 8px;
+    font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: 0.06em;
+    color: var(--muted-2); white-space: nowrap; flex: 0 0 auto;
+    padding: 5px 4px;
+  }
+  .step-pill .dot {
+    width: 22px; height: 22px; border-radius: 999px; flex: 0 0 auto;
+    display: grid; place-items: center; font-size: 11px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted-2);
+    transition: all 0.3s ease;
+  }
+  .step-pill.active { color: var(--ice); }
+  .step-pill.active .dot {
+    border-color: var(--blue); background: rgba(14,165,233,0.16); color: var(--blue-hi);
+    box-shadow: 0 0 0 4px rgba(14,165,233,0.10);
+  }
+  .step-pill.done { color: var(--lblue); }
+  .step-pill.done .dot {
+    border-color: var(--blue-deep); background: var(--blue-deep); color: #fff;
+  }
+  .step-meta {
+    font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: 0.14em;
+    color: var(--muted-2); text-transform: uppercase; margin: 22px 0 6px;
+  }
+
+  /* ---- Card / steps ---- */
+  .card {
+    background: linear-gradient(180deg, rgba(17,30,61,0.55), rgba(13,23,48,0.55));
+    border: 1px solid var(--line); border-radius: 20px;
+    padding: 30px 28px 28px; box-shadow: var(--shadow);
+    margin-top: 6px;
+  }
+  .step { display: none; animation: fade 0.4s ease both; }
+  .step.active { display: block; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1.step-title { font-family: "Bebas Neue", sans-serif; font-size: 42px; letter-spacing: 0.015em; color: var(--ice); margin: 6px 0 6px; line-height: 0.98; }
+  .step-sub { color: var(--muted); font-size: 15px; max-width: 56ch; margin: 0 0 22px; }
+
+  /* ---- Selectable cards ---- */
+  .grid { display: grid; gap: 12px; }
+  .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+
+  .selectable {
+    position: relative; text-align: left; cursor: pointer;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px 18px;
+    transition: transform 0.16s ease, border-color 0.18s ease, box-shadow 0.2s ease, background 0.2s ease;
+    color: var(--text); font-family: inherit; width: 100%;
+  }
+  .selectable:hover { transform: translateY(-2px); border-color: #2A3E68; background: var(--panel-2); }
+  .selectable.selected {
+    border-color: var(--blue); background: rgba(14,165,233,0.08);
+    box-shadow: var(--glow);
+  }
+  .selectable .tick {
+    position: absolute; top: 14px; right: 14px;
+    width: 20px; height: 20px; border-radius: 999px;
+    border: 1px solid var(--line); display: grid; place-items: center;
+    opacity: 0; transform: scale(0.7); transition: all 0.2s ease;
+  }
+  .selectable.selected .tick {
+    opacity: 1; transform: scale(1);
+    background: var(--blue); border-color: var(--blue);
+  }
+  .selectable .tick svg { width: 11px; height: 11px; }
+  .cat-name { font-family: "Bebas Neue", sans-serif; font-size: 26px; letter-spacing: 0.02em; color: var(--ice); line-height: 1; }
+  .cat-desc { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .prod-name { font-weight: 600; font-size: 16px; color: var(--ice); margin-bottom: 2px; padding-right: 26px; }
+  .prod-tag { color: var(--lblue); font-size: 13px; }
+  .prod-desc { color: var(--muted); font-size: 13px; margin: 8px 0 12px; }
+  .prod-foot { display: flex; gap: 16px; flex-wrap: wrap; font-family: "DM Mono", monospace; font-size: 12px; }
+  .prod-foot .price { color: var(--ice); }
+  .prod-foot .tl { color: var(--muted); }
+  .prod-foot .lbl { color: var(--muted-2); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+  /* ---- Chips (features) ---- */
+  .chip-list { display: flex; flex-direction: column; gap: 10px; }
+  .chip {
+    display: flex; align-items: center; gap: 13px; cursor: pointer;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 13px 15px;
+    transition: border-color 0.18s ease, background 0.2s ease;
+    color: var(--text); font-family: inherit; text-align: left; width: 100%;
+  }
+  .chip:hover { border-color: #2A3E68; background: var(--panel-2); }
+  .chip.selected { border-color: var(--blue); background: rgba(14,165,233,0.07); }
+  .chip .box {
+    width: 20px; height: 20px; border-radius: 6px; flex: 0 0 auto;
+    border: 1px solid var(--line); display: grid; place-items: center;
+    transition: all 0.18s ease;
+  }
+  .chip.selected .box { background: var(--blue); border-color: var(--blue); }
+  .chip .box svg { width: 11px; height: 11px; opacity: 0; transition: opacity 0.15s; }
+  .chip.selected .box svg { opacity: 1; }
+  .chip span.txt { font-size: 14.5px; flex: 1; }
+  .chip .rm { color: var(--muted-2); font-size: 18px; line-height: 1; padding: 2px 4px; border-radius: 6px; }
+  .chip .rm:hover { color: var(--danger); }
+
+  /* ---- Inputs ---- */
+  .field { margin-bottom: 18px; }
+  label.lab {
+    display: block; font-family: "DM Mono", monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--lblue); margin-bottom: 8px;
+  }
+  label.lab .opt { color: var(--muted-2); }
+  .req-star { color: var(--blue); }
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%; background: var(--navy-2); border: 1px solid var(--line);
+    color: var(--text); font-family: inherit; font-size: 15px;
+    border-radius: var(--radius-sm); padding: 13px 14px; transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted-2); }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(14,165,233,0.18);
+  }
+  textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
+  select { appearance: none; -webkit-appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237DD3FC' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+  }
+  .inline-add { display: flex; gap: 8px; margin-top: 12px; }
+  .inline-add input { flex: 1; }
+
+  .err-msg {
+    color: var(--danger); font-size: 13px; margin-top: 7px; display: none;
+    font-family: "DM Mono", monospace; letter-spacing: 0.02em;
+  }
+  .err-msg.show { display: block; }
+  input.invalid, select.invalid { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(248,113,113,0.14); }
+
+  /* ---- Dynamic list rows ---- */
+  .dyn-list { display: flex; flex-direction: column; gap: 8px; }
+  .dyn-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; padding: 4px 6px 4px 14px;
+  }
+  .dyn-row .grip { color: var(--muted-2); font-size: 12px; font-family: "DM Mono", monospace; }
+  .dyn-row input { border: none; background: transparent; padding: 9px 4px; }
+  .dyn-row input:focus { box-shadow: none; }
+  .dyn-row .del {
+    color: var(--muted-2); cursor: pointer; font-size: 17px; line-height: 1;
+    padding: 8px 10px; border-radius: 8px; flex: 0 0 auto;
+  }
+  .dyn-row .del:hover { color: var(--danger); background: rgba(248,113,113,0.08); }
+
+  /* ---- Palette swatches ---- */
+  .pal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pal {
+    cursor: pointer; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px; transition: border-color 0.18s, box-shadow 0.2s, background 0.2s;
+    text-align: left; font-family: inherit; color: var(--text); width: 100%;
+  }
+  .pal:hover { border-color: #2A3E68; }
+  .pal.selected { border-color: var(--blue); box-shadow: var(--glow); background: rgba(14,165,233,0.06); }
+  .pal .swatches { display: flex; gap: 6px; margin-bottom: 10px; }
+  .pal .sw { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); }
+  .pal .pname { font-weight: 600; font-size: 14px; color: var(--ice); }
+  .pal .pdesc { font-size: 12px; color: var(--muted); }
+  .custom-color-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .custom-color-row input[type="color"] {
+    width: 52px; height: 44px; padding: 4px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--navy-2); cursor: pointer;
+  }
+  .custom-color-row .cc-label { font-family: "DM Mono", monospace; font-size: 12px; color: var(--muted); }
+
+  /* ---- Radio cards ---- */
+  .radio-list { display: flex; flex-direction: column; gap: 10px; }
+  .radio {
+    display: flex; align-items: flex-start; gap: 13px; cursor: pointer;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 15px; transition: border-color 0.18s, background 0.2s; width: 100%; text-align: left;
+    color: var(--text); font-family: inherit;
+  }
+  .radio:hover { border-color: #2A3E68; }
+  .radio.selected { border-color: var(--blue); background: rgba(14,165,233,0.07); }
+  .radio .ring {
+    width: 20px; height: 20px; border-radius: 999px; border: 1px solid var(--line);
+    flex: 0 0 auto; margin-top: 1px; display: grid; place-items: center; transition: border-color 0.18s;
+  }
+  .radio.selected .ring { border-color: var(--blue); }
+  .radio .ring i { width: 10px; height: 10px; border-radius: 999px; background: var(--blue); transform: scale(0); transition: transform 0.18s; }
+  .radio.selected .ring i { transform: scale(1); }
+  .radio .rtitle { font-weight: 600; font-size: 15px; color: var(--ice); }
+  .radio .rdesc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* ---- Nav buttons ---- */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 28px; gap: 12px;
+  }
+  .btn {
+    font-family: "DM Sans", sans-serif; font-weight: 600; font-size: 15px;
+    border-radius: 12px; padding: 14px 26px; cursor: pointer; border: 1px solid transparent;
+    transition: transform 0.14s ease, box-shadow 0.2s ease, background 0.2s, border-color 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--blue-hi), var(--blue));
+    color: #04121F; box-shadow: 0 12px 30px -12px rgba(14,165,233,0.7);
+  }
+  .btn-primary:hover { box-shadow: 0 16px 38px -12px rgba(14,165,233,0.85); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; transform: none; }
+  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--line); }
+  .btn-ghost:hover { color: var(--ice); border-color: #2A3E68; }
+  .btn-ghost.hidden { visibility: hidden; }
+
+  .helper-line { font-size: 13px; color: var(--muted-2); margin-top: 14px; font-family: "DM Mono", monospace; letter-spacing: 0.02em; }
+
+  /* loading / empty */
+  .loading { display: flex; align-items: center; gap: 10px; color: var(--muted); font-family: "DM Mono", monospace; font-size: 13px; padding: 20px 0; }
+  .spin { width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--blue); border-radius: 999px; animation: rot 0.8s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+
+  .summary-bar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: var(--navy-2); border: 1px solid var(--line-soft); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 22px; font-size: 13px;
+  }
+  .summary-bar .k { font-family: "DM Mono", monospace; color: var(--muted-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .summary-bar .v { color: var(--lblue); font-weight: 600; }
+  .summary-bar .sep { color: var(--line); }
+
+  /* ---- Thank you ---- */
+  .thanks { text-align: center; padding: 14px 4px 8px; }
+  .thanks .seal {
+    width: 76px; height: 76px; border-radius: 999px; margin: 0 auto 20px;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, rgba(14,165,233,0.35), rgba(14,165,233,0.08));
+    border: 1px solid rgba(14,165,233,0.5); box-shadow: 0 0 0 8px rgba(14,165,233,0.07);
+  }
+  .thanks .seal svg { width: 34px; height: 34px; }
+  .thanks h1 { font-family: "Bebas Neue", sans-serif; font-size: 46px; color: var(--ice); margin: 0 0 8px; letter-spacing: 0.02em; }
+  .thanks .ref-box {
+    display: inline-block; margin: 10px auto 22px;
+    background: var(--navy-2); border: 1px solid var(--blue); border-radius: 12px;
+    padding: 14px 28px;
+  }
+  .thanks .ref-box .rl { font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
+  .thanks .ref-box .rv { font-family: "Bebas Neue", sans-serif; font-size: 34px; color: var(--blue-hi); letter-spacing: 0.08em; }
+  .thanks p.lead { color: var(--text); font-size: 16px; max-width: 52ch; margin: 0 auto 26px; }
+  .steps-next { text-align: left; max-width: 480px; margin: 0 auto 8px; display: flex; flex-direction: column; gap: 12px; }
+  .next-item { display: flex; gap: 14px; align-items: flex-start; }
+  .next-item .num {
+    width: 28px; height: 28px; border-radius: 999px; flex: 0 0 auto;
+    background: rgba(14,165,233,0.12); border: 1px solid rgba(14,165,233,0.4);
+    color: var(--blue-hi); font-family: "DM Mono", monospace; font-size: 13px;
+    display: grid; place-items: center;
+  }
+  .next-item .nt { font-weight: 600; color: var(--ice); font-size: 15px; }
+  .next-item .nd { color: var(--muted); font-size: 13.5px; }
+  .reassure { margin-top: 24px; color: var(--muted); font-size: 14px; font-family: "DM Mono", monospace; letter-spacing: 0.02em; }
+  .reassure b { color: var(--lblue); font-weight: 500; }
+
+  .submit-error {
+    background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.4);
+    border-radius: 12px; padding: 16px 18px; margin-top: 18px; display: none;
+  }
+  .submit-error.show { display: block; }
+  .submit-error .se-title { color: var(--danger); font-weight: 600; margin-bottom: 4px; }
+  .submit-error .se-body { color: var(--text); font-size: 14px; }
+
+  @media (max-width: 560px) {
+    .shell { padding: 18px 14px 70px; }
+    .card { padding: 22px 16px 22px; border-radius: 16px; }
+    h1.step-title { font-size: 34px; }
+    .thanks h1 { font-size: 38px; }
+    .grid.cols-2 { grid-template-columns: 1fr; }
+    .pal-grid { grid-template-columns: 1fr; }
+    .btn { padding: 13px 20px; font-size: 14px; }
+    .help-chip { display: none; }
+    .wordmark { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div>
+      <div class="wordmark">LIFT<span class="ori">ORI</span></div>
+      <div class="tagline">Lift Your Idea.</div>
+    </div>
+    <div class="help-chip">Scoping your build &middot; <b>~3 min</b></div>
+  </header>
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="steps-row" id="stepsRow"></div>
+  </div>
+
+  <div class="card">
+    <!-- STEP 1: WHAT TO BUILD -->
+    <section class="step active" data-step="1">
+      <div class="step-meta">Step 1 of 8 &middot; Foundation</div>
+      <h1 class="step-title">What do you want to build?</h1>
+      <p class="step-sub">Pick the kind of product you have in mind. Then choose the specific build that fits closest — you can tailor everything in the next steps.</p>
+
+      <div id="catLoading" class="loading"><span class="spin"></span> Loading the build catalog&hellip;</div>
+      <div class="grid cols-2" id="categoryGrid"></div>
+
+      <div id="productSection" style="display:none; margin-top:26px;">
+        <div class="step-meta" style="margin-top:0;">Choose your build</div>
+        <div class="grid cols-2" id="productGrid"></div>
+      </div>
+      <div class="err-msg" id="err-step1">Pick a category and a specific build to continue.</div>
+    </section>
+
+    <!-- STEP 2: FEATURES -->
+    <section class="step" data-step="2">
+      <div class="step-meta">Step 2 of 8 &middot; Capability</div>
+      <h1 class="step-title">Features</h1>
+      <p class="step-sub">We pre-selected what most builds like this include. Toggle anything off, or add your own.</p>
+      <div class="chip-list" id="featureList"></div>
+      <div class="inline-add">
+        <input type="text" id="featureInput" placeholder="Add your own feature, e.g. Customer loyalty points" />
+        <button class="btn btn-ghost" type="button" id="addFeatureBtn">Add</button>
+      </div>
+      <div class="err-msg" id="err-step2">Keep at least one feature so we know what to build.</div>
+    </section>
+
+    <!-- STEP 3: LOOK & FEEL -->
+    <section class="step" data-step="3">
+      <div class="step-meta">Step 3 of 8 &middot; Aesthetic</div>
+      <h1 class="step-title">Look &amp; feel</h1>
+      <p class="step-sub">Choose a color direction. This sets the mood — we will refine the exact shades in your mockup.</p>
+      <div class="pal-grid" id="paletteGrid"></div>
+      <div class="custom-color-row">
+        <input type="color" id="customColor" value="#0EA5E9" />
+        <span class="cc-label">Have a brand color? Pick it here to use a custom palette.</span>
+      </div>
+      <div class="field" style="margin-top:24px;">
+        <label class="lab">Style / vibe <span class="opt">(in your words)</span></label>
+        <input type="text" id="styleInput" placeholder="e.g. clean and modern, warm and friendly, bold and editorial" />
+      </div>
+      <div class="err-msg" id="err-step3">Pick a color direction to continue.</div>
+    </section>
+
+    <!-- STEP 4: CONTENT & FIELDS -->
+    <section class="step" data-step="4">
+      <div class="step-meta">Step 4 of 8 &middot; Structure</div>
+      <h1 class="step-title">Content &amp; fields</h1>
+      <p class="step-sub">What pages or sections should it have, and what information should it capture? Edit, add, or remove freely.</p>
+
+      <div class="field">
+        <label class="lab" id="pagesLabel">Pages / sections</label>
+        <div class="dyn-list" id="pagesList"></div>
+        <div class="inline-add">
+          <input type="text" id="pageInput" placeholder="Add a page or section, e.g. Pricing" />
+          <button class="btn btn-ghost" type="button" id="addPageBtn">Add</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab">Entry fields / data to capture <span class="opt">(forms, records, inputs)</span></label>
+        <div class="dyn-list" id="fieldsList"></div>
+        <div class="inline-add">
+          <input type="text" id="fieldInput" placeholder="Add a field, e.g. Phone number" />
+          <button class="btn btn-ghost" type="button" id="addFieldBtn">Add</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab">Content / copy <span class="opt">(what you already have, or need from us)</span></label>
+        <textarea id="contentInput" placeholder="e.g. We have logo + photos and an About blurb. We will need help writing service descriptions and the homepage headline."></textarea>
+      </div>
+    </section>
+
+    <!-- STEP 5: INDUSTRY -->
+    <section class="step" data-step="5">
+      <div class="step-meta">Step 5 of 8 &middot; Context</div>
+      <h1 class="step-title">Industry</h1>
+      <p class="step-sub">This helps us speak your language and pull in patterns that work for your space.</p>
+      <div class="field">
+        <label class="lab">Your industry <span class="req-star">*</span></label>
+        <select id="industrySelect">
+          <option value="">Select an industry&hellip;</option>
+        </select>
+      </div>
+      <div class="field" id="industryOtherWrap" style="display:none;">
+        <label class="lab">Tell us your industry</label>
+        <input type="text" id="industryOther" placeholder="e.g. Commercial kitchen exhaust cleaning" />
+      </div>
+      <div class="err-msg" id="err-step5">Choose your industry so we can tailor the build.</div>
+    </section>
+
+    <!-- STEP 6: NAVIGATION -->
+    <section class="step" data-step="6">
+      <div class="step-meta">Step 6 of 8 &middot; Flow</div>
+      <h1 class="step-title">Navigation</h1>
+      <p class="step-sub">How should people move around your product, and what are the main destinations?</p>
+      <div class="radio-list" id="navRadioList"></div>
+      <div class="field" style="margin-top:22px;">
+        <label class="lab">Main navigation items</label>
+        <div class="dyn-list" id="navItemsList"></div>
+        <div class="inline-add">
+          <input type="text" id="navItemInput" placeholder="Add a nav item, e.g. Contact" />
+          <button class="btn btn-ghost" type="button" id="addNavItemBtn">Add</button>
+        </div>
+      </div>
+      <div class="err-msg" id="err-step6">Pick how navigation should work.</div>
+    </section>
+
+    <!-- STEP 7: ANYTHING ELSE -->
+    <section class="step" data-step="7">
+      <div class="step-meta">Step 7 of 8 &middot; The Details</div>
+      <h1 class="step-title">Anything else?</h1>
+      <p class="step-sub">Goals, must-haves, examples or links to products you admire — the more we know, the sharper the first draft.</p>
+      <div class="field">
+        <label class="lab">Details, goals &amp; inspiration <span class="opt">(optional but helpful)</span></label>
+        <textarea id="detailsInput" style="min-height:130px;" placeholder="e.g. Goal is to book 20% more jobs. We love how stripe.com feels. Must integrate with our scheduling. Example competitor: ..."></textarea>
+      </div>
+      <div class="grid cols-2">
+        <div class="field">
+          <label class="lab">Timeline <span class="req-star">*</span></label>
+          <select id="timelineSelect">
+            <option value="">Select timeline&hellip;</option>
+            <option>ASAP</option>
+            <option>2-4 weeks</option>
+            <option>1-2 months</option>
+            <option>Flexible</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="lab">Budget range <span class="req-star">*</span></label>
+          <select id="budgetSelect">
+            <option value="">Select budget&hellip;</option>
+            <option>Under $2.5k</option>
+            <option>$2.5k - $5k</option>
+            <option>$5k - $10k</option>
+            <option>$10k+</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="err-msg" id="err-step7">Pick a timeline and budget so we can plan accordingly.</div>
+    </section>
+
+    <!-- STEP 8: YOUR INFO -->
+    <section class="step" data-step="8">
+      <div class="step-meta">Step 8 of 8 &middot; You</div>
+      <h1 class="step-title">Your info</h1>
+      <p class="step-sub">Where should we send your plan, mockup, and pricing estimate?</p>
+      <div class="summary-bar" id="finalSummary"></div>
+      <div class="grid cols-2">
+        <div class="field">
+          <label class="lab">Full name <span class="req-star">*</span></label>
+          <input type="text" id="custName" placeholder="Jane Doe" />
+          <div class="err-msg" id="err-name">Please enter your name.</div>
+        </div>
+        <div class="field">
+          <label class="lab">Email <span class="req-star">*</span></label>
+          <input type="email" id="custEmail" placeholder="jane@company.com" />
+          <div class="err-msg" id="err-email">Please enter a valid email address.</div>
+        </div>
+        <div class="field">
+          <label class="lab">Phone <span class="opt">(optional)</span></label>
+          <input type="tel" id="custPhone" placeholder="(555) 123-4567" />
+        </div>
+        <div class="field">
+          <label class="lab">Company <span class="opt">(optional)</span></label>
+          <input type="text" id="custCompany" placeholder="Acme Co." />
+        </div>
+      </div>
+      <div class="submit-error" id="submitError">
+        <div class="se-title">We couldn't send that just now.</div>
+        <div class="se-body" id="submitErrorBody">Something went wrong on our end. Your answers are safe — just hit Submit again.</div>
+      </div>
+    </section>
+
+    <!-- THANK YOU -->
+    <section class="step" data-step="9">
+      <div class="thanks">
+        <div class="seal">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#7DD3FC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h1>We've got your build.</h1>
+        <div class="ref-box">
+          <div class="rl">Your reference</div>
+          <div class="rv" id="refValue">CB-0000</div>
+        </div>
+        <p class="lead">Thank you. Your scope is in our hands and we're already getting to work on it. Here's exactly what happens next.</p>
+        <div class="steps-next">
+          <div class="next-item"><div class="num">1</div><div><div class="nt">We build a plan</div><div class="nd">Our team turns your scope into a concrete build plan and feature map.</div></div></div>
+          <div class="next-item"><div class="num">2</div><div><div class="nt">We design a mockup</div><div class="nd">You'll see a real visual mockup of your product, in your direction.</div></div></div>
+          <div class="next-item"><div class="num">3</div><div><div class="nt">Mockup + pricing estimate</div><div class="nd">We send the mockup with a clear, itemized pricing estimate.</div></div></div>
+          <div class="next-item"><div class="num">4</div><div><div class="nt">Deposit &rarr; development begins</div><div class="nd">Approve it, place a deposit, and our developers start building.</div></div></div>
+        </div>
+        <div class="reassure">A <b>welcome email</b> is on its way to your inbox now.</div>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <div class="nav" id="navBar">
+      <button class="btn btn-ghost hidden" type="button" id="backBtn">Back</button>
+      <button class="btn btn-primary" type="button" id="nextBtn">Continue</button>
+    </div>
+    <div class="helper-line" id="helperLine"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsZXJma2R5c2xuZGpiYWx0a3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTc0MTAsImV4cCI6MjA4ODczMzQxMH0.NM-bFnfWqrnelLnpYO8NNMVpwkoq4LSfCIVq6gs23qk";
+  var REST_URL = "https://qlerfkdyslndjbaltkwo.supabase.co/rest/v1/custom_build_products?is_active=eq.true&order=sort_order.asc";
+  var INTAKE_URL = "https://qlerfkdyslndjbaltkwo.supabase.co/functions/v1/custom-build-intake";
+
+  var CATEGORIES = ["Website", "CRM", "Mobile App", "Digital Tool"];
+  var CATEGORY_DESC = {
+    "Website": "Marketing sites, storefronts, landing pages — your public face.",
+    "CRM": "Run your business: leads, jobs, customers, pipeline, ops.",
+    "Mobile App": "Native-feel apps for iOS & Android with the full toolkit.",
+    "Digital Tool": "Calculators, portals, dashboards, internal utilities."
+  };
+
+  // ---- Hardcoded fallback catalog (used if the live fetch fails) ----
+  var FALLBACK = [
+    { category:"Website", name:"Starter Website", slug:"starter-website", tagline:"A sharp 5-page site that converts.", description:"A fast, modern marketing site with the core pages every business needs and built-in lead capture.", starting_price:"$1,500", est_timeline:"1-2 weeks", default_features:["Mobile responsive","Contact form","SEO basics","Google Maps embed","Photo gallery","Fast hosting"] },
+    { category:"Website", name:"Business Pro Site", slug:"business-pro-site", tagline:"Full marketing engine with blog & booking.", description:"A larger, content-driven site with blog, booking, and analytics — built to grow traffic and bookings.", starting_price:"$3,500", est_timeline:"3-4 weeks", default_features:["Everything in Starter","Blog / news","Online booking","Service area pages","Reviews integration","Analytics dashboard","Lead notifications"] },
+    { category:"Website", name:"Online Storefront", slug:"online-storefront", tagline:"Sell products with a clean checkout.", description:"An e-commerce storefront with product catalog, cart, and secure payments.", starting_price:"$4,500", est_timeline:"4-6 weeks", default_features:["Product catalog","Shopping cart","Stripe checkout","Inventory tracking","Order emails","Discount codes","Customer accounts"] },
+
+    { category:"CRM", name:"Starter CRM", slug:"starter-crm", tagline:"Leads, jobs, and customers in one place.", description:"A focused CRM to track leads through to paying customers, with a simple pipeline and contact records.", starting_price:"$2,500", est_timeline:"2-3 weeks", default_features:["Lead pipeline","Customer records","Job tracking","Notes & activity log","Team logins","Email capture"] },
+    { category:"CRM", name:"Operations CRM", slug:"operations-crm", tagline:"Run the whole business end to end.", description:"A full operations CRM: pipeline, scheduling, estimates, invoicing, and reporting under one roof.", starting_price:"$5,000", est_timeline:"4-7 weeks", default_features:["Everything in Starter CRM","Scheduling & calendar","Estimates & quotes","Invoicing","Reporting dashboards","Role-based permissions","File attachments","Automated reminders"] },
+    { category:"CRM", name:"Industry CRM", slug:"industry-crm", tagline:"Tailored to how your industry works.", description:"A CRM shaped around your specific workflow with custom stages, fields, and compliance tracking.", starting_price:"$7,500", est_timeline:"6-10 weeks", default_features:["Everything in Operations CRM","Custom pipeline stages","Industry compliance fields","Service / asset history","Customer portal","Integrations","Custom reports"] },
+
+    { category:"Mobile App", name:"App MVP", slug:"app-mvp", tagline:"Launch your core idea fast.", description:"A focused mobile app covering your core flow, ready for the App Store and Play Store.", starting_price:"$4,000", est_timeline:"4-6 weeks", default_features:["iOS & Android","User accounts","Push notifications","Core feature flow","Offline-friendly","App store submission"] },
+    { category:"Mobile App", name:"Full Mobile App", slug:"full-mobile-app", tagline:"A polished app your users live in.", description:"A complete mobile app with rich features, real-time data, and in-app payments.", starting_price:"$8,000", est_timeline:"7-12 weeks", default_features:["Everything in App MVP","Real-time updates","In-app payments","Chat / messaging","Media uploads","Analytics","Admin dashboard"] },
+    { category:"Mobile App", name:"Marketplace App", slug:"marketplace-app", tagline:"Connect buyers and sellers.", description:"A two-sided marketplace app with listings, search, transactions, and ratings.", starting_price:"$12,000", est_timeline:"10-16 weeks", default_features:["Everything in Full App","Two-sided listings","Search & filters","Secure transactions","Ratings & reviews","Seller payouts","Moderation tools"] },
+
+    { category:"Digital Tool", name:"Smart Calculator", slug:"smart-calculator", tagline:"Turn your math into a slick tool.", description:"A custom calculator or estimator that captures leads while it gives instant answers.", starting_price:"$1,200", est_timeline:"1-2 weeks", default_features:["Custom logic","Instant results","Lead capture","Branded design","Mobile responsive","Email results"] },
+    { category:"Digital Tool", name:"Client Portal", slug:"client-portal", tagline:"A secure home for your clients.", description:"A login-protected portal where clients view documents, status, and messages.", starting_price:"$3,000", est_timeline:"3-5 weeks", default_features:["Secure logins","Document sharing","Status tracking","Messaging","Notifications","Admin controls"] },
+    { category:"Digital Tool", name:"Internal Dashboard", slug:"internal-dashboard", tagline:"See your whole operation at a glance.", description:"A data dashboard that pulls your numbers into one clear, real-time view.", starting_price:"$3,500", est_timeline:"3-6 weeks", default_features:["Live data feeds","Custom charts","KPI tracking","Filters & date ranges","Team access","Export to CSV","Scheduled reports"] }
+  ];
+
+  // sensible default pages/fields per category
+  var DEFAULT_PAGES = {
+    "Website": ["Home","About","Services","Gallery","Contact"],
+    "CRM": ["Dashboard","Leads","Customers","Jobs","Reports"],
+    "Mobile App": ["Home","Browse","Profile","Notifications","Settings"],
+    "Digital Tool": ["Home","Tool","Results","Account"]
+  };
+  var DEFAULT_FIELDS = {
+    "Website": ["Name","Email","Phone","Message"],
+    "CRM": ["Customer name","Email","Phone","Address","Job type","Notes"],
+    "Mobile App": ["Name","Email","Phone","Profile photo"],
+    "Digital Tool": ["Name","Email","Inputs"]
+  };
+
+  var PALETTES = [
+    { name:"Midnight Navy", desc:"Deep, premium, confident.", colors:["#0B1220","#0EA5E9","#7DD3FC","#E0F7FF"], primary:"#0EA5E9" },
+    { name:"Warm Editorial", desc:"Cream, ink, and a warm accent.", colors:["#FBF7EF","#1B1A17","#C2703D","#E4D9C4"], primary:"#C2703D" },
+    { name:"Fresh Green", desc:"Clean, natural, trustworthy.", colors:["#0E1F18","#10B981","#6EE7B7","#ECFDF5"], primary:"#10B981" },
+    { name:"Mono Slate", desc:"Minimal grayscale, all focus.", colors:["#0F1115","#3F4651","#9AA4B2","#F3F5F8"], primary:"#3F4651" },
+    { name:"Bold Sunset", desc:"High-energy warm gradient.", colors:["#1A0E0B","#F97316","#FB7185","#FFE8D6"], primary:"#F97316" }
+  ];
+
+  var INDUSTRIES = ["Home Services","Construction & Trades","Real Estate","Restaurant & Food","Retail & E-commerce","Health & Wellness","Professional Services","Legal","Finance & Insurance","Beauty & Salon","Automotive","Fitness","Education","Nonprofit","Manufacturing","Technology","Hospitality & Events","Cleaning & Facilities","Other"];
+
+  var NAV_OPTIONS = [
+    { value:"Top nav bar", title:"Top navigation bar", desc:"Classic horizontal menu across the top. Great for websites." },
+    { value:"Side nav", title:"Side navigation", desc:"A left sidebar of sections. Ideal for CRMs and dashboards." },
+    { value:"Bottom tabs", title:"Bottom tabs", desc:"App-style tab bar at the bottom. Best for mobile apps." },
+    { value:"Not sure - recommend for me", title:"Not sure — recommend for me", desc:"We'll choose the best pattern for your product type." }
+  ];
+
+  // ---- State ----
+  var state = {
+    catalog: [],
+    category: null,
+    product: null,           // full row
+    features: [],            // array of {label, on}
+    palette: null,           // preset name or 'custom'
+    primaryColor: "#0EA5E9",
+    style: "",
+    pages: [],
+    fields: [],
+    content: "",
+    industry: "",
+    navStyle: null,
+    navItems: [],
+    details: "",
+    timeline: "",
+    budget: "",
+    ref: ""
+  };
+
+  var TOTAL_STEPS = 8;
+  var current = 1;
+
+  // ---- helpers ----
+  function el(id) { return document.getElementById(id); }
+  function tick() { return '<span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#04121F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'; }
+  function check() { return '<svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#04121F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+  var STEP_LABELS = ["Build","Features","Look","Content","Industry","Nav","Details","You"];
+
+  function buildStepper() {
+    var row = el("stepsRow");
+    row.innerHTML = "";
+    for (var i = 1; i <= TOTAL_STEPS; i++) {
+      var pill = document.createElement("div");
+      pill.className = "step-pill";
+      pill.id = "pill-" + i;
+      pill.innerHTML = '<span class="dot">' + i + '</span><span>' + STEP_LABELS[i-1] + '</span>';
+      row.appendChild(pill);
+    }
+  }
+
+  function updateStepper() {
+    var pct = current >= 9 ? 100 : (current / TOTAL_STEPS) * 100;
+    el("progressFill").style.width = pct + "%";
+    for (var i = 1; i <= TOTAL_STEPS; i++) {
+      var pill = el("pill-" + i);
+      if (!pill) continue;
+      pill.className = "step-pill";
+      if (i < current) pill.classList.add("done");
+      else if (i === current) pill.classList.add("active");
+      var dot = pill.querySelector(".dot");
+      dot.innerHTML = (i < current) ? check() : i;
+    }
+  }
+
+  function showStep(n) {
+    var steps = document.querySelectorAll(".step");
+    for (var i = 0; i < steps.length; i++) steps[i].classList.remove("active");
+    var target = document.querySelector('.step[data-step="' + n + '"]');
+    if (target) target.classList.add("active");
+    current = n;
+    updateStepper();
+
+    var back = el("backBtn"), next = el("nextBtn"), nav = el("navBar"), helper = el("helperLine");
+    if (n === 9) {
+      nav.style.display = "none";
+      helper.textContent = "";
+    } else {
+      nav.style.display = "flex";
+      back.classList.toggle("hidden", n === 1);
+      if (n === 8) { next.textContent = "Submit my build"; }
+      else { next.textContent = "Continue"; }
+      helper.textContent = "";
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (n === 8) renderFinalSummary();
+  }
+
+  function showErr(id, msg) {
+    var e = el(id);
+    if (!e) return;
+    if (msg) e.textContent = msg;
+    e.classList.add("show");
+  }
+  function clearErr(id) { var e = el(id); if (e) e.classList.remove("show"); }
+
+  // ---------- STEP 1 ----------
+  function renderCategories() {
+    var grid = el("categoryGrid");
+    grid.innerHTML = "";
+    CATEGORIES.forEach(function (cat) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "selectable" + (state.category === cat ? " selected" : "");
+      btn.innerHTML = tick() +
+        '<div class="cat-name">' + esc(cat) + '</div>' +
+        '<div class="cat-desc">' + esc(CATEGORY_DESC[cat] || "") + '</div>';
+      btn.onclick = function () { selectCategory(cat); };
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectCategory(cat) {
+    if (state.category !== cat) {
+      state.category = cat;
+      state.product = null;       // reset product when category changes
+    }
+    clearErr("err-step1");
+    renderCategories();
+    renderProducts();
+    el("productSection").style.display = "block";
+  }
+
+  function productsFor(cat) {
+    return state.catalog.filter(function (p) { return p.category === cat; });
+  }
+
+  function renderProducts() {
+    var grid = el("productGrid");
+    grid.innerHTML = "";
+    var list = productsFor(state.category);
+    if (!list.length) {
+      grid.innerHTML = '<div class="cat-desc">No builds listed for this category yet — pick another, or tell us in the details step.</div>';
+      return;
+    }
+    list.forEach(function (p) {
+      var sel = state.product && state.product.slug === p.slug;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "selectable" + (sel ? " selected" : "");
+      btn.innerHTML = tick() +
+        '<div class="prod-name">' + esc(p.name) + '</div>' +
+        '<div class="prod-tag">' + esc(p.tagline || "") + '</div>' +
+        '<div class="prod-desc">' + esc(p.description || "") + '</div>' +
+        '<div class="prod-foot">' +
+          '<div><span class="lbl">Starting at</span><span class="price">' + esc(p.starting_price || "Custom") + '</span></div>' +
+          '<div><span class="lbl">Timeline</span><span class="tl">' + esc(p.est_timeline || "TBD") + '</span></div>' +
+        '</div>';
+      btn.onclick = function () { selectProduct(p); };
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectProduct(p) {
+    state.product = p;
+    clearErr("err-step1");
+    // seed features from product defaults
+    var defs = Array.isArray(p.default_features) ? p.default_features : [];
+    state.features = defs.map(function (f) { return { label: f, on: true }; });
+    renderProducts();
+  }
+
+  // ---------- STEP 2: FEATURES ----------
+  function renderFeatures() {
+    var box = el("featureList");
+    box.innerHTML = "";
+    if (!state.features.length) {
+      box.innerHTML = '<div class="cat-desc">No features yet — add the ones you want below.</div>';
+    }
+    state.features.forEach(function (f, idx) {
+      var row = document.createElement("button");
+      row.type = "button";
+      row.className = "chip" + (f.on ? " selected" : "");
+      row.innerHTML =
+        '<span class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#04121F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="txt">' + esc(f.label) + '</span>' +
+        '<span class="rm" data-rm="' + idx + '" title="Remove">&times;</span>';
+      row.onclick = function (e) {
+        if (e.target && e.target.getAttribute("data-rm") !== null) {
+          state.features.splice(idx, 1);
+          renderFeatures();
+          return;
+        }
+        f.on = !f.on;
+        renderFeatures();
+      };
+      box.appendChild(row);
+    });
+  }
+
+  function addFeature() {
+    var inp = el("featureInput");
+    var v = inp.value.trim();
+    if (!v) return;
+    state.features.push({ label: v, on: true });
+    inp.value = "";
+    clearErr("err-step2");
+    renderFeatures();
+  }
+
+  // ---------- STEP 3: LOOK & FEEL ----------
+  function renderPalettes() {
+    var grid = el("paletteGrid");
+    grid.innerHTML = "";
+    PALETTES.forEach(function (p) {
+      var sel = state.palette === p.name;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pal" + (sel ? " selected" : "");
+      var sw = p.colors.map(function (c) { return '<div class="sw" style="background:' + c + '"></div>'; }).join("");
+      btn.innerHTML = '<div class="swatches">' + sw + '</div><div class="pname">' + esc(p.name) + '</div><div class="pdesc">' + esc(p.desc) + '</div>';
+      btn.onclick = function () {
+        state.palette = p.name;
+        state.primaryColor = p.primary;
+        el("customColor").value = /^#[0-9a-fA-F]{6}$/.test(p.primary) ? p.primary : "#0EA5E9";
+        clearErr("err-step3");
+        renderPalettes();
+      };
+      grid.appendChild(btn);
+    });
+  }
+
+  // ---------- STEP 4 & 6: dynamic lists ----------
+  function renderDynList(listId, arr, placeholderName) {
+    var box = el(listId);
+    box.innerHTML = "";
+    arr.forEach(function (val, idx) {
+      var row = document.createElement("div");
+      row.className = "dyn-row";
+      var input = document.createElement("input");
+      input.type = "text";
+      input.value = val;
+      input.setAttribute("aria-label", placeholderName + " " + (idx + 1));
+      input.oninput = function () { arr[idx] = input.value; };
+      var del = document.createElement("span");
+      del.className = "del";
+      del.innerHTML = "&times;";
+      del.title = "Remove";
+      del.onclick = function () { arr.splice(idx, 1); renderDynList(listId, arr, placeholderName); };
+      row.appendChild(input);
+      row.appendChild(del);
+      box.appendChild(row);
+    });
+  }
+
+  function seedStructureDefaults() {
+    var cat = state.category || "Website";
+    if (!state.pages.length) state.pages = (DEFAULT_PAGES[cat] || DEFAULT_PAGES["Website"]).slice();
+    if (!state.fields.length) state.fields = (DEFAULT_FIELDS[cat] || DEFAULT_FIELDS["Website"]).slice();
+  }
+
+  // ---------- STEP 5: INDUSTRY ----------
+  function renderIndustries() {
+    var sel = el("industrySelect");
+    if (sel.options.length > 1) return; // already built
+    INDUSTRIES.forEach(function (ind) {
+      var o = document.createElement("option");
+      o.value = ind; o.textContent = ind;
+      sel.appendChild(o);
+    });
+  }
+
+  // ---------- STEP 6: NAV ----------
+  function renderNavOptions() {
+    var box = el("navRadioList");
+    box.innerHTML = "";
+    NAV_OPTIONS.forEach(function (opt) {
+      var sel = state.navStyle === opt.value;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "radio" + (sel ? " selected" : "");
+      btn.innerHTML = '<span class="ring"><i></i></span><div><div class="rtitle">' + esc(opt.title) + '</div><div class="rdesc">' + esc(opt.desc) + '</div></div>';
+      btn.onclick = function () { state.navStyle = opt.value; clearErr("err-step6"); renderNavOptions(); };
+      box.appendChild(btn);
+    });
+  }
+
+  function defaultNavStyle() {
+    var c = state.category;
+    if (c === "CRM") return "Side nav";
+    if (c === "Mobile App") return "Bottom tabs";
+    if (c === "Website") return "Top nav bar";
+    return "Top nav bar";
+  }
+
+  // ---------- STEP 8: SUMMARY ----------
+  function renderFinalSummary() {
+    var bits = [];
+    if (state.product) bits.push(['Build', state.product.name]);
+    if (state.category) bits.push(['Type', state.category]);
+    var onFeat = state.features.filter(function (f) { return f.on; }).length;
+    bits.push(['Features', onFeat]);
+    if (state.timeline) bits.push(['Timeline', state.timeline]);
+    if (state.budget) bits.push(['Budget', state.budget]);
+    var html = "";
+    bits.forEach(function (b, i) {
+      if (i) html += '<span class="sep">/</span>';
+      html += '<span class="k">' + esc(b[0]) + '</span> <span class="v">' + esc(b[1]) + '</span>';
+    });
+    el("finalSummary").innerHTML = html;
+  }
+
+  // ---------- VALIDATION + ADVANCE ----------
+  function validateStep(n) {
+    if (n === 1) {
+      if (!state.category || !state.product) { showErr("err-step1"); return false; }
+      return true;
+    }
+    if (n === 2) {
+      var on = state.features.filter(function (f) { return f.on; });
+      if (!on.length) { showErr("err-step2"); return false; }
+      return true;
+    }
+    if (n === 3) {
+      if (!state.palette) { showErr("err-step3"); return false; }
+      return true;
+    }
+    if (n === 4) {
+      return true; // content/fields optional
+    }
+    if (n === 5) {
+      var v = el("industrySelect").value;
+      if (!v) { el("industrySelect").classList.add("invalid"); showErr("err-step5"); return false; }
+      if (v === "Other") {
+        var other = el("industryOther").value.trim();
+        state.industry = other || "Other";
+      } else {
+        state.industry = v;
+      }
+      return true;
+    }
+    if (n === 6) {
+      if (!state.navStyle) { showErr("err-step6"); return false; }
+      return true;
+    }
+    if (n === 7) {
+      state.details = el("detailsInput").value.trim();
+      state.timeline = el("timelineSelect").value;
+      state.budget = el("budgetSelect").value;
+      var ok = true;
+      if (!state.timeline) { el("timelineSelect").classList.add("invalid"); ok = false; }
+      if (!state.budget) { el("budgetSelect").classList.add("invalid"); ok = false; }
+      if (!ok) { showErr("err-step7"); return false; }
+      return true;
+    }
+    if (n === 8) {
+      var nameOk = el("custName").value.trim().length > 0;
+      var emailVal = el("custEmail").value.trim();
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      el("custName").classList.toggle("invalid", !nameOk);
+      el("custEmail").classList.toggle("invalid", !emailOk);
+      el("err-name").classList.toggle("show", !nameOk);
+      el("err-email").classList.toggle("show", !emailOk);
+      return nameOk && emailOk;
+    }
+    return true;
+  }
+
+  function onLeaveStep(n) {
+    // capture free-form fields when leaving a step
+    if (n === 3) state.style = el("styleInput").value.trim();
+    if (n === 4) state.content = el("contentInput").value.trim();
+  }
+
+  function goNext() {
+    if (!validateStep(current)) return;
+    onLeaveStep(current);
+
+    // transition seeding when entering certain steps
+    if (current === 1) {
+      // entering step 2: features already seeded
+    }
+    if (current === 3) {
+      seedStructureDefaults();
+      renderDynList("pagesList", state.pages, "Page");
+      renderDynList("fieldsList", state.fields, "Field");
+      el("pagesLabel").textContent = (state.category === "CRM" || state.category === "Mobile App") ? "Screens / sections" : "Pages / sections";
+    }
+    if (current === 5) {
+      // entering step 6: seed nav items from pages + default style
+      if (!state.navItems.length) state.navItems = state.pages.slice(0, 6);
+      if (!state.navStyle) state.navStyle = defaultNavStyle();
+      renderNavOptions();
+      renderDynList("navItemsList", state.navItems, "Nav item");
+    }
+
+    if (current === 8) { submitBuild(); return; }
+    showStep(current + 1);
+  }
+
+  function goBack() {
+    onLeaveStep(current);
+    if (current > 1) showStep(current - 1);
+  }
+
+  // ---------- SUBMIT ----------
+  function buildPayload() {
+    var pal = state.palette;
+    var primary = state.primaryColor;
+    // if custom color differs from a preset's primary, mark palette custom
+    var customHex = el("customColor").value;
+    if (customHex && customHex.toLowerCase() !== (primary || "").toLowerCase()) {
+      // user nudged the color picker -> treat as custom
+      primary = customHex;
+      pal = "custom";
+      state.primaryColor = customHex;
+      state.palette = "custom";
+    }
+    return {
+      product: {
+        category: state.product ? state.product.category : state.category,
+        name: state.product ? state.product.name : "",
+        slug: state.product ? state.product.slug : ""
+      },
+      industry: state.industry || "",
+      scope: {
+        features: state.features.filter(function (f) { return f.on; }).map(function (f) { return f.label; }),
+        colors: { primary: primary, palette: pal || "custom" },
+        style: state.style || "",
+        pages: state.pages.filter(function (p) { return p && p.trim(); }),
+        fields: state.fields.filter(function (f) { return f && f.trim(); }),
+        content: state.content || "",
+        navigation: state.navStyle || "",
+        navItems: state.navItems.filter(function (n) { return n && n.trim(); }),
+        details: state.details || "",
+        timeline: state.timeline || "",
+        budget: state.budget || ""
+      },
+      customer: {
+        name: el("custName").value.trim(),
+        email: el("custEmail").value.trim(),
+        phone: el("custPhone").value.trim(),
+        company: el("custCompany").value.trim()
+      }
+    };
+  }
+
+  function submitBuild() {
+    var btn = el("nextBtn");
+    el("submitError").classList.remove("show");
+    btn.disabled = true;
+    btn.textContent = "Submitting…";
+
+    var payload = buildPayload();
+
+    fetch(INTAKE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(function (res) {
+      return res.json().then(function (data) { return { ok: res.ok, data: data }; })
+        .catch(function () { return { ok: res.ok, data: {} }; });
+    })
+    .then(function (r) {
+      var d = r.data || {};
+      if (r.ok && d.ok) {
+        state.ref = d.ref || "CB-PENDING";
+        el("refValue").textContent = state.ref;
+        showStep(9);
+      } else {
+        throw new Error(d.error || "Request failed");
+      }
+    })
+    .catch(function (err) {
+      var body = el("submitErrorBody");
+      body.textContent = "Something went wrong sending your build (" + (err && err.message ? err.message : "network error") + "). Your answers are safe — just hit Submit again.";
+      el("submitError").classList.add("show");
+    })
+    .then(function () {
+      btn.disabled = false;
+      btn.textContent = "Submit my build";
+    });
+  }
+
+  // ---------- LOAD CATALOG ----------
+  function loadCatalog() {
+    fetch(REST_URL, { headers: { apikey: ANON, Authorization: "Bearer " + ANON } })
+      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+      .then(function (rows) {
+        if (Array.isArray(rows) && rows.length) {
+          state.catalog = rows.map(normalizeRow);
+        } else {
+          state.catalog = FALLBACK.slice();
+        }
+      })
+      .catch(function () {
+        state.catalog = FALLBACK.slice();
+      })
+      .then(function () {
+        el("catLoading").style.display = "none";
+        renderCategories();
+      });
+  }
+
+  function normalizeRow(r) {
+    var feats = r.default_features;
+    if (typeof feats === "string") {
+      try { feats = JSON.parse(feats); } catch (e) { feats = feats.split(",").map(function (s) { return s.trim(); }); }
+    }
+    if (!Array.isArray(feats)) feats = [];
+    return {
+      category: r.category, name: r.name, slug: r.slug,
+      tagline: r.tagline, description: r.description,
+      starting_price: r.starting_price, est_timeline: r.est_timeline,
+      default_features: feats
+    };
+  }
+
+  // ---------- WIRE UP ----------
+  function bind() {
+    el("nextBtn").onclick = goNext;
+    el("backBtn").onclick = goBack;
+
+    el("addFeatureBtn").onclick = addFeature;
+    el("featureInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); addFeature(); } });
+
+    el("customColor").addEventListener("input", function () {
+      state.primaryColor = this.value;
+      state.palette = "custom";
+      clearErr("err-step3");
+      renderPalettes();
+    });
+
+    el("addPageBtn").onclick = function () {
+      var v = el("pageInput").value.trim(); if (!v) return;
+      state.pages.push(v); el("pageInput").value = "";
+      renderDynList("pagesList", state.pages, "Page");
+    };
+    el("pageInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); el("addPageBtn").click(); } });
+
+    el("addFieldBtn").onclick = function () {
+      var v = el("fieldInput").value.trim(); if (!v) return;
+      state.fields.push(v); el("fieldInput").value = "";
+      renderDynList("fieldsList", state.fields, "Field");
+    };
+    el("fieldInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); el("addFieldBtn").click(); } });
+
+    el("addNavItemBtn").onclick = function () {
+      var v = el("navItemInput").value.trim(); if (!v) return;
+      state.navItems.push(v); el("navItemInput").value = "";
+      renderDynList("navItemsList", state.navItems, "Nav item");
+    };
+    el("navItemInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); el("addNavItemBtn").click(); } });
+
+    el("industrySelect").addEventListener("change", function () {
+      this.classList.remove("invalid"); clearErr("err-step5");
+      el("industryOtherWrap").style.display = this.value === "Other" ? "block" : "none";
+    });
+    el("timelineSelect").addEventListener("change", function () { this.classList.remove("invalid"); clearErr("err-step7"); });
+    el("budgetSelect").addEventListener("change", function () { this.classList.remove("invalid"); clearErr("err-step7"); });
+    el("custName").addEventListener("input", function () { this.classList.remove("invalid"); el("err-name").classList.remove("show"); });
+    el("custEmail").addEventListener("input", function () { this.classList.remove("invalid"); el("err-email").classList.remove("show"); });
+  }
+
+  // re-render dynamic sections each time they appear (in case category changed)
+  var _origShowStep = showStep;
+  showStep = function (n) {
+    if (n === 2) renderFeatures();
+    if (n === 3) renderPalettes();
+    _origShowStep(n);
+  };
+
+  // init
+  buildStepper();
+  renderIndustries();
+  bind();
+  loadCatalog();
+  updateStepper();
+})();
+</script>
+</body>
+</html>
