@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TrailKit — Customer App Mockup</title>
+<meta name="description" content="TrailKit customer mobile app — shop gear, plan trips, and keep your kit dialed. Concept mockup by Liftori." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --forest:#1F5C45;        /* primary */
+    --forest-deep:#143C2D;
+    --forest-soft:#2E7359;
+    --pine:#0F2A20;
+    --moss:#8AA694;
+    --sand:#EFE9DC;
+    --paper:#F6F3EC;
+    --clay:#C2632B;          /* warm accent */
+    --clay-soft:#E08A4A;
+    --bark:#22271F;          /* text */
+    --bark-soft:#566055;
+    --line:#E2DCCE;
+    --white:#FFFFFF;
+    --ok:#2E7359;
+    --shadow:0 24px 60px -22px rgba(15,42,32,.55);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--bark);
+    background:
+      radial-gradient(1200px 700px at 82% -10%, #2c6b52 0%, rgba(44,107,82,0) 55%),
+      radial-gradient(900px 600px at 5% 5%, #19432f 0%, rgba(25,67,47,0) 50%),
+      linear-gradient(160deg,#0F2A20 0%, #143C2D 48%, #0c2419 100%);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  /* faint topographic contour texture, drawn in CSS */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;z-index:0;
+    background-image:
+      repeating-radial-gradient(circle at 78% 18%, transparent 0 38px, rgba(138,166,148,.5) 38px 39px),
+      repeating-radial-gradient(circle at 14% 84%, transparent 0 46px, rgba(138,166,148,.4) 46px 47px);
+    mask-image:linear-gradient(180deg,#000,transparent 70%);
+  }
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:30px 22px 70px}
+
+  /* ---------- brand bar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:34px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .mark{width:46px;height:46px;border-radius:13px;background:linear-gradient(150deg,#2E7359,#143C2D);
+    display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12), 0 8px 20px -10px rgba(0,0,0,.6)}
+  .brand h1{font-family:'Bricolage Grotesque',sans-serif;color:#fff;font-size:20px;letter-spacing:.2px;font-weight:800;line-height:1}
+  .brand span{display:block;color:var(--moss);font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+  .ribbon{display:inline-flex;align-items:center;gap:9px;background:rgba(246,243,236,.08);border:1px solid rgba(246,243,236,.16);
+    color:#dfe8e0;padding:9px 15px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.02em;backdrop-filter:blur(4px)}
+  .ribbon b{color:#fff;font-weight:700}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--clay-soft);box-shadow:0 0 0 4px rgba(224,138,74,.22)}
+
+  /* ---------- stage layout ---------- */
+  .stage{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+  @media(max-width:920px){.stage{grid-template-columns:1fr;gap:30px}}
+
+  .pitch h2{font-family:'Bricolage Grotesque',sans-serif;color:#fff;font-size:clamp(30px,4.4vw,50px);line-height:1.02;font-weight:800;letter-spacing:-.5px}
+  .pitch h2 em{font-style:normal;color:var(--clay-soft)}
+  .pitch p.lead{color:#cfdcd2;font-size:16px;max-width:430px;margin-top:18px}
+  .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(246,243,236,.07);border:1px solid rgba(246,243,236,.14);
+    color:#e6ede7;font-size:13px;font-weight:600;padding:9px 14px;border-radius:11px}
+  .pill svg{width:16px;height:16px;color:var(--moss)}
+  .meta{margin-top:30px;display:flex;gap:26px;flex-wrap:wrap}
+  .meta div{border-left:2px solid rgba(138,166,148,.4);padding-left:13px}
+  .meta dt{color:var(--moss);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+  .meta dd{color:#fff;font-size:14.5px;font-weight:600;margin-top:3px}
+
+  /* ---------- phone ---------- */
+  .phone-col{display:flex;justify-content:center}
+  .phone{
+    width:372px;max-width:100%;height:780px;background:#0b0e0c;border-radius:48px;padding:13px;
+    box-shadow:var(--shadow), inset 0 0 0 2px #1b211c;position:relative;
+  }
+  .phone::after{content:"";position:absolute;left:50%;top:11px;transform:translateX(-50%);width:128px;height:30px;background:#0b0e0c;border-radius:0 0 18px 18px;z-index:40}
+  .phone::before{content:"";position:absolute;right:-3px;top:150px;width:3px;height:78px;background:#1b211c;border-radius:3px}
+  .screenframe{position:relative;width:100%;height:100%;background:var(--paper);border-radius:36px;overflow:hidden;display:flex;flex-direction:column}
+
+  /* status bar */
+  .statusbar{height:46px;flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 26px 7px;font-size:13px;font-weight:700;color:var(--bark);z-index:30;position:relative}
+  .statusbar.on-dark{color:#fff}
+  .sb-right{display:flex;align-items:center;gap:6px}
+  .sb-right svg{width:17px;height:13px}
+
+  /* scroll area */
+  .viewport{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;position:relative;scrollbar-width:none}
+  .viewport::-webkit-scrollbar{display:none}
+  .screen{display:none;padding-bottom:96px;animation:rise .4s cubic-bezier(.2,.7,.3,1)}
+  .screen.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- HOME ---------- */
+  .home-hero{position:relative;padding:6px 20px 30px;color:#fff;
+    background:linear-gradient(165deg,#2E7359 0%,#1F5C45 55%,#143C2D 100%);}
+  .home-hero::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background:repeating-radial-gradient(circle at 86% 8%, transparent 0 26px, rgba(255,255,255,.06) 26px 27px)}
+  .greet{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between}
+  .greet small{color:#bcd3c6;font-size:12px;font-weight:600;letter-spacing:.04em}
+  .greet h3{font-family:'Bricolage Grotesque',sans-serif;font-size:23px;font-weight:800;margin-top:2px}
+  .avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(140deg,#E08A4A,#C2632B);display:grid;place-items:center;
+    font-weight:800;color:#fff;font-size:15px;border:2px solid rgba(255,255,255,.35)}
+  .feature{position:relative;z-index:2;margin-top:20px;border-radius:18px;overflow:hidden;background:#0f2a20;
+    box-shadow:0 16px 30px -16px rgba(0,0,0,.7)}
+  .feature .scene{height:140px;position:relative;background:linear-gradient(180deg,#1a3a2b,#0f2a20)}
+  .feature .tag{position:absolute;top:12px;left:12px;background:var(--clay);color:#fff;font-size:10.5px;font-weight:800;
+    letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;border-radius:7px;z-index:3}
+  .feature .body{padding:14px 15px 16px}
+  .feature .body h4{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:700;color:#fff}
+  .feature .body p{color:#aec6b8;font-size:12.5px;margin-top:4px}
+  .feature .body a{display:inline-flex;align-items:center;gap:6px;margin-top:11px;color:var(--clay-soft);font-weight:700;font-size:12.5px;text-decoration:none}
+
+  .section{padding:22px 20px 6px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}
+  .section-head h4{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--bark)}
+  .section-head a{color:var(--forest-soft);font-size:12.5px;font-weight:700;text-decoration:none}
+
+  .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .quick button{border:1px solid var(--line);background:var(--white);border-radius:14px;padding:12px 6px 10px;display:flex;
+    flex-direction:column;align-items:center;gap:7px;cursor:pointer;font:inherit;transition:transform .15s, border-color .15s}
+  .quick button:active{transform:scale(.95)}
+  .quick button:hover{border-color:var(--moss)}
+  .quick .ic{width:38px;height:38px;border-radius:11px;background:var(--sand);display:grid;place-items:center;color:var(--forest)}
+  .quick span{font-size:10.5px;font-weight:600;color:var(--bark-soft);text-align:center;line-height:1.2}
+
+  /* field notes feed (in-app content) */
+  .note{display:flex;gap:13px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--white);margin-bottom:11px}
+  .note .thumb{width:64px;height:64px;border-radius:12px;flex:0 0 auto;overflow:hidden;position:relative}
+  .note .meta-row{display:flex;align-items:center;gap:7px}
+  .note .cat{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--clay)}
+  .note .min{font-size:11px;color:var(--bark-soft)}
+  .note h5{font-family:'Bricolage Grotesque',sans-serif;font-size:14.5px;font-weight:700;margin-top:4px;line-height:1.25}
+  .note p{font-size:12px;color:var(--bark-soft);margin-top:3px}
+
+  /* restock alert (push) */
+  .alert{margin:6px 20px 0;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,#FBF4EA,#F4E7D6);
+    border:1px solid #ECD7BA;border-radius:16px;padding:13px 14px}
+  .alert .bell{width:38px;height:38px;border-radius:11px;background:#fff;display:grid;place-items:center;color:var(--clay);flex:0 0 auto;border:1px solid #ECD7BA}
+  .alert b{font-size:13px;color:var(--bark)}
+  .alert p{font-size:11.5px;color:var(--bark-soft);margin-top:1px}
+
+  /* ---------- SHOP ---------- */
+  .shop-top{padding:8px 20px 4px}
+  .shop-top h3{font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800}
+  .searchbar{display:flex;align-items:center;gap:9px;background:var(--white);border:1px solid var(--line);border-radius:13px;
+    padding:11px 13px;margin-top:13px;color:var(--bark-soft);font-size:13px}
+  .searchbar svg{width:17px;height:17px;color:var(--moss)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 20px 4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--white);color:var(--bark-soft);
+    font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .chip.active{background:var(--forest);border-color:var(--forest);color:#fff}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:16px 20px 6px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:17px;overflow:hidden;cursor:pointer;transition:transform .16s,box-shadow .16s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 26px -16px rgba(20,60,45,.5)}
+  .card .pic{height:118px;position:relative;background:var(--sand);display:grid;place-items:center}
+  .card .fav{position:absolute;top:9px;right:9px;width:27px;height:27px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center;color:var(--bark-soft)}
+  .card .pic .badge{position:absolute;top:9px;left:9px;background:var(--forest);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:4px 7px;border-radius:6px;text-transform:uppercase}
+  .card .info{padding:11px 12px 13px}
+  .card .info .brandline{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--moss)}
+  .card .info h5{font-size:13.5px;font-weight:600;margin-top:2px;line-height:1.25}
+  .card .info .pr{display:flex;align-items:center;justify-content:space-between;margin-top:9px}
+  .card .info .price{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;color:var(--bark)}
+  .card .info .stars{font-size:11px;color:var(--clay);font-weight:700}
+  .card .add{width:28px;height:28px;border-radius:9px;background:var(--forest);display:grid;place-items:center;color:#fff}
+
+  /* ---------- TRIPS ---------- */
+  .trips-head{padding:8px 20px 0}
+  .trips-head h3{font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800}
+  .trips-head p{color:var(--bark-soft);font-size:13px;margin-top:3px}
+  .nexttrip{margin:16px 20px 0;border-radius:18px;overflow:hidden;color:#fff;position:relative;
+    background:linear-gradient(160deg,#2E7359,#143C2D)}
+  .nexttrip .map{height:120px;position:relative;overflow:hidden}
+  .nexttrip .countdown{position:absolute;top:12px;right:12px;background:rgba(11,14,12,.45);backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 10px;font-size:11px;font-weight:700;z-index:3}
+  .nexttrip .nt-body{padding:14px 16px 16px;position:relative;z-index:2}
+  .nexttrip .nt-body small{color:#bcd3c6;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .nexttrip .nt-body h4{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:800;margin-top:3px}
+  .nexttrip .nt-stats{display:flex;gap:18px;margin-top:12px}
+  .nexttrip .nt-stats div small{display:block;color:#a7c2b3;font-size:10px;letter-spacing:.08em}
+  .nexttrip .nt-stats div b{font-size:14px}
+
+  .pack{margin:20px 20px 0;background:var(--white);border:1px solid var(--line);border-radius:17px;padding:15px 16px}
+  .pack .ph{display:flex;align-items:center;justify-content:space-between}
+  .pack .ph h4{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700}
+  .pack .ph span{font-size:11.5px;color:var(--forest-soft);font-weight:700}
+  .progress{height:7px;border-radius:6px;background:var(--sand);margin:12px 0 14px;overflow:hidden}
+  .progress i{display:block;height:100%;width:64%;background:linear-gradient(90deg,var(--forest-soft),var(--forest));border-radius:6px}
+  .check{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid var(--line)}
+  .check:first-of-type{border-top:0}
+  .box{width:21px;height:21px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center}
+  .box.done{background:var(--forest);border-color:var(--forest);color:#fff}
+  .check label{font-size:13px;flex:1}
+  .check.done label{color:var(--bark-soft);text-decoration:line-through}
+  .check .qty{font-size:11px;color:var(--bark-soft);font-weight:600}
+
+  .savedtrip{margin:11px 20px 0;display:flex;gap:13px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:15px;padding:11px}
+  .savedtrip .sq{width:54px;height:54px;border-radius:12px;flex:0 0 auto;overflow:hidden;position:relative}
+  .savedtrip h5{font-size:13.5px;font-weight:700}
+  .savedtrip p{font-size:11.5px;color:var(--bark-soft);margin-top:2px}
+  .savedtrip .chev{margin-left:auto;color:var(--moss)}
+
+  /* ---------- ACCOUNT ---------- */
+  .acct-hero{background:linear-gradient(160deg,#1F5C45,#143C2D);color:#fff;padding:14px 20px 24px;text-align:center}
+  .acct-hero .big{width:74px;height:74px;border-radius:50%;margin:6px auto 0;background:linear-gradient(140deg,#E08A4A,#C2632B);
+    display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;border:3px solid rgba(255,255,255,.3)}
+  .acct-hero h3{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;margin-top:11px}
+  .acct-hero .email{color:#bcd3c6;font-size:12.5px;margin-top:2px}
+  .acct-hero .tier{display:inline-flex;align-items:center;gap:7px;margin-top:11px;background:rgba(224,138,74,.18);
+    border:1px solid rgba(224,138,74,.5);color:#f3d6bb;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:999px}
+
+  .statline{display:grid;grid-template-columns:repeat(3,1fr);background:var(--white);border:1px solid var(--line);
+    border-radius:16px;margin:-16px 20px 0;position:relative;z-index:3;overflow:hidden;box-shadow:0 12px 24px -18px rgba(20,60,45,.6)}
+  .statline div{padding:14px 8px;text-align:center;border-left:1px solid var(--line)}
+  .statline div:first-child{border-left:0}
+  .statline b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:800;color:var(--forest)}
+  .statline small{font-size:10.5px;color:var(--bark-soft);font-weight:600}
+
+  .gearlist{margin:18px 20px 0}
+  .gearlist .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+  .gearlist .ph h4{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700}
+  .gearlist .ph a{font-size:12px;color:var(--forest-soft);font-weight:700;text-decoration:none}
+  .gtag{display:inline-flex;align-items:center;gap:7px;background:var(--white);border:1px solid var(--line);border-radius:11px;
+    padding:8px 11px;font-size:12.5px;font-weight:600;margin:0 7px 8px 0;color:var(--bark)}
+  .gtag svg{width:15px;height:15px;color:var(--forest-soft)}
+
+  .menu{margin:18px 20px 0;background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .row{display:flex;align-items:center;gap:13px;padding:14px 15px;border-top:1px solid var(--line)}
+  .row:first-child{border-top:0}
+  .row .ic{width:34px;height:34px;border-radius:10px;background:var(--sand);display:grid;place-items:center;color:var(--forest);flex:0 0 auto}
+  .row .lab{flex:1}
+  .row .lab b{font-size:13.5px;font-weight:600;display:block}
+  .row .lab small{font-size:11px;color:var(--bark-soft)}
+  .row .chev{color:var(--moss)}
+  /* toggle */
+  .toggle{width:42px;height:25px;border-radius:999px;background:var(--forest);position:relative;flex:0 0 auto}
+  .toggle i{position:absolute;top:2.5px;right:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .toggle.off{background:#cfd6cd}
+  .toggle.off i{right:auto;left:2.5px}
+
+  .paycard{margin:14px 20px 0;display:flex;align-items:center;gap:13px;background:linear-gradient(120deg,#22271F,#0F2A20);
+    color:#fff;border-radius:16px;padding:15px}
+  .paycard .vc{width:42px;height:30px;border-radius:6px;background:linear-gradient(120deg,#E08A4A,#C2632B);flex:0 0 auto}
+  .paycard b{font-size:13.5px}
+  .paycard small{display:block;color:#a7c2b3;font-size:11.5px;margin-top:1px}
+  .paycard .chev{margin-left:auto;color:var(--moss)}
+
+  .signout{display:block;width:calc(100% - 40px);margin:20px 20px 4px;text-align:center;padding:13px;border-radius:13px;
+    border:1px solid var(--line);background:transparent;color:var(--clay);font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
+
+  /* ---------- bottom tab bar ---------- */
+  .tabbar{position:absolute;left:0;right:0;bottom:0;height:82px;background:rgba(246,243,236,.92);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:14px;z-index:35}
+  .tab{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    cursor:pointer;color:var(--bark-soft);font:inherit;font-size:10.5px;font-weight:600;padding-top:11px;position:relative}
+  .tab svg{width:23px;height:23px}
+  .tab.active{color:var(--forest)}
+  .tab.active::before{content:"";position:absolute;top:0;width:34px;height:3px;border-radius:0 0 4px 4px;background:var(--forest)}
+
+  /* shared illustration helpers */
+  .ill{width:100%;height:100%;display:block}
+
+  /* desktop feature strip under stage */
+  .strip{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:760px){.strip{grid-template-columns:1fr}}
+  .strip .item{background:rgba(246,243,236,.06);border:1px solid rgba(246,243,236,.12);border-radius:18px;padding:22px}
+  .strip .item .ic{width:42px;height:42px;border-radius:12px;background:rgba(138,166,148,.18);display:grid;place-items:center;color:var(--moss)}
+  .strip .item h4{font-family:'Bricolage Grotesque',sans-serif;color:#fff;font-size:16px;font-weight:700;margin-top:14px}
+  .strip .item p{color:#bcd3c6;font-size:13px;margin-top:6px}
+
+  footer{margin-top:54px;text-align:center;color:#8fa99a;font-size:12.5px}
+  footer b{color:#cfdcd2;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- brand bar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 19h18L14.5 6.5 11 12 8.5 8 3 19Z" fill="#8AA694"/><path d="M14.5 6.5 21 19h-7l-2.2-4.2 2.7-8.3Z" fill="#E0F2E6" opacity=".55"/></svg>
+      </div>
+      <div>
+        <h1>TrailKit</h1>
+        <span>Customer App</span>
+      </div>
+    </div>
+    <div class="ribbon"><span class="dot"></span> Mockup for review &nbsp;·&nbsp; <b>CB-0003</b> &nbsp;·&nbsp; by Liftori</div>
+  </div>
+
+  <!-- stage -->
+  <div class="stage">
+    <div class="pitch">
+      <h2>Your gear, your trips,<br><em>all in one pack.</em></h2>
+      <p class="lead">TrailKit brings the shop, the field guides, and your trip planning into a single rugged app — so the next adventure starts the moment inspiration hits.</p>
+      <div class="pillrow">
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="M11 18h2"/></svg>iOS &amp; Android</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/></svg>Accounts &amp; login</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Push notifications</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>In-app payments</span>
+      </div>
+      <dl class="meta">
+        <div><dt>Industry</dt><dd>Outdoor / Retail</dd></div>
+        <div><dt>Style</dt><dd>Rugged &amp; modern</dd></div>
+        <div><dt>Timeline</dt><dd>1&ndash;2 months</dd></div>
+        <div><dt>Navigation</dt><dd>Bottom tabs</dd></div>
+      </dl>
+    </div>
+
+    <!-- phone -->
+    <div class="phone-col">
+      <div class="phone">
+        <div class="screenframe">
+
+          <!-- status bar (changes color per screen) -->
+          <div class="statusbar on-dark" id="statusbar">
+            <span id="clock">8:42</span>
+            <span class="sb-right">
+              <svg viewBox="0 0 24 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5" y="3" width="3" height="11" rx="1"/><rect x="10" y="1" width="3" height="13" rx="1"/></svg>
+              <svg viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7c6-5 14-5 20 0M5 11c4-3 10-3 14 0M9 15c2-1.3 4-1.3 6 0"/></svg>
+              <svg viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="20" height="10" rx="2.5"/><rect x="3" y="4" width="13" height="6" rx="1" fill="currentColor"/><rect x="22.5" y="5" width="2" height="4" rx="1" fill="currentColor"/></svg>
+            </span>
+          </div>
+
+          <div class="viewport" id="viewport">
+
+            <!-- ============ HOME ============ -->
+            <section class="screen active" id="home">
+              <div class="home-hero">
+                <div class="greet">
+                  <div>
+                    <small>Good morning, ready to roam</small>
+                    <h3>Hey, Casey</h3>
+                  </div>
+                  <div class="avatar">C</div>
+                </div>
+                <div class="feature">
+                  <div class="scene">
+                    <svg class="ill" viewBox="0 0 340 140" preserveAspectRatio="xMidYMid slice">
+                      <defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#21503b"/><stop offset="1" stop-color="#0f2a20"/></linearGradient></defs>
+                      <rect width="340" height="140" fill="url(#sky1)"/>
+                      <circle cx="280" cy="34" r="16" fill="#E08A4A" opacity=".85"/>
+                      <path d="M0 110 L70 54 L120 110Z" fill="#16382a"/>
+                      <path d="M70 54 L120 110 L60 110Z" fill="#0f2a20" opacity=".7"/>
+                      <path d="M90 110 L180 38 L250 110Z" fill="#1c4734"/>
+                      <path d="M180 38 L250 110 L170 110Z" fill="#123124" opacity=".75"/>
+                      <path d="M210 110 L300 60 L340 110Z" fill="#16382a"/>
+                      <path d="M160 50 l5 10 -10 0Z" fill="#dcebe0" opacity=".9"/>
+                      <rect y="110" width="340" height="30" fill="#0c2419"/>
+                      <path d="M0 116 q170 -14 340 0" stroke="#2E7359" stroke-width="2" fill="none" opacity=".6"/>
+                    </svg>
+                    <span class="tag">Trail of the week</span>
+                  </div>
+                  <div class="body">
+                    <h4>Blackwater Ridge Loop</h4>
+                    <p>8.4 mi · moderate · pack list ready. Three creek crossings — bring the waterproof layer.</p>
+                    <a href="#trips">View the route
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- restock push -->
+              <div class="alert">
+                <div class="bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
+                <div>
+                  <b>Back in stock: Summit 45 Pack</b>
+                  <p>The size you saved (Medium / Spruce) just landed.</p>
+                </div>
+              </div>
+
+              <!-- quick actions -->
+              <div class="section">
+                <div class="quick">
+                  <button onclick="go('shop')"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span><span>Shop gear</span></button>
+                  <button onclick="go('trips')"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7v13l6-3 6 3 6-3V4l-6 3-6-3-6 3Z"/><path d="M9 4v13M15 7v13"/></svg></span><span>Plan a trip</span></button>
+                  <button onclick="go('trips')"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span>Pack list</span></button>
+                  <button onclick="go('account')"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 7L9 18l-5-5"/></svg></span><span>My orders</span></button>
+                </div>
+              </div>
+
+              <!-- field notes content feed -->
+              <div class="section">
+                <div class="section-head">
+                  <h4>Field Notes</h4>
+                  <a href="#home">See all</a>
+                </div>
+
+                <div class="note">
+                  <div class="thumb"><svg class="ill" viewBox="0 0 64 64"><rect width="64" height="64" fill="#1c4734"/><path d="M0 50 L22 22 L40 50Z" fill="#0f2a20"/><path d="M28 50 L48 28 L64 50Z" fill="#16382a"/><circle cx="50" cy="16" r="7" fill="#E08A4A"/></svg></div>
+                  <div>
+                    <div class="meta-row"><span class="cat">Skills</span><span class="min">· 6 min read</span></div>
+                    <h5>Layering for shoulder-season cold</h5>
+                    <p>The three-piece system that keeps you moving without overheating.</p>
+                  </div>
+                </div>
+
+                <div class="note">
+                  <div class="thumb"><svg class="ill" viewBox="0 0 64 64"><rect width="64" height="64" fill="#21503b"/><path d="M8 46 q24 -22 48 0" stroke="#8AA694" stroke-width="3" fill="none"/><rect x="26" y="22" width="12" height="14" rx="2" fill="#E08A4A"/></svg></div>
+                  <div>
+                    <div class="meta-row"><span class="cat">Gear care</span><span class="min">· 4 min read</span></div>
+                    <h5>Re-waterproof your shell at home</h5>
+                    <p>Bring a tired rain jacket back to life in one evening.</p>
+                  </div>
+                </div>
+
+                <div class="note">
+                  <div class="thumb"><svg class="ill" viewBox="0 0 64 64"><rect width="64" height="64" fill="#143C2D"/><circle cx="32" cy="30" r="15" fill="none" stroke="#8AA694" stroke-width="3"/><path d="M32 18 v12 l8 5" stroke="#E08A4A" stroke-width="3" fill="none"/></svg></div>
+                  <div>
+                    <div class="meta-row"><span class="cat">Routes</span><span class="min">· 9 min read</span></div>
+                    <h5>5 fall overnighters near you</h5>
+                    <p>Quiet, color-soaked loops you can do before the first snow.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ============ SHOP ============ -->
+            <section class="screen" id="shop">
+              <div class="shop-top">
+                <h3>Shop</h3>
+                <div class="searchbar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                  Search packs, tents, footwear&hellip;
+                </div>
+              </div>
+              <div class="chips">
+                <button class="chip active">All gear</button>
+                <button class="chip">Packs</button>
+                <button class="chip">Shelter</button>
+                <button class="chip">Footwear</button>
+                <button class="chip">Apparel</button>
+                <button class="chip">Hydration</button>
+              </div>
+              <div class="grid">
+
+                <div class="card">
+                  <div class="pic">
+                    <span class="badge">New</span>
+                    <span class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.5 0 5 3.5 3.5 6.5C19 16.4 12 21 12 21Z"/></svg></span>
+                    <svg width="92" height="92" viewBox="0 0 100 100" fill="none"><path d="M30 24c0-6 8-10 20-10s20 4 20 10v52c0 6-6 10-20 10s-20-4-20-10V24Z" fill="#1F5C45"/><path d="M34 26h32v10H34z" fill="#143C2D"/><rect x="42" y="40" width="16" height="22" rx="3" fill="#E08A4A"/><path d="M30 34c-7 2-9 8-7 16M70 34c7 2 9 8 7 16" stroke="#143C2D" stroke-width="4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="info">
+                    <div class="brandline">TrailKit</div>
+                    <h5>Summit 45 Backpack</h5>
+                    <div class="pr"><span class="price">$189</span><span class="add"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="pic">
+                    <span class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.5 0 5 3.5 3.5 6.5C19 16.4 12 21 12 21Z"/></svg></span>
+                    <svg width="100" height="92" viewBox="0 0 110 100" fill="none"><path d="M10 80 L55 22 L100 80Z" fill="#2E7359"/><path d="M55 22 L100 80 L55 80Z" fill="#1F5C45"/><path d="M55 36 L80 80 L30 80Z" fill="#0f2a20" opacity=".4"/><rect x="6" y="80" width="98" height="5" rx="2" fill="#143C2D"/></svg>
+                  </div>
+                  <div class="info">
+                    <div class="brandline">TrailKit</div>
+                    <h5>Basecamp 2P Tent</h5>
+                    <div class="pr"><span class="price">$249</span><span class="add"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="pic">
+                    <span class="badge">Best seller</span>
+                    <span class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.5 0 5 3.5 3.5 6.5C19 16.4 12 21 12 21Z"/></svg></span>
+                    <svg width="100" height="86" viewBox="0 0 110 96" fill="none"><path d="M20 60c0-8 8-14 20-14h26c8 0 14 5 14 12l4 20H22l-6-18Z" fill="#C2632B"/><path d="M22 58h60" stroke="#7a3c19" stroke-width="3"/><path d="M30 46l8-14h18l8 14" stroke="#143C2D" stroke-width="5" fill="none" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="info">
+                    <div class="brandline">TrailKit</div>
+                    <h5>Granite Trail Boot</h5>
+                    <div class="pr"><span class="price">$165</span><span class="add"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="pic">
+                    <span class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.5 0 5 3.5 3.5 6.5C19 16.4 12 21 12 21Z"/></svg></span>
+                    <svg width="64" height="92" viewBox="0 0 70 100" fill="none"><rect x="22" y="6" width="26" height="10" rx="3" fill="#143C2D"/><path d="M18 22h34l-3 64a6 6 0 0 1-6 6H27a6 6 0 0 1-6-6l-3-64Z" fill="#1F5C45"/><rect x="24" y="40" width="22" height="20" rx="3" fill="#E0F2E6" opacity=".25"/></svg>
+                  </div>
+                  <div class="info">
+                    <div class="brandline">TrailKit</div>
+                    <h5>Wide-Mouth Bottle 1L</h5>
+                    <div class="pr"><span class="price">$34</span><span class="add"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- ============ TRIPS ============ -->
+            <section class="screen" id="trips">
+              <div class="trips-head">
+                <h3>Trips</h3>
+                <p>Plan it, pack it, log it.</p>
+              </div>
+
+              <div class="nexttrip">
+                <div class="map">
+                  <svg class="ill" viewBox="0 0 340 120" preserveAspectRatio="none">
+                    <rect width="340" height="120" fill="#15392b"/>
+                    <path d="M0 90 q60 -30 120 -10 t120 -20 100 -10" stroke="#0f2a20" stroke-width="14" fill="none" opacity=".5"/>
+                    <path d="M20 100 C70 60 120 100 170 64 S280 30 330 50" stroke="#E08A4A" stroke-width="3" fill="none" stroke-dasharray="2 7" stroke-linecap="round"/>
+                    <circle cx="20" cy="100" r="5" fill="#fff"/>
+                    <circle cx="330" cy="50" r="5" fill="#E08A4A" stroke="#fff" stroke-width="2"/>
+                    <path d="M150 40l6 12-12 0Z" fill="#8AA694"/>
+                    <path d="M250 26l5 10-10 0Z" fill="#8AA694"/>
+                  </svg>
+                  <span class="countdown">In 4 days</span>
+                </div>
+                <div class="nt-body">
+                  <small>Next adventure</small>
+                  <h4>Blackwater Ridge Loop</h4>
+                  <div class="nt-stats">
+                    <div><small>DISTANCE</small><b>8.4 mi</b></div>
+                    <div><small>ELEV. GAIN</small><b>1,950 ft</b></div>
+                    <div><small>NIGHTS</small><b>1</b></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- packing checklist -->
+              <div class="pack">
+                <div class="ph">
+                  <h4>Packing checklist</h4>
+                  <span>9 / 14 packed</span>
+                </div>
+                <div class="progress"><i></i></div>
+                <div class="check done"><span class="box done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6 9 17l-5-5"/></svg></span><label>Summit 45 Backpack</label><span class="qty">×1</span></div>
+                <div class="check done"><span class="box done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6 9 17l-5-5"/></svg></span><label>Basecamp 2P Tent</label><span class="qty">×1</span></div>
+                <div class="check done"><span class="box done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6 9 17l-5-5"/></svg></span><label>Waterproof shell</label><span class="qty">×1</span></div>
+                <div class="check"><span class="box"></span><label>Water filter</label><span class="qty">×1</span></div>
+                <div class="check"><span class="box"></span><label>Trail meals</label><span class="qty">×3</span></div>
+                <div class="check"><span class="box"></span><label>Headlamp + batteries</label><span class="qty">×1</span></div>
+              </div>
+
+              <!-- saved trips -->
+              <div class="section-head" style="padding:22px 20px 4px">
+                <h4 style="font-family:'Bricolage Grotesque';font-size:16px;font-weight:700">Saved &amp; past</h4>
+              </div>
+              <div class="savedtrip">
+                <div class="sq"><svg class="ill" viewBox="0 0 54 54"><rect width="54" height="54" fill="#1c4734"/><path d="M0 42 L18 18 L34 42Z" fill="#0f2a20"/><path d="M24 42 L42 22 L54 42Z" fill="#16382a"/></svg></div>
+                <div><h5>Pine Hollow Overnight</h5><p>Saved · 5.1 mi · easy</p></div>
+                <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+              </div>
+              <div class="savedtrip">
+                <div class="sq"><svg class="ill" viewBox="0 0 54 54"><rect width="54" height="54" fill="#143C2D"/><path d="M6 40 q21 -20 42 0" stroke="#8AA694" stroke-width="3" fill="none"/><circle cx="40" cy="14" r="6" fill="#E08A4A"/></svg></div>
+                <div><h5>Cedar Falls Day Hike</h5><p>Completed Sep 28 · 6.7 mi</p></div>
+                <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+              </div>
+            </section>
+
+            <!-- ============ ACCOUNT ============ -->
+            <section class="screen" id="account">
+              <div class="acct-hero">
+                <div class="big">C</div>
+                <h3>Casey Rivera</h3>
+                <div class="email">casey.rivera@email.com</div>
+                <div class="tier"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 19h18L14.5 6.5 11 12 8.5 8 3 19Z"/></svg> Summit Club · 2,140 pts</div>
+              </div>
+
+              <div class="statline">
+                <div><b>12</b><small>Orders</small></div>
+                <div><b>7</b><small>Trips logged</small></div>
+                <div><b>5</b><small>Saved routes</small></div>
+              </div>
+
+              <!-- gear list -->
+              <div class="gearlist">
+                <div class="ph">
+                  <h4>My gear list</h4>
+                  <a href="#account">Edit</a>
+                </div>
+                <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg> Summit 45 Pack</span>
+                <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 19 12 5l9 14H3Z"/></svg> Basecamp 2P Tent</span>
+                <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 16c0-4 4-6 7-6h5l3 9H7l-2-3Z"/></svg> Granite Trail Boot</span>
+                <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M7 8h10l-1 12H8L7 8Z"/></svg> Wide-Mouth Bottle</span>
+              </div>
+
+              <!-- payment method -->
+              <div class="paycard">
+                <div class="vc"></div>
+                <div><b>Visa ending 4218</b><small>Default payment · expires 09/28</small></div>
+                <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+              </div>
+
+              <!-- settings menu incl push toggle -->
+              <div class="menu">
+                <div class="row">
+                  <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+                  <div class="lab"><b>Push notifications</b><small>Restock alerts, trip reminders</small></div>
+                  <span class="toggle"><i></i></span>
+                </div>
+                <div class="row">
+                  <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 7L9 18l-5-5"/></svg></span>
+                  <div class="lab"><b>Order history</b><small>Track &amp; reorder past gear</small></div>
+                  <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+                </div>
+                <div class="row">
+                  <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                  <div class="lab"><b>Shipping addresses</b><small>2 saved</small></div>
+                  <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+                </div>
+                <div class="row">
+                  <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1l-.3-2.5h-4l-.3 2.5a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5c.1-.3.1-.7.1-1Z"/></svg></span>
+                  <div class="lab"><b>Settings</b><small>Account, privacy, help</small></div>
+                  <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></span>
+                </div>
+              </div>
+
+              <button class="signout">Sign out</button>
+            </section>
+
+          </div><!-- /viewport -->
+
+          <!-- bottom tabs -->
+          <nav class="tabbar">
+            <button class="tab active" data-screen="home" onclick="go('home')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+              Home
+            </button>
+            <button class="tab" data-screen="shop" onclick="go('shop')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+              Shop
+            </button>
+            <button class="tab" data-screen="trips" onclick="go('trips')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7v13l6-3 6 3 6-3V4l-6 3-6-3-6 3Z"/><path d="M9 4v13M15 7v13"/></svg>
+              Trips
+            </button>
+            <button class="tab" data-screen="account" onclick="go('account')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/></svg>
+              Account
+            </button>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- desktop feature strip -->
+  <div class="strip">
+    <div class="item">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></div>
+      <h4>Shop that knows the outdoors</h4>
+      <p>Category-filtered storefront, saved sizes, in-app checkout and saved cards — built for one-handed browsing at the trailhead.</p>
+    </div>
+    <div class="item">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7v13l6-3 6 3 6-3V4l-6 3-6-3-6 3Z"/></svg></div>
+      <h4>Trips &amp; packing in one place</h4>
+      <p>Route cards, a live packing checklist tied to owned gear, and a log of past adventures keep every trip dialed.</p>
+    </div>
+    <div class="item">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
+      <h4>Content &amp; push that bring people back</h4>
+      <p>Field Notes guides plus restock and trip-reminder push notifications turn the app into a habit, not just a store.</p>
+    </div>
+  </div>
+
+  <footer>
+    <b>TrailKit Customer App</b> — concept mockup prepared by Liftori &nbsp;·&nbsp; tap the bottom tabs to explore the four screens.
+  </footer>
+
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('active', s.id===id);});
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active', t.dataset.screen===id);});
+    // dark status bar on screens with a dark top region
+    var dark = (id==='home' || id==='account');
+    document.getElementById('statusbar').classList.toggle('on-dark', dark);
+    document.getElementById('viewport').scrollTop = 0;
+    if(history.replaceState){ history.replaceState(null,'', '#'+id); }
+  }
+  // deep-link support
+  (function(){
+    var h = (location.hash||'#home').replace('#','');
+    if(['home','shop','trips','account'].indexOf(h)>=0){ go(h); }
+  })();
+  // live-ish clock
+  function tick(){
+    var d=new Date(); var h=d.getHours(); var m=d.getMinutes();
+    var hh = ((h+11)%12)+1;
+    document.getElementById('clock').textContent = hh+':'+(m<10?'0'+m:m);
+  }
+  tick(); setInterval(tick, 30000);
+</script>
+</body>
+</html>
