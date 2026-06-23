@@ -25,9 +25,17 @@
   #main{flex:1;display:flex;min-height:0}
   #map{flex:1;min-width:0}
   #panel{width:340px;max-width:42vw;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
-  .search{padding:12px;border-bottom:1px solid var(--line);display:flex;gap:8px}
-  .search input{flex:1;background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px 12px;font-size:14px;outline:none}
+  .search{padding:12px;border-bottom:1px solid var(--line);display:flex;gap:8px;position:relative}
+  .search input{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px 12px;font-size:14px;outline:none}
   .search input:focus{border-color:var(--blue)}
+  .suggest{position:absolute;top:calc(100% - 4px);left:12px;right:12px;z-index:20;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,.5);display:none}
+  .suggest.open{display:block}
+  .suggest .opt{padding:10px 12px;font-size:13px;color:var(--text);cursor:pointer;border-bottom:1px solid var(--line);line-height:1.35}
+  .suggest .opt:last-child{border-bottom:none}
+  .suggest .opt:hover,.suggest .opt.active{background:var(--blue)}
+  .suggest .opt small{display:block;color:var(--muted);font-size:11.5px;margin-top:1px}
+  .suggest .opt:hover small,.suggest .opt.active small{color:#dbe6ff}
+  .suggest .msg{padding:10px 12px;font-size:12.5px;color:var(--muted)}
   .btn{border:none;border-radius:9px;padding:11px 14px;font-size:14px;font-weight:650;cursor:pointer;color:#fff;background:var(--blue);transition:background .15s}
   .btn:hover{background:var(--blue-2)}
   .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -85,6 +93,7 @@
       <div class="search">
         <input id="addr" type="text" placeholder="Enter a property address" autocomplete="off" />
         <button class="btn" id="searchBtn">Find</button>
+        <div class="suggest" id="suggest"></div>
       </div>
       <div class="actions">
         <button class="btn" id="addBtn">+ Add roof section</button>
@@ -281,26 +290,74 @@ document.getElementById('clearAll').onclick=()=>{
 };
 document.getElementById('waste').oninput=()=>computeTotals();
 
-async function geocode(q){
-  const url='https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q);
+let marker=null;
+function dropPin(lng,lat){
+  if(marker) marker.remove();
+  marker=new maplibregl.Marker({color:'#2f6df6'}).setLngLat([lng,lat]).addTo(map);
+}
+async function searchPlaces(q,limit){
+  const url='https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&countrycodes=us&limit='+(limit||5)+'&q='+encodeURIComponent(q);
   const r=await fetch(url,{headers:{'Accept':'application/json'}});
   const j=await r.json();
-  if(!j.length) return null;
-  return {lng:+j[0].lon, lat:+j[0].lat};
+  return j.map(p=>{
+    const a=p.address||{};
+    const line1=[a.house_number,a.road].filter(Boolean).join(' ') || p.display_name.split(',')[0];
+    const line2=[a.city||a.town||a.village||a.hamlet,a.state,a.postcode].filter(Boolean).join(', ');
+    return {lng:+p.lon, lat:+p.lat, line1, line2, label:p.display_name};
+  });
+}
+async function geocode(q){ const r=await searchPlaces(q,1); return r.length?{lng:r[0].lng,lat:r[0].lat}:null; }
+
+const sug=document.getElementById('suggest');
+let sugItems=[], sugActive=-1, sugTimer=null;
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function hideSuggest(){ sug.classList.remove('open'); sug.innerHTML=''; sugItems=[]; sugActive=-1; }
+function renderSuggest(){
+  if(!sugItems.length){ hideSuggest(); return; }
+  sug.innerHTML=sugItems.map((p,i)=>
+    `<div class="opt${i===sugActive?' active':''}" data-i="${i}">${esc(p.line1)}<small>${esc(p.line2)}</small></div>`).join('');
+  sug.classList.add('open');
+  sug.querySelectorAll('.opt').forEach(el=>el.onclick=()=>pick(+el.dataset.i));
+}
+function pick(i){
+  const p=sugItems[i]; if(!p) return;
+  document.getElementById('addr').value=p.line1+(p.line2?', '+p.line2:'');
+  hideSuggest();
+  map.flyTo({center:[p.lng,p.lat],zoom:19.7,speed:1.6});
+  dropPin(p.lng,p.lat);
+  toast('Pin dropped — confirm it is on the right house, then trace.');
+}
+async function refreshSuggest(){
+  const q=document.getElementById('addr').value.trim();
+  if(q.length<4){ hideSuggest(); return; }
+  sug.innerHTML='<div class="msg">Searching…</div>'; sug.classList.add('open');
+  try{
+    sugItems=await searchPlaces(q,5); sugActive=-1;
+    if(sugItems.length){ renderSuggest(); }
+    else{ sug.innerHTML='<div class="msg">No matches — add city &amp; state.</div>'; sug.classList.add('open'); }
+  }catch(e){ hideSuggest(); }
 }
 async function doSearch(){
-  const q=document.getElementById('addr').value.trim();
-  if(!q) return;
+  const q=document.getElementById('addr').value.trim(); if(!q) return;
+  if(sugActive>=0 && sugItems[sugActive]){ pick(sugActive); return; }
+  if(sugItems.length){ pick(0); return; }
   const btn=document.getElementById('searchBtn'); btn.textContent='…'; btn.disabled=true;
-  try{
-    const loc=await geocode(q);
-    if(!loc){toast('Address not found. Try adding city and state.');}
-    else{ map.flyTo({center:[loc.lng,loc.lat],zoom:19.5,speed:1.6}); }
-  }catch(err){ toast('Search failed — check connection.'); }
+  try{ const r=await searchPlaces(q,1);
+    if(!r.length){ toast('Address not found. Try adding city and state.'); }
+    else{ map.flyTo({center:[r[0].lng,r[0].lat],zoom:19.7,speed:1.6}); dropPin(r[0].lng,r[0].lat); }
+  }catch(e){ toast('Search failed — check connection.'); }
   btn.textContent='Find'; btn.disabled=false;
 }
+const addrEl=document.getElementById('addr');
+addrEl.addEventListener('input',()=>{ clearTimeout(sugTimer); sugTimer=setTimeout(refreshSuggest,450); });
+addrEl.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'){ e.preventDefault(); if(sugItems.length){ sugActive=(sugActive+1)%sugItems.length; renderSuggest(); } }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); if(sugItems.length){ sugActive=(sugActive-1+sugItems.length)%sugItems.length; renderSuggest(); } }
+  else if(e.key==='Enter'){ e.preventDefault(); doSearch(); }
+  else if(e.key==='Escape'){ hideSuggest(); }
+});
 document.getElementById('searchBtn').onclick=doSearch;
-document.getElementById('addr').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+document.addEventListener('click',e=>{ if(!e.target.closest('.search')) hideSuggest(); });
 
 initMap();
 setDrawUI();
