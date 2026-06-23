@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Roof Measure — Liftori</title>
+<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111c33; --panel-2:#16233f; --line:#243558;
+    --text:#e8eef9; --muted:#94a3c4; --blue:#2f6df6; --blue-2:#2459d6;
+    --good:#34d399; --warn:#f59e0b; --danger:#ef4444;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);z-index:5}
+  .wm{font-weight:800;font-size:19px;letter-spacing:.3px}
+  .wm span{color:var(--blue)}
+  .wm small{display:block;font-weight:600;font-size:11px;letter-spacing:1.5px;color:var(--muted);margin-top:1px}
+  .spacer{flex:1}
+  .pill{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:5px 10px;border-radius:999px;white-space:nowrap}
+  #main{flex:1;display:flex;min-height:0}
+  #map{flex:1;min-width:0}
+  #panel{width:340px;max-width:42vw;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+  .search{padding:12px;border-bottom:1px solid var(--line);display:flex;gap:8px}
+  .search input{flex:1;background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px 12px;font-size:14px;outline:none}
+  .search input:focus{border-color:var(--blue)}
+  .btn{border:none;border-radius:9px;padding:11px 14px;font-size:14px;font-weight:650;cursor:pointer;color:#fff;background:var(--blue);transition:background .15s}
+  .btn:hover{background:var(--blue-2)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+  .btn.ghost:hover{background:var(--panel-2)}
+  .btn.sm{padding:7px 10px;font-size:12.5px}
+  .actions{padding:12px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+  .actions .btn{flex:1;min-width:120px}
+  .hint{padding:10px 14px;font-size:12.5px;color:var(--muted);background:var(--panel-2);border-bottom:1px solid var(--line);line-height:1.5}
+  .hint b{color:var(--text)}
+  .scroll{flex:1;overflow-y:auto}
+  .sec{border-bottom:1px solid var(--line);padding:12px 14px}
+  .sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .sec-h .name{font-weight:700;font-size:14px}
+  .sec-h .name em{color:var(--blue);font-style:normal}
+  .row{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin:5px 0;color:var(--muted)}
+  .row b{color:var(--text);font-weight:650}
+  .pitchsel{display:flex;align-items:center;gap:8px;margin:8px 0 4px}
+  select{background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:7px 9px;font-size:13px;outline:none}
+  select:focus{border-color:var(--blue)}
+  .empty{padding:26px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6}
+  .totals{border-top:2px solid var(--line);background:var(--panel-2);padding:14px}
+  .totals .big{display:flex;align-items:baseline;justify-content:space-between;margin-top:4px}
+  .totals .big .v{font-size:30px;font-weight:800;color:#fff}
+  .totals .big .v u{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;margin-left:4px}
+  .totals .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .waste{display:flex;align-items:center;justify-content:space-between;margin:10px 0 4px;font-size:13px}
+  .waste input{width:64px;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 8px;font-size:13px;text-align:right}
+  .link{color:var(--blue);cursor:pointer;font-size:12.5px;font-weight:600}
+  .toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:#0b1322;border:1px solid var(--line);color:var(--text);padding:9px 14px;border-radius:10px;font-size:13px;z-index:9;box-shadow:0 8px 30px rgba(0,0,0,.4);display:none}
+  .drawbadge{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:var(--blue);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:650;z-index:6;display:none;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+  .maplibregl-ctrl-attrib{font-size:10px}
+  /* mobile */
+  @media (max-width:760px){
+    #main{flex-direction:column}
+    #map{height:46vh;flex:none}
+    #panel{width:100%;max-width:100%;flex:1;border-left:none;border-top:1px solid var(--line)}
+    .pill{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="wm">LIFT<span>ORI</span><small>ROOF MEASURE</small></div>
+    <div class="spacer"></div>
+    <div class="pill" id="zoomPill">Find an address to begin</div>
+  </header>
+  <div id="main">
+    <div id="map">
+      <div class="toast" id="toast"></div>
+      <div class="drawbadge" id="drawbadge">Tracing — tap each corner</div>
+    </div>
+    <div id="panel">
+      <div class="search">
+        <input id="addr" type="text" placeholder="Enter a property address" autocomplete="off" />
+        <button class="btn" id="searchBtn">Find</button>
+      </div>
+      <div class="actions">
+        <button class="btn" id="addBtn">+ Add roof section</button>
+        <button class="btn ghost" id="undoBtn" disabled>Undo point</button>
+        <button class="btn ghost" id="doneBtn" disabled>Done section</button>
+      </div>
+      <div class="hint" id="hint">
+        <b>How to measure:</b> Find the address, zoom in tight, then <b>Add roof section</b> and tap each corner of one roof plane. Tap <b>Done section</b> to close it, set its pitch, and repeat for every plane. Drag to pan, pinch to zoom.
+      </div>
+      <div class="scroll" id="list">
+        <div class="empty" id="empty">No sections yet.<br/>Trace each roof plane separately so each can carry its own pitch.</div>
+      </div>
+      <div class="totals">
+        <div class="waste">
+          <span>Waste factor</span>
+          <span><input id="waste" type="number" min="0" max="40" step="1" value="10" /> %</span>
+        </div>
+        <div class="big"><span class="sub">Sloped surface</span><span class="v" id="totSurface">0<u>ft²</u></span></div>
+        <div class="big"><span style="font-size:13px;color:var(--muted)">Order quantity</span><span class="v" id="totSquares" style="color:var(--good)">0<u>sq</u></span></div>
+        <div class="sub" id="totBreak">Plan area 0 ft² · 0 sections · incl. 10% waste</div>
+        <div style="margin-top:10px;text-align:right"><span class="link" id="clearAll">Clear all</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const M2_TO_FT2 = 10.7639104;
+const PITCHES = [];
+for(let r=0;r<=12;r++){PITCHES.push(r);}
+function pitchMult(rise){return Math.sqrt(1 + (rise/12)*(rise/12));}
+function pitchLabel(rise){return rise+"/12";}
+
+let map, drawing=false, facets=[], idCounter=0;
+// facet: {id, name, pts:[[lng,lat]...], pitch:Number, closed:Bool}
+
+function activeFacet(){ return facets.find(f=>!f.closed) || null; }
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2600);
+}
+
+const STYLE = {
+  version:8,
+  glyphs:"https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  sources:{
+    esri:{
+      type:'raster',
+      tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+      tileSize:256,
+      attribution:'Imagery © Esri, Maxar, Earthstar Geographics'
+    }
+  },
+  layers:[{id:'esri',type:'raster',source:'esri'}]
+};
+
+function initMap(){
+  map = new maplibregl.Map({
+    container:'map', style:STYLE,
+    center:[-81.6557,30.3322], zoom:11, maxZoom:21, attributionControl:true
+  });
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
+  map.on('load',()=>{
+    map.addSource('facets',{type:'geojson',data:fc([])});
+    map.addLayer({id:'facet-fill',type:'fill',source:'facets',
+      paint:{'fill-color':['case',['get','active'],'#2f6df6','#34d399'],'fill-opacity':0.32}});
+    map.addLayer({id:'facet-line',type:'line',source:'facets',
+      paint:{'line-color':['case',['get','active'],'#2f6df6','#34d399'],'line-width':2.5}});
+    map.addSource('verts',{type:'geojson',data:fc([])});
+    map.addLayer({id:'vert',type:'circle',source:'verts',
+      paint:{'circle-radius':5,'circle-color':'#ffffff','circle-stroke-color':'#2f6df6','circle-stroke-width':2.5}});
+  });
+  map.on('click',onMapClick);
+  map.on('zoom',()=>{
+    const z=map.getZoom();
+    document.getElementById('zoomPill').textContent =
+      z<18 ? 'Zoom in closer to trace accurately' : 'Ready to trace';
+  });
+}
+
+function fc(features){return {type:'FeatureCollection',features};}
+
+function render(){
+  const polys=[], verts=[];
+  facets.forEach(f=>{
+    const active=!f.closed;
+    if(f.pts.length>=2){
+      const ring = f.pts.slice();
+      if(f.closed) ring.push(f.pts[0]);
+      if(f.closed && f.pts.length>=3){
+        polys.push({type:'Feature',properties:{active},geometry:{type:'Polygon',coordinates:[[...f.pts,f.pts[0]]]}});
+      } else {
+        polys.push({type:'Feature',properties:{active},geometry:{type:'LineString',coordinates:ring}});
+      }
+    }
+    if(active){ f.pts.forEach(p=>verts.push({type:'Feature',properties:{},geometry:{type:'Point',coordinates:p}})); }
+  });
+  if(map.getSource('facets')) map.getSource('facets').setData(fc(polys));
+  if(map.getSource('verts')) map.getSource('verts').setData(fc(verts));
+  renderPanel();
+}
+
+function facetPlanFt2(f){
+  if(!f.closed || f.pts.length<3) return 0;
+  const poly=turf.polygon([[...f.pts,f.pts[0]]]);
+  return turf.area(poly)*M2_TO_FT2;
+}
+
+function renderPanel(){
+  const list=document.getElementById('list');
+  const real=facets.filter(f=>f.closed && f.pts.length>=3);
+  document.getElementById('empty').style.display = real.length? 'none':'block';
+  // remove old cards
+  [...list.querySelectorAll('.sec')].forEach(n=>n.remove());
+  let totPlan=0;
+  real.forEach((f,i)=>{
+    const plan=facetPlanFt2(f);
+    const surf=plan*pitchMult(f.pitch);
+    totPlan+=plan;
+    const card=document.createElement('div');
+    card.className='sec';
+    const opts=PITCHES.map(r=>`<option value="${r}" ${r===f.pitch?'selected':''}>${pitchLabel(r)}</option>`).join('');
+    card.innerHTML=`
+      <div class="sec-h">
+        <div class="name">Section <em>${i+1}</em></div>
+        <button class="btn ghost sm" data-del="${f.id}">Delete</button>
+      </div>
+      <div class="pitchsel"><span style="font-size:13px;color:var(--muted)">Pitch</span>
+        <select data-pitch="${f.id}">${opts}</select>
+        <span style="font-size:12px;color:var(--muted)">× ${pitchMult(f.pitch).toFixed(3)}</span>
+      </div>
+      <div class="row"><span>Plan area</span><b>${Math.round(plan).toLocaleString()} ft²</b></div>
+      <div class="row"><span>Sloped surface</span><b>${Math.round(surf).toLocaleString()} ft²</b></div>`;
+    list.appendChild(card);
+  });
+  list.querySelectorAll('[data-pitch]').forEach(s=>s.onchange=e=>{
+    const f=facets.find(x=>x.id==e.target.dataset.pitch); f.pitch=+e.target.value; computeTotals(); renderPanel();
+  });
+  list.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{
+    facets=facets.filter(x=>x.id!=e.target.dataset.del); render(); computeTotals();
+  });
+  computeTotals(totPlan);
+}
+
+function computeTotals(totPlanIn){
+  const real=facets.filter(f=>f.closed && f.pts.length>=3);
+  let totPlan=0, totSurf=0;
+  real.forEach(f=>{const p=facetPlanFt2(f); totPlan+=p; totSurf+=p*pitchMult(f.pitch);});
+  const waste=Math.max(0,Math.min(40,+document.getElementById('waste').value||0));
+  const withWaste=totSurf*(1+waste/100);
+  const squares=withWaste/100;
+  document.getElementById('totSurface').innerHTML=Math.round(totSurf).toLocaleString()+'<u>ft²</u>';
+  // round order quantity up to nearest 1/3 square is overkill; show 1 decimal + rounded-up bundles note
+  document.getElementById('totSquares').innerHTML=(Math.ceil(squares*10)/10).toFixed(1)+'<u>sq</u>';
+  document.getElementById('totBreak').textContent=
+    `Plan area ${Math.round(totPlan).toLocaleString()} ft² · ${real.length} section${real.length===1?'':'s'} · incl. ${waste}% waste`;
+}
+
+function setDrawUI(){
+  document.getElementById('undoBtn').disabled = !drawing || !activeFacet() || activeFacet().pts.length===0;
+  const af=activeFacet();
+  document.getElementById('doneBtn').disabled = !af || af.pts.length<3;
+  document.getElementById('addBtn').disabled = drawing;
+  document.getElementById('drawbadge').style.display = drawing? 'block':'none';
+  map.getCanvas().style.cursor = drawing? 'crosshair':'';
+}
+
+function onMapClick(e){
+  if(!drawing) return;
+  const af=activeFacet(); if(!af) return;
+  af.pts.push([e.lngLat.lng,e.lngLat.lat]);
+  render(); setDrawUI();
+}
+
+document.getElementById('addBtn').onclick=()=>{
+  if(map.getZoom()<17.5){ toast('Zoom in on the roof first for an accurate trace.'); }
+  facets.push({id:++idCounter,pitch:6,pts:[],closed:false});
+  drawing=true; render(); setDrawUI();
+  toast('Tap each corner of one roof plane.');
+};
+document.getElementById('undoBtn').onclick=()=>{
+  const af=activeFacet(); if(af&&af.pts.length){af.pts.pop();render();setDrawUI();}
+};
+document.getElementById('doneBtn').onclick=()=>{
+  const af=activeFacet();
+  if(!af||af.pts.length<3){toast('Need at least 3 corners.');return;}
+  af.closed=true; drawing=false; render(); setDrawUI();
+  toast('Section saved. Set its pitch, or add another.');
+};
+document.getElementById('clearAll').onclick=()=>{
+  if(facets.length && !confirm('Clear all sections?')) return;
+  facets=[]; drawing=false; render(); setDrawUI();
+};
+document.getElementById('waste').oninput=()=>computeTotals();
+
+async function geocode(q){
+  const url='https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q);
+  const r=await fetch(url,{headers:{'Accept':'application/json'}});
+  const j=await r.json();
+  if(!j.length) return null;
+  return {lng:+j[0].lon, lat:+j[0].lat};
+}
+async function doSearch(){
+  const q=document.getElementById('addr').value.trim();
+  if(!q) return;
+  const btn=document.getElementById('searchBtn'); btn.textContent='…'; btn.disabled=true;
+  try{
+    const loc=await geocode(q);
+    if(!loc){toast('Address not found. Try adding city and state.');}
+    else{ map.flyTo({center:[loc.lng,loc.lat],zoom:19.5,speed:1.6}); }
+  }catch(err){ toast('Search failed — check connection.'); }
+  btn.textContent='Find'; btn.disabled=false;
+}
+document.getElementById('searchBtn').onclick=doSearch;
+document.getElementById('addr').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+
+initMap();
+setDrawUI();
+</script>
+</body>
+</html>
